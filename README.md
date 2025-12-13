@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>服部医院｜（仮）公式サイト</title>
+  .contact p {
+  font-size: 1.05rem;
+}
   <style>
     body {
       margin: 0;
@@ -55,19 +58,14 @@
       必要・適切なタイミングで、他医療機関との連携も提案し、
       希望に沿って紹介を行います。
     </p>
-  </section>
+  <section class="contact">
+  <h2>所在地・連絡先</h2>
+  <p>
+    住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
+    電話：052-881-0876<br>
+    ファックス：052-881-0876
+  </p>
+</section>
 
-  <section>
-    <h2>所在地・連絡先</h2>
-    <p>
-      住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
-      電話：052-881-0876<br>
-      ファックス：052-881-0876
-    </p>
-  </section>
-</main>
-
-</body>
-</html>
 
 
