@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>服部医院｜（仮）公式サイト</title>
-  .contact p {
-  font-size: 1.05rem;
-}
+  <title>服部医院｜公式サイト</title>
   <style>
     body {
       margin: 0;
@@ -32,6 +29,13 @@
       border-bottom: 2px solid #ddd;
       padding-bottom: 0.5rem;
     }
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
   </style>
 </head>
 <body>
@@ -46,7 +50,7 @@
     <h2>ごあいさつ</h2>
     <p>
       当院は、患者さん一人ひとりの状況を丁寧に確認し、
-      安心した日常生活を送れるように、
+      安心した日常生活を送れるよう、
       通院での外来診療から在宅医療までの提供を行っています。
     </p>
   </section>
@@ -58,14 +62,26 @@
       必要・適切なタイミングで、他医療機関との連携も提案し、
       希望に沿って紹介を行います。
     </p>
-  <section class="contact">
-  <h2>所在地・連絡先</h2>
-  <p>
-    住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
-    電話：052-881-0876<br>
-    ファックス：052-881-0876
-  </p>
-</section>
+  </section>
+
+  <section>
+    <h2>所在地・連絡先</h2>
+    <p>
+      住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
+      電話：052-881-0876<br>
+      ファックス：052-881-0876
+    </p>
+  </section>
+</main>
+
+<footer>
+  <p>このホームページは GitHub Pages を使って作成しています。</p>
+  <p>© 服部医院</p>
+</footer>
+
+</body>
+</html>
+
 
 
 
