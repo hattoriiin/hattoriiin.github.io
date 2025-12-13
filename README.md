@@ -5,12 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>服部医院｜公式サイト</title>
   <style>
-    body { margin:0; font-family:sans-serif; line-height:1.8; color:#222; }
-    header { background:#2c3e50; color:white; padding:1.5rem 1rem; text-align:center; }
-    main { padding:1.5rem 1rem; max-width:900px; margin:auto; }
-    section { margin-bottom:2rem; }
-    h2 { border-bottom:2px solid #ddd; padding-bottom:0.5rem; }
-    footer { background:#f5f5f5; text-align:center; padding:1rem; font-size:0.9rem; color:#555; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      line-height: 1.8;
+      color: #222;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 1.5rem 1rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    footer {
+      background: #f5f5f5;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
   </style>
 </head>
 <body>
@@ -42,8 +67,8 @@
   <section>
     <h2>所在地・連絡先</h2>
     <p>
-      　住　所　：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
-      　電　話　：052-881-0876<br>
+      住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
+      電話：052-881-0876<br>
       ファックス：052-881-0876
     </p>
   </section>
@@ -56,6 +81,7 @@
 
 </body>
 </html>
+
 
 
 
