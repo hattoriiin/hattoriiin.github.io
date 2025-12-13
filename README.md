@@ -1,1 +1,70 @@
-hattoriiin の GitHub Pages サイトです。
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服部医院｜(仮)公式サイト</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      line-height: 1.8;
+      color: #222;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 1.5rem 1rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>医療法人　誠彰会　服部医院</h1>
+  <p>地域に貢献する医療を大切にします</p>
+</header>
+
+<main>
+  <section>
+    <h2>ごあいさつ</h2>
+    <p>
+      当院は、患者さん一人ひとりの状況を丁寧に確認し、
+      安心した日常生活を送れるように、通院での外来診療から在宅医療までの提供を行っています。
+    </p>
+  </section>
+
+  <section>
+    <h2>診療方針</h2>
+    <p>
+      わかりやすい説明と、無理のない治療計画を重視しています。<br>
+      必要・適切なタイミングで、他医療機関との連携も提案し希望に沿って紹介して行います。
+    </p>
+  </section>
+
+  <section>
+    <h2>所在地・連絡先</h2>
+    <p>
+      住所：愛知県　名古屋市　瑞穂区　柳ヶ枝町　1‐34　１階<br>
+      電話：052－881-0876<br>
+      ファックス：052－881-0876
+    </p>
+  </section>
+</main>
+
+</body>
+</html>
+
