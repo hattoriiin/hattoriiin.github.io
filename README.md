@@ -69,10 +69,16 @@
     </p>
 
 <div style="margin-top:1rem;">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3263.4182708164703!2d136.91950327310576!3d35.12123427277307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037a38a1a9f5a1%3A0x346e3d61f288f8cc!2z44CSNDY3LTA4MjUg5oSb55-l55yM5ZCN5Y-k5bGL5biC55Ge56mC5Yy65p-z44Kx5p6d55S677yR5LiB55uu77yT77yU4oiS77yT77yUIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1766668147346!5m2!1sja!2sjp" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-</iframe>
-    　</div>
-  </section>
+<iframe
+  src="[https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3263.4182708164703!2d136.91950327310576!3d35.12123427277307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037a38a1a9f5a1%3A0x346e3d61f288f8cc!2z44CSNDY3LTA4MjUg5oSb55-l55yM5ZCN5Y-k5bGL5biC55Ge56mC5Yy65p-z44Kx5p6d55S677yR5LiB55uu77yT77yU4oiS77yT77yUIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1766668147346!5m2!1sja!2sjp](https://maps.app.goo.gl/kX96HWu3dBWxvAv89)" width="400"
+  height="300"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+ </div>
+</section>
   
 　　<p>
     <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank">google MAPで見れるよ
