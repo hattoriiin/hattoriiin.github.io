@@ -33,8 +33,8 @@
       background: #f5f5f5;
       text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
-      color: #555;
+      font-size: 0.95rem;
+      color: #222;
     }
   </style>
 </head>
