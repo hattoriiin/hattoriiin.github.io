@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>服部医院｜公式サイト</title>
+  <title>服部医院｜公式？サイト</title>
   <style>
     body {
       margin: 0;
@@ -47,11 +47,9 @@
 
 <main>
   <section>
-    <h2>ごあいさつ</h2>
+    <h2>当院からのごあいさっつ</h2>
     <p>
-      当院は、患者さん一人ひとりの状況を丁寧に確認し、
-      安心した日常生活を送れるよう、
-      通院での外来診療から在宅医療までの提供を行っています。
+      私たちは、患者様の一人ひとりの状況を丁寧に確認し、安心した日常生活を送れるよう、通院での外来診療から在宅医療までの提供を行っています。
     </p>
   </section>
 
