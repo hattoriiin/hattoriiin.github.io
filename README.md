@@ -79,14 +79,19 @@
     referrerpolicy="no-referrer-when-downgrade">
   </iframe>
 
+
+  
   <p>
-    <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank" rel="noopener">
-      google MAPで見れるよ
-    </a>
-  </p>
-</section>
- 
-　<section>
+  <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank" rel="noopener">
+    google MAPで見れるよ
+  </a>
+</p>
+
+  
+  
+  
+  
+
     <h2>連絡先</h2>
     <p>
       診療時間の前後で繋がります<br>
