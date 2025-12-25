@@ -68,8 +68,8 @@
       住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階<br>
     </p>
 　　<p>
-    <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank">
- 　
+    <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank">google MAPで見れるよ
+ 　</a>
 　　</p>   
 　<section>
     <h2>連絡先</h2>
