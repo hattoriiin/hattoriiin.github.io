@@ -10,7 +10,7 @@
       font-family: sans-serif;
       line-height: 1.8;
       color: #000;
-      background: #fff;
+      background: #eef1f4;
     }
     header {
       background: #2c3e50;
@@ -21,7 +21,9 @@
     main {
       padding: 1.5rem 1rem;
       max-width: 900px;
-      margin: auto;
+      margin: 2rem auto;
+      background: #ffffff;
+      border-radius: 6px;
     }
     section {
       margin-bottom: 2.5rem;
@@ -37,6 +39,10 @@
     a {
       color: #003366;
       text-decoration: underline;
+    }
+    iframe {
+      max-width: 100%;
+      border-radius: 4px;
     }
     footer {
       background: #f0f0f0;
