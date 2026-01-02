@@ -10,20 +10,18 @@
       font-family: sans-serif;
       line-height: 1.8;
       color: #000;
-      background: #eef1f4;
+      background: #fff;
     }
     header {
       background: #2c3e50;
-      color: #ffffff;
+      color: #fff;
       padding: 1.5rem 1rem;
       text-align: center;
     }
     main {
       padding: 1.5rem 1rem;
       max-width: 900px;
-      margin: 2rem auto;
-      background: #ffffff;
-      border-radius: 6px;
+      margin: auto;
     }
     section {
       margin-bottom: 2.5rem;
@@ -39,10 +37,6 @@
     a {
       color: #003366;
       text-decoration: underline;
-    }
-    iframe {
-      max-width: 100%;
-      border-radius: 4px;
     }
     footer {
       background: #f0f0f0;
@@ -61,6 +55,7 @@
 </header>
 
 <main>
+
   <section>
     <h2>ごあいさつ</h2>
     <p>
@@ -81,6 +76,7 @@
 
   <section>
     <h2>所在地</h2>
+
     <p>住所：愛知県 名古屋市 瑞穂区 柳ヶ枝町1-34 1階</p>
 
     <iframe
@@ -93,7 +89,9 @@
     </iframe>
 
     <p>
-      <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89" target="_blank" rel="noopener">
+      <a href="https://maps.app.goo.gl/kX96HWu3dBWxvAv89"
+         target="_blank"
+         rel="noopener">
         Google マップで表示
       </a>
     </p>
@@ -106,6 +104,7 @@
       ファックス：052-881-0876
     </p>
   </section>
+
 </main>
 
 <footer>
