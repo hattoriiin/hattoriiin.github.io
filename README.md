@@ -81,7 +81,7 @@
 
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3263.4182708164703!2d136.91950327310576!3d35.12123427277307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037a38a1a9f5a1%3A0x346e3d61f288f8cc!5e0!3m2!1sja!2sjp!4v1766668147346"
-      width="100%"
+      width="50%"
       height="300"
       style="border:0;"
       loading="lazy"
@@ -108,7 +108,7 @@
 </main>
 
 <footer>
-  <p>このホームページは GitHub Pages を使って作成しています。</p>
+  <p>このホームページは GitHub Pages を使って試しながら作成しています。</p>
   <p>© 服部医院</p>
 </footer>
 
