@@ -15,15 +15,15 @@
     }
 
     header {
-  background-image:
-    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-    url("images/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white;
-  padding: 3rem 1rem;
-  text-align: center;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("images/background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      padding: 3rem 1rem;
+      text-align: center;
     }
 
     main {
@@ -50,11 +50,24 @@
       color: #555;
     }
 
-    iframe {
-      width: 100%;
+    /* ===== 地図用 ===== */
+    .map-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .map {
+      width: 50%;
       height: 300px;
       border: 0;
-      margin-top: 1rem;
+    }
+
+    /* iPhoneでも小さくする */
+    @media (max-width: 600px) {
+      .map {
+        width: 80%;
+        height: 250px;
+      }
     }
   </style>
 </head>
@@ -63,37 +76,41 @@
 
 <header>
   <h1>服部医院</h1>
-  <p>このホームページは、院長が独学と言うよりchatＧＰTさんに教えてもらいながら GitHub Pages を使って頑張って作成しています。</p>
+  <p>
+    このホームページは、院長が独学と言うより  
+    chatGPTさんに教えてもらいながら  
+    GitHub Pages を使って頑張って作成しています。
+  </p>
 </header>
 
 <main>
-  
-<section>
-  <h2>§当院からのごあいさっつ§</h2>
-  <p>
-    当院からのごあいさっつ文です。<br>
-    まじめなようで、まだ仮の文章です。<br>
-    内容はあとから差し替える前提です。
-  </p>
-</section>
 
-<section>
-  <h2>§当院のできること§</h2>
-  <p>
-    診察:処方<br>
-    検診各種:トッケン、肺がん、胃がん、大腸がん、前立腺がん<br>
-    内容はあとから差し替えるので気になさらず。
-  </p>
-</section>
+  <section>
+    <h2>§当院からのごあいさっつ§</h2>
+    <p>
+      当院からのごあいさっつ文です。<br>
+      まじめなようで、まだ仮の文章です。<br>
+      内容はあとから差し替える前提です。
+    </p>
+  </section>
 
-<section>
-  <h2>§診療時間§</h2>
-  <p>
-    午前診　9:00〜12:00<br>
-    午後診　17:30〜19:30<br>
-    受付時間は、診療時間の前15分から、終了前30分。
-  </p>
-</section>
+  <section>
+    <h2>§当院のできること§</h2>
+    <p>
+      診察：処方<br>
+      検診各種：トッケン、肺がん、胃がん、大腸がん、前立腺がん<br>
+      内容はあとから差し替えるので気になさらず。
+    </p>
+  </section>
+
+  <section>
+    <h2>§診療時間§</h2>
+    <p>
+      午前診　9:00〜12:00<br>
+      午後診　17:30〜19:30<br>
+      受付時間は、診療時間の前15分から、終了前30分。
+    </p>
+  </section>
 
   <section>
     <h2>§所在地§</h2>
@@ -101,12 +118,14 @@
       住所：愛知県名古屋市瑞穂区 柳ヶ枝町1-34 1階
     </p>
 
-    <!-- Googleマップ -->
-    <iframe
-      src="https://www.google.com/maps?q=愛知県名古屋市瑞穂区柳ヶ枝町1-34&output=embed"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+    <div class="map-wrap">
+      <iframe
+        class="map"
+        src="https://www.google.com/maps?q=愛知県名古屋市瑞穂区柳ヶ枝町1-34&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
   </section>
 
   <section>
