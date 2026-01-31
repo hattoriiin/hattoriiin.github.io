@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +8,9 @@
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont,
+                   "Hiragino Kaku Gothic ProN",
+                   "Yu Gothic", Meiryo, sans-serif;
       line-height: 1.8;
       color: #222;
       background: #9ADDEB;
@@ -19,11 +19,11 @@
     header {
       background-image:
         linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-        url("images/background.png");
+        url("images/background.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      color: white;
+      color: #ffffff;
       padding: 3rem 1rem;
       text-align: center;
     }
@@ -32,6 +32,7 @@
       padding: 1.5rem 1rem;
       max-width: 900px;
       margin: auto;
+      background: #ffffff;
     }
 
     section {
@@ -45,14 +46,14 @@
     }
 
     footer {
-      background: ##3E4164;
+      background: #3E4164;
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
-      color: #555;
+      color: #ffffff;
     }
 
-    /* ===== 地図用 ===== */
+    /* ===== 地図 ===== */
     .map-wrap {
       display: flex;
       justify-content: center;
@@ -64,31 +65,28 @@
       border: 0;
     }
 
-    /* iPhoneでも小さくする */
     @media (max-width: 600px) {
       .map {
-        width: 80%;
+        width: 90%;
         height: 250px;
       }
     }
   </style>
 </head>
 
-
-
-
 <body>
+
 <header>
   <h1>医療法人 誠彰会 服部医院</h1>
-  <p>地域に貢献する医療を大切にします。<br>
-    <br>
-      § 🥼　§
-    <br>
-    このホームページは、院長が独学と言うより  
-    chatGPTさんに教えてもらいながら  
+  <p>
+    地域に貢献する医療を大切にします。<br><br>
+    § 🥼　§<br>
+    このホームページは、院長が独学と言うより<br>
+    chatGPTさんに教えてもらいながら<br>
     GitHub Pages を使って頑張って作成中。
-    
-     <section>
+  </p>
+
+  <section>
     <h2>§連絡先§</h2>
     <p>
       診療時間の前後で繋がります<br>
@@ -96,8 +94,6 @@
       FAX：052-881-5833
     </p>
   </section>
-    
-  </p>
 </header>
 
 <main>
@@ -119,7 +115,6 @@
       希望に沿って紹介を行います。
     </p>
   </section>
-<main>
 
   <section>
     <h2>§当院からのごあいさっつ§</h2>
@@ -127,15 +122,6 @@
       当院からのごあいさっつ文です。<br>
       まじめなようで、まだ仮の文章です。<br>
       内容はあとから差し替える前提です。地域に貢献する医療を大切にします
-
-ごあいさつ
-
-当院は、患者様一人ひとりの状況を丁寧に確認し、 安心した日常生活を送れるよう、 通院での外来診療から在宅医療までの提供を行っています。
-
-診療方針
-
-わかりやすい説明と、無理のない治療計画を重視しています。
-必要・適切なタイミングで、他医療機関との連携も提案し、 希望に沿って紹介を行います。
     </p>
   </section>
 
@@ -154,13 +140,14 @@
       🩺外来診療<br>
       午前診　9:00〜12:00<br>
       午後診　17:30〜19:30<br>
-         ※ 受付時間<br>
-        診療時間の前15分から、終了前30分。<br>
-        土曜日は午前診のみです。<br>
+      ※ 受付時間<br>
+      診療時間の前15分から、終了前30分。<br>
+      土曜日は午前診のみです。<br><br>
+
       🩺訪問診療🚗🚲🚶<br>
       午前診と午後診の間<br>
       月曜日から木曜日<br>
-        13:30〜17:00<br>
+      13:30〜17:00
     </p>
   </section>
 
@@ -193,7 +180,7 @@
 
 <footer>
   <p>スマートフォンでも読みやすい表示にしています。</p>
-  <p>© 医療法人 誠彰会　服部医院</p>
+  <p>© 医療法人 誠彰会 服部医院</p>
 </footer>
 
 </body>
