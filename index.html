@@ -26,13 +26,27 @@ main{
 /* ---------- ヘッダー ---------- */
 
 header{
-    background:linear-gradient(
+    background:
+    radial-gradient(
+        circle at 90% 15%,
+        rgba(255,255,255,.06),
+        transparent 30%
+    ),
+
+    radial-gradient(
+        circle at 15% 85%,
+        rgba(120,200,220,.05),
+        transparent 45%
+    ),
+
+    linear-gradient(
         135deg,
         #20384d 0%,
         #31556e 35%,
         #4d7d98 70%,
         #78b8c4 100%
     );
+    
     color:#fff;
     padding:0.8rem 1rem;
     text-align:center;
