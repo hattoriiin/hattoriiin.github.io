@@ -112,13 +112,28 @@ footer {
   background: #f5f5f5;
 }
 
+
 .bird{
     position:absolute;
     top:20px;
-    right:20px;
+    right:-120px;
     width:80px;
-    opacity:0.8;
+    opacity:0.5;
     z-index:1;
+    pointer-events:none;
+    animation: flybird 25s linear infinite;
+}
+
+@keyframes flybird {
+
+  0%{
+    transform: translateX(0);
+  }
+
+  100%{
+    transform: translateX(calc(-100vw - 200px));
+  }
+
 }
 
 
