@@ -33,6 +33,17 @@ linear-gradient(135deg,
   text-align: center;
 }
 
+header::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 20%,
+        rgba(255,255,255,0.18),
+        transparent 45%);
+    pointer-events:none;
+}
+
 
 .clinic-title{
     margin:0;
