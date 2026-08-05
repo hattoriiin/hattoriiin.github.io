@@ -319,6 +319,33 @@ footer{
 
 }
 
+@media (max-width:600px){
+
+    @keyframes fadebird1{
+
+        0%   { opacity:0; }
+        25%  { opacity:0; }      /* 少し遅く登場 */
+        30%  { opacity:.35; }
+        48%  { opacity:.45; }
+        55%  { opacity:0; }
+        100% { opacity:0; }
+
+    }
+
+    @keyframes fadebird2{
+
+        0%   { opacity:0; }
+        50%  { opacity:0; }
+        55%  { opacity:.35; }
+        68%  { opacity:.35; }
+        74%  { opacity:.15; }    /* 少し早く薄くする */
+        78%  { opacity:0; }      /* 少し早く消す */
+        100% { opacity:0; }
+
+    }
+
+}
+
 </style>
 </head>
 
