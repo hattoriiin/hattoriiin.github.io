@@ -460,6 +460,39 @@ footer{
   height:12px;
 }
 
+.schedule th:first-child{
+    width:120px;
+}
+
+
+/* ---------- 診療マーク ---------- */
+
+.out-circle{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#5b9bd5;
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.5);
+}
+
+
+.visit-circle{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#70ad47;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.5);
+}
+
+.visit-circle svg{
+    width:11px;
+    height:11px;
+}
+
 </style>
 </head>
 
@@ -571,12 +604,12 @@ footer{
 <tr>
 <th>🏥　午前診<br>
 <span>9:00〜12:00</span></th>
-<td>○</td>
-<td>○</td>
-<td>―</td>
-<td>○</td>
-<td>○</td>
-<td>○</td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
 </tr>
 
 <tr>
@@ -643,11 +676,11 @@ footer{
 
 <tr>
 <th>🏥　午後診<br><span>17:30〜19:30</span><br></th>
-<td>○</td>
-<td>○</td>
-<td>○</td>
-<td>○</td>
-<td>○</td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
 <td>―</td>
 </tr>
 
