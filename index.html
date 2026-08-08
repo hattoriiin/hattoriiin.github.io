@@ -555,9 +555,10 @@ footer{
 /* ---------- 画像保護 ---------- */
 
 .protected-image {
-    position:relative;
-    display:inline-block;
-    max-width:100%;
+    float:left;
+    width:180px;
+    margin:0 20px 10px 0;
+
     user-select:none;
     -webkit-user-select:none;
     -webkit-touch-callout:none;
@@ -565,7 +566,7 @@ footer{
 
 .protected-image img {
     display:block;
-    max-width:100%;
+    width:100%;
     height:auto;
 
     user-select:none;
@@ -574,6 +575,17 @@ footer{
     -webkit-touch-callout:none;
 
     pointer-events:none;
+}
+
+/* スマートフォン */
+@media (max-width:600px){
+
+    .protected-image {
+        width:130px;
+        margin-right:15px;
+        margin-bottom:8px;
+    }
+
 }
 
 </style>
