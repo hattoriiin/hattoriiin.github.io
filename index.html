@@ -588,6 +588,70 @@ footer{
 
 }
 
+/* ---------- 所在地・アクセス ---------- */
+
+.location-grid{
+    display:grid;
+    grid-template-columns:40% 60%;
+    gap:1.5rem;
+    align-items:start;
+}
+
+.location-map iframe{
+    display:block;
+    width:100%;
+    height:260px;
+    border-radius:10px;
+}
+
+.map-link{
+    margin-top:.6rem;
+    text-align:center;
+    font-size:.8rem;
+}
+
+.map-link a{
+    color:#4d7d98;
+    text-decoration:none;
+}
+
+.location-info h3{
+    margin-top:0;
+    margin-bottom:.5rem;
+    padding-bottom:.3rem;
+    border-bottom:1px solid #ddd;
+    color:#31556e;
+    font-size:1rem;
+    font-weight:500;
+}
+
+.location-info p{
+    margin-top:.5rem;
+    margin-bottom:1rem;
+}
+
+.access-note{
+    font-size:.85rem;
+    color:#666;
+}
+
+
+/* ---------- スマートフォン ---------- */
+
+@media (max-width:600px){
+
+    .location-grid{
+        grid-template-columns:1fr;
+        gap:1.2rem;
+    }
+
+    .location-map iframe{
+        height:220px;
+    }
+
+}
+
+
 </style>
 
 <!-- この上までがstyleの部分⭐️⭐️⭐️ -->
