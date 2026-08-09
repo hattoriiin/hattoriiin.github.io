@@ -638,15 +638,30 @@ footer{
 
 /* ---------- スマートフォン ---------- */
 
+/* ---------- スマートフォンでも横並び ---------- */
+
 @media (max-width:600px){
 
     .location-grid{
-        grid-template-columns:1fr;
-        gap:1.2rem;
+        grid-template-columns:42% 58%;
+        gap:.7rem;
     }
 
     .location-map iframe{
-        height:220px;
+        height:180px;
+    }
+
+    .location-info h3{
+        font-size:.85rem;
+    }
+
+    .location-info p{
+        font-size:.72rem;
+        line-height:1.55;
+    }
+
+    .map-link{
+        font-size:.65rem;
     }
 
 }
