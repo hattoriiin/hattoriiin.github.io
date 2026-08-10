@@ -840,6 +840,23 @@ overflow:hidden;
         0 3px 12px rgba(40,80,80,.08);
 }
 
+.clinic-camera::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            to right,
+            #fff 0%,
+            rgba(255,255,255,0) 10%,
+            rgba(255,255,255,0) 90%,
+            #fff 100%
+        );
+}
+
 .clinic-image{
     position:absolute;
 
