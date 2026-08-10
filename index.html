@@ -1257,10 +1257,6 @@ FAX：<span>052</span>-<span>881</span>-<span>5833</span>
 </footer>
 
 <script>
-
-const clinicView = document.querySelector('.clinic-view');
-const clinicImage = document.querySelector('.clinic-image');
-
 function updateClinicView() {
 
     const rect = clinicView.getBoundingClientRect();
@@ -1275,33 +1271,19 @@ function updateClinicView() {
     /*
      * 最初
      * ↓
-     * 少し右を見る
+     * ゆっくり動き始める
      * ↓
-     * 最後に受付側へ
+     * 中間で自然に加速
+     * ↓
+     * 最後はゆっくり止まる
      */
 
-let smooth = progress * progress * (3 - 2 * progress);
-
-let smooth = progress * progress * (3 - 2 * progress);
-let x = -60 + smooth * 120;
+    let smooth = progress * progress * (3 - 2 * progress);
+    let x = -60 + smooth * 120;
 
     clinicImage.style.transform =
         `translate(calc(-50% + ${x}%), -50%)`;
 }
-
-window.addEventListener(
-    'scroll',
-    updateClinicView,
-    { passive: true }
-);
-
-window.addEventListener(
-    'resize',
-    updateClinicView
-);
-
-updateClinicView();
-
 </script>
 
 </body>
