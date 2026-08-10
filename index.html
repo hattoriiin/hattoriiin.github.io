@@ -1243,16 +1243,7 @@ function updateClinicView() {
      * 最後に受付側へ
      */
 
-    if (progress < 0.5) {
-
-        x = progress * -24;
-
-    } else {
-
-        const p = (progress - 0.5) * 2;
-
-        x = -12 + p * 24;
-    }
+let x = -60 + progress * 120;
 
     clinicImage.style.transform =
         `translate(calc(-50% + ${x}%), -50%)`;
