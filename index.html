@@ -1312,5 +1312,119 @@ FAX：<span>052</span>-<span>881</span>-<span>5833</span>
 
 </footer>
 
+<script>
+
+const clinicView = document.querySelector('.clinic-view');
+const clinicImage = document.querySelector('.clinic-image');
+const receptionFocus = document.querySelector('.reception-focus');
+
+const message1 = document.querySelector('.message-1');
+const message2 = document.querySelector('.message-2');
+const message3 = document.querySelector('.message-3');
+
+
+function updateClinicView() {
+
+    const rect = clinicView.getBoundingClientRect();
+
+    const total = clinicView.offsetHeight - window.innerHeight;
+
+    let progress = -rect.top / total;
+
+    progress = Math.max(0, Math.min(1, progress));
+
+
+    /*
+     * 0 ～ 0.35
+     * 入った直後
+     */
+    if (progress < 0.35) {
+
+        message1.style.opacity = 1;
+        message2.style.opacity = 0;
+        message3.style.opacity = 0;
+
+        receptionFocus.style.opacity = 0;
+
+    }
+
+
+    /*
+     * 0.35 ～ 0.65
+     * 右を見る
+     */
+    else if (progress < 0.65) {
+
+        message1.style.opacity = 0;
+        message2.style.opacity = 1;
+        message3.style.opacity = 0;
+
+        receptionFocus.style.opacity = 0;
+
+    }
+
+
+    /*
+     * 0.65 ～ 1
+     * 受付が主役
+     */
+    else {
+
+        message1.style.opacity = 0;
+        message2.style.opacity = 0;
+        message3.style.opacity = 1;
+
+        receptionFocus.style.opacity = 1;
+
+        receptionFocus.style.borderColor =
+            'rgba(110,145,120,.9)';
+
+        receptionFocus.style.boxShadow =
+            '0 0 0 9999px rgba(0,0,0,.16)';
+    }
+
+
+    /*
+     * カメラ移動
+     *
+     * 最初 → 中央
+     * 中盤 → 右を見る
+     * 最後 → 受付へ戻る
+     */
+
+    let x;
+
+    if (progress < 0.5) {
+
+        x = progress * 2 * -12;
+
+    } else {
+
+        const p = (progress - 0.5) * 2;
+
+        x = -12 + p * 22;
+    }
+
+
+    clinicImage.style.transform =
+        `translate(calc(-50% + ${x}%), -50%)`;
+}
+
+
+window.addEventListener(
+    'scroll',
+    updateClinicView,
+    { passive: true }
+);
+
+window.addEventListener(
+    'resize',
+    updateClinicView
+);
+
+updateClinicView();
+
+</script>
+
 </body>
 </html>
