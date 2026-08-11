@@ -1283,10 +1283,11 @@ function updateClinicView() {
      * 最後はゆっくり止まる
      */
 
-    let smooth =
-        progress * progress * (3 - 2 * progress);
+let smooth =
+    progress * progress * progress *
+    (progress * (progress * 6 - 15) + 10);
 
-    let x = -25 + smooth * 60;
+let x = -25 + smooth * 50;
 
     clinicImage.style.transform =
         `translate(calc(-50% + ${x}%), -50%)`;
