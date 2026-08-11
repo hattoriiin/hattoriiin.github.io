@@ -913,6 +913,19 @@ overflow:hidden;
 
 }
 
+/* ---------- スマートフォン縦向き ---------- */
+
+@media (max-width:600px) and (orientation:portrait){
+
+    .clinic-image{
+        width:auto;
+        height:100%;
+        min-width:140%;
+        object-fit:cover;
+    }
+
+}
+
 </style>
 
 <!-- ================================
@@ -1310,17 +1323,8 @@ function animateClinic() {
     currentX +=
         (targetX - currentX) * 0.08;
 
-if (window.matchMedia("(orientation: portrait)").matches) {
-
-    clinicImage.style.transform =
-        `translate(calc(-50% + ${currentX}%), -50%) scale(.75)`;
-
-} else {
-
-    clinicImage.style.transform =
-        `translate(calc(-50% + ${currentX}%), -50%) scale(.85)`;
-
-}
+clinicImage.style.transform =
+    `translate(calc(-50% + ${currentX}%), -50%) scale(.85)`;
 
     requestAnimationFrame(animateClinic);
 }
