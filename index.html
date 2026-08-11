@@ -1311,8 +1311,9 @@ function updateTarget() {
      * 発進 → 中間 → 停止
      */
 
-    let smooth =
-        progress * progress * (3 - 2 * progress);
+let smooth =
+    progress * progress * progress *
+    (progress * (progress * 6 - 15) + 10);
 
 targetX =
     -30 + smooth * 60;
@@ -1321,7 +1322,7 @@ targetX =
 function animateClinic() {
 
     currentX +=
-        (targetX - currentX) * 0.08;
+        (targetX - currentX) * 0.06;
 
 clinicImage.style.transform =
     `translate(calc(-50% + ${currentX}%), -50%) scale(.85)`;
