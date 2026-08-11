@@ -665,30 +665,6 @@ footer{
 }
 
 
-/* ---------- スマートフォン横向き ---------- */
-
-@media (orientation:landscape) and (max-height:600px){
-
-    .schedule tr:not(:first-child) th{
-        font-size:1rem;
-    }
-
-    .clinic-view{
-        height:100vh;
-    }
-
-    .clinic-camera{
-        height:100vh;
-        top:0;
-    }
-
-.clinic-image{
-    width:auto;
-    height:100vh;
-    min-width:100%;
-}
-
-}
 /* ---------- 診療内容 フローティングカード ---------- */
 
 .service-card{
@@ -914,6 +890,31 @@ overflow:hidden;
         transparent 100%
     );
 }
+
+/* ---------- スマートフォン横向き ---------- */
+
+@media (max-width:600px) and (orientation:landscape){
+
+    .schedule tr:not(:first-child) th{
+        font-size:1rem;
+    }
+
+    .clinic-view{
+        height:100vh;
+    }
+
+    .clinic-camera{
+        height:100vh;
+        top:0;
+    }
+
+    .clinic-image{
+        height:100vh;
+    }
+
+}
+
+
 </style>
 
 <!-- ================================
