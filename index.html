@@ -1312,8 +1312,8 @@ function animateClinic() {
     currentX +=
         (targetX - currentX) * 0.08;
 
-    clinicImage.style.transform =
-        `translate(calc(-50% + ${currentX}%), -50%)`;
+clinicImage.style.transform =
+    `translate(calc(-50% + ${currentX}%), -50%) scale(1.8)`;
 
     requestAnimationFrame(animateClinic);
 }
