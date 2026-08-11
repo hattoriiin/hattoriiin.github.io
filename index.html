@@ -1284,10 +1284,14 @@ function updateClinicView() {
      */
 
 let smooth =
-    progress * progress * progress *
-    (progress * (progress * 6 - 15) + 10);
+    progress * progress * (3 - 2 * progress);
 
-let x = -25 + smooth * 50;
+let targetX = -25 + smooth * 50;
+
+currentX += (targetX - currentX) * 0.08;
+
+clinicImage.style.transform =
+    `translate(calc(-50% + ${currentX}%), -50%)`;
 
     clinicImage.style.transform =
         `translate(calc(-50% + ${x}%), -50%)`;
