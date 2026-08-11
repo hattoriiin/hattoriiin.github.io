@@ -1262,7 +1262,10 @@ FAX：<span>052</span>-<span>881</span>-<span>5833</span>
 const clinicView = document.querySelector('.clinic-view');
 const clinicImage = document.querySelector('.clinic-image');
 
-function updateClinicView() {
+let currentX = -25;
+let targetX = -25;
+
+function updateTarget() {
 
     const rect = clinicView.getBoundingClientRect();
 
@@ -1274,41 +1277,47 @@ function updateClinicView() {
     progress = Math.max(0, Math.min(1, progress));
 
     /*
-     * 最初
-     * ↓
-     * ゆっくり動き始める
-     * ↓
-     * 中間で自然に動く
-     * ↓
-     * 最後はゆっくり止まる
+     * 滑らかな発進・停止
+     * 0 → ゆっくり
+     * 中間 → 自然に動く
+     * 1 → ゆっくり停止
      */
 
-let smooth =
-    progress * progress * (3 - 2 * progress);
+    let smooth =
+        progress * progress * (3 - 2 * progress);
 
-let targetX = -25 + smooth * 50;
+    targetX = -25 + smooth * 50;
+}
 
-currentX += (targetX - currentX) * 0.08;
+function animateClinic() {
 
-clinicImage.style.transform =
-    `translate(calc(-50% + ${currentX}%), -50%)`;
+    /*
+     * 現在位置が目標位置へ
+     * 少しずつ追いつく
+     */
+
+    currentX +=
+        (targetX - currentX) * 0.08;
 
     clinicImage.style.transform =
-        `translate(calc(-50% + ${x}%), -50%)`;
+        `translate(calc(-50% + ${currentX}%), -50%)`;
+
+    requestAnimationFrame(animateClinic);
 }
 
 window.addEventListener(
     'scroll',
-    updateClinicView,
+    updateTarget,
     { passive:true }
 );
 
 window.addEventListener(
     'resize',
-    updateClinicView
+    updateTarget
 );
 
-updateClinicView();
+updateTarget();
+animateClinic();
 
 </script>
 
