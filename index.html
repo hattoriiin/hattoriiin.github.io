@@ -778,6 +778,78 @@ overflow:hidden;
 
 }
 
+/* ---------- 検査機器カード ---------- */
+
+.equipment-card{
+
+    position:relative;
+
+    margin:1rem 0;
+    padding:1.1rem 1.1rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(242,248,252,.96),
+            rgba(228,241,248,.94)
+        );
+
+    border:1px solid rgba(90,145,175,.20);
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 4px 14px rgba(45,85,110,.08);
+
+}
+
+.equipment-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:7px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(90,160,190,.12),
+            rgba(90,160,190,.55),
+            rgba(90,160,190,.12)
+        );
+
+    border-radius:0 5px 5px 0;
+
+}
+
+.equipment-card h3{
+
+    margin:0 0 .45rem;
+
+    color:#31556e;
+
+    font-size:1.25rem;
+    font-weight:500;
+
+    letter-spacing:.04em;
+
+}
+
+.equipment-card p{
+
+    margin:0;
+
+    font-size:.92rem;
+    line-height:1.75;
+
+}
+
 /* ---------- 院内写真 ---------- */
 
 .clinic-photo{
