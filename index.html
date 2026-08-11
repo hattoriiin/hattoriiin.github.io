@@ -825,7 +825,8 @@ overflow:hidden;
 .clinic-view{
     position:relative;
     width:100%;
-    margin:2rem 0;
+    height:100vh;
+    margin:0;
 }
 
 .clinic-camera{
@@ -1272,25 +1273,17 @@ function updateTarget() {
 
     const rect = clinicView.getBoundingClientRect();
 
-    /*
-     * 写真が画面下から現れる
-     * ↓
-     * 画面中央
-     * ↓
-     * 画面上へ抜ける
-     *
-     * この間を 0 → 1 にする
-     */
+    const total =
+        clinicView.offsetHeight - window.innerHeight;
 
     let progress =
-        (window.innerHeight - rect.top) /
-        (window.innerHeight + rect.height);
+        -rect.top / total;
 
     progress =
         Math.max(0, Math.min(1, progress));
 
     /*
-     * 発進も停止も滑らかに
+     * 発進 → 中間 → 停止
      */
 
     let smooth =
