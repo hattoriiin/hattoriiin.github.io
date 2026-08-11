@@ -1310,8 +1310,17 @@ function animateClinic() {
     currentX +=
         (targetX - currentX) * 0.08;
 
-clinicImage.style.transform =
-    `translate(calc(-50% + ${currentX}%), -50%)`;
+if (window.matchMedia("(orientation: portrait)").matches) {
+
+    clinicImage.style.transform =
+        `translate(calc(-50% + ${currentX}%), -50%) scale(.75)`;
+
+} else {
+
+    clinicImage.style.transform =
+        `translate(calc(-50% + ${currentX}%), -50%) scale(.85)`;
+
+}
 
     requestAnimationFrame(animateClinic);
 }
