@@ -143,24 +143,9 @@ main{
 
 <main>
 
-<div class="news-item">
+<main>
 
-<span class="news-date">
-2026年8月11日
-</span>
-
-<h2 class="news-title">
-ホームページをリニューアルしました
-</h2>
-
-<p class="news-body">
-服部医院のホームページをリニューアルしました。
-診療内容や診療時間、検査機器などの情報を
-順次更新してまいります。
-</p>
-
-</div>
-
+<div id="news-container"></div>
 
 <div class="back">
 
@@ -171,6 +156,56 @@ main{
 </div>
 
 </main>
+
+<div class="back">
+
+<a href="index.html">
+← 服部医院トップページへ戻る
+</a>
+
+</div>
+
+</main>
+
+<script>
+
+fetch('news.json')
+    .then(response => response.json())
+    .then(news => {
+
+        const container =
+            document.getElementById('news-container');
+
+        if (!container) return;
+
+        news.forEach(item => {
+
+            const article =
+                document.createElement('div');
+
+            article.className = 'news-item';
+
+            article.innerHTML = `
+                <span class="news-date">
+                    ${item.date}
+                </span>
+
+                <h2 class="news-title">
+                    ${item.title}
+                </h2>
+
+                <p class="news-body">
+                    詳細は準備中です。
+                </p>
+            `;
+
+            container.appendChild(article);
+
+        });
+
+    });
+
+</script>
 
 </body>
 
