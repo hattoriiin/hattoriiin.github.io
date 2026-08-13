@@ -19,6 +19,23 @@ body{
     line-height:1.8;
     color:#222;
     background:#fff;
+
+    opacity:0;
+    animation:newsFadeIn .7s ease-out forwards;
+}
+
+@keyframes newsFadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(6px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
 }
 
 header{
