@@ -1650,6 +1650,35 @@ animateClinic();
 
 </script>
 
+<script>
+fetch('news.json')
+    .then(response => response.json())
+    .then(news => {
+
+        const newsList = document.querySelector('.news-list');
+
+        if (!newsList) return;
+
+        newsList.innerHTML = '';
+
+        news.slice(0, 3).forEach(item => {
+
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+
+            newsItem.innerHTML = `
+                <span class="news-date">${item.date}</span>
+                <a href="${item.link}">
+                    ${item.title}
+                </a>
+            `;
+
+            newsList.appendChild(newsItem);
+
+        });
+
+    });
+</script>
 
 </body>
 </html>
