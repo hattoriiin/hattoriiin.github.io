@@ -418,6 +418,61 @@ main{
     }
 
 }
+
+@media (max-width:600px) and (orientation:portrait){
+
+    .bird1{
+        animation:
+            newsBirdMove 25s linear infinite,
+            fadebird1-mobile 25s linear infinite;
+    }
+
+    @keyframes fadebird1-mobile{
+
+        0%{
+            opacity:0;
+        }
+
+        19%{
+            opacity:0;
+        }
+
+        22%{
+            opacity:.12;
+        }
+
+        25%{
+            opacity:.28;
+        }
+
+        28%{
+            opacity:.32;
+        }
+
+        82%{
+            opacity:.32;
+        }
+
+        88%{
+            opacity:.24;
+        }
+
+        92%{
+            opacity:.12;
+        }
+
+        96%{
+            opacity:0;
+        }
+
+        100%{
+            opacity:0;
+        }
+
+    }
+
+}
+    
 </style>
 
 </head>
