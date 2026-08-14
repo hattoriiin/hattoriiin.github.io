@@ -470,7 +470,67 @@ main{
     }
 
 }
-    
+        .bird2{
+        animation:
+            newsBirdMove 25s linear infinite,
+            fadebird2-mobile 25s linear infinite;
+    }
+
+    @keyframes fadebird2-mobile{
+
+        0%{
+            opacity:0;
+        }
+
+        49%{
+            opacity:0;
+        }
+
+        54%{
+            opacity:.06;
+        }
+
+        59%{
+            opacity:.16;
+        }
+
+        64%{
+            opacity:.28;
+        }
+
+        69%{
+            opacity:.32;
+        }
+
+        75%{
+            opacity:.32;
+        }
+
+        81%{
+            opacity:.24;
+        }
+
+        86%{
+            opacity:.14;
+        }
+
+        91%{
+            opacity:.05;
+        }
+
+        96%{
+            opacity:0;
+        }
+
+        100%{
+            opacity:0;
+        }
+
+    } /* fadebird2-mobile */
+
+}       /* ← これが必要：portrait用@media */
+
+
 </style>
 
 </head>
