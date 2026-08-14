@@ -263,19 +263,243 @@ main{
 
 .bird{
 
+    --bird-size:80px;
+
     position:absolute;
 
     top:10px;
 
-    left:0;
+    left:calc(100% + var(--bird-size));
 
-    width:80px;
+    width:var(--bird-size);
 
     z-index:4;
 
     pointer-events:none;
 
     opacity:0;
+
+}
+
+
+/* ---------- 共通の飛行ルート ---------- */
+
+.bird1,
+.bird2{
+
+    animation:
+        newsBirdMove 25s linear infinite;
+
+}
+
+
+@keyframes newsBirdMove{
+
+    0%{
+
+        left:calc(100% + var(--bird-size));
+
+    }
+
+    100%{
+
+        left:calc(-1 * var(--bird-size));
+
+    }
+
+}
+
+
+/* ---------- 1枚目 ---------- */
+
+.bird1{
+
+    animation:
+        newsBirdMove 25s linear infinite,
+        fadebird1 25s linear infinite;
+
+}
+
+
+@keyframes fadebird1{
+
+    0%{
+
+        opacity:0;
+
+    }
+
+    12%{
+
+        opacity:0;
+
+    }
+
+    18%{
+
+        opacity:.06;
+
+    }
+
+    24%{
+
+        opacity:.16;
+
+    }
+
+    30%{
+
+        opacity:.26;
+
+    }
+
+    36%{
+
+        opacity:.32;
+
+    }
+
+    42%{
+
+        opacity:.32;
+
+    }
+
+    48%{
+
+        opacity:.28;
+
+    }
+
+    52%{
+
+        opacity:.22;
+
+    }
+
+    56%{
+
+        opacity:.14;
+
+    }
+
+    60%{
+
+        opacity:.06;
+
+    }
+
+    64%{
+
+        opacity:0;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+    }
+
+}
+
+
+/* ---------- 2枚目 ---------- */
+
+.bird2{
+
+    animation:
+        newsBirdMove 25s linear infinite,
+        fadebird2 25s linear infinite;
+
+}
+
+
+@keyframes fadebird2{
+
+    0%{
+
+        opacity:0;
+
+    }
+
+    44%{
+
+        opacity:0;
+
+    }
+
+    48%{
+
+        opacity:.05;
+
+    }
+
+    52%{
+
+        opacity:.12;
+
+    }
+
+    56%{
+
+        opacity:.20;
+
+    }
+
+    60%{
+
+        opacity:.28;
+
+    }
+
+    64%{
+
+        opacity:.32;
+
+    }
+
+    70%{
+
+        opacity:.32;
+
+    }
+
+    76%{
+
+        opacity:.26;
+
+    }
+
+    82%{
+
+        opacity:.16;
+
+    }
+
+    88%{
+
+        opacity:.08;
+
+    }
+
+    94%{
+
+        opacity:.03;
+
+    }
+
+    98%{
+
+        opacity:0;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+    }
 
 }
 
@@ -294,7 +518,7 @@ main{
 
     .bird{
 
-        width:48px;
+        --bird-size:52px;
 
         top:8px;
 
@@ -347,69 +571,52 @@ main{
 
 </div>
 
-/* ---------- お知らせの鳥 ---------- */
+<script>
 
-.news-bird-space{
+fetch('news.json')
+    .then(response => response.json())
+    .then(news => {
 
-    position:relative;
+        const container =
+            document.getElementById('news-container');
 
-    width:calc(100% - 7rem);
+        if (!container) return;
 
-    max-width:836px;
+        news.forEach(item => {
 
-    height:70px;
+ const frame =
+    document.createElement('div');
 
-    margin:0 auto;
+frame.className = 'news-frame';
 
-    overflow:hidden;
+const article =
+    document.createElement('div');
 
-    background:#fff;
+article.className = 'news-item';
 
-}
+article.innerHTML = `
+    <span class="news-date">
+        ${item.date}
+    </span>
 
+    <h2 class="news-title">
+        ${item.title}
+    </h2>
 
-/* ---------- 鳥本体 ---------- */
+    <p class="news-body">
+        ${item.body || '詳細は準備中です。'}
+    </p>
+`;
 
-.bird{
+frame.appendChild(article);
 
-    position:absolute;
+container.appendChild(frame);
 
-    top:10px;
+        });
 
-    left:0;
-
-    width:80px;
-
-    z-index:4;
-
-    pointer-events:none;
-
-    opacity:0;
-
-}
-
-
-/* ---------- スマートフォン ---------- */
-
-@media (max-width:600px){
-
-    .news-bird-space{
-
-        width:calc(100% - 7rem);
-
-        height:48px;
-
-    }
-
-    .bird{
-
-        width:48px;
-
-        top:8px;
-
-    }
-
-}
+    });
+    
+</script>
 
 </body>
 
