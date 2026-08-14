@@ -250,26 +250,33 @@ fetch('news.json')
 
         news.forEach(item => {
 
-            const article =
-                document.createElement('div');
+ const frame =
+    document.createElement('div');
 
-            article.className = 'news-item';
+frame.className = 'news-frame';
 
-            article.innerHTML = `
-                <span class="news-date">
-                    ${item.date}
-                </span>
+const article =
+    document.createElement('div');
 
-                <h2 class="news-title">
-                    ${item.title}
-                </h2>
+article.className = 'news-item';
 
-                <p class="news-body">
-                    ${item.body || '詳細は準備中です。'}
-                </p>
-            `;
+article.innerHTML = `
+    <span class="news-date">
+        ${item.date}
+    </span>
 
-            container.appendChild(article);
+    <h2 class="news-title">
+        ${item.title}
+    </h2>
+
+    <p class="news-body">
+        ${item.body || '詳細は準備中です。'}
+    </p>
+`;
+
+frame.appendChild(article);
+
+container.appendChild(frame);
 
         });
 
