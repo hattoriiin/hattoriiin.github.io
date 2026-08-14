@@ -38,7 +38,21 @@ body{
 
 header{
 
+    padding:1.45rem 0;
+
+    background:#fff;
+
+}
+
+.news-header{
+
+    width:calc(100% - 4rem);
+
+    margin:auto;
+
     padding:1.45rem 1rem;
+
+    box-sizing:border-box;
 
     text-align:center;
 
@@ -52,6 +66,8 @@ header{
             #4d7d98 70%,
             #78b8c4 100%
         );
+
+    border-radius:0;
 
 }
 
@@ -228,11 +244,15 @@ main{
 
     position:relative;
 
-    height:0;
+    width:calc(100% - 4rem);
 
-    overflow:visible;
+    height:48px;
 
-    pointer-events:none;
+    margin:auto;
+
+    overflow:hidden;
+
+    background:#fff;
 
 }
 
@@ -240,13 +260,13 @@ main{
 
     position:absolute;
 
-    width:38px;
+    top:10px;
+
+    right:-45px;
+
+    width:32px;
 
     height:auto;
-
-    top:-25px;
-
-    right:-50px;
 
     opacity:0;
 
@@ -265,7 +285,9 @@ main{
     }
 
     to{
-        transform:translateX(calc(-100vw - 150px));
+        transform:translateX(
+            calc(-100% - 80px)
+        );
     }
 
 }
@@ -277,7 +299,7 @@ main{
     }
 
     15%{
-        opacity:.18;
+        opacity:.15;
     }
 
     35%{
@@ -310,25 +332,27 @@ main{
 
 <header>
 
-<h1>お知らせ</h1>
+    <div class="news-header">
 
-</header>
-
-<main>
-
-<div id="news-container">
-
-    <div class="news-bird-space">
-
-        <img
-            src="images/colorfulbird.PNG"
-            class="news-bird"
-            alt=""
-        >
+        <h1>お知らせ</h1>
 
     </div>
 
+</header>
+
+<div class="news-bird-space">
+
+    <img
+        src="images/colorfulbird.PNG"
+        class="news-bird"
+        alt=""
+    >
+
 </div>
+    
+<main>
+    
+<div id="news-container"></div>
 
 </main>
 
