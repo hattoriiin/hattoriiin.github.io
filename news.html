@@ -222,6 +222,86 @@ main{
     transform:translateY(-1px);
 }
 
+/* ---------- お知らせの鳥 ---------- */
+
+.news-bird-space{
+
+    position:relative;
+
+    height:0;
+
+    overflow:visible;
+
+    pointer-events:none;
+
+}
+
+.news-bird{
+
+    position:absolute;
+
+    width:38px;
+
+    height:auto;
+
+    top:-25px;
+
+    right:-50px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    animation:
+        newsBirdMove 25s linear infinite,
+        newsBirdFade 25s linear infinite;
+
+}
+
+@keyframes newsBirdMove{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(calc(-100vw - 150px));
+    }
+
+}
+
+@keyframes newsBirdFade{
+
+    0%{
+        opacity:0;
+    }
+
+    15%{
+        opacity:.18;
+    }
+
+    35%{
+        opacity:.28;
+    }
+
+    55%{
+        opacity:.28;
+    }
+
+    70%{
+        opacity:.10;
+    }
+
+    80%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+    
 </style>
 
 </head>
@@ -234,11 +314,21 @@ main{
 
 </header>
 
-</header>
-
 <main>
 
-<div id="news-container"></div>
+<div id="news-container">
+
+    <div class="news-bird-space">
+
+        <img
+            src="images/colorfulbird.PNG"
+            class="news-bird"
+            alt=""
+        >
+
+    </div>
+
+</div>
 
 </main>
 
@@ -294,8 +384,6 @@ container.appendChild(frame);
         });
 
     });
-
-
     
 </script>
 
