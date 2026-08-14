@@ -263,6 +263,8 @@ main{
     z-index:900;
 
     pointer-events:none;
+
+   transition:top 1.2s ease-out;
 }
 
 
@@ -631,6 +633,38 @@ container.appendChild(frame);
 
     });
     
+</script>
+
+<script>
+
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+
+    const birdSpace =
+        document.querySelector('.news-bird-space');
+
+    if (!birdSpace) return;
+
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY) {
+
+        /* 下へスクロール → 鳥をほんの少し下へ */
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 3.2rem)';
+
+    } else if (currentScrollY < lastScrollY) {
+
+        /* 上へスクロール → 鳥をほんの少し上へ */
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 2.6rem)';
+    }
+
+    lastScrollY = currentScrollY;
+
+});
+
 </script>
 
 </body>
