@@ -638,6 +638,7 @@ container.appendChild(frame);
 <script>
 
 let lastScrollY = window.scrollY;
+let scrollTimer;
 
 window.addEventListener('scroll', () => {
 
@@ -648,41 +649,30 @@ window.addEventListener('scroll', () => {
 
     const currentScrollY = window.scrollY;
 
-    /* スマートフォン */
-    if (window.innerWidth <= 600) {
+    if (currentScrollY > lastScrollY) {
 
-        if (currentScrollY > lastScrollY) {
+        /* 下へスクロール → 鳥を少し下へ */
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 3.4rem)';
 
-            /* 下へスクロール */
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 3.7rem)';
+    } else if (currentScrollY < lastScrollY) {
 
-        } else if (currentScrollY < lastScrollY) {
-
-            /* 上へスクロール */
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 2.1rem)';
-        }
-
-    }
-
-    /* PC */
-    else {
-
-        if (currentScrollY > lastScrollY) {
-
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 3.4rem)';
-
-        } else if (currentScrollY < lastScrollY) {
-
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 2.4rem)';
-        }
-
+        /* 上へスクロール → 鳥を少し上へ */
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 2.4rem)';
     }
 
     lastScrollY = currentScrollY;
+
+    clearTimeout(scrollTimer);
+
+    scrollTimer = setTimeout(() => {
+
+        /* スクロールが止まったら基準位置へ戻す */
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 2.9rem)';
+
+    }, 350);
 
 });
 
