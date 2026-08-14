@@ -34,8 +34,6 @@ body{
         opacity:1;
     }
 
-}}
-
 }
 
 header{
@@ -236,17 +234,7 @@ main{
 
 </header>
 
-<!-- ---------- お知らせの鳥 ---------- -->
-
-<div class="news-bird-space">
-
-    <img
-        src="images/colorfulbird.PNG"
-        class="news-bird"
-        alt=""
-    >
-
-</div>
+</header>
 
 <main>
 
@@ -307,111 +295,7 @@ container.appendChild(frame);
 
     });
 
-/* ---------- お知らせページの鳥 ---------- */
 
-.news-bird-space{
-
-    position:relative;
-
-    height:90px;
-
-    overflow:hidden;
-
-    background:#fff;
-
-}
-
-.news-bird{
-
-    position:absolute;
-
-    top:20px;
-    right:-120px;
-
-    width:80px;
-
-    z-index:1;
-
-    pointer-events:none;
-
-    opacity:0;
-
-    animation:
-        newsFlyBird 25s linear infinite,
-        newsFadeBird 25s linear infinite;
-
-}
-
-
-/* ---------- index.html の鳥と同じ移動 ---------- */
-
-@keyframes newsFlyBird{
-
-    from{
-        transform:translateX(0);
-    }
-
-    to{
-        transform:translateX(calc(-100vw - 220px));
-    }
-
-}
-
-
-/* ---------- 白い背景の中で自然に出入り ---------- */
-
-@keyframes newsFadeBird{
-
-    0%{
-        opacity:0;
-    }
-
-    15%{
-        opacity:.20;
-    }
-
-    25%{
-        opacity:.35;
-    }
-
-    48%{
-        opacity:.35;
-    }
-
-    60%{
-        opacity:.15;
-    }
-
-    70%{
-        opacity:0;
-    }
-
-    100%{
-        opacity:0;
-    }
-
-}
-
-
-/* ---------- スマートフォン ---------- */
-
-@media (max-width:600px){
-
-    .news-bird{
-
-        width:70px;
-
-        top:18px;
-
-    }
-
-    .news-bird-space{
-
-        height:80px;
-
-    }
-
-}
     
 </script>
 
