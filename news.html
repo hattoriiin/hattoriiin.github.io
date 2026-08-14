@@ -244,11 +244,13 @@ main{
 
     position:relative;
 
-    width:calc(100% - 4rem);
+    width:calc(100% - 7rem);
+
+    max-width:836px;
 
     height:70px;
 
-    margin:auto;
+    margin:0 auto;
 
     overflow:hidden;
 
@@ -256,14 +258,20 @@ main{
 
 }
 
+
+/* ---------- 鳥本体 ---------- */
+
 .bird{
+
+    --bird-size:80px;
 
     position:absolute;
 
     top:10px;
-    right:-120px;
 
-    width:80px;
+    left:calc(100% + var(--bird-size));
+
+    width:var(--bird-size);
 
     z-index:4;
 
@@ -273,122 +281,250 @@ main{
 
 }
 
+
+/* ---------- 共通の飛行ルート ---------- */
+
+.bird1,
+.bird2{
+
+    animation:
+        newsBirdMove 25s linear infinite;
+
+}
+
+
+@keyframes newsBirdMove{
+
+    0%{
+
+        left:calc(100% + var(--bird-size));
+
+    }
+
+    100%{
+
+        left:calc(-1 * var(--bird-size));
+
+    }
+
+}
+
+
+/* ---------- 1枚目 ---------- */
+
 .bird1{
 
     animation:
-        flybird 25s linear infinite,
+        newsBirdMove 25s linear infinite,
         fadebird1 25s linear infinite;
 
 }
 
-.bird2{
-
-    animation:
-        flybird 25s linear infinite,
-        fadebird2 25s linear infinite;
-
-}
-
-@keyframes flybird{
-
-    0%{
-        transform:translateX(0);
-    }
-
-    92.6%{
-        transform:translateX(calc(-100vw - 220px));
-    }
-
-    100%{
-        transform:translateX(calc(-100vw - 220px));
-    }
-
-}
 
 @keyframes fadebird1{
 
     0%{
+
         opacity:0;
+
     }
 
-    25%{
+    12%{
+
         opacity:0;
+
     }
 
-    32%{
-        opacity:.05;
+    18%{
+
+        opacity:.06;
+
     }
 
-    37%{
-        opacity:.12;
+    24%{
+
+        opacity:.16;
+
+    }
+
+    30%{
+
+        opacity:.26;
+
+    }
+
+    36%{
+
+        opacity:.32;
+
     }
 
     42%{
-        opacity:.22;
-    }
 
-    46%{
         opacity:.32;
+
     }
 
-    49%{
-        opacity:.40;
+    48%{
+
+        opacity:.28;
+
     }
 
-    54%{
+    52%{
+
+        opacity:.22;
+
+    }
+
+    56%{
+
+        opacity:.14;
+
+    }
+
+    60%{
+
+        opacity:.06;
+
+    }
+
+    64%{
+
         opacity:0;
+
     }
 
     100%{
+
         opacity:0;
+
     }
 
 }
+
+
+/* ---------- 2枚目 ---------- */
+
+.bird2{
+
+    animation:
+        newsBirdMove 25s linear infinite,
+        fadebird2 25s linear infinite;
+
+}
+
 
 @keyframes fadebird2{
 
     0%{
+
         opacity:0;
+
     }
 
-    50%{
+    44%{
+
         opacity:0;
+
+    }
+
+    48%{
+
+        opacity:.05;
+
+    }
+
+    52%{
+
+        opacity:.12;
+
     }
 
     56%{
-        opacity:.05;
+
+        opacity:.20;
+
     }
 
     60%{
-        opacity:.12;
+
+        opacity:.28;
+
     }
 
     64%{
-        opacity:.22;
+
+        opacity:.32;
+
     }
 
-    68%{
-        opacity:.35;
-    }
+    70%{
 
-    72%{
-        opacity:.20;
+        opacity:.32;
+
     }
 
     76%{
-        opacity:.05;
+
+        opacity:.26;
+
     }
 
-    79%{
+    82%{
+
+        opacity:.16;
+
+    }
+
+    88%{
+
+        opacity:.08;
+
+    }
+
+    94%{
+
+        opacity:.03;
+
+    }
+
+    98%{
+
         opacity:0;
+
     }
 
     100%{
+
         opacity:0;
+
     }
 
 }
-    
+
+
+/* ---------- スマートフォン ---------- */
+
+@media (max-width:600px){
+
+    .news-bird-space{
+
+        width:calc(100% - 7rem);
+
+        height:48px;
+
+    }
+
+    .bird{
+
+        --bird-size:32px;
+
+        top:8px;
+
+    }
+
+}
 </style>
 
 </head>
