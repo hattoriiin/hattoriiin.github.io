@@ -1779,7 +1779,7 @@ fetch('news.json')
     .then(response => response.json())
     .then(news => {
 
-        /* ⭐ 上のお知らせプレビュー */
+        /* ⭐ 上のお知らせ：最新3件 */
 
         const previewList =
             document.querySelector('.news-preview-list');
@@ -1813,7 +1813,7 @@ fetch('news.json')
         }
 
 
-        /* ⭐ 下のお知らせ */
+        /* ⭐ 下のお知らせ：最新3件＋BODY */
 
         const newsList =
             document.querySelector('.news-list');
@@ -1822,7 +1822,7 @@ fetch('news.json')
 
             newsList.innerHTML = '';
 
-            news.forEach(item => {
+            news.slice(0, 3).forEach(item => {
 
                 const newsItem =
                     document.createElement('div');
@@ -1847,6 +1847,22 @@ fetch('news.json')
                 newsList.appendChild(newsItem);
 
             });
+
+            /* ⭐ 過去のお知らせ */
+
+            const past =
+                document.createElement('p');
+
+            past.className =
+                'news-detail-note';
+
+            past.innerHTML = `
+                <a href="news.html">
+                    ※ 過去のお知らせはクリック
+                </a>
+            `;
+
+            newsList.appendChild(past);
 
         }
 
