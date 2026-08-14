@@ -1774,33 +1774,84 @@ animateClinic();
 </script>
 
 <script>
+
 fetch('news.json')
     .then(response => response.json())
     .then(news => {
 
-        const newsList = document.querySelector('.news-list');
+        /* ⭐ 上のお知らせプレビュー */
 
-        if (!newsList) return;
+        const previewList =
+            document.querySelector('.news-preview-list');
 
-        newsList.innerHTML = '';
+        if (previewList) {
 
-        news.slice(0, 3).forEach(item => {
+            previewList.innerHTML = '';
 
-            const newsItem = document.createElement('div');
-            newsItem.className = 'news-item';
+            news.slice(0, 3).forEach(item => {
 
-            newsItem.innerHTML = `
-                <span class="news-date">${item.date}</span>
-                <a href="${item.link}">
-                    ${item.title}
-                </a>
-            `;
+                const previewItem =
+                    document.createElement('div');
 
-            newsList.appendChild(newsItem);
+                previewItem.className =
+                    'news-preview-item';
 
-        });
+                previewItem.innerHTML = `
+                    <span class="news-preview-date">
+                        ${item.date}
+                    </span>
+
+                    <a href="${item.link}">
+                        ${item.title}
+                    </a>
+                `;
+
+                previewList.appendChild(previewItem);
+
+            });
+
+        }
+
+
+        /* ⭐ 下のお知らせ */
+
+        const newsList =
+            document.querySelector('.news-list');
+
+        if (newsList) {
+
+            newsList.innerHTML = '';
+
+            news.forEach(item => {
+
+                const newsItem =
+                    document.createElement('div');
+
+                newsItem.className =
+                    'news-item';
+
+                newsItem.innerHTML = `
+                    <span class="news-date">
+                        ${item.date}
+                    </span>
+
+                    <a href="${item.link}">
+                        ${item.title}
+                    </a>
+
+                    <p class="news-body">
+                        ${item.body || '詳細は準備中です。'}
+                    </p>
+                `;
+
+                newsList.appendChild(newsItem);
+
+            });
+
+        }
 
     });
+
 </script>
 
 </body>
