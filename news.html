@@ -648,17 +648,38 @@ window.addEventListener('scroll', () => {
 
     const currentScrollY = window.scrollY;
 
-    if (currentScrollY > lastScrollY) {
+    /* スマートフォン */
+    if (window.innerWidth <= 600) {
 
-        /* 下へスクロール → 鳥をほんの少し下へ */
-        birdSpace.style.top =
-            'calc(1.45rem + 1.45rem + 1.8em + 3.2rem)';
+        if (currentScrollY > lastScrollY) {
 
-    } else if (currentScrollY < lastScrollY) {
+            /* 下へスクロール */
+            birdSpace.style.top =
+                'calc(1.45rem + 1.45rem + 1.8em + 3.7rem)';
 
-        /* 上へスクロール → 鳥をほんの少し上へ */
-        birdSpace.style.top =
-            'calc(1.45rem + 1.45rem + 1.8em + 2.6rem)';
+        } else if (currentScrollY < lastScrollY) {
+
+            /* 上へスクロール */
+            birdSpace.style.top =
+                'calc(1.45rem + 1.45rem + 1.8em + 2.1rem)';
+        }
+
+    }
+
+    /* PC */
+    else {
+
+        if (currentScrollY > lastScrollY) {
+
+            birdSpace.style.top =
+                'calc(1.45rem + 1.45rem + 1.8em + 3.4rem)';
+
+        } else if (currentScrollY < lastScrollY) {
+
+            birdSpace.style.top =
+                'calc(1.45rem + 1.45rem + 1.8em + 2.4rem)';
+        }
+
     }
 
     lastScrollY = currentScrollY;
