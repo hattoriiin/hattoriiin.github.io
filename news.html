@@ -347,52 +347,69 @@ main{
 
 </div>
 
-<script>
+/* ---------- お知らせの鳥 ---------- */
 
-fetch('news.json')
-    .then(response => response.json())
-    .then(news => {
+.news-bird-space{
 
-        const container =
-            document.getElementById('news-container');
+    position:relative;
 
-        if (!container) return;
+    width:calc(100% - 7rem);
 
-        news.forEach(item => {
+    max-width:836px;
 
- const frame =
-    document.createElement('div');
+    height:70px;
 
-frame.className = 'news-frame';
+    margin:0 auto;
 
-const article =
-    document.createElement('div');
+    overflow:hidden;
 
-article.className = 'news-item';
+    background:#fff;
 
-article.innerHTML = `
-    <span class="news-date">
-        ${item.date}
-    </span>
+}
 
-    <h2 class="news-title">
-        ${item.title}
-    </h2>
 
-    <p class="news-body">
-        ${item.body || '詳細は準備中です。'}
-    </p>
-`;
+/* ---------- 鳥本体 ---------- */
 
-frame.appendChild(article);
+.bird{
 
-container.appendChild(frame);
+    position:absolute;
 
-        });
+    top:10px;
 
-    });
-    
-</script>
+    left:0;
+
+    width:80px;
+
+    z-index:4;
+
+    pointer-events:none;
+
+    opacity:0;
+
+}
+
+
+/* ---------- スマートフォン ---------- */
+
+@media (max-width:600px){
+
+    .news-bird-space{
+
+        width:calc(100% - 7rem);
+
+        height:48px;
+
+    }
+
+    .bird{
+
+        width:48px;
+
+        top:8px;
+
+    }
+
+}
 
 </body>
 
