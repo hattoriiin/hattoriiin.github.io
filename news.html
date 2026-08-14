@@ -246,7 +246,7 @@ main{
 
     width:calc(100% - 4rem);
 
-    height:48px;
+    height:70px;
 
     margin:auto;
 
@@ -256,65 +256,102 @@ main{
 
 }
 
-.news-bird{
+.bird{
 
     position:absolute;
 
     top:10px;
+    right:-120px;
 
-    right:-45px;
+    width:80px;
 
-    width:32px;
-
-    height:auto;
-
-    opacity:0;
+    z-index:4;
 
     pointer-events:none;
 
-    animation:
-        newsBirdMove 25s linear infinite,
-        newsBirdFade 25s linear infinite;
+    opacity:0;
 
 }
 
-@keyframes newsBirdMove{
+.bird1{
+
+    animation:
+        flybird 25s linear infinite,
+        fadebird1 25s linear infinite;
+
+}
+
+.bird2{
+
+    animation:
+        flybird 25s linear infinite,
+        fadebird2 25s linear infinite;
+
+}
+
+@keyframes flybird{
 
     from{
         transform:translateX(0);
     }
 
     to{
-        transform:translateX(
-            calc(-100% - 80px)
-        );
+        transform:translateX(calc(-100vw - 220px));
     }
 
 }
 
-@keyframes newsBirdFade{
+@keyframes fadebird1{
 
     0%{
         opacity:0;
     }
 
     15%{
+        opacity:.20;
+    }
+
+    20%{
+        opacity:.35;
+    }
+
+    42%{
+        opacity:.45;
+    }
+
+    54%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+
+@keyframes fadebird2{
+
+    0%{
+        opacity:0;
+    }
+
+    44%{
+        opacity:0;
+    }
+
+    54%{
+        opacity:.35;
+    }
+
+    60%{
+        opacity:.35;
+    }
+
+    66%{
         opacity:.15;
     }
 
-    35%{
-        opacity:.28;
-    }
-
-    55%{
-        opacity:.28;
-    }
-
     70%{
-        opacity:.10;
-    }
-
-    80%{
         opacity:0;
     }
 
