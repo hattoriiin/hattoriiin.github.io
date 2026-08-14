@@ -245,13 +245,24 @@ main{
 /* ---------- お知らせの鳥 ---------- */
 
 .news-bird-space{
-    position:relative;
+    position:fixed;
+
+    left:50%;
+    bottom:70px;
+
+    transform:translateX(-50%);
+
     width:calc(100% - 7rem);
     max-width:836px;
     height:70px;
-    margin:0rem auto 0;
+
     overflow:hidden;
-    background:#fff;
+
+    background:transparent;
+
+    z-index:900;
+
+    pointer-events:none;
 }
 
 
@@ -414,6 +425,7 @@ main{
     .news-bird-space{
         width:calc(100% - 7rem);
         height:52px;
+        bottom:58px;
     }
 
     .bird{
