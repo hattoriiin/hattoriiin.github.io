@@ -256,7 +256,7 @@ main{
     background:transparent;
     z-index:900;
     pointer-events:none;
-transition:top 0.85s ease-out;
+transition:top 0.85s cubic-bezier(.25,.1,.25,1);
 }
 
 
@@ -683,7 +683,7 @@ window.addEventListener('scroll', () => {
         birdSpace.style.top =
             'calc(1.45rem + 1.45rem + 1.8em + 2.9rem)';
         /* スクロール時の鳥をふわーっと*/
-    }, 800);
+    }, 600);
 
 });
 
