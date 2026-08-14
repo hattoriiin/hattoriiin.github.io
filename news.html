@@ -427,7 +427,6 @@ main{
     .news-bird-space{
         width:calc(100% - 7rem);
         height:52px;
-        bottom:58px;
     }
 
     .bird{
@@ -649,8 +648,6 @@ window.addEventListener('scroll', () => {
 
     const currentScrollY = window.scrollY;
 
-    /* ---------- スマートフォン ---------- */
-
     if (window.innerWidth <= 600) {
 
         if (currentScrollY > lastScrollY) {
@@ -666,11 +663,7 @@ window.addEventListener('scroll', () => {
                 'calc(1.45rem + 1.45rem + 1.8em + 2.1rem)';
         }
 
-    }
-
-    /* ---------- PC ---------- */
-
-    else {
+    } else {
 
         if (currentScrollY > lastScrollY) {
 
@@ -693,19 +686,10 @@ window.addEventListener('scroll', () => {
 
     scrollTimer = setTimeout(() => {
 
-        /* ⭐ スクロール停止 → 本来の位置へ戻す */
+        /* ⭐ スクロールが止まったら必ず基準位置へ戻す */
 
-        if (window.innerWidth <= 600) {
-
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 2.9rem)';
-
-        } else {
-
-            birdSpace.style.top =
-                'calc(1.45rem + 1.45rem + 1.8em + 2.9rem)';
-
-        }
+        birdSpace.style.top =
+            'calc(1.45rem + 1.45rem + 1.8em + 2.9rem)';
 
     }, 350);
 
