@@ -50,15 +50,14 @@
       margin-top: 0;
     }
 
-    /* === アニメーションエリア（完全白背景） === */
+    /* === アニメーションエリア === */
     .parallax-wrapper {
       position: relative;
       width: 100%;
-      height: 300px;
+      height: 280px;
       margin-top: 30px;
       overflow: hidden;
-      background-color: #ffffff !important; /* 絶対に背景を白にする */
-      border: 1px solid #ddd;
+      background-color: #ffffff;
     }
 
     .parallax-layer {
@@ -72,29 +71,29 @@
       transition: transform 0.1s ease-out;
     }
 
-    /* 雲 */
+    /* 雲（背景の市松模様を透過消去） */
     .layer-clouds { 
       background-image: url('images/cloud.move.PNG'); 
-      background-position: center top;
+      background-position: center 10%;
       background-size: contain;
+      mix-blend-mode: multiply; /* 市松模様・白背景をコードで透明化 */
       z-index: 1; 
-      border: 2px dashed blue; /* 位置確認用の青枠 */
     }
     
-    /* 街並み */
+    /* 街並み（背景の市松模様を透過消去＆全体表示） */
     .layer-street { 
       background-image: url('images/Lineart.street.PNG'); 
       background-position: center bottom;
       background-size: contain;
+      mix-blend-mode: multiply; /* 市松模様・白背景をコードで透明化 */
       z-index: 2; 
-      border: 2px dashed red; /* 位置確認用の赤枠 */
     }
     
-    /* 鳥 */
+    /* 鳥（手前に配置） */
     .layer-bird { 
       background-image: url('images/colorfulbird.PNG'); 
-      background-size: 100px auto;
-      background-position: center 30%;
+      background-size: 90px auto;
+      background-position: center 25%;
       z-index: 3; 
     }
 
@@ -142,8 +141,8 @@
     <button class="sensor-btn" id="sensorBtn">3D効果を有効化</button>
   </div>
 
-  <div style="text-align: center; padding: 20px 0;">
-    <a href="index.html" style="color: #31556e; text-decoration: none; font-weight: bold;">← 服部医院トップへ戻る</a>
+  <div style="text-align: center; padding: 25px 0 40px 0;">
+    <a href="index.html" style="color: #31556e; text-decoration: none; font-weight: bold; background-color: #f0f4f8; padding: 10px 20px; border-radius: 20px; display: inline-block;">← 服部医院トップへ戻る</a>
   </div>
 
   <script>
