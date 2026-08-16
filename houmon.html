@@ -57,7 +57,7 @@
       height: 280px;
       margin-top: 30px;
       overflow: hidden;
-      background-color: #ffffff;
+      background-color: #ffffff !important; /* 全体の背面を白に固定 */
     }
 
     .parallax-layer {
@@ -71,25 +71,25 @@
       transition: transform 0.1s ease-out;
     }
 
-    /* 雲（背景の市松模様を透過消去） */
+    /* 雲 */
     .layer-clouds { 
       background-image: url('images/cloud.move.PNG'); 
-      background-position: center 10%;
+      background-position: center top;
       background-size: contain;
-      mix-blend-mode: multiply; /* 市松模様・白背景をコードで透明化 */
       z-index: 1; 
     }
     
-    /* 街並み（背景の市松模様を透過消去＆全体表示） */
+    /* 街並み（Lineart.second.png に更新＆白背景処理） */
     .layer-street { 
-      background-image: url('images/lineart.second.png'); 
+      background-image: url('images/Lineart.second.png'); 
       background-position: center bottom;
       background-size: contain;
-      mix-blend-mode: multiply; /* 市松模様・白背景をコードで透明化 */
+      background-color: #ffffff; /* 画像の下に白を敷いて透過時の市松模様を遮断 */
+      mix-blend-mode: multiply;  /* 画像内の擬似市松模様（グレー柄）を白と白で中和 */
       z-index: 2; 
     }
     
-    /* 鳥（手前に配置） */
+    /* 鳥 */
     .layer-bird { 
       background-image: url('images/colorfulbird.PNG'); 
       background-size: 90px auto;
