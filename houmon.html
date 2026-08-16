@@ -75,10 +75,10 @@
     .parallax-wrapper {
       position: relative;
       width: 100%;
-      height: 260px;
+      height: 280px;
       margin-top: 30px;
       overflow: hidden;
-      background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+      background-color: #ffffff; /* 背面を完全な白に指定して透過のチラつき・市松模様を防止 */
     }
 
     .parallax-layer {
@@ -87,21 +87,32 @@
       left: -5%;
       width: 110%;
       height: 110%;
-      background-position: center bottom;
       background-repeat: no-repeat;
-      background-size: contain;
       will-change: transform;
       transition: transform 0.1s ease-out;
     }
 
-    /* images/ フォルダ内の画像パス指定 */
-    .layer-clouds { background-image: url('images/cloud.move.PNG'); z-index: 1; }
-    .layer-street { background-image: url('images/Lineart.street.PNG'); z-index: 2; }
+    /* 雲（上部に配置） */
+    .layer-clouds { 
+      background-image: url('images/cloud.move.PNG'); 
+      background-position: center top;
+      background-size: contain;
+      z-index: 1; 
+    }
     
+    /* 街並み（下部に確実に固定表示） */
+    .layer-street { 
+      background-image: url('images/Lineart.street.PNG'); 
+      background-position: center bottom;
+      background-size: 100% auto; /* 橫幅いっぱいに拡大して下部に設置 */
+      z-index: 2; 
+    }
+    
+    /* 鳥（中央寄りに配置） */
     .layer-bird { 
       background-image: url('images/colorfulbird.PNG'); 
-      background-size: 110px auto;
-      background-position: center 30%;
+      background-size: 100px auto;
+      background-position: center 35%;
       z-index: 3; 
     }
 
@@ -124,7 +135,6 @@
 <body>
 
   <div class="container">
-    <!-- ページ上部の戻るボタン -->
     <nav class="nav-back">
       <a href="index.html">← 服部医院トップへ戻る</a>
       <a href="index.html#schedule">← 診療時間へ戻る</a>
@@ -151,7 +161,6 @@
     <button class="sensor-btn" id="sensorBtn">3D効果を有効化</button>
   </div>
 
-  <!-- ページ下部の戻るボタン -->
   <div class="nav-back-bottom">
     <a href="index.html">← 服部医院トップへ戻る</a>
   </div>
