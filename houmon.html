@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>訪問診療｜服部医院</title>
   <style>
-    /* 全体デザイン・レスポンシブ設定 */
     body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: #2d3748;
-      background-color: #f8fafc;
-      line-height: 1.7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background-color: #fff;
+      line-height: 1.8;
+      overflow-x: hidden;
     }
 
     .container {
@@ -22,42 +22,22 @@
       padding: 20px 16px 0 16px;
     }
 
-    /* 戻るボタンエリア */
-    .nav-back {
-      margin-bottom: 20px;
-    }
-
     .nav-back a {
-      color: #2b6cb0;
+      color: #31556e;
       text-decoration: none;
       font-size: 14px;
-      display: inline-block;
       margin-right: 15px;
-      margin-bottom: 8px;
     }
 
-    .nav-back a:hover {
-      text-decoration: underline;
-    }
-
-    /* 見出し */
     h1 {
-      color: #1a2e40;
+      color: #20384d;
       font-size: 24px;
-      border-bottom: 3px solid #2b6cb0;
+      border-bottom: 3px solid #31556e;
       padding-bottom: 8px;
-      margin-top: 10px;
-      margin-bottom: 20px;
     }
 
-    .intro-text {
-      font-size: 15px;
-      margin-bottom: 25px;
-    }
-
-    /* コンテンツボックス */
     .content-box {
-      background: #ffffff;
+      background: #f8fafc;
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 24px;
@@ -65,141 +45,52 @@
     }
 
     .content-box h2 {
-      color: #2b6cb0;
+      color: #31556e;
       font-size: 18px;
       margin-top: 0;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #edf2f7;
-      padding-bottom: 6px;
     }
 
-    .content-box ul, .content-box ol {
-      padding-left: 20px;
-      margin: 0;
-    }
-
-    .content-box li {
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    /* 対応表 */
-    .care-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-
-    .care-table th, .care-table td {
-      padding: 10px;
-      border-bottom: 1px solid #edf2f7;
-      font-size: 14px;
-      text-align: left;
-    }
-
-    .care-table th {
-      width: 35%;
-      background: #f7fafc;
-      color: #2d3748;
-      font-weight: bold;
-    }
-
-    /* お問い合わせエリア */
-    .contact-box {
-      background: #eef5fc;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      border: 1px solid #cbd5e0;
-      margin-bottom: 20px;
-    }
-
-    .contact-box h2 {
-      color: #1a2e40;
-      font-size: 18px;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-
-    .phone {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2b6cb0;
-      margin: 10px 0 4px;
-    }
-
-    .sub-text {
-      font-size: 13px;
-      color: #718096;
-      margin: 0;
-    }
-
-    /* 最下部SVGアニメーション */
-    .visiting-footer-animation {
-      width: 100%;
-      max-width: 1000px;
-      margin: 20px auto 0 auto;
-      overflow: hidden;
+    /* === 傾きで動く立体アニメーションエリア === */
+    .parallax-wrapper {
       position: relative;
-      background: linear-gradient(to bottom, rgba(238,245,252,0) 0%, rgba(238,245,252,0.6) 100%);
-    }
-
-    .visiting-svg {
       width: 100%;
-      height: auto;
-      display: block;
+      height: 300px;
+      margin-top: 30px;
+      overflow: hidden;
+      background: linear-gradient(to bottom, rgba(238,245,252,0), rgba(238,245,252,0.8));
     }
 
-    /* アニメーションのキーフレーム定義 */
-    .anim-clouds {
-      animation: cloudFloat 6s ease-in-out infinite alternate;
-    }
-    @keyframes cloudFloat {
-      0% { transform: translateX(-10px); }
-      100% { transform: translateX(10px); }
-    }
-
-    .anim-bird {
-      animation: birdFly 12s linear infinite;
-    }
-    @keyframes birdFly {
-      0% { transform: translate(900px, 40px) scale(0.8); }
-      100% { transform: translate(50px, 20px) scale(1.1); }
+    .parallax-layer {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: contain;
+      will-change: transform;
+      transition: transform 0.1s ease-out;
     }
 
-    .anim-car {
-      animation: carDrive 12s ease-in-out infinite;
-    }
-    @keyframes carDrive {
-      0% { transform: translate(950px, 245px) scale(0.7); opacity: 0; }
-      10% { opacity: 1; }
-      30% { transform: translate(130px, 265px) scale(1); }
-      75% { transform: translate(130px, 265px) scale(1); }
-      90% { opacity: 1; }
-      100% { transform: translate(-100px, 285px) scale(1.1); opacity: 0; }
-    }
+    /* アップロードいただいた画像ファイル名を反映 */
+    .layer-clouds { background-image: url('cloud.move.PNG'); z-index: 1; }
+    .layer-street { background-image: url('Lineart.street.PNG'); z-index: 2; }
+    .layer-bird   { background-image: url('images/colorfulbird.PNG'); z-index: 3; }
 
-    .anim-doctor {
-      animation: doctorWalk 12s ease-in-out infinite;
-    }
-    @keyframes doctorWalk {
-      0%, 30% { transform: translate(160px, 255px); opacity: 0; }
-      33% { opacity: 1; transform: translate(160px, 255px); }
-      40% { transform: translate(125px, 255px); opacity: 1; }
-      42% { transform: translate(125px, 255px); opacity: 0; }
-      63% { transform: translate(125px, 255px); opacity: 0; }
-      65% { transform: translate(125px, 255px); opacity: 1; }
-      72% { transform: translate(160px, 255px); opacity: 1; }
-      74%, 100% { transform: translate(160px, 255px); opacity: 0; }
-    }
-
-    #houseWindow {
-      animation: windowLight 12s ease-in-out infinite;
-    }
-    @keyframes windowLight {
-      0%, 41% { fill: none; }
-      43%, 63% { fill: #fbf0b9; }
-      65%, 100% { fill: none; }
+    /* iPhone用：傾きセンサー許可ボタン */
+    .sensor-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+      padding: 6px 12px;
+      background: rgba(49, 85, 110, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      font-size: 11px;
+      display: none;
     }
   </style>
 </head>
@@ -213,7 +104,7 @@
     </nav>
 
     <h1>訪問診療</h1>
-    <p class="intro-text">服部医院では、お一人で通院が困難な患者様のご自宅へ医師が定期的に訪問し、安心の医療をお届けします。</p>
+    <p>服部医院では、お一人で通院が困難な患者様のご自宅へ医師が定期的に訪問し、安心の医療をお届けします。</p>
 
     <section class="content-box">
       <h2>訪問診療の対象となる方</h2>
@@ -223,92 +114,55 @@
         <li>住み慣れたご自宅での療養をご希望の方</li>
       </ul>
     </section>
-
-    <section class="content-box">
-      <h2>主な診療内容</h2>
-      <table class="care-table">
-        <tr>
-          <th>定期診察</th>
-          <td>計画的な訪問診察、お薬の処方せん発行</td>
-        </tr>
-        <tr>
-          <th>各種検査</th>
-          <td>血液検査・尿検査などの在宅検査</td>
-        </tr>
-        <tr>
-          <th>医療処置</th>
-          <td>点滴、床ずれの処置、各種管理</td>
-        </tr>
-      </table>
-    </section>
-
-    <section class="contact-box">
-      <h2>ご相談・お申し込み</h2>
-      <p>まずは電話でお気軽にお問い合わせください。</p>
-      <p class="phone">📞 00-0000-0000</p>
-      <p class="sub-text">服部医院 訪問診療担当</p>
-    </section>
-
-    <nav class="nav-back">
-      <a href="index.html">← 服部医院トップへ戻る</a>
-      <a href="index.html#schedule">← 診療時間へ戻る</a>
-    </nav>
   </div>
 
-  <div class="visiting-footer-animation">
-    <svg class="visiting-svg" viewBox="0 0 1000 350" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#1a2e40" />
-          <stop offset="50%" stop-color="#2b6cb0" />
-          <stop offset="100%" stop-color="#319795" />
-        </linearGradient>
-        <linearGradient id="birdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f6ad55" />
-          <stop offset="50%" stop-color="#fc8181" />
-          <stop offset="100%" stop-color="#63b3ed" />
-        </linearGradient>
-      </defs>
-
-      <g class="anim-clouds" fill="#ffffff" opacity="0.8">
-        <path d="M120 70 Q140 50 160 70 Q180 50 200 70 Q210 90 190 100 Q110 100 120 70 Z" />
-        <path d="M450 50 Q470 30 490 50 Q510 30 530 50 Q540 70 520 80 Q440 80 450 50 Z" opacity="0.6" />
-        <path d="M780 60 Q800 40 820 60 Q840 40 860 60 Q870 80 850 90 Q770 90 780 60 Z" />
-      </g>
-
-      <g class="anim-bird">
-        <path d="M 0,0 Q 10,-10 20,-5 Q 10,5 0,0 Z" fill="url(#birdGrad)" />
-      </g>
-
-      <g stroke="url(#lineGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M 1000 280 Q 600 280 450 240 T 0 310" />
-        <path d="M 80 300 L 80 210 L 130 170 L 180 210 L 180 300 Z" />
-        <path d="M 115 300 L 115 250 L 145 250 L 145 300" />
-        <rect x="95" y="220" width="20" height="20" rx="3" id="houseWindow" fill="none" />
-        <path d="M 210 300 L 210 180 M 210 180 Q 190 220 210 260 M 210 180 Q 230 220 210 260" />
-        <path d="M 240 300 L 240 180 L 330 180 L 330 300 Z" />
-        <rect x="255" y="195" width="30" height="35" rx="2" />
-        <rect x="255" y="245" width="30" height="40" rx="2" />
-        <path d="M 350 290 L 350 230 M 350 230 C 330 210 370 210 350 230 M 350 245 C 330 235 370 235 350 245" />
-        <path d="M 380 280 L 380 220 L 460 190 L 460 280 Z" />
-        <path d="M 500 260 L 500 210 L 570 180 L 570 260 Z" />
-      </g>
-
-      <g class="anim-car" stroke="url(#lineGrad)" stroke-width="2" fill="#ffffff">
-        <path d="M 0 15 Q 10 0 25 0 L 45 0 Q 60 10 70 15 L 75 25 Q 75 30 70 30 L 0 30 Z" />
-        <circle cx="15" cy="30" r="7" fill="#1a2e40" />
-        <circle cx="55" cy="30" r="7" fill="#1a2e40" />
-        <path d="M 33 10 L 37 10 M 35 8 L 35 12" stroke="#2b6cb0" stroke-width="2" />
-      </g>
-
-      <g class="anim-doctor" stroke="url(#lineGrad)" stroke-width="2" fill="#ffffff">
-        <circle cx="6" cy="6" r="5" />
-        <path d="M 6 11 L 6 25 M 6 16 L 0 20 M 6 16 L 12 20 M 2 25 L 2 35 M 10 25 L 10 35" />
-        <rect x="11" y="18" width="6" height="5" rx="1" fill="#2b6cb0" />
-      </g>
-    </svg>
+  <!-- 立体パララックス・ビジュアルエリア -->
+  <div class="parallax-wrapper" id="parallaxArea">
+    <div class="parallax-layer layer-clouds" id="lClouds"></div>
+    <div class="parallax-layer layer-street" id="lStreet"></div>
+    <div class="parallax-layer layer-bird"   id="lBird"></div>
+    <button class="sensor-btn" id="sensorBtn">3D効果を有効化</button>
   </div>
+
+  <script>
+    const lClouds = document.getElementById('lClouds');
+    const lStreet = document.getElementById('lStreet');
+    const lBird   = document.getElementById('lBird');
+    const btn     = document.getElementById('sensorBtn');
+
+    // 移動スピードの調整（手前ほど大きく動く）
+    const S_CLOUDS = 8;   // 雲（奥）
+    const S_STREET = 20;  // 街並み（中）
+    const S_BIRD   = 40;  // 鳥（手前）
+
+    function applyMove(x, y) {
+      lClouds.style.transform = `translate3d(${x * S_CLOUDS}px, ${y * S_CLOUDS}px, 0)`;
+      lStreet.style.transform = `translate3d(${x * S_STREET}px, ${y * S_STREET}px, 0)`;
+      lBird.style.transform   = `translate3d(${x * S_BIRD}px, ${y * S_BIRD}px, 0)`;
+    }
+
+    // スマホの傾き検知
+    function handleMotion(event) {
+      const x = Math.min(Math.max((event.gamma || 0) / 30, -1), 1);
+      const y = Math.min(Math.max(((event.beta || 0) - 45) / 30, -1), 1);
+      applyMove(x, y);
+    }
+
+    // iOS 13+ Safariのセンサー許可対応
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      btn.style.display = 'block';
+      btn.addEventListener('click', () => {
+        DeviceOrientationEvent.requestPermission().then(res => {
+          if (res === 'granted') {
+            window.addEventListener('deviceorientation', handleMotion);
+            btn.style.display = 'none';
+          }
+        });
+      });
+    } else if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleMotion);
+    }
+  </script>
 
 </body>
-
 </html>
