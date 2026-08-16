@@ -22,11 +22,32 @@
       padding: 20px 16px 0 16px;
     }
 
+    .nav-back {
+      margin-bottom: 15px;
+    }
+
     .nav-back a {
       color: #31556e;
       text-decoration: none;
       font-size: 14px;
       margin-right: 15px;
+      display: inline-block;
+    }
+
+    .nav-back-bottom {
+      text-align: center;
+      padding: 25px 0 40px 0;
+    }
+
+    .nav-back-bottom a {
+      color: #31556e;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: bold;
+      background-color: #f0f4f8;
+      padding: 10px 20px;
+      border-radius: 20px;
+      display: inline-block;
     }
 
     h1 {
@@ -50,22 +71,22 @@
       margin-top: 0;
     }
 
-    /* === 傾きで動く立体アニメーションエリア === */
+    /* === アニメーションエリア === */
     .parallax-wrapper {
       position: relative;
       width: 100%;
-      height: 300px;
+      height: 260px;
       margin-top: 30px;
       overflow: hidden;
-      background: linear-gradient(to bottom, rgba(238,245,252,0), rgba(238,245,252,0.8));
+      background: linear-gradient(to bottom, #f0f4f8, #ffffff);
     }
 
     .parallax-layer {
       position: absolute;
-      top: -10%;
-      left: -10%;
-      width: 120%;
-      height: 120%;
+      top: -5%;
+      left: -5%;
+      width: 110%;
+      height: 110%;
       background-position: center bottom;
       background-repeat: no-repeat;
       background-size: contain;
@@ -73,12 +94,17 @@
       transition: transform 0.1s ease-out;
     }
 
-    /* アップロードいただいた画像ファイル名を反映 */
-    .layer-clouds { background-image: url('cloud.move.PNG'); z-index: 1; }
-    .layer-street { background-image: url('Lineart.street.PNG'); z-index: 2; }
-    .layer-bird   { background-image: url('images/colorfulbird.PNG'); z-index: 3; }
+    /* images/ フォルダ内の画像パス指定 */
+    .layer-clouds { background-image: url('images/cloud.move.PNG'); z-index: 1; }
+    .layer-street { background-image: url('images/Lineart.street.PNG'); z-index: 2; }
+    
+    .layer-bird { 
+      background-image: url('images/colorfulbird.PNG'); 
+      background-size: 110px auto;
+      background-position: center 30%;
+      z-index: 3; 
+    }
 
-    /* iPhone用：傾きセンサー許可ボタン */
     .sensor-btn {
       position: absolute;
       bottom: 10px;
@@ -98,6 +124,7 @@
 <body>
 
   <div class="container">
+    <!-- ページ上部の戻るボタン -->
     <nav class="nav-back">
       <a href="index.html">← 服部医院トップへ戻る</a>
       <a href="index.html#schedule">← 診療時間へ戻る</a>
@@ -116,12 +143,17 @@
     </section>
   </div>
 
-  <!-- 立体パララックス・ビジュアルエリア -->
+  <!-- 3Dアニメーションエリア -->
   <div class="parallax-wrapper" id="parallaxArea">
     <div class="parallax-layer layer-clouds" id="lClouds"></div>
     <div class="parallax-layer layer-street" id="lStreet"></div>
     <div class="parallax-layer layer-bird"   id="lBird"></div>
     <button class="sensor-btn" id="sensorBtn">3D効果を有効化</button>
+  </div>
+
+  <!-- ページ下部の戻るボタン -->
+  <div class="nav-back-bottom">
+    <a href="index.html">← 服部医院トップへ戻る</a>
   </div>
 
   <script>
@@ -130,10 +162,9 @@
     const lBird   = document.getElementById('lBird');
     const btn     = document.getElementById('sensorBtn');
 
-    // 移動スピードの調整（手前ほど大きく動く）
-    const S_CLOUDS = 8;   // 雲（奥）
-    const S_STREET = 20;  // 街並み（中）
-    const S_BIRD   = 40;  // 鳥（手前）
+    const S_CLOUDS = 6;   
+    const S_STREET = 15;  
+    const S_BIRD   = 30;  
 
     function applyMove(x, y) {
       lClouds.style.transform = `translate3d(${x * S_CLOUDS}px, ${y * S_CLOUDS}px, 0)`;
@@ -141,14 +172,12 @@
       lBird.style.transform   = `translate3d(${x * S_BIRD}px, ${y * S_BIRD}px, 0)`;
     }
 
-    // スマホの傾き検知
     function handleMotion(event) {
       const x = Math.min(Math.max((event.gamma || 0) / 30, -1), 1);
       const y = Math.min(Math.max(((event.beta || 0) - 45) / 30, -1), 1);
       applyMove(x, y);
     }
 
-    // iOS 13+ Safariのセンサー許可対応
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
       btn.style.display = 'block';
       btn.addEventListener('click', () => {
