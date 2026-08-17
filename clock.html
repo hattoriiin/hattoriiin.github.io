@@ -615,20 +615,26 @@ body{
 <!-- ==================================================
      ⭐ 外来診療グラデーション
 
-     時計中心から外側へ向かう
-     radialGradient。
+     radialGradient の方向：
 
-     これにより、
+     0%   = 内周
+     100% = 外周
 
-     外側
-       ↓
-     白っぽい艶
-       ↓
-     青
-       ↓
-     青
+     今回の見た目：
 
-     という「帯の幅方向」の表現になる。
+     外周
+     │ 濃い
+     │ やや濃い
+     │
+     │ 白い抜け
+     │
+     │ 中間よりやや濃い
+     │ 中間
+     │ 薄い
+     内周
+
+     したがって stop は
+     内周 → 外周の順番で記述する。
 ================================================== -->
 
 <radialGradient
@@ -639,31 +645,65 @@ body{
     gradientUnits="userSpaceOnUse"
 >
 
-    <!-- 内側 -->
-
+    <!-- 内周：薄い -->
     <stop
         offset="0%"
-        stop-color="#3d8bdc"
-        stop-opacity=".80"
+        stop-color="#a9d5f7"
+        stop-opacity=".45"
     />
 
+    <!-- 中間 -->
     <stop
-        offset="70%"
-        stop-color="#3d8bdc"
+        offset="18%"
+        stop-color="#70afe8"
+        stop-opacity=".60"
+    />
+
+    <!-- 中間よりやや濃い -->
+    <stop
+        offset="32%"
+        stop-color="#4f98dd"
         stop-opacity=".72"
     />
 
-    <!-- 外側へ向かって白く -->
-
+    <!-- ⭐ 白へ抜け始める -->
     <stop
-        offset="88%"
-        stop-color="#8fc7ff"
-        stop-opacity=".55"
+        offset="40%"
+        stop-color="#ffffff"
+        stop-opacity=".35"
+    />
+
+    <!-- ⭐ 白い抜け -->
+    <stop
+        offset="48%"
+        stop-color="#ffffff"
+        stop-opacity=".95"
     />
 
     <stop
-        offset="100%"
+        offset="54%"
         stop-color="#ffffff"
+        stop-opacity=".95"
+    />
+
+    <!-- ⭐ 白から色へ戻る -->
+    <stop
+        offset="62%"
+        stop-color="#4d97df"
+        stop-opacity=".78"
+    />
+
+    <!-- やや濃い -->
+    <stop
+        offset="78%"
+        stop-color="#4d97df"
+        stop-opacity=".88"
+    />
+
+    <!-- 外周：濃い -->
+    <stop
+        offset="100%"
+        stop-color="#3d8bdc"
         stop-opacity=".95"
     />
 
@@ -673,17 +713,25 @@ body{
 <!-- ==================================================
      ⭐ 訪問診療グラデーション
 
-     外側
-       ↓
-     緑
-       ↓
-     緑
-       ↓
-     白っぽい艶
-       ↓
-     内側
+     radialGradient の方向：
 
-     外来とは逆方向。
+     0%   = 内周
+     100% = 外周
+
+     今回の見た目：
+
+     外周
+     │ 薄い
+     │ 中間
+     │ 中間よりやや濃い
+     │
+     │ 白い抜け
+     │
+     │ やや濃い
+     │ 濃い
+     内周
+
+     外来とは濃淡を逆にする。
 ================================================== -->
 
 <radialGradient
@@ -694,38 +742,69 @@ body{
     gradientUnits="userSpaceOnUse"
 >
 
-    <!-- 中心側＝白 -->
-
+    <!-- 内周：濃い -->
     <stop
         offset="0%"
+        stop-color="#4f8f32"
+        stop-opacity=".90"
+    />
+
+    <!-- やや濃い -->
+    <stop
+        offset="22%"
+        stop-color="#70ad47"
+        stop-opacity=".82"
+    />
+
+    <!-- ⭐ 白へ抜け始める -->
+    <stop
+        offset="40%"
+        stop-color="#ffffff"
+        stop-opacity=".35"
+    />
+
+    <!-- ⭐ 白い抜け -->
+    <stop
+        offset="48%"
         stop-color="#ffffff"
         stop-opacity=".95"
     />
 
     <stop
-        offset="28%"
-        stop-color="#b7e88a"
-        stop-opacity=".58"
+        offset="54%"
+        stop-color="#ffffff"
+        stop-opacity=".95"
     />
 
-    <!-- 外側＝緑 -->
-
+    <!-- ⭐ 白から色へ戻る -->
     <stop
         offset="62%"
         stop-color="#70ad47"
         stop-opacity=".78"
     />
 
+    <!-- 中間よりやや濃い -->
+    <stop
+        offset="72%"
+        stop-color="#70ad47"
+        stop-opacity=".72"
+    />
+
+    <!-- 中間 -->
+    <stop
+        offset="84%"
+        stop-color="#8fc76b"
+        stop-opacity=".58"
+    />
+
+    <!-- 外周：薄い -->
     <stop
         offset="100%"
-        stop-color="#70ad47"
-        stop-opacity=".82"
+        stop-color="#b8df9d"
+        stop-opacity=".45"
     />
 
 </radialGradient>
-
-
-</defs>
 
 
 <!-- ==================================================
