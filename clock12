@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Clock</title>
+
+<style>
+
+/* =========================
+   全体
+========================= */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f5f5f5;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        sans-serif;
+}
+
+
+/* =========================
+   時計
+========================= */
+
+.clock{
+
+    position:relative;
+
+    width:min(82vw,420px);
+
+    aspect-ratio:1;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    border:1px solid #dddddd;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.08);
+
+}
+
+
+/* =========================
+   数字
+========================= */
+
+.number{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    font-size:1.1rem;
+
+    font-weight:400;
+
+    color:#222;
+
+    transform:
+        translate(-50%,-50%);
+
+}
+
+
+/* 12 */
+
+.n12{
+    transform:
+        translate(-50%,-50%)
+        translateY(-170px);
+}
+
+
+/* 1 */
+
+.n1{
+    transform:
+        translate(-50%,-50%)
+        translate(85px,-147px);
+}
+
+
+/* 2 */
+
+.n2{
+    transform:
+        translate(-50%,-50%)
+        translate(147px,-85px);
+}
+
+
+/* 3 */
+
+.n3{
+    transform:
+        translate(-50%,-50%)
+        translateX(170px);
+}
+
+
+/* 4 */
+
+.n4{
+    transform:
+        translate(-50%,-50%)
+        translate(147px,85px);
+}
+
+
+/* 5 */
+
+.n5{
+    transform:
+        translate(-50%,-50%)
+        translate(85px,147px);
+}
+
+
+/* 6 */
+
+.n6{
+    transform:
+        translate(-50%,-50%)
+        translateY(170px);
+}
+
+
+/* 7 */
+
+.n7{
+    transform:
+        translate(-50%,-50%)
+        translate(-85px,147px);
+}
+
+
+/* 8 */
+
+.n8{
+    transform:
+        translate(-50%,-50%)
+        translate(-147px,85px);
+}
+
+
+/* 9 */
+
+.n9{
+    transform:
+        translate(-50%,-50%)
+        translateX(-170px);
+}
+
+
+/* 10 */
+
+.n10{
+    transform:
+        translate(-50%,-50%)
+        translate(-147px,-85px);
+}
+
+
+/* 11 */
+
+.n11{
+    transform:
+        translate(-50%,-50%)
+        translate(-85px,-147px);
+}
+
+
+/* =========================
+   針
+========================= */
+
+.hand{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform-origin:
+        50% 100%;
+
+    border-radius:10px;
+
+}
+
+
+/* 時針 */
+
+.hour{
+
+    width:7px;
+
+    height:25%;
+
+    margin-left:-3.5px;
+
+    margin-top:-25%;
+
+    background:#222;
+
+}
+
+
+/* 分針 */
+
+.minute{
+
+    width:4px;
+
+    height:34%;
+
+    margin-left:-2px;
+
+    margin-top:-34%;
+
+    background:#222;
+
+}
+
+
+/* 秒針 */
+
+.second{
+
+    width:2px;
+
+    height:40%;
+
+    margin-left:-1px;
+
+    margin-top:-40%;
+
+    background:#777;
+
+}
+
+
+/* =========================
+   中央
+========================= */
+
+.center{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:12px;
+    height:12px;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#222;
+
+    z-index:10;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="clock">
+
+
+    <!-- 数字 -->
+
+    <div class="number n12">12</div>
+
+    <div class="number n1">1</div>
+
+    <div class="number n2">2</div>
+
+    <div class="number n3">3</div>
+
+    <div class="number n4">4</div>
+
+    <div class="number n5">5</div>
+
+    <div class="number n6">6</div>
+
+    <div class="number n7">7</div>
+
+    <div class="number n8">8</div>
+
+    <div class="number n9">9</div>
+
+    <div class="number n10">10</div>
+
+    <div class="number n11">11</div>
+
+
+    <!-- 針 -->
+
+    <div class="hand hour"></div>
+
+    <div class="hand minute"></div>
+
+    <div class="hand second"></div>
+
+
+    <!-- 中央 -->
+
+    <div class="center"></div>
+
+
+</div>
+
+
+</body>
+
+</html>
