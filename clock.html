@@ -5,17 +5,18 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>診療時間｜服部医院</title>
 
-
 <style>
 
-/* =================================
+/* ==================================================
    全体
-================================= */
+================================================== */
 
 *{
     box-sizing:border-box;
@@ -27,19 +28,11 @@ body{
 
     min-height:100vh;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:30px 15px;
-
     background:
         radial-gradient(
             circle at 50% 35%,
-            rgba(220,240,230,.7),
-            transparent 45%
+            rgba(220,240,230,.72),
+            transparent 48%
         ),
         linear-gradient(
             180deg,
@@ -48,65 +41,69 @@ body{
         );
 
     font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Helvetica Neue",
         "Noto Sans JP",
         sans-serif;
 
     color:#40504a;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:25px 15px;
+
 }
 
 
-/* =================================
+/* ==================================================
    ページ
-================================= */
+================================================== */
 
 .clock-page{
 
-    width:min(94vw,600px);
+    width:min(94vw,650px);
 
     text-align:center;
 
 }
 
 
-/* =================================
+/* ==================================================
    タイトル
-================================= */
+================================================== */
 
 .title{
 
-    font-size:1.15rem;
+    font-size:1.25rem;
 
     letter-spacing:.18em;
 
-    margin-bottom:6px;
+    margin-bottom:7px;
 
 }
 
 .subtitle{
 
-    font-size:.78rem;
+    font-size:.75rem;
 
-    letter-spacing:.12em;
+    letter-spacing:.14em;
 
     color:#81908a;
 
-    margin-bottom:25px;
+    margin-bottom:22px;
 
 }
 
 
-/* =================================
+/* ==================================================
    時計本体
-================================= */
+================================================== */
 
 .clock{
 
     position:relative;
 
-    width:min(88vw,500px);
+    width:min(88vw,520px);
 
     aspect-ratio:1;
 
@@ -114,280 +111,277 @@ body{
 
     border-radius:50%;
 
-    background:#fff;
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.98) 0%,
+            rgba(252,254,253,.97) 62%,
+            rgba(236,244,239,.96) 100%
+        );
 
     box-shadow:
 
-        0 20px 60px
-        rgba(70,100,85,.12),
+        0 22px 65px
+        rgba(70,100,85,.14),
 
         inset 0 0 0 1px
-        rgba(120,150,135,.14);
+        rgba(100,130,115,.12);
 
 }
 
 
-/* =================================
-   診療時間リング
-================================= */
+/* ==================================================
+   診療時間の円周
+================================================== */
+
+/*
+   12時を0度として時計回り
+
+   12 →   0°
+    3 →  90°
+    6 → 180°
+    9 → 270°
+
+   外来
+   9:00  → 12:00
+   270°  → 360°
+
+   訪問
+   13:30 → 17:00
+    45°  → 150°
+
+   外来
+   17:30 → 19:30
+   165°  → 225°
+*/
 
 .time-ring{
 
     position:absolute;
 
-    left:4%;
+    inset:5.5%;
 
-    top:4%;
-
-    width:92%;
-
-    height:92%;
-
-    z-index:2;
+    border-radius:50%;
 
 }
 
 
-/*
-   3本とも同じ円。
+/* --------------------------------------------------
+   帯そのもの
 
-   中心：
-   50 / 50
+   SVGを使っているので、
+   位置がズレにくい。
+-------------------------------------------------- */
 
-   半径：
-   43
+.time-ring svg{
 
-   これで帯の中心は
-   時計の中心からズレない。
-*/
+    display:block;
 
-.time-arc{
+    width:100%;
+    height:100%;
+
+    overflow:visible;
+
+}
+
+
+/* ==================================================
+   帯
+================================================== */
+
+.time-band{
 
     fill:none;
 
-    stroke-width:7;
+    stroke-linecap:round;
 
-    stroke-linecap:butt;
+    stroke-width:18;
 
 }
 
 
-/* =================================
-   診療時間の色
-================================= */
+/* 🔵 外来診療 */
 
-/*
-   外来診療
-   青
-
-   午前診・午後診は同じ色
-   透明度 約35%
-*/
-
-.morning-arc,
-.afternoon-arc{
+.outpatient-band{
 
     stroke:
         rgba(
-            155,
-            200,
-            176,
+            61,
+            139,
+            220,
             .35
         );
 
 }
 
 
-/*
-   訪問診療
-   緑系
-   透明度 約35%
-*/
+/* 🟢 訪問診療 */
 
-.visit-arc{
+.visit-band{
 
     stroke:
         rgba(
-            183,
-            214,
-            196,
+            112,
+            173,
+            71,
             .35
         );
 
 }
 
 
-/* =================================
-   時計の数字
-================================= */
+/* ==================================================
+   文字盤
+================================================== */
+
+.dial{
+
+    position:absolute;
+
+    inset:13%;
+
+    border-radius:50%;
+
+}
+
+
+/* ==================================================
+   数字
+================================================== */
 
 .number{
 
     position:absolute;
 
     left:50%;
-
     top:50%;
-
-    z-index:5;
 
     transform:
         translate(-50%,-50%);
 
+    color:#4e5d56;
+
+    /*
+       少しクラシックな雰囲気
+       大きめの数字
+    */
+
     font-family:
-        Georgia,
+
+        "Bodoni 72",
+        "Bodoni MT",
+        "Didot",
         "Times New Roman",
         serif;
 
-    font-size:1.7rem;
+    font-size:1.9rem;
 
-    font-weight:500;
+    font-weight:400;
 
-    color:#303a36;
+    line-height:1;
 
 }
 
 
-/* =================================
+/* --------------------------------------------------
    数字の位置
-================================= */
+-------------------------------------------------- */
 
 .n12{
+
     left:50%;
-    top:8%;
+    top:3%;
+
 }
 
 .n1{
-    left:71%;
-    top:11%;
+
+    left:70%;
+    top:8%;
+
 }
 
 .n2{
-    left:87%;
-    top:26%;
+
+    left:86%;
+    top:25%;
+
 }
 
 .n3{
-    left:92%;
+
+    left:97%;
     top:50%;
+
 }
 
 .n4{
-    left:87%;
-    top:74%;
+
+    left:86%;
+    top:75%;
+
 }
 
 .n5{
-    left:71%;
-    top:89%;
+
+    left:70%;
+    top:92%;
+
 }
 
 .n6{
+
     left:50%;
-    top:92%;
+    top:97%;
+
 }
 
 .n7{
-    left:29%;
-    top:89%;
+
+    left:30%;
+    top:92%;
+
 }
 
 .n8{
-    left:13%;
-    top:74%;
+
+    left:14%;
+    top:75%;
+
 }
 
 .n9{
-    left:8%;
+
+    left:3%;
     top:50%;
+
 }
 
 .n10{
-    left:13%;
-    top:26%;
+
+    left:14%;
+    top:25%;
+
 }
 
 .n11{
-    left:29%;
-    top:11%;
-}
 
-
-/* =================================
-   診療時間ラベル
-================================= */
-
-.service-label{
-
-    position:absolute;
-
-    z-index:6;
-
-    font-size:.72rem;
-
-    letter-spacing:.08em;
-
-    color:#62736b;
-
-    background:
-        rgba(255,255,255,.90);
-
-    padding:5px 9px;
-
-    border-radius:20px;
-
-    white-space:nowrap;
-
-    box-shadow:
-        0 3px 12px
-        rgba(70,100,85,.08);
+    left:30%;
+    top:8%;
 
 }
 
 
-/* 午前診 */
-
-.morning{
-
-    left:12%;
-
-    top:38%;
-
-}
-
-
-/* 訪問診療 */
-
-.visit{
-
-    right:9%;
-
-    top:30%;
-
-}
-
-
-/* 午後診 */
-
-.afternoon{
-
-    right:13%;
-
-    bottom:30%;
-
-}
-
-
-/* =================================
-   時計の針
-================================= */
+/* ==================================================
+   針
+================================================== */
 
 .hand{
 
     position:absolute;
 
     left:50%;
-
     top:50%;
 
     transform-origin:
@@ -400,163 +394,366 @@ body{
 }
 
 
-/* 時針 */
+/* ==================================================
+   時針
+================================================== */
 
 .hour{
 
-    width:7px;
+    width:8px;
 
-    height:25%;
+    height:23%;
 
-    margin-left:-3.5px;
+    margin-left:-4px;
 
-    margin-top:-25%;
+    margin-top:-23%;
 
     background:#53645d;
 
 }
 
 
-/* 分針 */
+/* ==================================================
+   分針
+================================================== */
 
 .minute{
 
-    width:4px;
+    width:5px;
 
-    height:34%;
+    height:32%;
 
-    margin-left:-2px;
+    margin-left:-2.5px;
 
-    margin-top:-34%;
+    margin-top:-32%;
 
     background:#53645d;
 
 }
 
 
-/* 秒針 */
+/* ==================================================
+   秒針
+================================================== */
 
 .second{
 
     width:2px;
 
-    height:39%;
+    height:38%;
 
     margin-left:-1px;
 
-    margin-top:-39%;
+    margin-top:-38%;
 
-    background:#87b69d;
+    background:#78a991;
 
 }
 
 
-/* =================================
-   時計中央
-================================= */
+/* ==================================================
+   中央
+================================================== */
 
 .center{
 
     position:absolute;
 
     left:50%;
-
     top:50%;
 
-    width:13px;
-
-    height:13px;
+    width:14px;
+    height:14px;
 
     transform:
         translate(-50%,-50%);
 
-    border-radius:50%;
-
     background:#53645d;
+
+    border-radius:50%;
 
     z-index:20;
 
     box-shadow:
+
         0 0 0 4px
         rgba(255,255,255,.85);
 
 }
 
 
-/* =================================
+/* ==================================================
+   診療時間ラベル
+================================================== */
+
+.label{
+
+    position:absolute;
+
+    z-index:5;
+
+    font-size:.72rem;
+
+    letter-spacing:.04em;
+
+    color:#5d6d66;
+
+    background:
+        rgba(255,255,255,.82);
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(70,100,85,.08);
+
+    white-space:nowrap;
+
+}
+
+
+/* 外来 午前 */
+
+.outpatient1{
+
+    left:8%;
+
+    top:34%;
+
+}
+
+
+/* 訪問 */
+
+.visit{
+
+    right:3%;
+
+    top:24%;
+
+}
+
+
+/* 外来 午後 */
+
+.outpatient2{
+
+    right:7%;
+
+    bottom:28%;
+
+}
+
+
+/* ==================================================
+   現在時刻
+================================================== */
+
+.status{
+
+    margin-top:25px;
+
+    min-height:68px;
+
+}
+
+
+.current-time{
+
+    font-size:1.65rem;
+
+    letter-spacing:.08em;
+
+    color:#465750;
+
+}
+
+
+.current-status{
+
+    margin-top:6px;
+
+    font-size:.82rem;
+
+    letter-spacing:.12em;
+
+    color:#789086;
+
+}
+
+
+/* ==================================================
+   凡例
+================================================== */
+
+.legend{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:22px;
+
+    margin-top:17px;
+
+    font-size:.72rem;
+
+    color:#718078;
+
+}
+
+
+.legend-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+
+.dot{
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+}
+
+
+.outpatient-dot{
+
+    background:
+        rgba(
+            61,
+            139,
+            220,
+            .35
+        );
+
+}
+
+
+.visit-dot{
+
+    background:
+        rgba(
+            112,
+            173,
+            71,
+            .35
+        );
+
+}
+
+
+/* ==================================================
    スマートフォン
-================================= */
+================================================== */
 
 @media(max-width:600px){
 
     .clock{
 
-        width:88vw;
+        width:90vw;
 
     }
 
 
     .number{
 
-        font-size:1.55rem;
+        font-size:1.65rem;
 
     }
 
 
-    .time-ring{
+    .time-band{
 
-        left:5%;
-
-        top:5%;
-
-        width:90%;
-
-        height:90%;
+        stroke-width:16;
 
     }
 
 
-    .time-arc{
+    .label{
 
-        stroke-width:6;
-
-    }
-
-
-    .service-label{
-
-        font-size:.62rem;
+        font-size:.61rem;
 
         padding:4px 7px;
 
     }
 
 
-    .morning{
+    .outpatient1{
 
-        left:7%;
+        left:2%;
 
-        top:38%;
+        top:34%;
 
     }
 
 
     .visit{
 
-        right:5%;
+        right:1%;
 
-        top:30%;
+        top:23%;
+
+    }
+
+
+    .outpatient2{
+
+        right:2%;
+
+        bottom:27%;
 
     }
 
 
-    .afternoon{
+    .current-time{
 
-        right:7%;
-
-        bottom:29%;
+        font-size:1.45rem;
 
     }
+
+}
+
+
+/* ==================================================
+   さらに小さい画面
+================================================== */
+
+@media(max-width:380px){
+
+    .number{
+
+        font-size:1.45rem;
+
+    }
+
+    .label{
+
+        font-size:.55rem;
+
+        padding:3px 6px;
+
+    }
+
+}
+
+
+/* ==================================================
+   クリック等を邪魔しない
+================================================== */
+
+.time-ring{
+
+    pointer-events:none;
 
 }
 
@@ -584,132 +781,144 @@ body{
     <div class="clock">
 
 
-        <!-- =================================
-             診療時間の円周
-        ================================== -->
+        <!-- ======================================
+             診療時間帯
+        ======================================= -->
 
-        <svg
-            class="time-ring"
-            viewBox="0 0 100 100"
-            aria-hidden="true">
+        <div class="time-ring">
 
+            <svg
+                viewBox="0 0 100 100"
+                aria-hidden="true"
+            >
 
-            <!-- 午前診
-                 9:00〜12:00 -->
+                <!-- 🔵 外来 9:00 → 12:00 -->
 
-            <circle
-                id="morningArc"
-                class="time-arc morning-arc"
-                cx="50"
-                cy="50"
-                r="43"
-                transform="rotate(-90 50 50)">
-            </circle>
-
-
-            <!-- 訪問診療
-                 13:30〜17:00
-                 ↓
-                 12時間表示では
-                 1:30〜5:00 -->
-
-            <circle
-                id="visitArc"
-                class="time-arc visit-arc"
-                cx="50"
-                cy="50"
-                r="43"
-                transform="rotate(-90 50 50)">
-            </circle>
+                <path
+                    class="time-band outpatient-band"
+                    d="
+                    M 50 50
+                    m 0 -44
+                    A 44 44 0 0 0 50 94
+                    "
+                    pathLength="360"
+                    stroke-dasharray="90 270"
+                    stroke-dashoffset="270"
+                />
 
 
-            <!-- 午後診
-                 17:30〜19:30
-                 ↓
-                 12時間表示では
-                 5:30〜7:30 -->
+                <!-- 🟢 訪問 13:30 → 17:00 -->
 
-            <circle
-                id="afternoonArc"
-                class="time-arc afternoon-arc"
-                cx="50"
-                cy="50"
-                r="43"
-                transform="rotate(-90 50 50)">
-            </circle>
-
-
-        </svg>
+                <path
+                    class="time-band visit-band"
+                    d="
+                    M 50 50
+                    m 0 -44
+                    A 44 44 0 0 1 50 94
+                    "
+                    pathLength="360"
+                    stroke-dasharray="105 255"
+                    stroke-dashoffset="-45"
+                />
 
 
-        <!-- =================================
-             時計の数字
-        ================================== -->
+                <!-- 🔵 外来 17:30 → 19:30 -->
 
-        <div class="number n12">12</div>
+                <path
+                    class="time-band outpatient-band"
+                    d="
+                    M 50 50
+                    m 0 -44
+                    A 44 44 0 0 1 50 94
+                    "
+                    pathLength="360"
+                    stroke-dasharray="60 300"
+                    stroke-dashoffset="-165"
+                />
 
-        <div class="number n1">1</div>
+            </svg>
 
-        <div class="number n2">2</div>
-
-        <div class="number n3">3</div>
-
-        <div class="number n4">4</div>
-
-        <div class="number n5">5</div>
-
-        <div class="number n6">6</div>
-
-        <div class="number n7">7</div>
-
-        <div class="number n8">8</div>
-
-        <div class="number n9">9</div>
-
-        <div class="number n10">10</div>
-
-        <div class="number n11">11</div>
+        </div>
 
 
-        <!-- =================================
+        <!-- ======================================
+             文字盤
+        ======================================= -->
+
+        <div class="dial">
+
+            <div class="number n12">12</div>
+
+            <div class="number n1">1</div>
+
+            <div class="number n2">2</div>
+
+            <div class="number n3">3</div>
+
+            <div class="number n4">4</div>
+
+            <div class="number n5">5</div>
+
+            <div class="number n6">6</div>
+
+            <div class="number n7">7</div>
+
+            <div class="number n8">8</div>
+
+            <div class="number n9">9</div>
+
+            <div class="number n10">10</div>
+
+            <div class="number n11">11</div>
+
+        </div>
+
+
+        <!-- ======================================
              診療時間ラベル
-        ================================== -->
+        ======================================= -->
 
-        <div class="service-label morning">
-            午前診
+        <div class="label outpatient1">
+
+            外来　9:00〜12:00
+
         </div>
 
 
-        <div class="service-label visit">
-            訪問診療
+        <div class="label visit">
+
+            訪問診療　13:30〜17:00
+
         </div>
 
 
-        <div class="service-label afternoon">
-            午後診
+        <div class="label outpatient2">
+
+            外来　17:30〜19:30
+
         </div>
 
 
-        <!-- =================================
+        <!-- ======================================
              時計の針
-        ================================== -->
+        ======================================= -->
 
         <div
             class="hand hour"
-            id="hourHand">
-        </div>
+            id="hourHand"
+        ></div>
 
 
         <div
             class="hand minute"
-            id="minuteHand">
-        </div>
+            id="minuteHand"
+        ></div>
 
 
         <div
             class="hand second"
-            id="secondHand">
-        </div>
+            id="secondHand"
+        ></div>
 
 
         <div class="center"></div>
@@ -717,219 +926,123 @@ body{
 
     </div>
 
+
+    <!-- ==========================================
+         現在時刻
+    =========================================== -->
+
+    <div class="status">
+
+        <div
+            class="current-time"
+            id="currentTime"
+        >
+            --:--:--
+        </div>
+
+
+        <div
+            class="current-status"
+            id="currentStatus"
+        >
+            --
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         凡例
+    =========================================== -->
+
+    <div class="legend">
+
+        <div class="legend-item">
+
+            <span
+                class="dot outpatient-dot"
+            ></span>
+
+            外来診療
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <span
+                class="dot visit-dot"
+            ></span>
+
+            訪問診療
+
+        </div>
+
+    </div>
+
+
 </div>
 
 
 <script>
 
-/* =================================
-   円周の長さ
-================================= */
-
-const radius = 43;
-
-const circumference =
-    2 * Math.PI * radius;
-
-
-/* =================================
-   診療時間の帯を設定
-================================= */
-
-function setArc(
-    id,
-    startHour,
-    startMinute,
-    endHour,
-    endMinute
-){
-
-    /*
-       12時間時計として計算
-
-       1時間 = 円周の1/12
-    */
-
-    const start =
-        startHour +
-        startMinute / 60;
-
-
-    const end =
-        endHour +
-        endMinute / 60;
-
-
-    const duration =
-        end - start;
-
-
-    /*
-       表示する帯の長さ
-    */
-
-    const visibleLength =
-        circumference *
-        duration /
-        12;
-
-
-    /*
-       開始位置
-    */
-
-    const startOffset =
-        circumference *
-        start /
-        12;
-
-
-    const circle =
-        document.getElementById(id);
-
-
-    /*
-       帯部分 + 残り
-    */
-
-    circle.style.strokeDasharray =
-        visibleLength +
-        " " +
-        (circumference - visibleLength);
-
-
-    /*
-       円周上の開始位置
-    */
-
-    circle.style.strokeDashoffset =
-        -startOffset;
-
-}
-
-
-/* =================================
-   午前診
-   9:00 → 12:00
-================================= */
-
-setArc(
-    "morningArc",
-    9,
-    0,
-    12,
-    0
-);
-
-
-/* =================================
-   訪問診療
-   13:30 → 17:00
-
-   12時間表示
-   1:30 → 5:00
-================================= */
-
-setArc(
-    "visitArc",
-    1,
-    30,
-    5,
-    0
-);
-
-
-/* =================================
-   午後診
-   17:30 → 19:30
-
-   12時間表示
-   5:30 → 7:30
-================================= */
-
-setArc(
-    "afternoonArc",
-    5,
-    30,
-    7,
-    30
-);
-
-
-/* =================================
-   現在時刻に合わせて針を動かす
-================================= */
+/* ==================================================
+   時計
+================================================== */
 
 function updateClock(){
 
-    const now =
-        new Date();
+    const now = new Date();
 
 
     const hours =
         now.getHours();
 
-
     const minutes =
         now.getMinutes();
 
-
     const seconds =
         now.getSeconds();
-
 
     const milliseconds =
         now.getMilliseconds();
 
 
-    /* -----------------------------
+    /* ----------------------------------------------
        時針
-    ----------------------------- */
+       12時間で360°
+    ---------------------------------------------- */
 
     const hourAngle =
-
-        (hours % 12)
-        * 30
-
-        +
-
-        minutes
-        * 0.5
-
-        +
-
-        seconds
-        / 120;
+        (
+            (hours % 12) * 30
+            +
+            minutes * 0.5
+            +
+            seconds / 120
+        );
 
 
-    /* -----------------------------
+    /* ----------------------------------------------
        分針
-    ----------------------------- */
+    ---------------------------------------------- */
 
     const minuteAngle =
-
-        minutes
-        * 6
-
+        minutes * 6
         +
+        seconds * 0.1
+        +
+        milliseconds * 0.0001;
 
-        seconds
-        * 0.1;
 
-
-    /* -----------------------------
+    /* ----------------------------------------------
        秒針
-    ----------------------------- */
+    ---------------------------------------------- */
 
     const secondAngle =
-
-        seconds
-        * 6
-
+        seconds * 6
         +
-
-        milliseconds
-        * 0.006;
+        milliseconds * 0.006;
 
 
     document
@@ -949,20 +1062,98 @@ function updateClock(){
         .style.transform =
         `rotate(${secondAngle}deg)`;
 
+
+    /* ----------------------------------------------
+       デジタル時刻
+    ---------------------------------------------- */
+
+    const hh =
+        String(hours)
+        .padStart(2,"0");
+
+
+    const mm =
+        String(minutes)
+        .padStart(2,"0");
+
+
+    const ss =
+        String(seconds)
+        .padStart(2,"0");
+
+
+    document
+        .getElementById("currentTime")
+        .textContent =
+        `${hh}:${mm}:${ss}`;
+
+
+    /* ----------------------------------------------
+       診療状態
+    ---------------------------------------------- */
+
+    const time =
+        hours * 60 + minutes;
+
+
+    let status;
+
+
+    if(
+        time >= 9 * 60 &&
+        time < 12 * 60
+    ){
+
+        status =
+            "外来診療中";
+
+    }
+
+    else if(
+        time >= 13 * 60 + 30 &&
+        time < 17 * 60
+    ){
+
+        status =
+            "訪問診療時間";
+
+    }
+
+    else if(
+        time >= 17 * 60 + 30 &&
+        time < 19 * 60 + 30
+    ){
+
+        status =
+            "外来診療中";
+
+    }
+
+    else{
+
+        status =
+            "診療時間外";
+
+    }
+
+
+    document
+        .getElementById("currentStatus")
+        .textContent =
+        status;
+
 }
 
 
-/* =================================
-   滑らかに更新
-================================= */
+/* ==================================================
+   滑らかな秒針
+================================================== */
 
 function animate(){
 
     updateClock();
 
-    requestAnimationFrame(
-        animate
-    );
+    requestAnimationFrame(animate);
 
 }
 
