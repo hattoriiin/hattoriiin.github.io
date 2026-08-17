@@ -700,6 +700,101 @@ body{
 
 </radialGradient>
 
+
+
+<!-- ==================================================
+     ⭐ 午後診専用グラデーション
+
+     外周 → 内周
+
+     濃い
+     やや濃い
+     白い抜け
+     中間よりやや濃い
+     中間
+     薄い
+
+     ※ 帯の幅そのものは変えない。
+     ※ 白い抜けだけを帯の途中に作る。
+================================================== -->
+
+<radialGradient
+    id="eveningGradient"
+    cx="200"
+    cy="200"
+    r="166"
+    gradientUnits="userSpaceOnUse"
+>
+
+    <!-- 内周側：薄い -->
+
+    <stop
+        offset="77%"
+        stop-color="#3d8bdc"
+        stop-opacity=".55"
+    />
+
+    <!-- 中間 -->
+
+    <stop
+        offset="81%"
+        stop-color="#3d8bdc"
+        stop-opacity=".68"
+    />
+
+    <!-- 中間よりやや濃い -->
+
+    <stop
+        offset="84%"
+        stop-color="#3d8bdc"
+        stop-opacity=".74"
+    />
+
+    <!-- ==========================================
+         ⭐ 白い抜け
+    ========================================== -->
+
+    <stop
+        offset="87%"
+        stop-color="#ffffff"
+        stop-opacity=".98"
+    />
+
+    <stop
+        offset="90%"
+        stop-color="#ffffff"
+        stop-opacity=".98"
+    />
+
+    <!-- ==========================================
+         白から外周側へ戻る
+    ========================================== -->
+
+    <stop
+        offset="93%"
+        stop-color="#3d8bdc"
+        stop-opacity=".72"
+    />
+
+    <!-- やや濃い -->
+
+    <stop
+        offset="96%"
+        stop-color="#3d8bdc"
+        stop-opacity=".78"
+    />
+
+    <!-- 外周：濃い -->
+
+    <stop
+        offset="100%"
+        stop-color="#3d8bdc"
+        stop-opacity=".82"
+    />
+
+</radialGradient>
+
+
 </defs>
 <!-- ==================================================
      時計盤
