@@ -10,13 +10,16 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>服部医院｜診療時間</title>
+<title>服部医院｜担当医・診療時間</title>
+
 
 <style>
 
 /* ==================================================
    基本
 ================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
 *{
     box-sizing:border-box;
@@ -30,16 +33,18 @@ body{
 
     margin:0;
 
-    background:#fff;
-
-    color:#31556e;
+    padding-bottom:80px;
 
     font-family:
         "Noto Sans JP",
         "Hiragino Kaku Gothic ProN",
         sans-serif;
 
-    line-height:1.7;
+    line-height:1.8;
+
+    color:#222;
+
+    background:#fff;
 
 }
 
@@ -48,7 +53,7 @@ body{
    ページ
 ================================================== */
 
-.clock-page{
+main{
 
     width:100%;
 
@@ -57,9 +62,114 @@ body{
     margin:0 auto;
 
     padding:
-        2rem
-        1.2rem
-        4rem;
+        1.5rem;
+
+    background:#fff;
+
+}
+
+
+/* ==================================================
+   ヘッダー
+
+   index.html と同じグラデーション
+================================================== */
+
+header{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:
+        .8rem
+        1rem
+        1rem;
+
+    text-align:center;
+
+    color:#fff;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(255,255,255,.08),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(120,200,220,.08),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        );
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.20),
+        inset 0 -25px 40px rgba(0,0,0,.08);
+
+}
+
+
+/* ==================================================
+   ヘッダー上の浅い帯
+================================================== */
+
+header::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.03)
+        );
+
+    pointer-events:none;
+
+}
+
+
+/* ==================================================
+   光
+================================================== */
+
+header::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at 85% 12%,
+            rgba(255,255,255,.18) 0%,
+            rgba(255,255,255,.08) 18%,
+            transparent 55%
+        );
+
+    pointer-events:none;
 
 }
 
@@ -68,33 +178,327 @@ body{
    タイトル
 ================================================== */
 
-.clock-title{
+.clinic-title{
+
+    position:relative;
+
+    z-index:2;
 
     margin:0;
 
-    text-align:center;
-
-    font-size:1.45rem;
-
-    font-weight:400;
-
-    letter-spacing:.16em;
-
-    color:#31556e;
+    line-height:1;
 
 }
 
-.clock-subtitle{
+.seishokai{
 
-    margin:.35rem 0 1.8rem;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+    gap:.4em;
+
+    font-size:.55em;
+
+    font-family:
+        "Noto Sans JP",
+        sans-serif;
+
+    font-weight:400;
+
+}
+
+.medical{
+
+    white-space:nowrap;
+
+}
+
+.logo-block{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.furigana{
+
+    margin-bottom:.15em;
+
+    font-size:.48em;
+
+    color:#d9d9d9;
+
+    letter-spacing:0;
+
+}
+
+.kanji{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:.45em;
 
     text-align:center;
 
-    font-size:.78rem;
+}
 
-    color:#777;
+.kanji span{
 
-    letter-spacing:.08em;
+    display:block;
+
+}
+
+.clinic-name{
+
+    display:block;
+
+    margin-top:.45em;
+
+    font-family:
+        "M PLUS Rounded 1c",
+        "Noto Sans JP",
+        sans-serif;
+
+    font-size:1.5em;
+
+    font-weight:400;
+
+    letter-spacing:.35em;
+
+    text-shadow:
+        0 2px 6px rgba(0,0,0,.22);
+
+}
+
+.catchcopy{
+
+    position:relative;
+
+    z-index:2;
+
+    margin:
+        10px
+        0
+        0;
+
+    font-size:.95em;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,.18);
+
+}
+
+
+/* ==================================================
+   ページタイトル
+================================================== */
+
+.page-title{
+
+    margin:
+        .3rem
+        0
+        1.3rem;
+
+    text-align:center;
+
+    color:#31556e;
+
+    font-size:1.25rem;
+
+    font-weight:400;
+
+    letter-spacing:.12em;
+
+}
+
+
+/* ==================================================
+   担当医表
+
+   index.html の診療時間表と同じ設計
+================================================== */
+
+.doctor-section{
+
+    width:100%;
+
+    margin:0 auto;
+
+}
+
+.doctor-table{
+
+    width:100%;
+
+    table-layout:auto;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    margin-top:1.2rem;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.doctor-table th,
+.doctor-table td{
+
+    border-bottom:1px solid #ddd;
+
+    padding:
+        .25rem
+        .35rem;
+
+    text-align:center;
+
+    font-size:1rem;
+
+    line-height:1.15;
+
+}
+
+
+/* 曜日 */
+
+.doctor-table tr:first-child th{
+
+    background:#31556e;
+
+    color:#fff;
+
+    font-weight:400;
+
+}
+
+
+/* 左側 */
+
+.doctor-table tr:not(:first-child) th{
+
+    background:#f2f7f9;
+
+    font-weight:400;
+
+    white-space:nowrap;
+
+    line-height:1.35;
+
+    padding-top:.55rem;
+
+    padding-bottom:.55rem;
+
+    letter-spacing:.05em;
+
+}
+
+
+/* 本文 */
+
+.doctor-table td{
+
+    background:#fff;
+
+    color:#31556e;
+
+    white-space:nowrap;
+
+}
+
+
+/* 最後の線 */
+
+.doctor-table tr:last-child th,
+.doctor-table tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+
+/* 左端 */
+
+.doctor-table th:first-child{
+
+    width:120px;
+
+}
+
+
+/* ==================================================
+   訪問診療の補足
+================================================== */
+
+.visit-note{
+
+    margin:
+        .65rem
+        0
+        0;
+
+    text-align:center;
+
+    color:#666;
+
+    font-size:.76rem;
+
+}
+
+
+/* ==================================================
+   時計セクション
+================================================== */
+
+.clock-section{
+
+    width:100%;
+
+    margin:
+        2rem
+        auto
+        0;
+
+    padding-top:
+        1.3rem;
+
+    border-top:
+        1px solid
+        rgba(49,85,110,.16);
+
+}
+
+.clock-heading{
+
+    margin:
+        0
+        0
+        .8rem;
+
+    text-align:center;
+
+    color:#31556e;
+
+    font-size:1rem;
+
+    font-weight:400;
+
+    letter-spacing:.12em;
 
 }
 
@@ -108,8 +512,8 @@ body{
     position:relative;
 
     width:min(
-        92vw,
-        520px
+        100%,
+        400px
     );
 
     aspect-ratio:1 / 1;
@@ -117,18 +521,6 @@ body{
     margin:0 auto;
 
 }
-
-
-/* ==================================================
-   SVG
-
-   時計の中心はすべて
-
-       cx = 200
-       cy = 200
-
-   に統一。
-================================================== */
 
 .time-ring svg{
 
@@ -171,26 +563,12 @@ body{
 
 
 /* ==================================================
-   診療時間帯
+   診療帯
 ================================================== */
 
 .time-band{
 
-    /*
-       外周半径：
-       180
-
-       内周半径：
-       100
-
-       帯幅：
-       80
-
-       中心：
-       200,200
-    */
-
-    stroke-width:3;
+    stroke-width:2;
 
     stroke-linejoin:round;
 
@@ -198,39 +576,39 @@ body{
 
 
 /* ==================================================
-   外来診療
+   外来
 ================================================== */
 
 .outpatient-band{
 
     fill:url(#outpatientGradient);
 
-    opacity:.35;
+    opacity:.34;
 
     stroke:
-        rgba(255,255,255,.35);
+        rgba(255,255,255,.45);
 
 }
 
 
 /* ==================================================
-   訪問診療
+   訪問
 ================================================== */
 
 .visit-band{
 
     fill:url(#visitGradient);
 
-    opacity:.35;
+    opacity:.34;
 
     stroke:
-        rgba(255,255,255,.35);
+        rgba(255,255,255,.45);
 
 }
 
 
 /* ==================================================
-   時計の数字
+   数字
 ================================================== */
 
 .clock-face{
@@ -267,28 +645,9 @@ body{
 
 }
 
-
-/* 12だけ少し存在感 */
-
 .clock-face .twelve{
 
     font-size:33px;
-
-}
-
-
-/* ==================================================
-   中央
-================================================== */
-
-.clock-center{
-
-    fill:#fff;
-
-    stroke:
-        rgba(49,85,110,.18);
-
-    stroke-width:1.2;
 
 }
 
@@ -303,7 +662,7 @@ body{
 
     stroke-linecap:round;
 
-    opacity:.25;
+    opacity:.32;
 
 }
 
@@ -325,17 +684,25 @@ body{
 
     stroke-width:1.2;
 
-    stroke-linecap:round;
-
     opacity:.16;
 
 }
 
 
-<!-- 秒針：
 /* ==================================================
-   中央点
+   中央
 ================================================== */
+
+.clock-center{
+
+    fill:#fff;
+
+    stroke:
+        rgba(49,85,110,.18);
+
+    stroke-width:1.2;
+
+}
 
 .clock-dot{
 
@@ -347,178 +714,257 @@ body{
 
 
 /* ==================================================
-   説明カード
+   下部固定ナビ
 ================================================== */
 
-.schedule-note{
+.bottom-nav{
 
-    max-width:520px;
+    position:fixed;
 
-    margin:1.8rem auto 0;
+    left:0;
 
-    padding:1rem 1.2rem;
+    right:0;
 
-    background:
-        rgba(245,250,250,.72);
+    bottom:0;
 
-    border-radius:14px;
-
-    box-shadow:
-        0 4px 14px
-        rgba(40,80,80,.06);
-
-}
-
-
-/* ==================================================
-   凡例
-================================================== */
-
-.legend{
+    z-index:9999;
 
     display:flex;
 
     justify-content:center;
 
-    align-items:center;
+    align-items:stretch;
 
-    gap:1.5rem;
+    padding:
+        7px
+        8px
+        calc(
+            7px + env(safe-area-inset-bottom)
+        );
 
-    flex-wrap:wrap;
+    background:
+        rgba(255,255,255,.88);
 
-    font-size:.82rem;
+    border-top:
+        1px solid
+        rgba(49,85,110,.12);
 
-    color:#555;
+    box-shadow:
+        0 -3px 12px
+        rgba(40,70,80,.07);
 
-}
+    backdrop-filter:
+        blur(8px);
 
-.legend-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:.45rem;
-
-}
-
-
-/* ==================================================
-   凡例：外来
-================================================== */
-
-.legend-blue{
-
-    width:12px;
-
-    height:12px;
-
-    border-radius:50%;
-
-    background:#3d8bdc;
-
-    opacity:.35;
+    -webkit-backdrop-filter:
+        blur(8px);
 
 }
 
+.bottom-nav a{
 
-/* ==================================================
-   凡例：訪問
-================================================== */
+    flex:1;
 
-.legend-green{
+    max-width:250px;
 
-    width:12px;
-
-    height:12px;
-
-    border-radius:50%;
-
-    background:#70ad47;
-
-    opacity:.35;
-
-}
-
-
-/* ==================================================
-   診療時間文字
-================================================== */
-
-.schedule-times{
-
-    margin-top:1rem;
+    padding:
+        .38rem
+        .2rem;
 
     text-align:center;
 
-    font-size:.82rem;
-
-    line-height:1.9;
-
-    color:#555;
-
-}
-
-.schedule-times strong{
-
-    font-weight:500;
-
-    color:#31556e;
-
-}
-
-
-/* ==================================================
-   戻る
-================================================== */
-
-.back-link{
-
-    display:block;
-
-    width:max-content;
-
-    margin:2rem auto 0;
-
-    padding:.55rem 1.3rem;
-
-    border-radius:20px;
-
-    background:#31556e;
-
-    color:#fff;
+    color:
+        rgba(49,85,110,.68);
 
     text-decoration:none;
 
-    font-size:.8rem;
+    font-size:.68rem;
+
+    line-height:1.25;
+
+    border-right:
+        1px solid
+        rgba(49,85,110,.10);
+
+}
+
+.bottom-nav a:last-child{
+
+    border-right:none;
+
+}
+
+.bottom-nav a:active{
+
+    background:
+        rgba(49,85,110,.06);
 
 }
 
 
 /* ==================================================
-   スマートフォン
+   横向き
+
+   担当医表 ｜ 時計
 ================================================== */
 
-@media(max-width:600px){
+@media
+(max-width:900px)
+and
+(orientation:landscape){
 
-    .clock-page{
+    main{
+
+        max-width:1100px;
 
         padding:
-            1.4rem
+            1rem
+            1.5rem
+            2rem;
+
+    }
+
+    .page-title{
+
+        margin-bottom:.8rem;
+
+    }
+
+    .doctor-clock-layout{
+
+        display:grid;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            minmax(300px,420px);
+
+        gap:
+            1.5rem;
+
+        align-items:center;
+
+    }
+
+    .clock-section{
+
+        margin:0;
+
+        padding:
+            0
+            0
+            0
+            1.5rem;
+
+        border-top:none;
+
+        border-left:
+            1px solid
+            rgba(49,85,110,.16);
+
+    }
+
+    .time-ring{
+
+        width:
+            min(
+                42vh,
+                380px
+            );
+
+        min-width:260px;
+
+    }
+
+}
+
+
+/* ==================================================
+   スマートフォン縦
+================================================== */
+
+@media(max-width:600px)
+and
+(orientation:portrait){
+
+    main{
+
+        padding:
+            1.1rem
             .7rem
-            3rem;
+            1.5rem;
 
     }
 
-    .clock-title{
+    .clinic-name{
 
-        font-size:1.25rem;
+        font-size:1.35em;
 
     }
 
-    .clock-subtitle{
+    .catchcopy{
 
-        margin-bottom:1rem;
+        font-size:.82rem;
+
+    }
+
+    .page-title{
+
+        margin-top:.2rem;
+
+        margin-bottom:.9rem;
+
+        font-size:1.1rem;
+
+    }
+
+    .doctor-table th,
+    .doctor-table td{
+
+        font-size:.82rem;
+
+        padding:
+            .28rem
+            .18rem;
+
+    }
+
+    .doctor-table th:first-child{
+
+        width:84px;
+
+    }
+
+    .doctor-table tr:not(:first-child) th{
+
+        padding-top:.5rem;
+
+        padding-bottom:.5rem;
+
+    }
+
+    .visit-note{
+
+        font-size:.7rem;
+
+    }
+
+    .clock-section{
+
+        margin-top:
+            1.5rem;
+
+        padding-top:
+            1rem;
+
+    }
+
+    .time-ring{
+
+        width:
+            min(
+                88vw,
+                360px
+            );
 
     }
 
@@ -534,14 +980,6 @@ body{
 
     }
 
-    .schedule-note{
-
-        margin-left:.3rem;
-
-        margin-right:.3rem;
-
-    }
-
 }
 
 
@@ -550,6 +988,23 @@ body{
 ================================================== */
 
 @media(max-width:380px){
+
+    .doctor-table th,
+    .doctor-table td{
+
+        font-size:.75rem;
+
+        padding:
+            .25rem
+            .12rem;
+
+    }
+
+    .doctor-table th:first-child{
+
+        width:76px;
+
+    }
 
     .clock-face text{
 
@@ -565,6 +1020,143 @@ body{
 
 }
 
+
+/* ==================================================
+   横向き小画面
+================================================== */
+
+@media
+(max-width:700px)
+and
+(orientation:landscape){
+
+    main{
+
+        padding:
+            .8rem
+            1rem
+            1.5rem;
+
+    }
+
+    .clinic-name{
+
+        font-size:1.25em;
+
+    }
+
+    .catchcopy{
+
+        font-size:.78rem;
+
+        margin-top:5px;
+
+    }
+
+    .doctor-table th,
+    .doctor-table td{
+
+        font-size:.78rem;
+
+        padding:
+            .22rem
+            .2rem;
+
+    }
+
+    .doctor-table th:first-child{
+
+        width:90px;
+
+    }
+
+    .time-ring{
+
+        min-width:240px;
+
+        width:
+            min(
+                48vh,
+                320px
+            );
+
+    }
+
+    .clock-face text{
+
+        font-size:26px;
+
+    }
+
+    .clock-face .twelve{
+
+        font-size:28px;
+
+    }
+
+}
+
+
+/* ==================================================
+   PC
+================================================== */
+
+@media(min-width:901px){
+
+    .doctor-clock-layout{
+
+        display:grid;
+
+        grid-template-columns:
+            minmax(0,1fr)
+            400px;
+
+        gap:
+            2rem;
+
+        align-items:center;
+
+    }
+
+    .clock-section{
+
+        margin:0;
+
+        padding:
+            0
+            0
+            0
+            1.5rem;
+
+        border-top:none;
+
+        border-left:
+            1px solid
+            rgba(49,85,110,.16);
+
+    }
+
+}
+
+
+/* ==================================================
+   iPhoneなどの安全領域
+================================================== */
+
+@supports(padding:max(0px)){
+
+    .bottom-nav{
+
+        padding-bottom:
+            max(
+                7px,
+                env(safe-area-inset-bottom)
+            );
+
+    }
+
+}
+
 </style>
 
 </head>
@@ -573,44 +1165,268 @@ body{
 <body>
 
 
-<main class="clock-page">
+<!-- ==================================================
+     ヘッダー
+================================================== -->
+
+<header>
+
+<h1 class="clinic-title">
+
+    <div class="seishokai">
+
+        <span class="medical">
+            医療法人
+        </span>
+
+        <span class="logo-block">
+
+            <span class="furigana">
+                じょうしょうかい
+            </span>
+
+            <span class="kanji">
+                <span>誠</span>
+                <span>彰</span>
+                <span>会</span>
+            </span>
+
+        </span>
+
+    </div>
 
 
-<h1 class="clock-title">
-    診療時間
+    <span class="clinic-name">
+        服部医院
+    </span>
+
 </h1>
 
-<p class="clock-subtitle">
-    服部医院
+
+<p class="catchcopy">
+    地域に貢献する医療を大切にします
 </p>
+
+</header>
 
 
 <!-- ==================================================
-     ⭐ 時計本体
+     本文
 ================================================== -->
 
+<main>
+
+
+<h2 class="page-title">
+    担当医・診療時間
+</h2>
+
+
+<!-- ==================================================
+     担当医表 ＋ 時計
+================================================== -->
+
+<div class="doctor-clock-layout">
+
+
+<!-- ==================================================
+     担当医表
+================================================== -->
+
+<section
+    class="doctor-section"
+    id="doctor"
+>
+
+
+<table class="doctor-table">
+
+
+<tr>
+
+<th></th>
+
+<th>月</th>
+
+<th>火</th>
+
+<th>水</th>
+
+<th>木</th>
+
+<th>金</th>
+
+<th>土</th>
+
+</tr>
+
+
+<!-- ==================================================
+     午前
+================================================== -->
+
+<tr>
+
+<th>
+    🏥　午前診<br>
+    <span>
+        9:00〜12:00
+    </span>
+</th>
+
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    ―
+</td>
+
+<td>
+    関先生
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+</tr>
+
+
+<!-- ==================================================
+     訪問
+================================================== -->
+
+<tr>
+
+<th>
+    🏠　訪問診療<br>
+    <span>
+        13:30〜16:30
+    </span>
+</th>
+
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    ―
+</td>
+
+<td>
+    ―
+</td>
+
+</tr>
+
+
+<!-- ==================================================
+     午後
+================================================== -->
+
+<tr>
+
+<th>
+    🏥　午後診<br>
+    <span>
+        17:30〜19:30
+    </span>
+</th>
+
+
+<td>
+    村田先生
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    院長
+</td>
+
+<td>
+    糠谷先生
+</td>
+
+<td>
+    ―
+</td>
+
+</tr>
+
+
+</table>
+
+
+<p class="visit-note">
+
+    ※ 訪問診療は月曜日〜木曜日、担当は院長です。
+
+</p>
+
+
+</section>
+
+
+<!-- ==================================================
+     時計
+================================================== -->
+
+<section
+    class="clock-section"
+    id="clock"
+>
+
+
+<h3 class="clock-heading">
+    日本時間
+</h3>
+
+
 <div class="time-ring">
+
 
 <svg
     viewBox="0 0 400 400"
     role="img"
-    aria-label="服部医院 診療時間"
+    aria-label="服部医院 日本時間の時計"
 >
+
 
 <defs>
 
 
 <!-- ==================================================
-     ⭐ 外来診療グラデーション
-     
-     中心：
-     200,200
-
-     外周半径：
-     180
-
-     グラデーション基準も
-     外周180に統一。
+     外来グラデーション
 ================================================== -->
 
 <radialGradient
@@ -624,62 +1440,44 @@ body{
     <stop
         offset="55%"
         stop-color="#8fc7ff"
-        stop-opacity=".45"
+        stop-opacity=".35"
     />
 
     <stop
-        offset="61%"
+        offset="63%"
         stop-color="#3d8bdc"
-        stop-opacity=".65"
+        stop-opacity=".62"
     />
 
     <stop
-        offset="65%"
-        stop-color="#3d8bdc"
-        stop-opacity=".72"
-    />
-
-    <stop
-        offset="70%"
+        offset="72%"
         stop-color="#ffffff"
-        stop-opacity="1"
+        stop-opacity=".92"
     />
 
     <stop
-        offset="75%"
+        offset="78%"
         stop-color="#ffffff"
-        stop-opacity="1"
+        stop-opacity=".92"
     />
 
     <stop
-        offset="80%"
+        offset="88%"
         stop-color="#3d8bdc"
-        stop-opacity=".72"
-    />
-
-    <stop
-        offset="90%"
-        stop-color="#3d8bdc"
-        stop-opacity=".78"
+        stop-opacity=".68"
     />
 
     <stop
         offset="100%"
         stop-color="#3d8bdc"
-        stop-opacity=".80"
+        stop-opacity=".76"
     />
 
 </radialGradient>
 
 
 <!-- ==================================================
-     ⭐ 訪問診療グラデーション
-     
-     中心：
-     200,200
-
-     外周半径：
-     180
+     訪問グラデーション
 ================================================== -->
 
 <radialGradient
@@ -691,99 +1489,21 @@ body{
 >
 
     <stop
-        offset="0%"
-        stop-color="#ffffff"
-        stop-opacity=".95"
-    />
-
-    <stop
-        offset="28%"
-        stop-color="#b7e88a"
-        stop-opacity=".58"
-    />
-
-    <stop
-        offset="62%"
-        stop-color="#70ad47"
-        stop-opacity=".78"
-    />
-
-    <stop
-        offset="100%"
-        stop-color="#70ad47"
-        stop-opacity=".82"
-    />
-
-</radialGradient>
-
-
-<!-- ==================================================
-     ⭐ 午後診専用グラデーション
-     
-     中心：
-     200,200
-
-     外周半径：
-     180
-
-     帯幅：
-     80
-================================================== -->
-
-<radialGradient
-    id="eveningGradient"
-    cx="200"
-    cy="200"
-    r="180"
-    gradientUnits="userSpaceOnUse"
->
-
-    <stop
         offset="55%"
-        stop-color="#3d8bdc"
-        stop-opacity=".55"
+        stop-color="#b7e88a"
+        stop-opacity=".30"
     />
 
     <stop
-        offset="61%"
-        stop-color="#3d8bdc"
-        stop-opacity=".68"
-    />
-
-    <stop
-        offset="65%"
-        stop-color="#3d8bdc"
-        stop-opacity=".74"
-    />
-
-    <stop
-        offset="69%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="75%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="80%"
-        stop-color="#3d8bdc"
-        stop-opacity=".72"
-    />
-
-    <stop
-        offset="90%"
-        stop-color="#3d8bdc"
-        stop-opacity=".78"
+        offset="70%"
+        stop-color="#70ad47"
+        stop-opacity=".64"
     />
 
     <stop
         offset="100%"
-        stop-color="#3d8bdc"
-        stop-opacity=".82"
+        stop-color="#70ad47"
+        stop-opacity=".78"
     />
 
 </radialGradient>
@@ -805,13 +1525,7 @@ body{
 
 
 <!-- ==================================================
-     ⭐ 外周
-
-     中心：
-     200,200
-
-     半径：
-     180
+     外周
 ================================================== -->
 
 <circle
@@ -823,42 +1537,9 @@ body{
 
 
 <!-- ==================================================
-     ⭐ 午前診
-
-     9:00 → 12:00
-
-     【時計角度】
+     午前診
      
-     12:00 = 0°
-     3:00  = 90°
-     6:00  = 180°
-     9:00  = 270°
-
-     したがって
-
-     9:00  = 270°
-     12:00 = 360° (= 0°)
-
-     【SVG角度】
-
-     SVGでは3時方向を0°とするため
-
-     SVG角度 = 時計角度 − 90°
-
-     9:00  = 180°
-     12:00 = 270°
-
-     中心：
-     200,200
-
-     外周：
-     180
-
-     内周：
-     100
-
-     ※ 12:00を0°として考えた上で、
-        SVGへ変換している。
+     9:00 → 12:00
 ================================================== -->
 
 <path
@@ -868,33 +1549,9 @@ body{
 
 
 <!-- ==================================================
-     ⭐ 訪問診療
+     訪問診療
 
      13:30 → 16:30
-
-     【時計角度】
-
-     12:00 = 0°
-
-     13:30 = 45°
-     16:30 = 135°
-
-     【SVG角度】
-
-     13:30 = -45°
-     16:30 = 45°
-
-     ※ 360°を超えても同じ位置なので、
-        -45° は 315° と同じ。
-
-     中心：
-     200,200
-
-     外周：
-     180
-
-     内周：
-     100
 ================================================== -->
 
 <path
@@ -904,41 +1561,9 @@ body{
 
 
 <!-- ==================================================
-     ⭐ 午後診
+     午後診
 
      17:30 → 19:30
-
-     【ここが今回の重要修正】
-
-     12:00 = 0°
-
-     17:30 = 165°
-     19:30 = 225°
-
-     SVG角度：
-
-     17:30 = 75°
-     19:30 = 135°
-
-     つまり、
-
-       17:30
-          ↓
-       19:30
-
-     と時計回りに進む。
-
-     以前のコードでは
-     この向きが逆になっていた。
-
-     中心：
-     200,200
-
-     外周：
-     180
-
-     内周：
-     100
 ================================================== -->
 
 <path
@@ -948,13 +1573,11 @@ body{
 
 
 <!-- ==================================================
-     ⭐ 文字盤
+     文字盤
 ================================================== -->
 
 <g class="clock-face">
 
-
-<!-- 12 -->
 
 <text
     class="twelve"
@@ -965,8 +1588,6 @@ body{
 </text>
 
 
-<!-- 1 -->
-
 <text
     x="269"
     y="80"
@@ -974,8 +1595,6 @@ body{
     1
 </text>
 
-
-<!-- 2 -->
 
 <text
     x="319"
@@ -985,8 +1604,6 @@ body{
 </text>
 
 
-<!-- 3 -->
-
 <text
     x="338"
     y="200"
@@ -994,8 +1611,6 @@ body{
     3
 </text>
 
-
-<!-- 4 -->
 
 <text
     x="319"
@@ -1005,8 +1620,6 @@ body{
 </text>
 
 
-<!-- 5 -->
-
 <text
     x="269"
     y="320"
@@ -1014,8 +1627,6 @@ body{
     5
 </text>
 
-
-<!-- 6 -->
 
 <text
     x="200"
@@ -1025,8 +1636,6 @@ body{
 </text>
 
 
-<!-- 7 -->
-
 <text
     x="131"
     y="320"
@@ -1034,8 +1643,6 @@ body{
     7
 </text>
 
-
-<!-- 8 -->
 
 <text
     x="81"
@@ -1045,8 +1652,6 @@ body{
 </text>
 
 
-<!-- 9 -->
-
 <text
     x="62"
     y="200"
@@ -1055,8 +1660,6 @@ body{
 </text>
 
 
-<!-- 10 -->
-
 <text
     x="81"
     y="130"
@@ -1064,8 +1667,6 @@ body{
     10
 </text>
 
-
-<!-- 11 -->
 
 <text
     x="131"
@@ -1090,21 +1691,25 @@ body{
     y2="125"
 />
 
+
 <line
     class="clock-hand minute"
     x1="200"
     y1="200"
-    x2="305"
-    y2="200"
+    x2="200"
+    y2="105"
 />
+
 
 <line
     class="clock-hand second"
     x1="200"
     y1="200"
-    x2="315"
-    y2="200"
+    x2="200"
+    y2="92"
 />
+
+
 <!-- ==================================================
      中央
 ================================================== -->
@@ -1129,102 +1734,50 @@ body{
 
 </div>
 
-
-<!-- ==================================================
-     凡例
-================================================== -->
-
-<div class="schedule-note">
-
-
-<div class="legend">
-
-
-<div class="legend-item">
-
-    <span class="legend-blue"></span>
-
-    <span>
-        外来診療
-    </span>
+</section>
 
 </div>
-
-
-<div class="legend-item">
-
-    <span class="legend-green"></span>
-
-    <span>
-        訪問診療
-    </span>
-
-</div>
-
-
-</div>
-
-
-<div class="schedule-times">
-
-    <strong>午前診</strong>
-   　9:00〜12:00
-
-    <br>
-
-    <strong>訪問診療</strong>
-   　13:30〜17:00
-
-    <br>
-
-    <strong>午後診</strong>
-   　17:30〜19:30
-
-</div>
-
-
-</div>
-
-
-<!-- ==================================================
-     戻る
-================================================== -->
-
-<a
-    href="index.html"
-    class="back-link"
->
-    服部医院トップへ
-</a>
 
 
 </main>
 
 
+<!-- ==================================================
+     固定ナビ
+================================================== -->
+
+<nav class="bottom-nav">
+
+
+<a href="#doctor">
+
+    担当医表
+
+</a>
+
+
+<a href="index.html#schedule">
+
+    診療時間割
+
+</a>
+
+
+<a href="index.html">
+
+    服部医院<br>
+    ホームページ
+
+</a>
+
+
+</nav>
+
+
 <script>
 
 /* ==================================================
-   ⭐ 時計設定
-
-   ここを基準にする。
-
-   12:00 = 0°
-
-   時計回りに
-
-   1時  = 30°
-   3時  = 90°
-   6時  = 180°
-   9時  = 270°
-
-   SVGでは
-
-   3時方向 = 0°
-
-   なので
-
-   SVG角度 =
-       時計角度 - 90°
+   時計設定
 ================================================== */
 
 const SVG_CENTER = 200;
@@ -1235,40 +1788,41 @@ const INNER_RADIUS = 100;
 
 
 /* ==================================================
-   ⭐ 時刻 → 時計角度
+   時刻 → 時計角度
 
-   12:00を0°とする。
+   12時 = 0°
 
-   例：
-
-   09:00 → 270°
-   12:00 → 0°
-   13:30 → 45°
-   17:00 → 150°
-   17:30 → 165°
-   19:30 → 225°
+   時計回り
 ================================================== */
 
-function timeToClockAngle(hour, minute){
+function timeToClockAngle(
+    hour,
+    minute
+){
 
     return (
-        ((hour % 12) * 30)
-        + (minute * 0.5)
+
+        (
+            (hour % 12) * 30
+        )
+        +
+        (minute * 0.5)
+
     ) % 360;
 
 }
 
 
 /* ==================================================
-   ⭐ 時計角度 → SVG角度
+   時計角度 → SVG角度
 
-   SVGは3時方向が0°。
+   SVGの3時方向 = 0°
 
-   時計の12時方向を
-   SVGの-90°へ移動する。
 ================================================== */
 
-function clockToSvgAngle(clockAngle){
+function clockToSvgAngle(
+    clockAngle
+){
 
     return clockAngle - 90;
 
@@ -1276,10 +1830,7 @@ function clockToSvgAngle(clockAngle){
 
 
 /* ==================================================
-   ⭐ 極座標 → SVG座標
-
-   中心：
-   200,200
+   極座標 → SVG座標
 ================================================== */
 
 function polarToPoint(
@@ -1294,11 +1845,15 @@ function polarToPoint(
 
         x:
             SVG_CENTER
-            + radius * Math.cos(radians),
+            +
+            radius *
+            Math.cos(radians),
 
         y:
             SVG_CENTER
-            + radius * Math.sin(radians)
+            +
+            radius *
+            Math.sin(radians)
 
     };
 
@@ -1306,16 +1861,7 @@ function polarToPoint(
 
 
 /* ==================================================
-   ⭐ 診療時間帯のパスを自動生成
-
-   start：
-   診療開始時刻
-
-   end：
-   診療終了時刻
-
-   これにより、
-   座標を手計算する必要がなくなる。
+   診療時間帯生成
 ================================================== */
 
 function createBandPath(
@@ -1355,6 +1901,7 @@ function createBandPath(
             startSvgAngle
         );
 
+
     const outerEnd =
         polarToPoint(
             OUTER_RADIUS,
@@ -1368,6 +1915,7 @@ function createBandPath(
             endSvgAngle
         );
 
+
     const innerStart =
         polarToPoint(
             INNER_RADIUS,
@@ -1375,32 +1923,15 @@ function createBandPath(
         );
 
 
-    /*
-       時計回りの角度差。
-
-       0〜360°に正規化。
-    */
-
     const angleDifference =
         (
             endClockAngle
-            - startClockAngle
-            + 360
+            -
+            startClockAngle
+            +
+            360
         ) % 360;
 
-
-    /*
-       180°を超える場合だけ
-       SVGのlarge-arc-flagを1にする。
-
-       今回は
-
-       午前診：90°
-       訪問診療：105°
-       午後診：60°
-
-       なので全て0。
-    */
 
     const largeArcFlag =
         angleDifference > 180
@@ -1444,15 +1975,8 @@ function createBandPath(
 
 
 /* ==================================================
-   ⭐ 診療時間帯を生成
-================================================== */
-
-
-/* --------------------------------------------------
    午前診
-
-   9:00 → 12:00
--------------------------------------------------- */
+================================================== */
 
 document
     .getElementById('morningBand')
@@ -1467,11 +1991,11 @@ document
     );
 
 
-/* --------------------------------------------------
+/* ==================================================
    訪問診療
 
    13:30 → 16:30
--------------------------------------------------- */
+================================================== */
 
 document
     .getElementById('visitBand')
@@ -1486,16 +2010,9 @@ document
     );
 
 
-/* --------------------------------------------------
+/* ==================================================
    午後診
-
-   17:30 → 19:30
-
-   ⭐ ここが修正箇所。
-
-   17:30から時計回りに
-   19:30まで進む。
--------------------------------------------------- */
+================================================== */
 
 document
     .getElementById('eveningBand')
@@ -1511,59 +2028,85 @@ document
 
 
 /* ==================================================
-   ⭐ 現在時刻に合わせて時計の針を滑らかに動かす
+   ⭐ 日本時間を取得
 
-   ⭐ 日本時間（JST / Asia-Tokyo）に固定
+   ブラウザを海外で開いても
+   Asia/Tokyo を使用する。
+
+   iPhoneの設定時刻には依存しない。
+================================================== */
+
+function getJapanTime(){
+
+    const parts =
+        new Intl.DateTimeFormat(
+            'en-US',
+            {
+                timeZone:
+                    'Asia/Tokyo',
+
+                hour:
+                    'numeric',
+
+                minute:
+                    'numeric',
+
+                second:
+                    'numeric',
+
+                hour12:
+                    false
+
+            }
+        ).formatToParts(
+            new Date()
+        );
+
+
+    const result = {};
+
+
+    parts.forEach(
+        part => {
+
+            if(
+                part.type === 'hour' ||
+                part.type === 'minute' ||
+                part.type === 'second'
+            ){
+
+                result[part.type] =
+                    Number(part.value);
+
+            }
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* ==================================================
+   時計を更新
 ================================================== */
 
 function updateClock(){
 
-    const now = new Date();
-
-
-    /* ==================================================
-       日本時間を取得
-    ================================================== */
-
-    const japanTime =
-        new Intl.DateTimeFormat(
-            'ja-JP',
-            {
-                timeZone: 'Asia/Tokyo',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                fractionalSecondDigits: 3,
-                hour12: false
-            }
-        ).formatToParts(now);
-
-
-    function getPart(type){
-
-        const part =
-            japanTime.find(
-                item => item.type === type
-            );
-
-        return Number(
-            part.value
-        );
-
-    }
+    const now =
+        getJapanTime();
 
 
     const hours =
-        getPart('hour');
+        now.hour;
 
     const minutes =
-        getPart('minute');
+        now.minute;
 
     const seconds =
-        getPart('second');
-
-    const milliseconds =
-        getPart('fractionalSecond');
+        now.second;
 
 
     /* ==================================================
@@ -1571,10 +2114,7 @@ function updateClock(){
     ================================================== */
 
     const secondAngle =
-        (
-            seconds
-            + milliseconds / 1000
-        ) * 6;
+        seconds * 6;
 
 
     /* ==================================================
@@ -1584,26 +2124,34 @@ function updateClock(){
     const minuteAngle =
         (
             minutes
-            + seconds / 60
-            + milliseconds / 60000
+            +
+            seconds / 60
         ) * 6;
 
 
     /* ==================================================
        時針
 
-       14:53
-       ↓
+       14:53なら
+
        2時53分
 
-       2時と3時の間を指す。
+       なので
+
+       2 + 53/60
+
+       ×30°
+
+       となる。
     ================================================== */
 
     const hourAngle =
         (
             (hours % 12)
-            + minutes / 60
-            + seconds / 3600
+            +
+            minutes / 60
+            +
+            seconds / 3600
         ) * 30;
 
 
@@ -1616,10 +2164,12 @@ function updateClock(){
             secondAngle
         );
 
+
     const minuteSvgAngle =
         clockToSvgAngle(
             minuteAngle
         );
+
 
     const hourSvgAngle =
         clockToSvgAngle(
@@ -1632,10 +2182,16 @@ function updateClock(){
     ================================================== */
 
     document
-        .querySelector('.clock-hand.second')
+        .querySelector(
+            '.clock-hand.second'
+        )
         .setAttribute(
             'transform',
-            `rotate(${secondSvgAngle},200,200)`
+            `rotate(
+                ${secondSvgAngle},
+                200,
+                200
+            )`
         );
 
 
@@ -1644,10 +2200,16 @@ function updateClock(){
     ================================================== */
 
     document
-        .querySelector('.clock-hand.minute')
+        .querySelector(
+            '.clock-hand.minute'
+        )
         .setAttribute(
             'transform',
-            `rotate(${minuteSvgAngle},200,200)`
+            `rotate(
+                ${minuteSvgAngle},
+                200,
+                200
+            )`
         );
 
 
@@ -1656,24 +2218,28 @@ function updateClock(){
     ================================================== */
 
     document
-        .querySelector('.clock-hand.hour')
+        .querySelector(
+            '.clock-hand.hour'
+        )
         .setAttribute(
             'transform',
-            `rotate(${hourSvgAngle},200,200)`
+            `rotate(
+                ${hourSvgAngle},
+                200,
+                200
+            )`
         );
 
-
-    /* ==================================================
-       約60fpsで更新
-    ================================================== */
 
     requestAnimationFrame(
         updateClock
     );
 
 }
+
+
 /* ==================================================
-   ⭐ 時計開始
+   時計開始
 ================================================== */
 
 updateClock();
