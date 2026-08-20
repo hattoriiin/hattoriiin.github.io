@@ -12,6 +12,7 @@
 
 <title>服部医院｜担当医表</title>
 
+
 <style>
 
 /* ==================================================
@@ -34,11 +35,7 @@ body{
 
     color:#222;
 
-    font-family:
-        "Noto Sans JP",
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        sans-serif;
+    font-family:sans-serif;
 
     line-height:1.8;
 
@@ -48,12 +45,10 @@ body{
 /* ==================================================
    本体
 
-   index.html の main と同じ
+   index.html と同じ
 ================================================== */
 
 main{
-
-    width:100%;
 
     max-width:900px;
 
@@ -68,13 +63,11 @@ main{
 
 /* ==================================================
    見出し
-
-   index.html の h2 の雰囲気に合わせる
 ================================================== */
 
 h1{
 
-    margin:0 0 1.2rem;
+    margin:0;
 
     padding-bottom:.5rem;
 
@@ -84,22 +77,20 @@ h1{
 
     font-weight:400;
 
-    color:#222;
-
 }
 
 
 /* ==================================================
-   担当医表
+   診療時間・担当医表
 
-   index.html .schedule と同じ構造
+   ★ index.html の .schedule をそのまま使用
 ================================================== */
 
 .schedule{
 
     width:100%;
 
-    table-layout:fixed;
+    table-layout:auto;
 
     border-collapse:separate;
 
@@ -118,9 +109,9 @@ h1{
 
 
 /* ==================================================
-   セル共通
+   セル
 
-   index.html と同じ
+   ★ index.html と完全に同じ
 ================================================== */
 
 .schedule th,
@@ -132,8 +123,6 @@ h1{
 
     text-align:center;
 
-    vertical-align:middle;
-
     font-size:1.0rem;
 
     line-height:1.15;
@@ -144,7 +133,7 @@ h1{
 /* ==================================================
    曜日部分
 
-   index.html と同じ
+   ★ index.html と完全に同じ
 ================================================== */
 
 .schedule tr:first-child th{
@@ -159,9 +148,9 @@ h1{
 
 
 /* ==================================================
-   左側「診療内容」
+   左側の診療内容
 
-   index.html と同じ淡い色
+   ★ index.html と完全に同じ
 ================================================== */
 
 .schedule tr:not(:first-child) th{
@@ -172,164 +161,13 @@ h1{
 
     white-space:nowrap;
 
-    line-height:1.35;
-
-    padding-top:.55rem;
-
-    padding-bottom:.55rem;
-
-    letter-spacing:.05em;
-
-}
-
-
-/* ==================================================
-   医師名側
-================================================== */
-
-.schedule td{
-
-    background:#fff;
-
-    height:86px;
-
-    overflow:hidden;
-
-}
-
-
-/* ==================================================
-   左端の幅
-
-   index.html と同じ
-================================================== */
-
-.schedule th:first-child{
-
-    width:120px;
-
-}
-
-
-/* ==================================================
-   診療名
-================================================== */
-
-.schedule-label{
-
-    display:block;
-
-    font-size:1rem;
-
-    line-height:1.35;
-
-}
-
-
-/* ==================================================
-   時間
-================================================== */
-
-.schedule-time{
-
-    display:block;
-
-    margin-top:4px;
-
-    font-size:.78rem;
-
-    letter-spacing:0;
-
-    white-space:nowrap;
-
-}
-
-
-/* ==================================================
-   医師名
-
-   縦組み・中央揃え
-================================================== */
-
-.doctor-name{
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    width:100%;
-
-    height:100%;
-
-    margin:auto;
-
-    line-height:1.05;
-
-    font-size:1rem;
-
-    font-weight:400;
-
-    white-space:nowrap;
-
-}
-
-
-/* ==================================================
-   1文字
-================================================== */
-
-.doctor-char{
-
-    display:block;
-
-}
-
-
-/* ==================================================
-   長い名前
-
-   枠を広げず文字だけ縮小
-================================================== */
-
-.doctor-name.long{
-
-    font-size:.78rem;
-
-}
-
-
-/* ==================================================
-   非常に長い名前
-================================================== */
-
-.doctor-name.very-long{
-
-    font-size:.62rem;
-
-}
-
-
-/* ==================================================
-   空欄
-================================================== */
-
-.doctor-empty{
-
-    color:#777;
-
-    font-size:.9rem;
-
 }
 
 
 /* ==================================================
    最後の線を消す
 
-   index.html と同じ
+   ★ index.html と同じ
 ================================================== */
 
 .schedule tr:last-child th,
@@ -341,7 +179,134 @@ h1{
 
 
 /* ==================================================
-   スマートフォン縦
+   左端の診療内容の幅
+
+   ★ index.html と完全に同じ120px
+================================================== */
+
+.schedule th:first-child{
+
+    width:120px;
+
+}
+
+
+/* ==================================================
+   診療内容の文字
+
+   ★ index.html と同じ
+================================================== */
+
+.schedule th span{
+
+    display:inline-block;
+
+    margin-top:4px;
+
+}
+
+
+/* ==================================================
+   左側2行の文字間隔
+
+   ★ index.html と同じ
+================================================== */
+
+.schedule tr:not(:first-child) th{
+
+    line-height:1.35;
+
+    padding-top:.55rem;
+
+    padding-bottom:.55rem;
+
+}
+
+
+.schedule tr:not(:first-child) th{
+
+    letter-spacing:.05em;
+
+}
+
+
+/* ==================================================
+   担当医名
+
+   セルの幅は変更しない
+================================================== */
+
+.doctor-name{
+
+    display:inline-flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    line-height:1.15;
+
+    font-size:1.0rem;
+
+    font-weight:400;
+
+}
+
+
+/* ==================================================
+   医師名の各文字
+================================================== */
+
+.doctor-char{
+
+    display:block;
+
+}
+
+
+/* ==================================================
+   空欄
+================================================== */
+
+.doctor-empty{
+
+    display:inline-block;
+
+    font-size:1.0rem;
+
+    color:#777;
+
+}
+
+
+/* ==================================================
+   長い名前
+
+   ★ 枠は絶対に広げない
+   ★ 名前だけ少し縮小
+================================================== */
+
+.doctor-name.long{
+
+    font-size:.85rem;
+
+}
+
+
+.doctor-name.very-long{
+
+    font-size:.72rem;
+
+}
+
+
+/* ==================================================
+   スマートフォン
+
+   ★ 表の幅・フォントは基本的に変更しない
+   ★ index.html と同じ考え方
 ================================================== */
 
 @media (max-width:600px){
@@ -352,150 +317,20 @@ h1{
 
     }
 
-
-    h1{
-
-        font-size:1.2rem;
-
-    }
-
-
-    .schedule th,
-    .schedule td{
-
-        font-size:.82rem;
-
-        padding:.25rem .15rem;
-
-    }
-
-
-    .schedule th:first-child{
-
-        width:88px;
-
-    }
-
-
-    .schedule tr:not(:first-child) th{
-
-        padding-top:.5rem;
-
-        padding-bottom:.5rem;
-
-    }
-
-
-    .schedule-label{
-
-        font-size:.82rem;
-
-    }
-
-
-    .schedule-time{
-
-        font-size:.65rem;
-
-    }
-
-
-    .schedule td{
-
-        height:78px;
-
-    }
-
-
-    .doctor-name{
-
-        font-size:.84rem;
-
-    }
-
-
-    .doctor-name.long{
-
-        font-size:.68rem;
-
-    }
-
-
-    .doctor-name.very-long{
-
-        font-size:.56rem;
-
-    }
-
 }
 
 
 /* ==================================================
-   スマートフォン横
+   スマートフォン横向き
+
+   表そのものは縦向きと同じ
 ================================================== */
 
 @media (max-width:900px) and (orientation:landscape){
 
     main{
 
-        padding:1rem;
-
-    }
-
-
-    .schedule th,
-    .schedule td{
-
-        font-size:.82rem;
-
-    }
-
-
-    .schedule th:first-child{
-
-        width:100px;
-
-    }
-
-
-    .schedule-label{
-
-        font-size:.82rem;
-
-    }
-
-
-    .schedule-time{
-
-        font-size:.67rem;
-
-    }
-
-
-    .schedule td{
-
-        height:68px;
-
-    }
-
-
-    .doctor-name{
-
-        font-size:.82rem;
-
-    }
-
-
-    .doctor-name.long{
-
-        font-size:.66rem;
-
-    }
-
-
-    .doctor-name.very-long{
-
-        font-size:.54rem;
+        padding:1.5rem;
 
     }
 
@@ -529,10 +364,15 @@ h1{
 <th></th>
 
 <th>月</th>
+
 <th>火</th>
+
 <th>水</th>
+
 <th>木</th>
+
 <th>金</th>
+
 <th>土</th>
 
 </tr>
@@ -540,17 +380,17 @@ h1{
 
 <!-- ==================================================
      午前診
+
+     index.html と同じ文字・時間
 ================================================== -->
 
 <tr>
 
 <th>
 
-<span class="schedule-label">
-🏥　午前診
-</span>
+🏥　午前診<br>
 
-<span class="schedule-time">
+<span>
 9:00〜12:00
 </span>
 
@@ -597,51 +437,70 @@ h1{
 
 <!-- ==================================================
      訪問診療
+
+     ★ 行は省略しない
+     ★ 時間も省略しない
+     ★ 将来、担当医変更可能
 ================================================== -->
 
 <tr>
 
 <th>
 
-<span class="schedule-label">
-🏠　訪問診療
-</span>
+🏠　訪問診療<br>
 
-<span class="schedule-time">
+<span>
 13:30〜16:30
 </span>
 
 </th>
 
 
-<td data-visit="true"></td>
+<td
+    data-visit="true"
+></td>
 
-<td data-visit="true"></td>
 
-<td data-visit="true"></td>
+<td
+    data-visit="true"
+></td>
 
-<td data-visit="true"></td>
 
-<td data-visit="true"></td>
+<td
+    data-visit="true"
+></td>
 
-<td data-visit="true"></td>
+
+<td
+    data-visit="true"
+></td>
+
+
+<td
+    data-visit="true"
+></td>
+
+
+<td
+    data-visit="true"
+></td>
 
 </tr>
 
 
 <!-- ==================================================
      午後診
+
+     index.html と同じ文字・時間
 ================================================== -->
 
 <tr>
 
 <th>
 
-<span class="schedule-label">
-🏥　午後診
-</span>
+🏥　午後診<br>
 
-<span class="schedule-time">
+<span>
 17:30〜19:30
 </span>
 
@@ -695,7 +554,7 @@ h1{
 <script>
 
 /* ==================================================
-   doctors.json 読み込み
+   doctors.json を読み込む
 ================================================== */
 
 fetch("doctors.json")
@@ -719,36 +578,12 @@ fetch("doctors.json")
 
 
     /* ==================================================
-       敬称を削除
-
-       doctors.json は
-       「院長」「村田先生」などでOK
-    ================================================== */
-
-    function cleanName(name){
-
-        return String(name || "")
-            .replace(/先生$/,"")
-            .trim();
-
-    }
-
-
-    /* ==================================================
-       医師名を縦組みにする
+       医師名の処理
     ================================================== */
 
     function createDoctorName(name){
 
-        const clean =
-            cleanName(name);
-
-
-        /* ----------------------------------------------
-           空欄
-        ---------------------------------------------- */
-
-        if(!clean){
+        if(!name || !String(name).trim()){
 
             return `
                 <span class="doctor-empty">
@@ -759,26 +594,44 @@ fetch("doctors.json")
         }
 
 
-        /* ----------------------------------------------
-           名前の長さで文字サイズを調整
+        /*
+         * 「先生」は doctors.json に
+         * 入っていても表示しない。
+         *
+         * 例：
+         *
+         * 村田先生
+         *
+         * ↓
+         *
+         * 村
+         * 田
+         */
 
-           1〜3文字：通常
-           4〜5文字：小さく
-           6文字以上：さらに小さく
+        let cleanName =
+            String(name)
+            .replace(/先生$/,"")
+            .trim();
+
+
+        /* ----------------------------------------------
+           長さによって文字だけ縮小
+
+           表の幅は絶対に変更しない
         ---------------------------------------------- */
 
         let className =
             "doctor-name";
 
 
-        if(clean.length >= 6){
+        if(cleanName.length >= 6){
 
             className +=
                 " very-long";
 
         }
 
-        else if(clean.length >= 4){
+        else if(cleanName.length >= 4){
 
             className +=
                 " long";
@@ -787,11 +640,11 @@ fetch("doctors.json")
 
 
         /* ----------------------------------------------
-           1文字ずつ縦に配置
+           1文字ずつ縦にする
         ---------------------------------------------- */
 
         const chars =
-            [...clean]
+            [...cleanName]
             .map(char => {
 
                 return `
@@ -814,7 +667,7 @@ fetch("doctors.json")
 
 
     /* ==================================================
-       午前診・午後診
+       外来担当医
     ================================================== */
 
     document
@@ -826,6 +679,7 @@ fetch("doctors.json")
 
             const day =
                 cell.dataset.day;
+
 
             const time =
                 cell.dataset.time;
@@ -842,18 +696,21 @@ fetch("doctors.json")
 
 
     /* ==================================================
-       訪問診療
+       訪問診療担当医
 
-       現在は全曜日「院長」
+       doctors.json：
 
-       将来 doctors.json を
+       "訪問診療": "院長"
 
-       "訪問診療": "○○先生"
+       将来、
 
-       に変更すれば自動反映
+       "訪問診療": "関先生"
+
+       のように変更すれば
+       自動的に反映される。
     ================================================== */
 
-    const visitName =
+    const visitDoctor =
         doctors?.["訪問診療"] || "";
 
 
@@ -863,9 +720,10 @@ fetch("doctors.json")
         )
         .forEach(cell => {
 
-            cell.
-            リス！
-                createDoctorName(visitName);
+            cell.innerHTML =
+                createDoctorName(
+                    visitDoctor
+                );
 
         });
 
