@@ -41,6 +41,7 @@ body{
         sans-serif;
 
     line-height:1.8;
+
 }
 
 
@@ -93,8 +94,7 @@ h1{
 /* ==================================================
    担当医表
 
-   ★ index.html の診療時間表と同じ考え方
-   ★ 6曜日を完全固定幅
+   元の診療時間表と同じ6曜日固定
 ================================================== */
 
 .doctor-table{
@@ -143,8 +143,6 @@ h1{
 
 /* ==================================================
    曜日
-
-   index.html と同じ #31556e
 ================================================== */
 
 .doctor-table thead th{
@@ -161,9 +159,9 @@ h1{
 
 
 /* ==================================================
-   左端「午前・午後」
+   左側：診療内容
 
-   幅固定
+   ★ 幅を固定
 ================================================== */
 
 .doctor-table .time-label{
@@ -178,6 +176,44 @@ h1{
 
     white-space:nowrap;
 
+    line-height:1.35;
+
+    padding-top:.55rem;
+
+    padding-bottom:.55rem;
+
+}
+
+
+/* ==================================================
+   左側タイトル
+================================================== */
+
+.time-title{
+
+    display:block;
+
+    font-size:1rem;
+
+    letter-spacing:.03em;
+
+}
+
+
+/* ==================================================
+   時間
+================================================== */
+
+.time-range{
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:.82rem;
+
+    white-space:nowrap;
+
 }
 
 
@@ -189,7 +225,7 @@ h1{
 
     background:#fff;
 
-    height:78px;
+    height:92px;
 
     overflow:hidden;
 
@@ -199,7 +235,7 @@ h1{
 /* ==================================================
    医師名
 
-   1文字ずつ縦方向
+   縦方向・中央揃え
 ================================================== */
 
 .doctor-name{
@@ -242,24 +278,22 @@ h1{
 
 /* ==================================================
    長い名前
-
-   ★ 枠を広げず文字だけ小さくする
 ================================================== */
 
 .doctor-name.long{
 
-    font-size:.82rem;
+    font-size:.78rem;
 
 }
 
 
 /* ==================================================
-   かなり長い名前
+   非常に長い名前
 ================================================== */
 
 .doctor-name.very-long{
 
-    font-size:.68rem;
+    font-size:.62rem;
 
 }
 
@@ -278,30 +312,13 @@ h1{
 
 
 /* ==================================================
-   最終行
+   最終行の線
 ================================================== */
 
 .doctor-table tbody tr:last-child th,
 .doctor-table tbody tr:last-child td{
 
     border-bottom:none;
-
-}
-
-
-/* ==================================================
-   訪問診療
-================================================== */
-
-.visit-doctor{
-
-    margin-top:1rem;
-
-    text-align:center;
-
-    font-size:.85rem;
-
-    color:#555;
 
 }
 
@@ -326,13 +343,6 @@ h1{
     }
 
 
-    .doctor-table{
-
-        width:100%;
-
-    }
-
-
     .doctor-table thead th{
 
         height:38px;
@@ -344,37 +354,51 @@ h1{
 
     .doctor-table .time-label{
 
-        width:62px;
+        width:88px;
 
         font-size:.82rem;
 
     }
 
 
+    .time-title{
+
+        font-size:.82rem;
+
+    }
+
+
+    .time-range{
+
+        font-size:.67rem;
+
+    }
+
+
     .doctor-table td{
 
-        height:72px;
+        height:82px;
 
     }
 
 
     .doctor-name{
 
-        font-size:.88rem;
+        font-size:.84rem;
 
     }
 
 
     .doctor-name.long{
 
-        font-size:.72rem;
+        font-size:.68rem;
 
     }
 
 
     .doctor-name.very-long{
 
-        font-size:.60rem;
+        font-size:.56rem;
 
     }
 
@@ -405,14 +429,28 @@ h1{
 
     .doctor-table .time-label{
 
-        width:62px;
+        width:100px;
+
+    }
+
+
+    .time-title{
+
+        font-size:.82rem;
+
+    }
+
+
+    .time-range{
+
+        font-size:.68rem;
 
     }
 
 
     .doctor-table td{
 
-        height:62px;
+        height:70px;
 
     }
 
@@ -426,14 +464,14 @@ h1{
 
     .doctor-name.long{
 
-        font-size:.68rem;
+        font-size:.66rem;
 
     }
 
 
     .doctor-name.very-long{
 
-        font-size:.56rem;
+        font-size:.54rem;
 
     }
 
@@ -449,10 +487,12 @@ h1{
 
 <main>
 
+
 <h1>担当医表</h1>
 
 
 <table class="doctor-table">
+
 
 <thead>
 
@@ -461,10 +501,15 @@ h1{
 <th class="time-label"></th>
 
 <th>月</th>
+
 <th>火</th>
+
 <th>水</th>
+
 <th>木</th>
+
 <th>金</th>
+
 <th>土</th>
 
 </tr>
@@ -475,52 +520,140 @@ h1{
 <tbody>
 
 
-<!-- =========================
-     午前
-========================= -->
+<!-- ==================================================
+     午前診
+================================================== -->
 
 <tr>
 
 <th class="time-label">
-午前
+
+<span class="time-title">
+🏥　午前診
+</span>
+
+<span class="time-range">
+9:00〜12:00
+</span>
+
 </th>
 
-<td data-day="月" data-time="午前"></td>
 
-<td data-day="火" data-time="午前"></td>
+<td
+    data-day="月"
+    data-time="午前"
+></td>
 
-<td data-day="水" data-time="午前"></td>
+<td
+    data-day="火"
+    data-time="午前"
+></td>
 
-<td data-day="木" data-time="午前"></td>
+<td
+    data-day="水"
+    data-time="午前"
+></td>
 
-<td data-day="金" data-time="午前"></td>
+<td
+    data-day="木"
+    data-time="午前"
+></td>
 
-<td data-day="土" data-time="午前"></td>
+<td
+    data-day="金"
+    data-time="午前"
+></td>
+
+<td
+    data-day="土"
+    data-time="午前"
+></td>
 
 </tr>
 
 
-<!-- =========================
-     午後
-========================= -->
+<!-- ==================================================
+     訪問診療
+================================================== -->
 
 <tr>
 
 <th class="time-label">
-午後
+
+<span class="time-title">
+🏠　訪問診療
+</span>
+
+<span class="time-range">
+13:30〜16:30
+</span>
+
 </th>
 
-<td data-day="月" data-time="午後"></td>
 
-<td data-day="火" data-time="午後"></td>
+<td data-visit="true"></td>
 
-<td data-day="水" data-time="午後"></td>
+<td data-visit="true"></td>
 
-<td data-day="木" data-time="午後"></td>
+<td data-visit="true"></td>
 
-<td data-day="金" data-time="午後"></td>
+<td data-visit="true"></td>
 
-<td data-day="土" data-time="午後"></td>
+<td data-visit="true"></td>
+
+<td data-visit="true"></td>
+
+</tr>
+
+
+<!-- ==================================================
+     午後診
+================================================== -->
+
+<tr>
+
+<th class="time-label">
+
+<span class="time-title">
+🏥　午後診
+</span>
+
+<span class="time-range">
+17:30〜19:30
+</span>
+
+</th>
+
+
+<td
+    data-day="月"
+    data-time="午後"
+></td>
+
+<td
+    data-day="火"
+    data-time="午後"
+></td>
+
+<td
+    data-day="水"
+    data-time="午後"
+></td>
+
+<td
+    data-day="木"
+    data-time="午後"
+></td>
+
+<td
+    data-day="金"
+    data-time="午後"
+></td>
+
+<td
+    data-day="土"
+    data-time="午後"
+></td>
 
 </tr>
 
@@ -530,20 +663,13 @@ h1{
 </table>
 
 
-<div class="visit-doctor">
-
-訪問診療　院長
-
-</div>
-
-
 </main>
 
 
 <script>
 
 /* ==================================================
-   doctors.json 読み込み
+   doctors.json
 ================================================== */
 
 fetch("doctors.json")
@@ -566,9 +692,9 @@ fetch("doctors.json")
 .then(doctors => {
 
 
-    /* ----------------------------------------------
-       「先生」を削除
-    ---------------------------------------------- */
+    /* ==================================================
+       敬称を除去
+    ================================================== */
 
     function cleanName(name){
 
@@ -579,9 +705,9 @@ fetch("doctors.json")
     }
 
 
-    /* ----------------------------------------------
+    /* ==================================================
        医師名を縦組みにする
-    ---------------------------------------------- */
+    ================================================== */
 
     function createDoctorName(name){
 
@@ -594,39 +720,40 @@ fetch("doctors.json")
         if(!clean){
 
             return `
-                <span class="doctor-empty">―</span>
+                <span class="doctor-empty">
+                    ―
+                </span>
             `;
 
         }
 
 
-        /* ------------------------------------------
-           長さによって文字サイズを変更
+        /* ----------------------------------------------
+           文字数による縮小
+        ---------------------------------------------- */
 
-           1〜3文字 → 通常
-           4〜5文字 → 小さく
-           6文字以上 → さらに小さく
-        ------------------------------------------ */
-
-        let className = "doctor-name";
+        let className =
+            "doctor-name";
 
 
         if(clean.length >= 6){
 
-            className += " very-long";
+            className +=
+                " very-long";
 
         }
 
         else if(clean.length >= 4){
 
-            className += " long";
+            className +=
+                " long";
 
         }
 
 
-        /* ------------------------------------------
-           1文字ずつ縦にする
-        ------------------------------------------ */
+        /* ----------------------------------------------
+           1文字ずつ縦に並べる
+        ---------------------------------------------- */
 
         const chars =
             [...clean]
@@ -651,9 +778,9 @@ fetch("doctors.json")
     }
 
 
-    /* ----------------------------------------------
-       表へ反映
-    ---------------------------------------------- */
+    /* ==================================================
+       午前・午後
+    ================================================== */
 
     document
         .querySelectorAll(
@@ -679,21 +806,27 @@ fetch("doctors.json")
         });
 
 
-    /* ----------------------------------------------
-       訪問診療担当
-    ---------------------------------------------- */
+    /* ==================================================
+       訪問診療
 
-    const visitDoctor =
+       ★ 現在は全曜日「院長」
+       ★ 将来変更した場合も doctors.json から反映
+    ================================================== */
+
+    const visitName =
         doctors?.["訪問診療"] || "";
 
 
     document
-        .querySelector(".visit-doctor")
-        .textContent =
-            visitDoctor
-                ? `訪問診療　${cleanName(visitDoctor)}`
-                : "訪問診療";
+        .querySelectorAll(
+            ".doctor-table td[data-visit]"
+        )
+        .forEach(cell => {
 
+            cell.innerHTML =
+                createDoctorName(visitName);
+
+        });
 
 })
 
