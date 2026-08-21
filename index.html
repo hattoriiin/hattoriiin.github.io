@@ -2072,5 +2072,118 @@ if (newsJump && newsTarget) {
 
 </script>
 
+<script>
+
+/**
+ * 「詳細はこちら」から #news へ滑らかに移動します。
+ *
+ * なぜそうしているか：
+ * ブラウザ標準のアンカー移動よりも移動時間を安定させ、
+ * 急激な画面移動を避けるためです。
+ *
+ * エラー処理：
+ * - リンクまたは #news が存在しなければ何もしません。
+ * - reduced-motion が有効なら標準の即時移動を使用します。
+ *
+ * セキュリティ：
+ * - 固定されたDOM要素だけを操作します。
+ * - 外部入力やHTML文字列は扱いません。
+ *
+ * 計算量：
+ * 時間 O(F)（アニメーションフレーム数）
+ * 空間 O(1)
+ */
+
+const newsJump =
+    document.querySelector('.news-detail-jump a');
+
+const newsTarget =
+    document.querySelector('#news');
+
+if (newsJump && newsTarget) {
+
+    newsJump.addEventListener('click', function(event) {
+
+        event.preventDefault();
+
+        if (
+            window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches
+        ) {
+
+            newsTarget.scrollIntoView({
+                behavior: 'auto',
+                block: 'start'
+            });
+
+            return;
+        }
+
+        const startY = window.scrollY;
+
+        const targetY =
+            newsTarget.getBoundingClientRect().top
+            + window.scrollY;
+
+        const distance =
+            targetY - startY;
+
+        /*
+         * 約1.8秒を基本にします。
+         * 3秒以上にはしないことで、
+         * 「いつまでも移動している」感じを避けます。
+         */
+        const duration =
+            Math.min(
+                3000,
+                Math.max(
+                    1800,
+                    Math.abs(distance) * 0.8
+                )
+            );
+
+        const startTime =
+            performance.now();
+
+        function ease(t) {
+
+            /*
+             * 開始と終了を滑らかにするため、
+             * smoothstep系のイージングを使用します。
+             */
+            return t * t * (3 - 2 * t);
+
+        }
+
+        function animate(now) {
+
+            const progress =
+                Math.min(
+                    (now - startTime) / duration,
+                    1
+                );
+
+            window.scrollTo(
+                0,
+                startY + distance * ease(progress)
+            );
+
+            if (progress < 1) {
+
+                requestAnimationFrame(animate);
+
+            }
+
+        }
+
+        requestAnimationFrame(animate);
+
+    });
+
+}
+
+</script>
+
 </body>
 </html>
