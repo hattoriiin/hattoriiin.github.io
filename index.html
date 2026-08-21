@@ -206,21 +206,86 @@ h2{
 
 }
 
-.news-card a {
+/* ---------- お知らせ表示 ---------- */
 
-    display: inline-block;
+.news-card{
 
-    padding: 0.8rem 2.5rem;
+    margin:1.5rem 0 .8rem;
 
-    background: #31556e;
+    text-align:center;
 
-    color: #fff;
+}
 
-    text-decoration: none;
+.news-card span{
 
-    border-radius: 8px;
+    display:inline-block;
 
-    font-weight: bold;
+    padding:.65rem 2.5rem;
+
+    background:#31556e;
+
+    color:#fff;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+}
+
+
+/* ---------- お知らせ詳細への導線 ---------- */
+
+.news-detail-jump{
+
+    margin:1rem auto 1.5rem;
+
+    text-align:center;
+
+}
+
+.news-detail-jump a{
+
+    display:inline-block;
+
+    min-width:9rem;
+
+    padding:.45rem 1.5rem;
+
+    color:#31556e;
+
+    text-decoration:none;
+
+    font-size:.85rem;
+
+    font-weight:500;
+
+    letter-spacing:.08em;
+
+    background:#fff;
+
+    border:1px solid transparent;
+
+    border-image:
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        ) 1;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+
+}
+
+
+/* タップしたことが分かる程度の控えめな反応 */
+
+.news-detail-jump a:active{
+
+    background:#f2f7f9;
 
 }
 
@@ -1983,6 +2048,154 @@ function setupNewsScroll() {
 }
 
 setupNewsScroll();
+</script>
+
+<script>
+
+/**
+ * お知らせ詳細まで、急激な移動を避けて
+ * ゆっくりスクロールする。
+ *
+ * なぜそうしているか：
+ * 一般的な smooth scroll はブラウザ任せで、
+ * 短時間に大きく画面が移動すると
+ * 人によっては酔いや目の疲れを感じるため。
+ *
+ * エラー時：
+ * - #news が存在しない場合は何もしない
+ * - prefers-reduced-motion が有効な場合は
+ *   アニメーションを行わず通常移動する
+ *
+ * 計算量：
+ * 時間 O(F)（アニメーションフレーム数）
+ * 空間 O(1)
+ */
+
+document.querySelectorAll(
+    '.news-detail-jump a'
+).forEach(link => {
+
+    link.addEventListener('click', function(event){
+
+        const target =
+            document.querySelector('#news');
+
+        if(!target){
+            return;
+        }
+
+        event.preventDefault();
+
+        /*
+         * 動きを減らす設定を利用している人には
+         * アニメーションを強制しない。
+         *
+         * なぜそうしているか：
+         * motion sensitivity への配慮。
+         */
+        if(
+            window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches
+        ){
+
+            target.scrollIntoView({
+                behavior:'auto',
+                block:'start'
+            });
+
+            return;
+
+        }
+
+
+        const startY =
+            window.scrollY;
+
+        const targetY =
+            target.getBoundingClientRect().top
+            + window.scrollY;
+
+        const distance =
+            targetY - startY;
+
+
+        /*
+         * 距離に比例して時間を決める。
+         *
+         * 短距離でも速すぎず、
+         * 長距離でも速くなりすぎないよう
+         * 下限・上限を設定する。
+         */
+        const duration =
+            Math.min(
+                1800,
+                Math.max(
+                    1100,
+                    Math.abs(distance) * 1.15
+                )
+            );
+
+        const startTime =
+            performance.now();
+
+
+        function ease(t){
+
+            /*
+             * 急加速・急減速を避けるための
+             * smootherstep。
+             *
+             * なぜそうしているか：
+             * 動き始めと停止時の速度変化を
+             * なだらかにすることで、
+             * 視覚的な負担を抑える。
+             */
+            return t * t * t *
+                (t * (t * 6 - 15) + 10);
+
+        }
+
+
+        function animate(now){
+
+            const elapsed =
+                now - startTime;
+
+            const progress =
+                Math.min(
+                    elapsed / duration,
+                    1
+                );
+
+            const eased =
+                ease(progress);
+
+            window.scrollTo(
+                0,
+                startY + distance * eased
+            );
+
+
+            if(progress < 1){
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }
+
+        }
+
+
+        requestAnimationFrame(
+            animate
+        );
+
+    });
+
+});
+
 </script>
 
 </body>
