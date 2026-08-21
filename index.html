@@ -1318,13 +1318,15 @@ overflow:hidden;
 
 <main>
 
+
+<!-- ここカットして変更した-->
 <div class="news-card">
 
-    <a href="news">
+    <a href="#news" class="news-scroll">
         お知らせ
     </a>
-</div>
 
+</div>
 
 <!-- ⭐️ 最新3件プレビュー -->
 <div class="news-preview">
@@ -1863,6 +1865,107 @@ fetch('news.json')
 
     });
 
+</script>
+
+<script>
+/**
+ * 「お知らせ」ボタンから #news へ、
+ * 目に負担を感じにくい速度でスクロールします。
+ *
+ * 引数:
+ *   なし
+ *
+ * 戻り値:
+ *   なし
+ *
+ * 例外:
+ *   #news または .news-scroll が存在しない場合は何もしません。
+ *
+ * セキュリティ:
+ *   固定されたDOM要素だけを対象とし、
+ *   外部入力やHTML文字列を処理しません。
+ */
+function setupNewsScroll() {
+
+    const link = document.querySelector('.news-scroll');
+    const target = document.querySelector('#news');
+
+    if (!link || !target) {
+        console.warn(
+            'お知らせスクロール: 対象要素が見つかりません。'
+        );
+        return;
+    }
+
+    link.addEventListener('click', function(event) {
+
+        event.preventDefault();
+
+        const startY = window.scrollY;
+        const targetY =
+            target.getBoundingClientRect().top + window.scrollY;
+
+        const distance = targetY - startY;
+
+        /*
+         * 距離が長いほど少し時間を延ばします。
+         * ただし極端に長くならないよう上限を設けます。
+         *
+         * こうすることで、短い移動は unnecessarily 遅くならず、
+         * 長い移動でも急激なスクロールになりません。
+         */
+        const duration = Math.min(
+            1800,
+            Math.max(1200, Math.abs(distance) * 0.9)
+        );
+
+        const startTime = performance.now();
+
+        /**
+         * easeInOutCubic
+         *
+         * 最初と最後をゆっくりにすることで、
+         * 視線への急激な動きを抑えます。
+         */
+        function easeInOutCubic(progress) {
+
+            if (progress < 0.5) {
+                return 4 * progress * progress * progress;
+            }
+
+            return 1 -
+                Math.pow(-2 * progress + 2, 3) / 2;
+        }
+
+        function animate(currentTime) {
+
+            const elapsed =
+                currentTime - startTime;
+
+            const progress =
+                Math.min(elapsed / duration, 1);
+
+            const eased =
+                easeInOutCubic(progress);
+
+            window.scrollTo(
+                0,
+                startY + distance * eased
+            );
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+
+        }
+
+        requestAnimationFrame(animate);
+
+    });
+
+}
+
+setupNewsScroll();
 </script>
 
 </body>
