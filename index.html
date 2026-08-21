@@ -1418,7 +1418,7 @@ overflow:hidden;
 
 <div class="news-detail-jump">
 
-    <a href="#news" id="newsJump">
+    <a href="#news">
         詳細はこちら
     </a>
 
@@ -1949,144 +1949,7 @@ fetch('news.json')
 
 </script>
 
-<script>
 
-/**
- * 「詳細はこちら」からお知らせ詳細へ移動する。
- *
- * なぜこうしているか：
- * ブラウザ標準の smooth scroll は移動時間を細かく
- * 制御できないため、長い距離を一気に移動すると
- * 目や乗り物酔いへの負担になる場合があります。
- *
- * そのため、移動距離に応じて一定の時間を確保し、
- * 開始時と終了時を特にゆっくりした動きにします。
- *
- * エラー処理：
- * - リンクが存在しない場合は処理しない
- * - #news が存在しない場合は処理しない
- * - reduced-motion が指定されている場合は即時移動
- *
- * セキュリティ：
- * - 外部入力を使用しない
- * - 固定されたDOM要素のみを操作する
- *
- * 計算量：
- * 時間 O(F)（アニメーションフレーム数）
- * 空間 O(1)
- */
-
-const newsJump =
-    document.querySelector('.news-detail-jump a');
-
-const newsTarget =
-    document.querySelector('#news');
-
-if (newsJump && newsTarget) {
-
-    newsJump.addEventListener('click', function(event) {
-
-        event.preventDefault();
-
-        /*
-         * 動きを減らす設定が有効な場合は、
-         * アニメーションを行わない。
-         *
-         * なぜそうしているか：
-         * スクロールによる視覚的負担を避けたい
-         * 利用者の設定を優先するため。
-         */
-        if (
-            window.matchMedia(
-                '(prefers-reduced-motion: reduce)'
-            ).matches
-        ) {
-
-            newsTarget.scrollIntoView({
-                behavior:'auto',
-                block:'start'
-            });
-
-            return;
-        }
-
-        const startY =
-            window.scrollY;
-
-        const targetY =
-            newsTarget.getBoundingClientRect().top
-            + window.scrollY;
-
-        const distance =
-            targetY - startY;
-
-        /*
-         * 速すぎる移動を避けるため、
-         * 最低2秒を確保します。
-         *
-         * 長距離でも極端に遅くならないよう、
-         * 最大3.5秒に制限します。
-         */
-        const duration =
-            Math.min(
-                3500,
-                Math.max(
-                    2000,
-                    Math.abs(distance) * 1.3
-                )
-            );
-
-        const startTime =
-            performance.now();
-
-        function ease(t) {
-
-            /*
-             * 開始・終了をゆっくり、
-             * 中間も急加速しない動きにします。
-             */
-            return t * t * t *
-                (t * (t * 6 - 15) + 10);
-        }
-
-        function animate(now) {
-
-            const elapsed =
-                now - startTime;
-
-            const progress =
-                Math.min(
-                    elapsed / duration,
-                    1
-                );
-
-            const eased =
-                ease(progress);
-
-            window.scrollTo(
-                0,
-                startY + distance * eased
-            );
-
-            if (progress < 1) {
-
-                requestAnimationFrame(
-                    animate
-                );
-
-            }
-
-        }
-
-        requestAnimationFrame(
-            animate
-        );
-
-    });
-
-}
-
-</script>
 
 </body>
 </html>
