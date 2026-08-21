@@ -420,11 +420,6 @@ footer{
 
 }
 
-
-/* ⭐ ---------- お知らせへ移動 ▶︎カットした。がまた貼った---------- */
-
-お知らせへ移動
-
 /* ---------- 鳥 ---------- */
 
 .bird{
@@ -1949,7 +1944,133 @@ fetch('news.json')
 
 </script>
 
+<script>
 
+/**
+ * 「詳細はこちら」から #news へ、
+ * 急激なジャンプではなく、ゆっくり移動します。
+ *
+ * なぜそうしているか：
+ * href="#news" の標準動作では一瞬で移動するため、
+ * ページ内の位置関係を確認できる時間を確保します。
+ *
+ * 引数：
+ *   なし
+ *
+ * 戻り値：
+ *   なし
+ *
+ * 例外処理：
+ *   - リンクが存在しない場合は処理しません。
+ *   - #news が存在しない場合は処理しません。
+ *
+ * セキュリティ：
+ *   固定されたDOM要素だけを操作し、
+ *   外部入力は使用しません。
+ *
+ * 計算量：
+ *   時間 O(F)（アニメーションフレーム数）
+ *   空間 O(1)
+ */
+
+const newsJump =
+    document.querySelector('.news-detail-jump a');
+
+const newsTarget =
+    document.querySelector('#news');
+
+if (newsJump && newsTarget) {
+
+    newsJump.addEventListener('click', function(event) {
+
+        /*
+         * href="#news" の標準ジャンプを止めます。
+         *
+         * これをしないとブラウザが先に一瞬で
+         * #newsへ移動してしまいます。
+         */
+        event.preventDefault();
+
+        const startY =
+            window.scrollY;
+
+        const targetY =
+            newsTarget.getBoundingClientRect().top
+            + window.scrollY;
+
+        const distance =
+            targetY - startY;
+
+        /*
+         * 今回は「ゆっくり移動する」ことを優先して、
+         * 最低2秒、最大3.5秒にします。
+         *
+         * なぜそうしているか：
+         * ページ上部から「お知らせ詳細」までの
+         * 長い距離を一瞬で移動させないためです。
+         */
+        const duration =
+            Math.min(
+                3500,
+                Math.max(
+                    2000,
+                    Math.abs(distance) * 1.3
+                )
+            );
+
+        const startTime =
+            performance.now();
+
+        function ease(t) {
+
+            /*
+             * smootherstep。
+             *
+             * 開始時と終了時の速度を滑らかにして、
+             * 急な動きを避けます。
+             */
+            return t * t * t *
+                (t * (t * 6 - 15) + 10);
+        }
+
+        function animate(currentTime) {
+
+            const elapsed =
+                currentTime - startTime;
+
+            const progress =
+                Math.min(
+                    elapsed / duration,
+                    1
+                );
+
+            const eased =
+                ease(progress);
+
+            window.scrollTo(
+                0,
+                startY + distance * eased
+            );
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }
+
+        }
+
+        requestAnimationFrame(
+            animate
+        );
+
+    });
+
+}
+
+</script>
 
 </body>
 </html>
