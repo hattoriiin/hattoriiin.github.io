@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>服部医院｜担当医・外来診療時間</title>
+<title>服部医院｜外来診療時間</title>
 
 
 <style>
@@ -31,6 +31,8 @@ body{
 
     margin:0;
 
+    min-height:100vh;
+
     background:#fff;
 
     color:#31556e;
@@ -40,163 +42,59 @@ body{
         "Hiragino Kaku Gothic ProN",
         sans-serif;
 
-    line-height:1.7;
-
-    padding-bottom:
-        calc(76px + env(safe-area-inset-bottom));
-
-}
-
-
-/* ==================================================
-   上部タイトル
-   index.html と同系統のグラデーション
-================================================== */
-
-.page-header{
-
-    position:relative;
-
-    overflow:hidden;
-
-    padding:
-        1.15rem
-        1rem
-        1.35rem;
-
-    text-align:center;
-
-    color:#fff;
-
-    background:
-
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(255,255,255,.08),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 15% 85%,
-            rgba(120,200,220,.08),
-            transparent 45%
-        ),
-
-        linear-gradient(
-            135deg,
-            #20384d 0%,
-            #31556e 35%,
-            #4d7d98 70%,
-            #78b8c4 100%
-        );
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.20),
-        inset 0 -25px 40px rgba(0,0,0,.08);
-
-}
-
-
-/* 上部の淡い光 */
-
-.page-header::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-
-        radial-gradient(
-            circle at 85% 12%,
-            rgba(255,255,255,.18) 0%,
-            rgba(255,255,255,.08) 18%,
-            transparent 55%
-        );
-
-    pointer-events:none;
-
-}
-
-
-/* ==================================================
-   タイトル
-================================================== */
-
-.page-title{
-
-    position:relative;
-
-    z-index:1;
-
-    margin:0;
-
-    font-family:
-        "M PLUS Rounded 1c",
-        "Noto Sans JP",
-        sans-serif;
-
-    font-size:1.35rem;
-
-    font-weight:400;
-
-    letter-spacing:.16em;
-
-    text-shadow:
-        0 2px 6px rgba(0,0,0,.22);
-
-}
-
-.page-subtitle{
-
-    position:relative;
-
-    z-index:1;
-
-    margin:.2rem 0 0;
-
-    font-size:.72rem;
-
-    letter-spacing:.1em;
-
-    opacity:.9;
-
 }
 
 
 /* ==================================================
    メイン
+
+   時計だけを中央に配置する。
+   ページ全体に不要な余白や他コンテンツを
+   持たせないため、単純な構造にしている。
 ================================================== */
 
 .page-main{
 
     width:100%;
 
-    max-width:900px;
+    min-height:100vh;
 
-    margin:0 auto;
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     padding:
-        1.35rem
-        1.2rem
-        2rem;
+        1rem;
 
 }
 
 
 /* ==================================================
-   セクション見出し
+   時計エリア
 ================================================== */
 
-.section-title{
+.clock-area{
+
+    width:100%;
+
+    max-width:520px;
+
+}
+
+
+/* ==================================================
+   時計見出し
+================================================== */
+
+.clock-title{
 
     width:72%;
 
     margin:
-        .5rem auto
-        1.15rem;
+        0 auto
+        1rem;
 
     padding:
         .45rem 0;
@@ -205,13 +103,13 @@ body{
 
     border-top:
         1px solid
-        rgba(49,85,110,.45);
+        rgba(49,85,110,.35);
 
     border-bottom:
         1px solid
-        rgba(49,85,110,.45);
+        rgba(49,85,110,.35);
 
-    font-size:1.08rem;
+    font-size:1.05rem;
 
     font-weight:400;
 
@@ -221,244 +119,8 @@ body{
 
 
 /* ==================================================
-   担当医表
+   時計本体
 ================================================== */
-
-.doctor-table-wrap{
-
-    width:100%;
-
-    overflow:hidden;
-
-    border-radius:10px;
-
-    box-shadow:
-        0 2px 8px
-        rgba(0,0,0,.08);
-
-}
-
-
-/* ==================================================
-   表本体
-
-   index.html の .schedule と同じ思想
-================================================== */
-
-.doctor-table{
-
-    width:100%;
-
-    table-layout:fixed;
-
-    border-collapse:separate;
-
-    border-spacing:0;
-
-}
-
-
-/* --------------------------------------------------
-   全セル
--------------------------------------------------- */
-
-.doctor-table th,
-.doctor-table td{
-
-    border-bottom:
-        1px solid #ddd;
-
-    padding:
-        .45rem
-        .25rem;
-
-    text-align:center;
-
-    font-size:.92rem;
-
-    line-height:1.3;
-
-}
-
-
-/* --------------------------------------------------
-   曜日
--------------------------------------------------- */
-
-.doctor-table thead th{
-
-    background:#31556e;
-
-    color:#fff;
-
-    font-weight:400;
-
-    padding:
-        .42rem
-        .2rem;
-
-}
-
-
-/* 左上セル */
-
-.doctor-table thead th:first-child{
-
-    width:120px;
-
-}
-
-
-/* --------------------------------------------------
-   左側の診療時間
--------------------------------------------------- */
-
-.doctor-table tbody th{
-
-    background:#f2f7f9;
-
-    font-weight:400;
-
-    white-space:nowrap;
-
-    letter-spacing:.03em;
-
-}
-
-
-/* --------------------------------------------------
-   担当医名
--------------------------------------------------- */
-
-.doctor-name{
-
-    display:block;
-
-    min-height:1.35em;
-
-    color:#31556e;
-
-    font-size:.9rem;
-
-    font-weight:500;
-
-}
-
-
-/* 空欄 */
-
-.doctor-name.empty{
-
-    color:#aaa;
-
-}
-
-
-/* --------------------------------------------------
-   訪問診療
--------------------------------------------------- */
-
-.doctor-table .visit-row th{
-
-    background:#f3f8ef;
-
-}
-
-
-/* --------------------------------------------------
-   最終行
--------------------------------------------------- */
-
-.doctor-table tbody tr:last-child th,
-.doctor-table tbody tr:last-child td{
-
-    border-bottom:none;
-
-}
-
-
-/* ==================================================
-   訪問診療の注記
-================================================== */
-
-.visit-note{
-
-    margin:
-        .7rem 0
-        2rem;
-
-    text-align:center;
-
-    font-size:.72rem;
-
-    color:#777;
-
-}
-
-
-/* ==================================================
-   時計＋担当医表レイアウト
-================================================== */
-
-.schedule-clock-area{
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        minmax(360px,440px);
-
-    gap:2rem;
-
-    align-items:start;
-
-}
-
-
-/* ==================================================
-   時計
-================================================== */
-
-.clock-area{
-
-    width:100%;
-
-}
-
-
-/* 時計見出し */
-
-.clock-title{
-
-    width:82%;
-
-    margin:
-        0 auto
-        .8rem;
-
-    padding:
-        .4rem 0;
-
-    text-align:center;
-
-    border-top:
-        1px solid
-        rgba(49,85,110,.35);
-
-    border-bottom:
-        1px solid
-        rgba(49,85,110,.35);
-
-    font-size:1rem;
-
-    font-weight:400;
-
-    letter-spacing:.12em;
-
-}
-
-
-/* 時計本体 */
 
 .time-ring{
 
@@ -476,7 +138,9 @@ body{
 }
 
 
-/* SVG */
+/* ==================================================
+   SVG
+================================================== */
 
 .time-ring svg{
 
@@ -601,7 +265,9 @@ body{
 }
 
 
-/* 中央 */
+/* ==================================================
+   中央
+================================================== */
 
 .clock-center{
 
@@ -624,157 +290,6 @@ body{
 
 
 /* ==================================================
-   固定ナビ
-================================================== */
-
-.bottom-nav{
-
-    position:fixed;
-
-    left:0;
-    right:0;
-    bottom:0;
-
-    z-index:1000;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    padding:
-        7px
-        8px
-        calc(7px + env(safe-area-inset-bottom));
-
-    background:
-        rgba(255,255,255,.88);
-
-    backdrop-filter:
-        blur(10px);
-
-    -webkit-backdrop-filter:
-        blur(10px);
-
-    border-top:
-        1px solid
-        rgba(49,85,110,.12);
-
-    box-shadow:
-        0 -3px 14px
-        rgba(40,70,90,.07);
-
-}
-
-
-/* ナビボタン */
-
-.bottom-nav a{
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    min-height:38px;
-
-    color:#31556e;
-
-    text-decoration:none;
-
-    font-size:.7rem;
-
-    border-right:
-        1px solid
-        rgba(49,85,110,.12);
-
-}
-
-
-/* 最後 */
-
-.bottom-nav a:last-child{
-
-    border-right:none;
-
-}
-
-
-/* ==================================================
-   横向きスマートフォン
-================================================== */
-
-@media
-(max-width:900px)
-and
-(orientation:landscape){
-
-    .page-main{
-
-        max-width:1000px;
-
-        padding:
-            1rem
-            1rem
-            1.5rem;
-
-    }
-
-
-    .schedule-clock-area{
-
-        grid-template-columns:
-            minmax(0,1.15fr)
-            minmax(300px,.85fr);
-
-        gap:1.2rem;
-
-        align-items:center;
-
-    }
-
-
-    .section-title{
-
-        margin-top:.2rem;
-
-    }
-
-
-    .clock-title{
-
-        margin-bottom:.35rem;
-
-    }
-
-
-    .time-ring{
-
-        width:min(
-            100%,
-            330px
-        );
-
-    }
-
-
-    .clock-face text{
-
-        font-size:25px;
-
-    }
-
-
-    .clock-face .twelve{
-
-        font-size:27px;
-
-    }
-
-}
-
-
-/* ==================================================
    スマートフォン縦
 ================================================== */
 
@@ -786,60 +301,14 @@ and
     .page-main{
 
         padding:
-            1.1rem
-            .7rem
-            1.5rem;
-
-    }
-
-
-    .section-title{
-
-        width:78%;
-
-        font-size:1rem;
-
-    }
-
-
-    .doctor-table th,
-    .doctor-table td{
-
-        padding:
-            .4rem
-            .1rem;
-
-        font-size:.78rem;
-
-    }
-
-
-    .doctor-table thead th:first-child{
-
-        width:86px;
-
-    }
-
-
-    .doctor-name{
-
-        font-size:.76rem;
-
-        white-space:nowrap;
-
-    }
-
-
-    .schedule-clock-area{
-
-        display:block;
+            .7rem;
 
     }
 
 
     .clock-area{
 
-        margin-top:2rem;
+        max-width:520px;
 
     }
 
@@ -848,14 +317,18 @@ and
 
         width:72%;
 
+        margin-bottom:.7rem;
+
+        font-size:.98rem;
+
     }
 
 
     .time-ring{
 
         width:min(
-            92vw,
-            420px
+            94vw,
+            440px
         );
 
     }
@@ -883,24 +356,9 @@ and
 
 @media(max-width:380px){
 
-    .doctor-table th,
-    .doctor-table td{
+    .clock-title{
 
-        font-size:.72rem;
-
-    }
-
-
-    .doctor-table thead th:first-child{
-
-        width:78px;
-
-    }
-
-
-    .doctor-name{
-
-        font-size:.7rem;
+        font-size:.92rem;
 
     }
 
@@ -920,6 +378,65 @@ and
 
 }
 
+
+/* ==================================================
+   横向きスマートフォン
+================================================== */
+
+@media
+(max-width:900px)
+and
+(orientation:landscape){
+
+    .page-main{
+
+        padding:
+            .5rem;
+
+    }
+
+
+    .clock-area{
+
+        max-width:390px;
+
+    }
+
+
+    .clock-title{
+
+        margin-bottom:.35rem;
+
+        font-size:.9rem;
+
+    }
+
+
+    .time-ring{
+
+        width:min(
+            72vh,
+            390px
+        );
+
+    }
+
+
+    .clock-face text{
+
+        font-size:25px;
+
+    }
+
+
+    .clock-face .twelve{
+
+        font-size:27px;
+
+    }
+
+}
+
 </style>
 
 </head>
@@ -928,198 +445,7 @@ and
 <body>
 
 
-<!-- ==================================================
-     上部
-================================================== -->
-
-<header class="page-header">
-
-    <h1 class="page-title">
-        担当医・外来診療時間
-    </h1>
-
-    <p class="page-subtitle">
-        服部医院
-    </p>
-
-</header>
-
-
 <main class="page-main">
-
-
-<!-- ==================================================
-     担当医表
-================================================== -->
-
-<section>
-
-<h2 class="section-title">
-    担当医
-</h2>
-
-
-<div class="doctor-table-wrap">
-
-<table class="doctor-table">
-
-<thead>
-
-<tr>
-
-    <th></th>
-
-    <th>月</th>
-    <th>火</th>
-    <th>水</th>
-    <th>木</th>
-    <th>金</th>
-    <th>土</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-
-<!-- 午前 -->
-
-<tr>
-
-<th>
-    午前診<br>
-    <span>9:00〜12:00</span>
-</th>
-
-<td>
-    <span class="doctor-name" data-day="月" data-time="午前"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="火" data-time="午前"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="水" data-time="午前"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="木" data-time="午前"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="金" data-time="午前"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="土" data-time="午前"></span>
-</td>
-
-</tr>
-
-
-<!-- 訪問 -->
-
-<tr class="visit-row">
-
-<th>
-    訪問診療<br>
-    <span>13:30〜16:30</span>
-</th>
-
-<td>
-    <span class="doctor-name"
-          data-day="月"
-          data-time="訪問診療"></span>
-</td>
-
-<td>
-    <span class="doctor-name"
-          data-day="火"
-          data-time="訪問診療"></span>
-</td>
-
-<td>
-    <span class="doctor-name"
-          data-day="水"
-          data-time="訪問診療"></span>
-</td>
-
-<td>
-    <span class="doctor-name"
-          data-day="木"
-          data-time="訪問診療"></span>
-</td>
-
-<td>
-    <span class="doctor-name empty">―</span>
-</td>
-
-<td>
-    <span class="doctor-name empty">―</span>
-</td>
-
-</tr>
-
-
-<!-- 午後 -->
-
-<tr>
-
-<th>
-    午後診<br>
-    <span>17:30〜19:30</span>
-</th>
-
-<td>
-    <span class="doctor-name" data-day="月" data-time="午後"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="火" data-time="午後"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="水" data-time="午後"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="木" data-time="午後"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="金" data-time="午後"></span>
-</td>
-
-<td>
-    <span class="doctor-name" data-day="土" data-time="午後"></span>
-</td>
-
-</tr>
-
-
-</tbody>
-
-</table>
-
-</div>
-
-
-<p class="visit-note">
-    ※ 訪問診療は月曜日〜木曜日、担当は院長です。
-</p>
-
-</section>
-
-
-
-<!-- ==================================================
-     担当医表 ＋ 時計
-================================================== -->
-
-<div class="schedule-clock-area">
 
 
 <!-- ==================================================
@@ -1128,9 +454,9 @@ and
 
 <section class="clock-area">
 
-<h2 class="clock-title">
+<h1 class="clock-title">
     外来診療時間
-</h2>
+</h1>
 
 
 <div class="time-ring">
@@ -1145,17 +471,9 @@ and
 
 
 <!-- ==================================================
-     外来グラデーション
-     
-     内側
-     ↓
-     白抜け
-     ↓
-     中央帯
-     ↓
-     白抜け
-     ↓
-     外側
+     外来診療グラデーション
+
+     午前診・午後診で使用。
 ================================================== -->
 
 <radialGradient
@@ -1184,8 +502,6 @@ and
         stop-opacity=".72"
     />
 
-    <!-- 内側白抜け -->
-
     <stop
         offset="68%"
         stop-color="#ffffff"
@@ -1197,8 +513,6 @@ and
         stop-color="#ffffff"
         stop-opacity=".98"
     />
-
-    <!-- 外側白抜け -->
 
     <stop
         offset="76%"
@@ -1229,8 +543,6 @@ and
 
 <!-- ==================================================
      訪問診療グラデーション
-
-     外側寄りに帯を配置
 ================================================== -->
 
 <radialGradient
@@ -1321,6 +633,8 @@ and
 
 <!-- ==================================================
      午前診
+     
+     9:00 → 12:00
 ================================================== -->
 
 <path
@@ -1331,6 +645,8 @@ and
 
 <!-- ==================================================
      訪問診療
+     
+     13:30 → 16:30
 ================================================== -->
 
 <path
@@ -1341,6 +657,8 @@ and
 
 <!-- ==================================================
      午後診
+     
+     17:30 → 19:30
 ================================================== -->
 
 <path
@@ -1355,7 +673,13 @@ and
 
 <g class="clock-face">
 
-<text class="twelve" x="200" y="62">12</text>
+<text
+    class="twelve"
+    x="200"
+    y="62"
+>
+    12
+</text>
 
 <text x="269" y="80">1</text>
 
@@ -1424,6 +748,7 @@ and
     r="7"
 />
 
+
 <circle
     class="clock-dot"
     cx="200"
@@ -1438,121 +763,18 @@ and
 
 </section>
 
-</div>
-
 
 </main>
-
-
-<!-- ==================================================
-     下部固定ナビ
-================================================== -->
-
-<nav class="bottom-nav">
-
-<a href="doctor.html">
-    担当医表
-</a>
-
-<a href="clock.html">
-    診療時間割
-</a>
-
-<a href="index.html">
-    服部医院ホームページ
-</a>
-
-</nav>
-
 
 
 <script>
 
 /* ==================================================
-   担当医データ
-   doctors.json を読み込む
-================================================== */
-
-fetch('doctors.json', {
-    cache: 'no-store'
-})
-
-.then(response => {
-
-    if(!response.ok){
-
-        throw new Error(
-            'doctors.json を読み込めませんでした'
-        );
-
-    }
-
-    return response.json();
-
-})
-
-.then(doctors => {
-
-    document
-        .querySelectorAll('.doctor-name[data-day]')
-        .forEach(cell => {
-
-            const day =
-                cell.dataset.day;
-
-            const time =
-                cell.dataset.time;
-
-
-            let name = '';
-
-
-            if(time === '訪問診療'){
-
-                name =
-                    doctors['訪問診療'] || '';
-
-            }else{
-
-                name =
-                    doctors[day]?.[time] || '';
-
-            }
-
-
-            if(name){
-
-                cell.textContent = name;
-
-            }else{
-
-                cell.textContent = '―';
-
-                cell.classList.add('empty');
-
-            }
-
-        });
-
-})
-
-.catch(error => {
-
-    console.error(error);
-
-    document
-        .querySelectorAll('.doctor-name[data-day]')
-        .forEach(cell => {
-
-            cell.textContent = '―';
-
-        });
-
-});
-
-
-/* ==================================================
    時計設定
+
+   SVGの中心を200,200に統一する。
+   帯の内外周も同じ中心を使うことで、
+   円弧の軸がずれないようにする。
 ================================================== */
 
 const SVG_CENTER = 200;
@@ -1566,8 +788,12 @@ const INNER_RADIUS = 100;
    時刻 → 時計角度
 
    12時 = 0°
+   時計回りに増加する。
 
-   時計回り
+   例：
+   3時  = 90°
+   6時  = 180°
+   9時  = 270°
 ================================================== */
 
 function timeToClockAngle(
@@ -1586,6 +812,9 @@ function timeToClockAngle(
 
 /* ==================================================
    時計角度 → SVG角度
+
+   SVGでは0°が3時方向になるため、
+   90°ずらして12時を上にする。
 ================================================== */
 
 function clockToSvgAngle(
@@ -1599,6 +828,8 @@ function clockToSvgAngle(
 
 /* ==================================================
    極座標 → SVG座標
+
+   円周上の位置をSVG座標へ変換する。
 ================================================== */
 
 function polarToPoint(
@@ -1629,7 +860,13 @@ function polarToPoint(
 
 
 /* ==================================================
-   診療時間帯パス
+   診療時間帯パスを作成
+
+   外周 → 終点 → 内周 → 始点
+   の順に閉じた扇形リングを作る。
+
+   180°を超える場合は
+   SVGのlarge-arc-flagを1にする。
 ================================================== */
 
 function createBandPath(
@@ -1741,7 +978,16 @@ function createBandPath(
 
 
 /* ==================================================
-   診療時間帯
+   診療時間帯を設定
+
+   午前診：
+   9:00 → 12:00
+
+   訪問診療：
+   13:30 → 16:30
+
+   午後診：
+   17:30 → 19:30
 ================================================== */
 
 document
@@ -1785,9 +1031,6 @@ document
 
 /* ==================================================
    帯の色
-
-   SVGのpath自体に
-   グラデーションを割り当てる
 ================================================== */
 
 document
@@ -1809,85 +1052,10 @@ document
 
 
 /* ==================================================
-   帯の端を丸くするための
-   視覚的な端面処理
+   現在時刻を日本時間で取得
 
-   元の帯の角をそのまま残さず、
-   円弧の端に小さな円を重ねる。
-================================================== */
-
-function addRoundedCap(
-    group,
-    hour,
-    minute,
-    radius,
-    color
-){
-
-    const clockAngle =
-        timeToClockAngle(
-            hour,
-            minute
-        );
-
-    const svgAngle =
-        clockToSvgAngle(
-            clockAngle
-        );
-
-    const point =
-        polarToPoint(
-            radius,
-            svgAngle
-        );
-
-    const cap =
-        document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'circle'
-        );
-
-    cap.setAttribute(
-        'cx',
-        point.x
-    );
-
-    cap.setAttribute(
-        'cy',
-        point.y
-    );
-
-    cap.setAttribute(
-        'r',
-        40
-    );
-
-    cap.setAttribute(
-        'fill',
-        color
-    );
-
-    cap.setAttribute(
-        'opacity',
-        '.32'
-    );
-
-    group.appendChild(cap);
-
-}
-
-
-/* ==================================================
-   現在時刻
-
-   ★日本時間固定
-
-   Intl.DateTimeFormat の
-   Asia/Tokyo を使用する。
-
-   海外のiPhoneでも
-   端末の現地時間ではなく
-   日本時間を取得する。
+   海外からアクセスしても
+   Asia/Tokyoを基準にする。
 ================================================== */
 
 function getJapanTime(){
@@ -1936,7 +1104,10 @@ function getJapanTime(){
 
 
 /* ==================================================
-   時計を更新
+   時計更新
+
+   秒・分・時針を現在時刻に合わせて
+   滑らかに動かす。
 ================================================== */
 
 function updateClock(){
