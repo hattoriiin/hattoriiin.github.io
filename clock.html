@@ -49,6 +49,8 @@ body{
    メイン
 
    時計だけを中央に配置する。
+   ページ全体に不要な余白や他コンテンツを
+   持たせないため、単純な構造にしている。
 ================================================== */
 
 .page-main{
@@ -63,7 +65,8 @@ body{
 
     justify-content:center;
 
-    padding:1rem;
+    padding:
+        1rem;
 
 }
 
@@ -93,7 +96,8 @@ body{
         0 auto
         1rem;
 
-    padding:.45rem 0;
+    padding:
+        .45rem 0;
 
     text-align:center;
 
@@ -179,23 +183,6 @@ body{
 
 
 /* ==================================================
-   時間帯
-
-   fillで描画するため、
-   時間設定そのものを正確に維持する。
-
-   角丸処理はJavaScriptで
-   pathの4つの角だけに行う。
-================================================== */
-
-.time-band{
-
-    stroke:none;
-
-}
-
-
-/* ==================================================
    時計数字
 ================================================== */
 
@@ -231,6 +218,8 @@ body{
 
 }
 
+
+/* 12 */
 
 .clock-face .twelve{
 
@@ -311,7 +300,15 @@ and
 
     .page-main{
 
-        padding:.7rem;
+        padding:
+            .7rem;
+
+    }
+
+
+    .clock-area{
+
+        max-width:520px;
 
     }
 
@@ -393,7 +390,8 @@ and
 
     .page-main{
 
-        padding:.5rem;
+        padding:
+            .5rem;
 
     }
 
@@ -450,6 +448,10 @@ and
 <main class="page-main">
 
 
+<!-- ==================================================
+     時計
+================================================== -->
+
 <section class="clock-area">
 
 <h1 class="clock-title">
@@ -471,10 +473,7 @@ and
 <!-- ==================================================
      外来診療グラデーション
 
-     中心から外側に向かって色を変える。
-
-     帯そのものは
-     内周100〜外周180を維持する。
+     午前診・午後診で使用。
 ================================================== -->
 
 <radialGradient
@@ -634,11 +633,8 @@ and
 
 <!-- ==================================================
      午前診
-
+     
      9:00 → 12:00
-
-     内周100
-     外周180
 ================================================== -->
 
 <path
@@ -649,7 +645,7 @@ and
 
 <!-- ==================================================
      訪問診療
-
+     
      13:30 → 16:30
 ================================================== -->
 
@@ -661,7 +657,7 @@ and
 
 <!-- ==================================================
      午後診
-
+     
      17:30 → 19:30
 ================================================== -->
 
@@ -672,7 +668,7 @@ and
 
 
 <!-- ==================================================
-     時計数字
+     文字盤
 ================================================== -->
 
 <g class="clock-face">
@@ -767,6 +763,7 @@ and
 
 </section>
 
+
 </main>
 
 
@@ -775,15 +772,9 @@ and
 /* ==================================================
    時計設定
 
-   ここは元の設計を維持する。
-
-   内周 = 100
-   外周 = 180
-
-   中心 = 200,200
-
-   この3つを固定することで、
-   帯の軸がずれないようにする。
+   SVGの中心を200,200に統一する。
+   帯の内外周も同じ中心を使うことで、
+   円弧の軸がずれないようにする。
 ================================================== */
 
 const SVG_CENTER = 200;
@@ -794,27 +785,15 @@ const INNER_RADIUS = 100;
 
 
 /* ==================================================
-   角丸量
-
-   「時間の端を丸くする」のではなく、
-   帯を構成する4つの角を
-   ごく小さく丸める。
-
-   数値を大きくすると角丸が強くなる。
-
-   まずは6px程度に抑える。
-   時間帯の位置そのものには影響しない。
-================================================== */
-
-const CORNER_RADIUS = 20;
-
-
-/* ==================================================
    時刻 → 時計角度
 
    12時 = 0°
+   時計回りに増加する。
 
-   時計回り。
+   例：
+   3時  = 90°
+   6時  = 180°
+   9時  = 270°
 ================================================== */
 
 function timeToClockAngle(
@@ -834,8 +813,8 @@ function timeToClockAngle(
 /* ==================================================
    時計角度 → SVG角度
 
-   SVGの0°は3時方向なので、
-   12時を上にするため90°戻す。
+   SVGでは0°が3時方向になるため、
+   90°ずらして12時を上にする。
 ================================================== */
 
 function clockToSvgAngle(
@@ -850,7 +829,7 @@ function clockToSvgAngle(
 /* ==================================================
    極座標 → SVG座標
 
-   円の中心を常に200,200に固定する。
+   円周上の位置をSVG座標へ変換する。
 ================================================== */
 
 function polarToPoint(
@@ -881,79 +860,13 @@ function polarToPoint(
 
 
 /* ==================================================
-   ベクトル
-================================================== */
+   診療時間帯パスを作成
 
-function vectorLength(
-    x,
-    y
-){
+   外周 → 終点 → 内周 → 始点
+   の順に閉じた扇形リングを作る。
 
-    return Math.sqrt(
-        x * x +
-        y * y
-    );
-
-}
-
-
-/* ==================================================
-   単位ベクトル
-================================================== */
-
-function normalizeVector(
-    x,
-    y
-){
-
-    const length =
-        vectorLength(
-            x,
-            y
-        );
-
-
-    if(length === 0){
-
-        throw new Error(
-            '長さ0のベクトルは正規化できません'
-        );
-
-    }
-
-
-    return {
-
-        x:x / length,
-
-        y:y / length
-
-    };
-
-}
-
-
-/* ==================================================
-   時間帯パス
-
-   基本形は従来と同じ、
-
-       外周円弧
-          ↓
-       終点
-          ↓
-       内周
-          ↓
-       内周円弧
-          ↓
-       始点
-
-   ただし、各角を小さく削って
-   Q（quadratic curve）で接続する。
-
-   重要：
-   時間の基準となる始点・終点角度は
-   createBandPath() の引数から変更しない。
+   180°を超える場合は
+   SVGのlarge-arc-flagを1にする。
 ================================================== */
 
 function createBandPath(
@@ -963,50 +876,11 @@ function createBandPath(
     endMinute
 ){
 
-    /* ----------------------------------------------
-       入力検証
-
-       不正な時刻でSVGが壊れるのを防ぐ。
-    ---------------------------------------------- */
-
-    if(
-        !Number.isFinite(startHour) ||
-        !Number.isFinite(startMinute) ||
-        !Number.isFinite(endHour) ||
-        !Number.isFinite(endMinute)
-    ){
-
-        throw new TypeError(
-            '診療時間には数値を指定してください'
-        );
-
-    }
-
-
-    if(
-        startMinute < 0 ||
-        startMinute > 59 ||
-        endMinute < 0 ||
-        endMinute > 59
-    ){
-
-        throw new RangeError(
-            '分は0〜59で指定してください'
-        );
-
-    }
-
-
-    /* ----------------------------------------------
-       時刻を角度へ変換
-    ---------------------------------------------- */
-
     const startClockAngle =
         timeToClockAngle(
             startHour,
             startMinute
         );
-
 
     const endClockAngle =
         timeToClockAngle(
@@ -1020,53 +894,17 @@ function createBandPath(
             startClockAngle
         );
 
-
     const endSvgAngle =
         clockToSvgAngle(
             endClockAngle
         );
 
 
-    /* ----------------------------------------------
-       時間帯の角度差
-    ---------------------------------------------- */
-
-    const angleDifference =
-        (
-            endClockAngle
-            -
-            startClockAngle
-            +
-            360
-        ) % 360;
-
-
-    if(angleDifference === 0){
-
-        throw new RangeError(
-            '開始時刻と終了時刻が同じです'
-        );
-
-    }
-
-
-    /* ----------------------------------------------
-       元の4つの角
-
-       外周開始
-       外周終了
-       内周終了
-       内周開始
-
-       の位置を求める。
-    ---------------------------------------------- */
-
     const outerStart =
         polarToPoint(
             OUTER_RADIUS,
             startSvgAngle
         );
-
 
     const outerEnd =
         polarToPoint(
@@ -1081,7 +919,6 @@ function createBandPath(
             endSvgAngle
         );
 
-
     const innerStart =
         polarToPoint(
             INNER_RADIUS,
@@ -1089,100 +926,15 @@ function createBandPath(
         );
 
 
-    /* ----------------------------------------------
-       角丸量の制限
+    const angleDifference =
+        (
+            endClockAngle
+            -
+            startClockAngle
+            +
+            360
+        ) % 360;
 
-       短い帯でも角丸が大きくなりすぎないように
-       CORNER_RADIUSを安全な範囲へ制限する。
-    ---------------------------------------------- */
-
-    const corner =
-        Math.min(
-            CORNER_RADIUS,
-            (OUTER_RADIUS - INNER_RADIUS) / 4
-        );
-
-
-    /* ----------------------------------------------
-       円弧の角度を少しだけ内側へずらす。
-
-       これは「時間設定を変える」のではなく、
-       元の角を丸めるための接続点を作るため。
-
-       実際の診療時間の基準角は
-       startSvgAngle / endSvgAngle のまま。
-    ---------------------------------------------- */
-
-    const startOffset =
-        corner /
-        OUTER_RADIUS *
-        180 /
-        Math.PI;
-
-
-    const endOffset =
-        corner /
-        OUTER_RADIUS *
-        180 /
-        Math.PI;
-
-
-    /* ----------------------------------------------
-       外周側の丸め開始・終了点
-    ---------------------------------------------- */
-
-    const outerStartRounded =
-        polarToPoint(
-            OUTER_RADIUS,
-            startSvgAngle + startOffset
-        );
-
-
-    const outerEndRounded =
-        polarToPoint(
-            OUTER_RADIUS,
-            endSvgAngle - endOffset
-        );
-
-
-    /* ----------------------------------------------
-       内周側の丸め開始・終了点
-
-       内周は半径が小さいため、
-       同じ物理距離で角度を計算する。
-    ---------------------------------------------- */
-
-    const innerStartOffset =
-        corner /
-        INNER_RADIUS *
-        180 /
-        Math.PI;
-
-
-    const innerEndOffset =
-        corner /
-        INNER_RADIUS *
-        180 /
-        Math.PI;
-
-
-    const innerStartRounded =
-        polarToPoint(
-            INNER_RADIUS,
-            startSvgAngle + innerStartOffset
-        );
-
-
-    const innerEndRounded =
-        polarToPoint(
-            INNER_RADIUS,
-            endSvgAngle - innerEndOffset
-        );
-
-
-    /* ----------------------------------------------
-       大きな円弧かどうか
-    ---------------------------------------------- */
 
     const largeArcFlag =
         angleDifference > 180
@@ -1190,22 +942,11 @@ function createBandPath(
             : 0;
 
 
-    /* ----------------------------------------------
-       SVGパス
-
-       4つの角をQで軽く丸める。
-
-       円やキャップを追加していない。
-
-       そのため、帯そのものの形状だけが
-       変わる。
-    ---------------------------------------------- */
-
     return `
 
         M
-        ${outerStartRounded.x}
-        ${outerStartRounded.y}
+        ${outerStart.x}
+        ${outerStart.y}
 
         A
         ${OUTER_RADIUS}
@@ -1213,14 +954,12 @@ function createBandPath(
         0
         ${largeArcFlag}
         1
-        ${outerEndRounded.x}
-        ${outerEndRounded.y}
-
-        Q
         ${outerEnd.x}
         ${outerEnd.y}
-        ${innerEndRounded.x}
-        ${innerEndRounded.y}
+
+        L
+        ${innerEnd.x}
+        ${innerEnd.y}
 
         A
         ${INNER_RADIUS}
@@ -1228,14 +967,8 @@ function createBandPath(
         0
         ${largeArcFlag}
         0
-        ${innerStartRounded.x}
-        ${innerStartRounded.y}
-
-        Q
         ${innerStart.x}
         ${innerStart.y}
-        ${outerStartRounded.x}
-        ${outerStartRounded.y}
 
         Z
 
@@ -1245,125 +978,84 @@ function createBandPath(
 
 
 /* ==================================================
-   帯を設定
+   診療時間帯を設定
 
-   エラー時はコンソールへ出力する。
-   ページ全体を止めないため、該当帯だけを
-   描画できない状態にする。
-================================================== */
-
-function setBand(
-    elementId,
-    startHour,
-    startMinute,
-    endHour,
-    endMinute,
-    gradientId
-){
-
-    const element =
-        document.getElementById(
-            elementId
-        );
-
-
-    if(!element){
-
-        console.error(
-            `${elementId} が見つかりません`
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        element.setAttribute(
-            'd',
-            createBandPath(
-                startHour,
-                startMinute,
-                endHour,
-                endMinute
-            )
-        );
-
-
-        element.style.fill =
-            `url(#${gradientId})`;
-
-    }
-
-    catch(error){
-
-        console.error(
-            `${elementId} の描画に失敗しました`,
-            error
-        );
-
-    }
-
-}
-
-
-/* ==================================================
-   午前診
-
+   午前診：
    9:00 → 12:00
-================================================== */
 
-setBand(
-    'morningBand',
-    9,
-    0,
-    12,
-    0,
-    'outpatientGradient'
-);
-
-
-/* ==================================================
-   訪問診療
-
+   訪問診療：
    13:30 → 16:30
-================================================== */
 
-setBand(
-    'visitBand',
-    13,
-    30,
-    16,
-    30,
-    'visitGradient'
-);
-
-
-/* ==================================================
-   午後診
-
+   午後診：
    17:30 → 19:30
 ================================================== */
 
-setBand(
-    'eveningBand',
-    17,
-    30,
-    19,
-    30,
-    'outpatientGradient'
-);
+document
+    .getElementById('morningBand')
+    .setAttribute(
+        'd',
+        createBandPath(
+            9,
+            0,
+            12,
+            0
+        )
+    );
+
+
+document
+    .getElementById('visitBand')
+    .setAttribute(
+        'd',
+        createBandPath(
+            13,
+            30,
+            16,
+            30
+        )
+    );
+
+
+document
+    .getElementById('eveningBand')
+    .setAttribute(
+        'd',
+        createBandPath(
+            17,
+            30,
+            19,
+            30
+        )
+    );
 
 
 /* ==================================================
-   日本時間
+   帯の色
+================================================== */
 
-   端末のタイムゾーンではなく
-   Asia/Tokyoを明示する。
+document
+    .getElementById('morningBand')
+    .style.fill =
+        'url(#outpatientGradient)';
 
-   そのため海外から閲覧しても
-   日本時間の時計になる。
+
+document
+    .getElementById('eveningBand')
+    .style.fill =
+        'url(#outpatientGradient)';
+
+
+document
+    .getElementById('visitBand')
+    .style.fill =
+        'url(#visitGradient)';
+
+
+/* ==================================================
+   現在時刻を日本時間で取得
+
+   海外からアクセスしても
+   Asia/Tokyoを基準にする。
 ================================================== */
 
 function getJapanTime(){
@@ -1413,6 +1105,9 @@ function getJapanTime(){
 
 /* ==================================================
    時計更新
+
+   秒・分・時針を現在時刻に合わせて
+   滑らかに動かす。
 ================================================== */
 
 function updateClock(){
@@ -1466,12 +1161,10 @@ function updateClock(){
             secondAngle
         );
 
-
     const minuteSvgAngle =
         clockToSvgAngle(
             minuteAngle
         );
-
 
     const hourSvgAngle =
         clockToSvgAngle(
