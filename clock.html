@@ -12,7 +12,6 @@
 
 <title>服部医院｜外来診療時間</title>
 
-
 <style>
 
 /* ==================================================
@@ -465,15 +464,16 @@ and
 
 
 <!-- ==================================================
-     外来診療グラデーション
+     青：外来診療
      
-     青と緑で「見かけ上の帯幅」が同じになるよう、
-     stop位置を訪問診療側と完全に統一する。
+     内側の端 → 色
+     ↓
+     白
+     ↓
+     色 ← 外側の端
      
-     重要：
-     - 帯そのもののR180/R100は変更しない
-     - 時間位置には影響しない
-     - 色だけを内側→外側へ同じ構造で変化させる
+     「袋とじ」になるよう、
+     内外両端に必ず色を残す。
 ================================================== -->
 
 <radialGradient
@@ -484,7 +484,21 @@ and
     gradientUnits="userSpaceOnUse"
 >
 
-    <!-- 内側：白 -->
+    <!-- 内側の端：
+         色を残して開始する -->
+    <stop
+        offset="56%"
+        stop-color="#8fc7ff"
+        stop-opacity=".48"
+    />
+
+    <stop
+        offset="63%"
+        stop-color="#3d8bdc"
+        stop-opacity=".68"
+    />
+
+    <!-- 内側から中央へ白く抜く -->
     <stop
         offset="68%"
         stop-color="#ffffff"
@@ -492,45 +506,32 @@ and
     />
 
     <stop
-        offset="73%"
+        offset="74%"
         stop-color="#ffffff"
         stop-opacity=".98"
     />
 
-    <!-- 色が徐々に現れる -->
+    <!-- 中央から外側へ再び色を出す -->
     <stop
-        offset="77%"
-        stop-color="#8fc7ff"
-        stop-opacity=".52"
-    />
-
-    <!-- 青の中心部 -->
-    <stop
-        offset="82%"
+        offset="80%"
         stop-color="#3d8bdc"
-        stop-opacity=".72"
+        stop-opacity=".52"
     />
 
     <stop
         offset="87%"
         stop-color="#3d8bdc"
+        stop-opacity=".76"
+    />
+
+    <!-- 外側の端：
+         白に切らず、色を残して閉じる -->
+    <stop
+        offset="94%"
+        stop-color="#3d8bdc"
         stop-opacity=".80"
     />
 
-    <!-- 外側へ向かって白へ戻す -->
-    <stop
-        offset="91%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="95%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <!-- 最外周に青を残す -->
     <stop
         offset="100%"
         stop-color="#3d8bdc"
@@ -541,10 +542,10 @@ and
 
 
 <!-- ==================================================
-     訪問診療グラデーション
+     緑：訪問診療
      
-     青とまったく同じstop位置を使用。
-     そのため、色の「見かけ上の幅」が一致する。
+     青とstop位置を完全に一致させる。
+     そのため「色の袋とじ」の幅も同じになる。
 ================================================== -->
 
 <radialGradient
@@ -555,7 +556,20 @@ and
     gradientUnits="userSpaceOnUse"
 >
 
-    <!-- 内側：白 -->
+    <!-- 内側の端 -->
+    <stop
+        offset="56%"
+        stop-color="#b7e88a"
+        stop-opacity=".48"
+    />
+
+    <stop
+        offset="63%"
+        stop-color="#70ad47"
+        stop-opacity=".68"
+    />
+
+    <!-- 中央の白 -->
     <stop
         offset="68%"
         stop-color="#ffffff"
@@ -563,45 +577,31 @@ and
     />
 
     <stop
-        offset="73%"
+        offset="74%"
         stop-color="#ffffff"
         stop-opacity=".98"
     />
 
-    <!-- 色が徐々に現れる -->
+    <!-- 外側へ再び緑 -->
     <stop
-        offset="77%"
-        stop-color="#b7e88a"
-        stop-opacity=".52"
-    />
-
-    <!-- 緑の中心部 -->
-    <stop
-        offset="82%"
+        offset="80%"
         stop-color="#70ad47"
-        stop-opacity=".72"
+        stop-opacity=".52"
     />
 
     <stop
         offset="87%"
         stop-color="#70ad47"
+        stop-opacity=".76"
+    />
+
+    <!-- 外側の端 -->
+    <stop
+        offset="94%"
+        stop-color="#70ad47"
         stop-opacity=".80"
     />
 
-    <!-- 外側へ向かって白へ戻す -->
-    <stop
-        offset="91%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="95%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <!-- 最外周に緑を残す -->
     <stop
         offset="100%"
         stop-color="#70ad47"
@@ -701,9 +701,6 @@ and
 
 <!-- ==================================================
      時計の針
-
-     初期位置は12時。
-     rotate()では時計角度をそのまま使用する。
 ================================================== -->
 
 <line
@@ -772,27 +769,24 @@ const SVG_CENTER = 200;
 
 
 /*
- * 外周半径。
- *
- * 既存デザインを維持するため180px固定。
+ * 外周はR180を維持。
+ * 帯そのものの位置を変えないため固定する。
  */
 
 const OUTER_RADIUS = 180;
 
 
 /*
- * 内周半径。
- *
- * 既存デザインを維持するため100px固定。
+ * 内周はR100を維持。
+ * 以前調整した帯幅80pxを保持する。
  */
 
 const INNER_RADIUS = 100;
 
 
 /*
- * 角丸半径。
- *
- * 帯幅80pxの範囲内に収める。
+ * 角丸。
+ * 時間位置や色の見え方には影響させない。
  */
 
 const CORNER_RADIUS = 10;
@@ -805,16 +799,14 @@ const CORNER_RADIUS = 10;
 /**
  * 時刻を時計上の角度へ変換する。
  *
- * 12時を0°として時計回りに増加する。
- *
  * @param {number} hour 時
  * @param {number} minute 分
- * @returns {number} 時計角度（0〜360°）
- * @throws {TypeError} 時刻が数値でない場合
- * @throws {RangeError} 分が0〜59でない場合
+ * @returns {number} 時計角度
+ * @throws {TypeError} 数値以外の場合
+ * @throws {RangeError} 分が0〜59以外の場合
  *
  * @example
- * timeToClockAngle(9, 0); // 270
+ * timeToClockAngle(9,0); // 270
  */
 
 function timeToClockAngle(
@@ -862,17 +854,11 @@ function timeToClockAngle(
 /**
  * 時計角度をSVG角度へ変換する。
  *
- * 時間帯の円弧を正しく時計方向へ配置するため、
- * SVGの0°（3時方向）から90°戻して12時を基準にする。
- *
- * 注意：
- * 時計の針には使用しない。
+ * 帯の描画ではSVGの3時方向を基準として
+ * 12時方向を0°に合わせる必要がある。
  *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
- *
- * @example
- * clockToSvgAngle(0); // -90
  */
 
 function clockToSvgAngle(
@@ -892,10 +878,7 @@ function clockToSvgAngle(
  * 角度を0〜360°へ正規化する。
  *
  * @param {number} angle 角度
- * @returns {number} 正規化された角度
- *
- * @example
- * normalizeAngle(-30); // 330
+ * @returns {number} 正規化角度
  */
 
 function normalizeAngle(
@@ -915,14 +898,11 @@ function normalizeAngle(
 ================================================== */
 
 /**
- * 円周上の点をSVG座標へ変換する。
+ * 極座標をSVG座標へ変換する。
  *
  * @param {number} radius 半径
  * @param {number} svgAngle SVG角度
  * @returns {{x:number,y:number}} SVG座標
- *
- * @example
- * polarToPoint(180, -90);
  */
 
 function polarToPoint(
@@ -954,21 +934,20 @@ function polarToPoint(
 
 
 /* ==================================================
-   角丸円環帯を生成
+   円環帯生成
 ================================================== */
 
 /**
- * 円環状の時間帯を生成する。
+ * 時間帯用の角丸円環パスを生成する。
  *
- * 外周R180、内周R100を維持し、
- * 時間帯の4隅だけを角丸にする。
+ * 外周R180、内周R100を維持する。
  *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
  * @returns {string} SVG path
- * @throws {RangeError} 不正な時間範囲の場合
+ * @throws {RangeError} 時間範囲が不正な場合
  *
  * @example
  * createBandPath(9,0,12,0);
@@ -1014,11 +993,7 @@ function createBandPath(
 
 
     /*
-     * 帯幅。
-     *
-     * 180 - 100 = 80px。
-     *
-     * この値は変更しない。
+     * 帯幅80pxを維持。
      */
 
     const bandWidth =
@@ -1027,7 +1002,7 @@ function createBandPath(
 
 
     /*
-     * 角丸半径が帯幅を超えないよう制限。
+     * 角丸が帯幅を超えないよう制限。
      */
 
     const radius =
@@ -1070,7 +1045,7 @@ function createBandPath(
 
 
     /*
-     * ラジアン → 度。
+     * ラジアンから度へ変換。
      */
 
     const outerOffsetDeg =
@@ -1086,7 +1061,7 @@ function createBandPath(
 
 
     /*
-     * 外周円との接点。
+     * 外周接点。
      */
 
     const outerStart =
@@ -1110,7 +1085,7 @@ function createBandPath(
 
 
     /*
-     * 内周円との接点。
+     * 内周接点。
      */
 
     const innerStart =
@@ -1134,70 +1109,53 @@ function createBandPath(
 
 
     /*
-     * 端面接点の半径。
+     * 端面の接線位置。
      */
 
-    const outerStartTangentRadius =
+    const outerTangentRadius =
         outerCenterRadius *
         Math.cos(
             outerOffset
         );
 
 
-    const innerStartTangentRadius =
+    const innerTangentRadius =
         innerCenterRadius *
         Math.cos(
             innerOffset
         );
 
 
-    const outerEndTangentRadius =
-        outerStartTangentRadius;
-
-
-    const innerEndTangentRadius =
-        innerStartTangentRadius;
-
-
-    /*
-     * 始点側端面。
-     */
-
     const outerStartTangent =
         polarToPoint(
-            outerStartTangentRadius,
+            outerTangentRadius,
             clockToSvgAngle(start)
         );
 
 
     const innerStartTangent =
         polarToPoint(
-            innerStartTangentRadius,
+            innerTangentRadius,
             clockToSvgAngle(start)
         );
 
 
-    /*
-     * 終点側端面。
-     */
-
     const outerEndTangent =
         polarToPoint(
-            outerEndTangentRadius,
+            outerTangentRadius,
             clockToSvgAngle(end)
         );
 
 
     const innerEndTangent =
         polarToPoint(
-            innerEndTangentRadius,
+            innerTangentRadius,
             clockToSvgAngle(end)
         );
 
 
     /*
-     * 180°を超える場合だけ
-     * large-arc-flagを1にする。
+     * 180°を超える場合の大弧フラグ。
      */
 
     const largeArcFlag =
@@ -1206,23 +1164,11 @@ function createBandPath(
             : 0;
 
 
-    /*
-     * SVGパスを構築。
-     */
-
     return [
-
-        /*
-         * 外周開始点
-         */
 
         `M
         ${outerStart.x}
         ${outerStart.y}`,
-
-        /*
-         * 外周円弧
-         */
 
         `A
         ${OUTER_RADIUS}
@@ -1233,10 +1179,6 @@ function createBandPath(
         ${outerEnd.x}
         ${outerEnd.y}`,
 
-        /*
-         * 終点外側の角丸
-         */
-
         `A
         ${radius}
         ${radius}
@@ -1246,17 +1188,9 @@ function createBandPath(
         ${outerEndTangent.x}
         ${outerEndTangent.y}`,
 
-        /*
-         * 終点直線
-         */
-
         `L
         ${innerEndTangent.x}
         ${innerEndTangent.y}`,
-
-        /*
-         * 終点内側の角丸
-         */
 
         `A
         ${radius}
@@ -1267,10 +1201,6 @@ function createBandPath(
         ${innerEnd.x}
         ${innerEnd.y}`,
 
-        /*
-         * 内周円弧
-         */
-
         `A
         ${INNER_RADIUS}
         ${INNER_RADIUS}
@@ -1279,10 +1209,6 @@ function createBandPath(
         0
         ${innerStart.x}
         ${innerStart.y}`,
-
-        /*
-         * 始点内側の角丸
-         */
 
         `A
         ${radius}
@@ -1293,17 +1219,9 @@ function createBandPath(
         ${innerStartTangent.x}
         ${innerStartTangent.y}`,
 
-        /*
-         * 始点直線
-         */
-
         `L
         ${outerStartTangent.x}
         ${outerStartTangent.y}`,
-
-        /*
-         * 始点外側の角丸
-         */
 
         `A
         ${radius}
@@ -1322,29 +1240,19 @@ function createBandPath(
 
 
 /* ==================================================
-   帯を設定
+   帯設定
 ================================================== */
 
 /**
- * 指定したSVG要素へ時間帯を設定する。
+ * SVGへ時間帯を設定する。
  *
- * @param {string} id SVG pathのID
+ * @param {string} id SVG要素ID
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
  * @param {string} gradient グラデーションID
  * @returns {void}
- *
- * @example
- * setBand(
- *     'morningBand',
- *     9,
- *     0,
- *     12,
- *     0,
- *     'outpatientGradient'
- * );
  */
 
 function setBand(
@@ -1372,10 +1280,9 @@ function setBand(
 
 
     /*
-     * 使用可能なグラデーションを限定。
-     *
-     * 外部入力をそのままCSSへ渡さないため、
-     * CSSインジェクションのリスクを避ける。
+     * グラデーションIDを固定リストから選択。
+     * 外部値をそのままCSSへ入れないことで
+     * CSSインジェクションを防ぐ。
      */
 
     const allowedGradients = new Set([
@@ -1534,8 +1441,8 @@ function getJapanTime(){
 
 
         /*
-         * 一部環境で深夜0時が24として返る場合に
-         * 0へ正規化する。
+         * 一部ブラウザで0時が24として返る場合を
+         * 0時へ正規化する。
          */
 
         if(
@@ -1585,13 +1492,10 @@ function getJapanTime(){
 /**
  * 日本時間に合わせて時計の針を更新する。
  *
- * 針はHTML上で12時方向を向いているため、
- * rotate()へ時計角度を直接渡す。
+ * 針は12時方向を基準としているため、
+ * 時計角度をそのままrotateへ渡す。
  *
  * @returns {void}
- *
- * @example
- * updateClock();
  */
 
 function updateClock(){
@@ -1638,8 +1542,6 @@ function updateClock(){
 
     /*
      * 分針。
-     *
-     * 秒も反映して滑らかに動かす。
      */
 
     const minuteAngle =
@@ -1651,8 +1553,6 @@ function updateClock(){
 
     /*
      * 時針。
-     *
-     * 分・秒まで反映する。
      */
 
     const hourAngle =
@@ -1682,7 +1582,7 @@ function updateClock(){
 
 
     /*
-     * 必要なSVG要素がない場合は停止。
+     * 要素が欠けている場合は安全に停止する。
      */
 
     if(
@@ -1701,11 +1601,9 @@ function updateClock(){
 
 
     /*
-     * 針の角度。
+     * 針の回転。
      *
-     * clockToSvgAngle()は使わない。
-     *
-     * 0°  = 12時
+     * 0° = 12時
      * 90° = 3時
      * 180° = 6時
      * 270° = 9時
@@ -1741,10 +1639,6 @@ function updateClock(){
     );
 
 
-    /*
-     * 次のフレームで更新。
-     */
-
     requestAnimationFrame(
         updateClock
     );
@@ -1759,7 +1653,6 @@ function updateClock(){
 updateClock();
 
 </script>
-
 
 </body>
 
