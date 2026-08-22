@@ -183,6 +183,37 @@ body{
 }
 
 
+/*
+ * 色の土台。
+ *
+ * 白い部分を抜くのではなく、
+ * まず青・緑で完全な帯を作る。
+ */
+
+.band-base{
+
+    stroke:none;
+
+}
+
+
+/*
+ * 中央の白い面。
+ *
+ * この面は「穴」ではない。
+ * 白で塗られた完全な面なので、
+ * 中が抜けることがない。
+ */
+
+.band-inner{
+
+    fill:#fff;
+
+    stroke:none;
+
+}
+
+
 /* ==================================================
    時計数字
 ================================================== */
@@ -465,166 +496,75 @@ and
 
 
 <!-- ==================================================
-     午前・午後診用
-
-     青のグラデーション。
-
-     半径方向に
-
-     青
-     ↓
-     白
-     ↓
-     青
-
-     という見え方を作る。
+     青：外来診療
+     
+     土台になる色。
+     白を抜くのではなく、
+     青い完全な帯を先に作る。
 ================================================== -->
 
-<radialGradient
-    id="outpatientGradient"
-    cx="200"
-    cy="200"
-    r="180"
-    gradientUnits="userSpaceOnUse"
+<linearGradient
+    id="blueGradient"
+    x1="0"
+    y1="0"
+    x2="1"
+    y2="0"
 >
 
     <stop
-        offset="52%"
-        stop-color="#8fc7ff"
-        stop-opacity=".30"
-    />
-
-    <stop
-        offset="59%"
+        offset="0%"
         stop-color="#3d8bdc"
-        stop-opacity=".62"
+        stop-opacity=".78"
     />
 
     <stop
-        offset="64%"
-        stop-color="#3d8bdc"
-        stop-opacity=".72"
-    />
-
-    <!-- 中央の白 -->
-
-    <stop
-        offset="68%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="72%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="76%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <!-- 白から青へ -->
-
-    <stop
-        offset="80%"
+        offset="50%"
         stop-color="#3d8bdc"
         stop-opacity=".68"
     />
 
     <stop
-        offset="88%"
-        stop-color="#3d8bdc"
-        stop-opacity=".76"
-    />
-
-    <stop
         offset="100%"
         stop-color="#3d8bdc"
-        stop-opacity=".80"
+        stop-opacity=".78"
     />
 
-</radialGradient>
+</linearGradient>
 
 
 <!-- ==================================================
-     訪問診療用
-
-     緑のグラデーション。
-
-     青と同じ半径構造にすることで、
-     幅の見え方を揃える。
+     緑：訪問診療
+     
+     青と同じ構造・同じ幅。
 ================================================== -->
 
-<radialGradient
-    id="visitGradient"
-    cx="200"
-    cy="200"
-    r="180"
-    gradientUnits="userSpaceOnUse"
+<linearGradient
+    id="greenGradient"
+    x1="0"
+    y1="0"
+    x2="1"
+    y2="0"
 >
 
     <stop
-        offset="52%"
-        stop-color="#b7e88a"
-        stop-opacity=".30"
-    />
-
-    <stop
-        offset="59%"
+        offset="0%"
         stop-color="#70ad47"
-        stop-opacity=".62"
+        stop-opacity=".78"
     />
 
     <stop
-        offset="64%"
-        stop-color="#70ad47"
-        stop-opacity=".72"
-    />
-
-    <!-- 中央の白 -->
-
-    <stop
-        offset="68%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="72%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <stop
-        offset="76%"
-        stop-color="#ffffff"
-        stop-opacity=".98"
-    />
-
-    <!-- 白から緑へ -->
-
-    <stop
-        offset="80%"
+        offset="50%"
         stop-color="#70ad47"
         stop-opacity=".68"
     />
 
     <stop
-        offset="88%"
-        stop-color="#70ad47"
-        stop-opacity=".76"
-    />
-
-    <stop
         offset="100%"
         stop-color="#70ad47"
-        stop-opacity=".80"
+        stop-opacity=".78"
     />
 
-</radialGradient>
+</linearGradient>
 
 
 </defs>
@@ -655,33 +595,47 @@ and
 
 
 <!-- ==================================================
-     時間帯
-
-     ここが重要。
-
-     白い帯を別途重ねない。
-
-     それぞれ「完全に閉じた1つの面」に
-     グラデーションを適用する。
-
-     これによって中央が抜けない。
+     午前診
 ================================================== -->
 
 <path
-    id="morningBand"
-    class="time-band"
+    id="morningBase"
+    class="band-base"
+/>
+
+<path
+    id="morningInner"
+    class="band-inner"
 />
 
 
+<!-- ==================================================
+     訪問診療
+================================================== -->
+
 <path
-    id="visitBand"
-    class="time-band"
+    id="visitBase"
+    class="band-base"
+/>
+
+<path
+    id="visitInner"
+    class="band-inner"
 />
 
 
+<!-- ==================================================
+     午後診
+================================================== -->
+
 <path
-    id="eveningBand"
-    class="time-band"
+    id="eveningBase"
+    class="band-base"
+/>
+
+<path
+    id="eveningInner"
+    class="band-inner"
 />
 
 
@@ -794,30 +748,60 @@ const SVG_CENTER = 200;
 
 
 /*
- * 外周半径。
- *
- * 以前と同じ180px。
+ * 外周。
  */
 
 const OUTER_RADIUS = 180;
 
 
 /*
- * 内周半径。
+ * 内周。
  *
- * 以前と同じ100px。
+ * これまでと同じ100。
  */
 
 const INNER_RADIUS = 100;
 
 
 /*
- * 角丸。
- *
- * 外形の四隅を丸めるための値。
+ * 帯の角丸。
  */
 
 const CORNER_RADIUS = 10;
+
+
+/*
+ * --------------------------------------------------
+ * 白い中央部分
+ * --------------------------------------------------
+ *
+ * 外側・内側の青/緑を残すため、
+ * 白い面は元の帯より内側にする。
+ *
+ * これが「袋とじ」の色を残すポイント。
+ */
+
+const INNER_OUTER_RADIUS = 164;
+
+const INNER_INNER_RADIUS = 116;
+
+
+/*
+ * --------------------------------------------------
+ * 両端の青/緑を残す角度
+ * --------------------------------------------------
+ *
+ * 白い面を時間帯の端まで伸ばさない。
+ *
+ * これによって
+ *
+ *     〔 白 〕
+ *
+ * の「〔」と「〕」を
+ * 青/緑の面そのもので作る。
+ */
+
+const END_CAP_ANGLE = 2.5;
 
 
 /* ==================================================
@@ -832,8 +816,8 @@ const CORNER_RADIUS = 10;
  * @param {number} hour 時
  * @param {number} minute 分
  * @returns {number} 時計角度
- * @throws {TypeError} 数値以外が指定された場合
- * @throws {RangeError} 分が0〜59以外の場合
+ * @throws {TypeError} 数値以外の場合
+ * @throws {RangeError} 分が不正な場合
  *
  * @example
  * timeToClockAngle(9, 0); // 270
@@ -883,9 +867,6 @@ function timeToClockAngle(
 /**
  * 時計角度をSVG角度へ変換する。
  *
- * SVGの0°は3時方向なので、
- * 12時方向を基準にするため90°を引く。
- *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
  */
@@ -907,7 +888,7 @@ function clockToSvgAngle(
  * 角度を0〜360°へ正規化する。
  *
  * @param {number} angle 角度
- * @returns {number} 正規化角度
+ * @returns {number} 正規化された角度
  */
 
 function normalizeAngle(
@@ -927,7 +908,7 @@ function normalizeAngle(
 ================================================== */
 
 /**
- * 円周上の座標を取得する。
+ * 極座標をSVG座標へ変換する。
  *
  * @param {number} radius 半径
  * @param {number} svgAngle SVG角度
@@ -963,28 +944,139 @@ function polarToPoint(
 
 
 /* ==================================================
-   完全に閉じた円環帯
+   円環パス
 ================================================== */
 
 /**
- * 完全に閉じた円環状の時間帯を作る。
+ * 指定した時間範囲の円環を作る。
  *
- * 重要なのは、白部分を別パスで作らないこと。
+ * @param {number} startAngle 開始角度
+ * @param {number} endAngle 終了角度
+ * @param {number} outerRadius 外周半径
+ * @param {number} innerRadius 内周半径
+ * @returns {string} SVG path
+ * @throws {RangeError} 角度範囲が不正な場合
+ */
+
+function createRingPath(
+    startAngle,
+    endAngle,
+    outerRadius,
+    innerRadius
+){
+
+    const sweep =
+        normalizeAngle(
+            endAngle -
+            startAngle
+        );
+
+
+    if(
+        sweep <= 0 ||
+        sweep >= 360
+    ){
+
+        throw new RangeError(
+            '円環の角度範囲が不正です'
+        );
+
+    }
+
+
+    const outerStart =
+        polarToPoint(
+            outerRadius,
+            clockToSvgAngle(
+                startAngle
+            )
+        );
+
+
+    const outerEnd =
+        polarToPoint(
+            outerRadius,
+            clockToSvgAngle(
+                endAngle
+            )
+        );
+
+
+    const innerEnd =
+        polarToPoint(
+            innerRadius,
+            clockToSvgAngle(
+                endAngle
+            )
+        );
+
+
+    const innerStart =
+        polarToPoint(
+            innerRadius,
+            clockToSvgAngle(
+                startAngle
+            )
+        );
+
+
+    const largeArcFlag =
+        sweep > 180
+            ? 1
+            : 0;
+
+
+    return [
+
+        `M
+        ${outerStart.x}
+        ${outerStart.y}`,
+
+        `A
+        ${outerRadius}
+        ${outerRadius}
+        0
+        ${largeArcFlag}
+        1
+        ${outerEnd.x}
+        ${outerEnd.y}`,
+
+        `L
+        ${innerEnd.x}
+        ${innerEnd.y}`,
+
+        `A
+        ${innerRadius}
+        ${innerRadius}
+        0
+        ${largeArcFlag}
+        0
+        ${innerStart.x}
+        ${innerStart.y}`,
+
+        'Z'
+
+    ].join(' ');
+
+}
+
+
+/* ==================================================
+   角丸付き時間帯
+================================================== */
+
+/**
+ * 時間帯の外形を作る。
  *
- * この関数で作る1つの閉じた面そのものに
- * グラデーションを適用する。
- *
- * そのため中央が「抜ける」ことがない。
+ * ここでは帯全体を青/緑で完全に閉じる。
+ * 白部分は後から内側へ重ねるため、
+ * 外形の色が両端に残る。
  *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
  * @returns {string} SVG path
- * @throws {RangeError} 時間範囲が不正な場合
- *
- * @example
- * createBandPath(9,0,12,0);
  */
 
 function createBandPath(
@@ -1020,55 +1112,36 @@ function createBandPath(
     ){
 
         throw new RangeError(
-            '開始時刻と終了時刻の範囲が不正です'
+            '時間帯の範囲が不正です'
         );
 
     }
 
 
     /*
-     * 帯幅。
-     */
-
-    const bandWidth =
-        OUTER_RADIUS -
-        INNER_RADIUS;
-
-
-    /*
-     * 角丸半径。
-     *
-     * 帯幅の半分を超えないようにする。
+     * 角丸は外形そのものに適用。
      */
 
     const radius =
         Math.min(
             CORNER_RADIUS,
-            bandWidth / 2 - .5
+            (
+                OUTER_RADIUS -
+                INNER_RADIUS
+            ) / 2 -
+            .5
         );
 
-
-    /*
-     * 外周側の角丸中心半径。
-     */
 
     const outerCenterRadius =
         OUTER_RADIUS -
         radius;
 
 
-    /*
-     * 内周側の角丸中心半径。
-     */
-
     const innerCenterRadius =
         INNER_RADIUS +
         radius;
 
-
-    /*
-     * 外周側の接線角。
-     */
 
     const outerOffset =
         Math.asin(
@@ -1079,10 +1152,6 @@ function createBandPath(
         Math.PI;
 
 
-    /*
-     * 内周側の接線角。
-     */
-
     const innerOffset =
         Math.asin(
             radius /
@@ -1091,10 +1160,6 @@ function createBandPath(
         180 /
         Math.PI;
 
-
-    /*
-     * 外周円との接点。
-     */
 
     const outerStart =
         polarToPoint(
@@ -1116,9 +1181,15 @@ function createBandPath(
         );
 
 
-    /*
-     * 内周円との接点。
-     */
+    const innerEnd =
+        polarToPoint(
+            INNER_RADIUS,
+            clockToSvgAngle(
+                end -
+                innerOffset
+            )
+        );
+
 
     const innerStart =
         polarToPoint(
@@ -1130,21 +1201,7 @@ function createBandPath(
         );
 
 
-    const innerEnd =
-        polarToPoint(
-            INNER_RADIUS,
-            clockToSvgAngle(
-                end -
-                innerOffset
-            )
-        );
-
-
-    /*
-     * 外周側の端面接点。
-     */
-
-    const outerTangentRadius =
+    const outerStartTangentRadius =
         outerCenterRadius *
         Math.cos(
             outerOffset *
@@ -1153,11 +1210,7 @@ function createBandPath(
         );
 
 
-    /*
-     * 内周側の端面接点。
-     */
-
-    const innerTangentRadius =
+    const innerStartTangentRadius =
         innerCenterRadius *
         Math.cos(
             innerOffset *
@@ -1168,51 +1221,37 @@ function createBandPath(
 
     const outerStartTangent =
         polarToPoint(
-            outerTangentRadius,
+            outerStartTangentRadius,
             clockToSvgAngle(start)
         );
 
 
     const innerStartTangent =
         polarToPoint(
-            innerTangentRadius,
+            innerStartTangentRadius,
             clockToSvgAngle(start)
         );
 
 
     const outerEndTangent =
         polarToPoint(
-            outerTangentRadius,
+            outerStartTangentRadius,
             clockToSvgAngle(end)
         );
 
 
     const innerEndTangent =
         polarToPoint(
-            innerTangentRadius,
+            innerStartTangentRadius,
             clockToSvgAngle(end)
         );
 
-
-    /*
-     * 180°を超える場合だけ大円弧。
-     */
 
     const largeArcFlag =
         sweep > 180
             ? 1
             : 0;
 
-
-    /*
-     * 完全に閉じたパス。
-     *
-     * 外周 → 終点角丸 → 終点端面
-     * → 内周 → 始点端面 → 始点角丸
-     * → Z
-     *
-     * 途中に穴は存在しない。
-     */
 
     return [
 
@@ -1290,31 +1329,29 @@ function createBandPath(
 
 
 /* ==================================================
-   帯設定
+   時間帯を描画
 ================================================== */
 
 /**
- * 指定した時間帯をSVGへ描画する。
+ * 色付きの完全な帯と、
+ * その内側の白い面を描画する。
  *
- * @param {string} id SVG path ID
+ * 白い面は帯を貫通しないため、
+ * 両端に色が残る。
+ *
+ * @param {string} baseId 外側パスID
+ * @param {string} innerId 白い面ID
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
  * @param {string} gradient グラデーションID
  * @returns {void}
- *
- * @example
- * setBand(
- *     'morningBand',
- *     9,0,
- *     12,0,
- *     'outpatientGradient'
- * );
  */
 
 function setBand(
-    id,
+    baseId,
+    innerId,
     startHour,
     startMinute,
     endHour,
@@ -1322,14 +1359,25 @@ function setBand(
     gradient
 ){
 
-    const element =
-        document.getElementById(id);
+    const base =
+        document.getElementById(
+            baseId
+        );
 
 
-    if(!element){
+    const inner =
+        document.getElementById(
+            innerId
+        );
+
+
+    if(
+        !base ||
+        !inner
+    ){
 
         console.error(
-            `SVG要素 ${id} が見つかりません`
+            '時間帯用SVG要素が見つかりません'
         );
 
         return;
@@ -1339,14 +1387,31 @@ function setBand(
 
     try{
 
+        const start =
+            timeToClockAngle(
+                startHour,
+                startMinute
+            );
+
+
+        const end =
+            timeToClockAngle(
+                endHour,
+                endMinute
+            );
+
+
         /*
-         * 1本の完全な面を作る。
+         * ------------------------------------------------
+         * ① 外側
          *
-         * 白を別途重ねないので、
-         * 中央が抜けることがない。
+         * 青/緑の完全な帯。
+         *
+         * これが「袋」の本体。
+         * ------------------------------------------------
          */
 
-        element.setAttribute(
+        base.setAttribute(
             'd',
             createBandPath(
                 startHour,
@@ -1357,15 +1422,59 @@ function setBand(
         );
 
 
-        element.style.fill =
+        base.style.fill =
             `url(#${gradient})`;
+
+
+        /*
+         * ------------------------------------------------
+         * ② 内側
+         *
+         * 白い面。
+         *
+         * 外周にも内周にも届かせない。
+         *
+         * さらに始点・終点にも届かせない。
+         *
+         * したがって色が四方に残る。
+         * ------------------------------------------------
+         */
+
+        const innerStart =
+            start +
+            END_CAP_ANGLE;
+
+
+        const innerEnd =
+            end -
+            END_CAP_ANGLE;
+
+
+        inner.setAttribute(
+            'd',
+            createRingPath(
+                innerStart,
+                innerEnd,
+                INNER_OUTER_RADIUS,
+                INNER_INNER_RADIUS
+            )
+        );
+
+
+        /*
+         * 白は「穴」ではなく、
+         * 実際に塗りつぶされた面。
+         */
+
+        inner.style.fill =
+            '#fff';
 
     }
 
     catch(error){
 
         console.error(
-            `${id} の描画に失敗しました`,
+            `${baseId} の描画に失敗しました`,
             error
         );
 
@@ -1380,12 +1489,13 @@ function setBand(
 ================================================== */
 
 setBand(
-    'morningBand',
+    'morningBase',
+    'morningInner',
     9,
     0,
     12,
     0,
-    'outpatientGradient'
+    'blueGradient'
 );
 
 
@@ -1395,12 +1505,13 @@ setBand(
 ================================================== */
 
 setBand(
-    'visitBand',
+    'visitBase',
+    'visitInner',
     13,
     30,
     16,
     30,
-    'visitGradient'
+    'greenGradient'
 );
 
 
@@ -1410,12 +1521,13 @@ setBand(
 ================================================== */
 
 setBand(
-    'eveningBand',
+    'eveningBase',
+    'eveningInner',
     17,
     30,
     19,
     30,
-    'outpatientGradient'
+    'blueGradient'
 );
 
 
@@ -1431,7 +1543,7 @@ setBand(
  *     minute:number,
  *     second:number
  * }}
- * @throws {Error} 日本時間取得に失敗した場合
+ * @throws {Error} 日本時間取得結果が不正な場合
  *
  * @example
  * getJapanTime();
@@ -1478,9 +1590,7 @@ function getJapanTime(){
 
 
     /*
-     * 一部のブラウザでは午前0時を
-     * 24として返す場合があるため、
-     * 0へ正規化する。
+     * 午前0時が24になる環境への対策。
      */
 
     if(
@@ -1535,7 +1645,7 @@ function updateClock(){
     catch(error){
 
         console.error(
-            '時計の更新に失敗しました',
+            '時計更新エラー',
             error
         );
 
@@ -1555,7 +1665,7 @@ function updateClock(){
 
 
     /*
-     * 秒針角度。
+     * 秒針。
      */
 
     const secondAngle =
@@ -1563,7 +1673,7 @@ function updateClock(){
 
 
     /*
-     * 分針角度。
+     * 分針。
      */
 
     const minuteAngle =
@@ -1574,10 +1684,7 @@ function updateClock(){
 
 
     /*
-     * 時針角度。
-     *
-     * 分・秒まで含めることで
-     * 時針も滑らかに進む。
+     * 時針。
      */
 
     const hourAngle =
@@ -1622,10 +1729,8 @@ function updateClock(){
 
 
     /*
-     * 初期位置は12時方向。
-     *
-     * そのため時計角度をそのまま
-     * rotateへ渡せばよい。
+     * 針はSVG上で12時位置を基準に
+     * 時計回りへ回転させる。
      */
 
     secondHand.setAttribute(
@@ -1657,10 +1762,6 @@ function updateClock(){
         )`
     );
 
-
-    /*
-     * 次のフレームで更新する。
-     */
 
     requestAnimationFrame(
         updateClock
