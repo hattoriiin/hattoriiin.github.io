@@ -686,6 +686,9 @@ and
 
 <!-- ==================================================
      時計の針
+
+     初期状態を12時方向に固定。
+     rotate()の角度をそのまま時計角度として使う。
 ================================================== -->
 
 <line
@@ -756,7 +759,7 @@ const SVG_CENTER = 200;
 /*
  * 外周半径。
  *
- * ここは今まで使用していた180を維持する。
+ * 既存デザインを維持するため180pxのまま。
  */
 
 const OUTER_RADIUS = 180;
@@ -765,7 +768,7 @@ const OUTER_RADIUS = 180;
 /*
  * 内周半径。
  *
- * ここも100を維持する。
+ * 既存デザインを維持するため100pxのまま。
  */
 
 const INNER_RADIUS = 100;
@@ -774,10 +777,8 @@ const INNER_RADIUS = 100;
 /*
  * 角丸半径。
  *
- * 20px。
- *
- * これは時間位置を変更する値ではなく、
- * 4つの角に作るフィレットの大きさ。
+ * 時間位置には影響せず、
+ * 帯の4隅だけを丸める。
  */
 
 const CORNER_RADIUS = 10;
@@ -792,13 +793,19 @@ const CORNER_RADIUS = 10;
  *
  * 12時を0°として時計回りに増加する。
  *
+ * 12:00 = 0°
+ * 03:00 = 90°
+ * 06:00 = 180°
+ * 09:00 = 270°
+ *
  * @param {number} hour 時
  * @param {number} minute 分
  * @returns {number} 時計角度（0〜360°）
+ * @throws {TypeError} 時または分が数値でない場合
  * @throws {RangeError} 分が0〜59の範囲外の場合
  *
- * 使用例:
- * timeToClockAngle(9, 0) // 270
+ * @example
+ * timeToClockAngle(9, 0); // 270
  */
 
 function timeToClockAngle(
@@ -830,6 +837,13 @@ function timeToClockAngle(
     }
 
 
+    /*
+     * 12時間制に変換する。
+     *
+     * 1時間 = 30°
+     * 1分 = 0.5°
+     */
+
     return (
         ((hour % 12) * 30)
         +
@@ -844,13 +858,20 @@ function timeToClockAngle(
 ================================================== */
 
 /**
- * 時計角度をSVG角度へ変換する。
+ * 時計角度をSVG描画用の角度へ変換する。
  *
- * SVGでは0°が3時方向になるため、
- * 90°を引いて12時を上にする。
+ * SVGの三角関数座標では0°が右方向なので、
+ * -90°することで12時方向を基準にする。
+ *
+ * この関数は「時間帯の円弧」の座標計算専用。
+ *
+ * 時計の針には使用しない。
  *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
+ *
+ * @example
+ * clockToSvgAngle(0); // -90
  */
 
 function clockToSvgAngle(
@@ -871,6 +892,9 @@ function clockToSvgAngle(
  *
  * @param {number} angle 角度
  * @returns {number} 正規化された角度
+ *
+ * @example
+ * normalizeAngle(-30); // 330
  */
 
 function normalizeAngle(
@@ -895,6 +919,9 @@ function normalizeAngle(
  * @param {number} radius 半径
  * @param {number} svgAngle SVG角度
  * @returns {{x:number,y:number}} SVG座標
+ *
+ * @example
+ * polarToPoint(180, -90);
  */
 
 function polarToPoint(
@@ -932,18 +959,8 @@ function polarToPoint(
 /**
  * 円環状の時間帯を生成する。
  *
- * 外周と内周は完全な円弧のまま維持し、
- * 放射方向の端面との接続部分だけを
- * 真円フィレットで丸める。
- *
- * 重要:
- * - 時間の始点・終点は変更しない
- * - 外周はR180
- * - 内周はR100
- * - 左右の端面は直線
- * - 4隅だけが丸くなる
- * - 円を重ねない
- * - Qコマンドを使用しない
+ * 外周R180と内周R100を維持し、
+ * 時間帯の両端だけを角丸にする。
  *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
@@ -952,8 +969,8 @@ function polarToPoint(
  * @returns {string} SVG path
  * @throws {RangeError} 不正な時間範囲の場合
  *
- * 使用例:
- * createBandPath(9,0,12,0)
+ * @example
+ * createBandPath(9,0,12,0);
  */
 
 function createBandPath(
@@ -996,7 +1013,7 @@ function createBandPath(
 
 
     /*
-     * 帯幅80px。
+     * 帯幅。
      */
 
     const bandWidth =
@@ -1005,8 +1022,7 @@ function createBandPath(
 
 
     /*
-     * 角丸半径が帯幅を超えて
-     * 自己交差しないよう制限。
+     * 角丸半径が帯幅を超えないよう制限。
      */
 
     const radius =
@@ -1017,13 +1033,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 外周側フィレット
-     *
-     * 外周円R180の内側に
-     * 半径radiusの円を置き、
-     * 外周円と端面の両方に接する条件を求める。
-     * ----------------------------------------------
+     * 外周側フィレット中心の半径。
      */
 
     const outerCenterRadius =
@@ -1039,12 +1049,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 内周側フィレット
-     *
-     * 内周円R100の外側に
-     * 半径radiusの円を置く。
-     * ----------------------------------------------
+     * 内周側フィレット中心の半径。
      */
 
     const innerCenterRadius =
@@ -1060,9 +1065,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * ラジアン → 度
-     * ----------------------------------------------
+     * ラジアン → 度。
      */
 
     const outerOffsetDeg =
@@ -1078,11 +1081,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 外周円との接点
-     *
-     * 始点側
-     * ----------------------------------------------
+     * 外周円との接点。
      */
 
     const outerStart =
@@ -1095,10 +1094,6 @@ function createBandPath(
         );
 
 
-    /*
-     * 終点側
-     */
-
     const outerEnd =
         polarToPoint(
             OUTER_RADIUS,
@@ -1110,9 +1105,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 内周円との接点
-     * ----------------------------------------------
+     * 内周円との接点。
      */
 
     const innerStart =
@@ -1136,14 +1129,7 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 端面の接点
-     *
-     * 外周フィレットの中心から
-     * 放射方向の直線へ下ろした接点。
-     *
-     * 内周側も同じ。
-     * ----------------------------------------------
+     * 端面の接点。
      */
 
     const outerStartTangentRadius =
@@ -1197,9 +1183,8 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * 円弧フラグ
-     * ----------------------------------------------
+     * 180°を超える場合だけ
+     * large-arc-flagを1にする。
      */
 
     const largeArcFlag =
@@ -1209,49 +1194,18 @@ function createBandPath(
 
 
     /*
-     * ----------------------------------------------
-     * SVGパス
+     * SVGパスを構築する。
      *
-     * 始点
-     * ↓
-     * 外周円弧
-     * ↓
-     * 終点外側フィレット
-     * ↓
-     * 終点直線
-     * ↓
-     * 終点内側フィレット
-     * ↓
-     * 内周円弧
-     * ↓
-     * 始点内側フィレット
-     * ↓
-     * 始点直線
-     * ↓
-     * 始点外側フィレット
-     * ↓
-     * 閉じる
-     *
-     * これで「上下は円弧、
-     * 左右は直線」という構造を保つ。
-     * ----------------------------------------------
+     * 外周 → 終点角丸 → 端面 → 内周角丸
+     * → 内周 → 始点角丸 → 端面 → 始点角丸
+     * の順で閉じる。
      */
 
     return [
 
-        /*
-         * 外周円弧開始点
-         */
-
         `M
         ${outerStart.x}
         ${outerStart.y}`,
-
-        /*
-         * 外周。
-         *
-         * 時計回り。
-         */
 
         `A
         ${OUTER_RADIUS}
@@ -1262,12 +1216,6 @@ function createBandPath(
         ${outerEnd.x}
         ${outerEnd.y}`,
 
-        /*
-         * 終点外側の角丸。
-         *
-         * 外周 → 端面。
-         */
-
         `A
         ${radius}
         ${radius}
@@ -1277,19 +1225,9 @@ function createBandPath(
         ${outerEndTangent.x}
         ${outerEndTangent.y}`,
 
-        /*
-         * 終点の直線。
-         */
-
         `L
         ${innerEndTangent.x}
         ${innerEndTangent.y}`,
-
-        /*
-         * 終点内側の角丸。
-         *
-         * 端面 → 内周。
-         */
 
         `A
         ${radius}
@@ -1300,12 +1238,6 @@ function createBandPath(
         ${innerEnd.x}
         ${innerEnd.y}`,
 
-        /*
-         * 内周円弧。
-         *
-         * 外周とは逆方向。
-         */
-
         `A
         ${INNER_RADIUS}
         ${INNER_RADIUS}
@@ -1314,10 +1246,6 @@ function createBandPath(
         0
         ${innerStart.x}
         ${innerStart.y}`,
-
-        /*
-         * 始点内側の角丸。
-         */
 
         `A
         ${radius}
@@ -1328,17 +1256,9 @@ function createBandPath(
         ${innerStartTangent.x}
         ${innerStartTangent.y}`,
 
-        /*
-         * 始点の直線。
-         */
-
         `L
         ${outerStartTangent.x}
         ${outerStartTangent.y}`,
-
-        /*
-         * 始点外側の角丸。
-         */
 
         `A
         ${radius}
@@ -1372,7 +1292,14 @@ function createBandPath(
  * @returns {void}
  *
  * @example
- * setBand('morningBand',9,0,12,0,'outpatientGradient');
+ * setBand(
+ *     'morningBand',
+ *     9,
+ *     0,
+ *     12,
+ *     0,
+ *     'outpatientGradient'
+ * );
  */
 
 function setBand(
@@ -1410,6 +1337,29 @@ function setBand(
                 endMinute
             )
         );
+
+
+        /*
+         * gradient IDは固定値のみを受け取る。
+         * 外部入力をそのままCSSへ入れないことで、
+         * 不要なCSSインジェクションを避ける。
+         */
+
+        const allowedGradients = new Set([
+            'outpatientGradient',
+            'visitGradient'
+        ]);
+
+
+        if(
+            !allowedGradients.has(gradient)
+        ){
+
+            throw new Error(
+                `許可されていないグラデーションです: ${gradient}`
+            );
+
+        }
 
 
         element.style.fill =
@@ -1481,9 +1431,16 @@ setBand(
 /**
  * 日本時間を取得する。
  *
- * @returns {{hour:number,minute:number,second:number}}
+ * ブラウザや端末のタイムゾーンに依存せず、
+ * 常にAsia/Tokyoを指定して取得する。
  *
- * @throws {Error} Intl.DateTimeFormatが利用できない場合
+ * @returns {{
+ *     hour:number,
+ *     minute:number,
+ *     second:number
+ * }}
+ *
+ * @throws {Error} 時刻情報を正常に取得できない場合
  *
  * @example
  * const now = getJapanTime();
@@ -1491,45 +1448,95 @@ setBand(
 
 function getJapanTime(){
 
-    const parts =
-        new Intl.DateTimeFormat(
-            'en-US',
-            {
-                timeZone:'Asia/Tokyo',
+    try{
 
-                hour12:false,
+        const parts =
+            new Intl.DateTimeFormat(
+                'en-US',
+                {
+                    timeZone:'Asia/Tokyo',
 
-                hour:'2-digit',
-                minute:'2-digit',
-                second:'2-digit'
+                    hour12:false,
+
+                    hour:'2-digit',
+                    minute:'2-digit',
+                    second:'2-digit'
+                }
+            ).formatToParts(
+                new Date()
+            );
+
+
+        const result = {};
+
+
+        parts.forEach(
+            part => {
+
+                if(
+                    part.type === 'hour' ||
+                    part.type === 'minute' ||
+                    part.type === 'second'
+                ){
+
+                    result[part.type] =
+                        Number(part.value);
+
+                }
+
             }
-        ).formatToParts(
-            new Date()
         );
 
 
-    const result = {};
+        /*
+         * Intlが「24」を返す環境への対策。
+         *
+         * 日本時間の深夜0時を24時として扱うと
+         * 時計が180°ずれるため、0時へ正規化する。
+         */
 
+        if(
+            result.hour === 24
+        ){
 
-    parts.forEach(
-        part => {
-
-            if(
-                part.type === 'hour' ||
-                part.type === 'minute' ||
-                part.type === 'second'
-            ){
-
-                result[part.type] =
-                    Number(part.value);
-
-            }
+            result.hour = 0;
 
         }
-    );
 
 
-    return result;
+        if(
+            !Number.isInteger(result.hour) ||
+            !Number.isInteger(result.minute) ||
+            !Number.isInteger(result.second)
+        ){
+
+            throw new Error(
+                '日本時間の取得結果が不正です'
+            );
+
+        }
+
+
+        return result;
+
+    }
+
+    catch(error){
+
+        console.error(
+            '日本時間の取得に失敗しました',
+            error
+        );
+
+
+        /*
+         * 時計を不正な角度で描画し続けないため、
+         * エラー時は現在の表示を維持する。
+         */
+
+        throw error;
+
+    }
 
 }
 
@@ -1541,16 +1548,58 @@ function getJapanTime(){
 /**
  * 日本時間に合わせて時計の針を更新する。
  *
- * requestAnimationFrameを使用することで、
- * 秒針だけでなく時針・分針も滑らかに動かす。
+ * 重要:
+ *
+ * このrotate()では
+ * clockToSvgAngle()を使用しない。
+ *
+ * 針そのものがHTML上で12時方向を向いているため、
+ * rotate()の0°を12時としてそのまま使用する。
+ *
+ * これにより、
+ *
+ * 12:00 → 0°
+ * 03:00 → 90°
+ * 06:00 → 180°
+ * 09:00 → 270°
+ *
+ * となり、正しい時計方向になる。
  *
  * @returns {void}
+ *
+ * @throws {Error} 日本時間の取得に失敗した場合
+ *
+ * @example
+ * updateClock();
  */
 
 function updateClock(){
 
-    const now =
-        getJapanTime();
+    let now;
+
+
+    /*
+     * 日本時間取得エラー時に
+     * requestAnimationFrameを継続させない。
+     */
+
+    try{
+
+        now =
+            getJapanTime();
+
+    }
+
+    catch(error){
+
+        console.error(
+            '時計更新を停止しました',
+            error
+        );
+
+        return;
+
+    }
 
 
     const hours =
@@ -1564,7 +1613,11 @@ function updateClock(){
 
 
     /*
+     * --------------------------------------------------
      * 秒針
+     *
+     * 1秒 = 6°
+     * --------------------------------------------------
      */
 
     const secondAngle =
@@ -1572,7 +1625,11 @@ function updateClock(){
 
 
     /*
+     * --------------------------------------------------
      * 分針
+     *
+     * 秒も反映することで滑らかに動かす。
+     * --------------------------------------------------
      */
 
     const minuteAngle =
@@ -1583,7 +1640,13 @@ function updateClock(){
 
 
     /*
+     * --------------------------------------------------
      * 時針
+     *
+     * 1時間 = 30°
+     *
+     * 分・秒も反映する。
+     * --------------------------------------------------
      */
 
     const hourAngle =
@@ -1613,8 +1676,12 @@ function updateClock(){
 
 
     /*
-     * SVG要素がない場合は
-     * JavaScriptエラーで無限ループしないよう終了する。
+     * --------------------------------------------------
+     * SVG要素の存在確認。
+     *
+     * HTML変更などで針が存在しない場合は、
+     * エラーを連続発生させないため停止する。
+     * --------------------------------------------------
      */
 
     if(
@@ -1632,10 +1699,22 @@ function updateClock(){
     }
 
 
+    /*
+     * --------------------------------------------------
+     * 今回の重要な修正。
+     *
+     * clockToSvgAngle()を使わず、
+     * 時計角度をそのままrotate()へ渡す。
+     *
+     * 針の初期位置は12時なので、
+     * rotate(0) = 12時。
+     * --------------------------------------------------
+     */
+
     secondHand.setAttribute(
         'transform',
         `rotate(
-            ${clockToSvgAngle(secondAngle)},
+            ${secondAngle},
             200,
             200
         )`
@@ -1645,7 +1724,7 @@ function updateClock(){
     minuteHand.setAttribute(
         'transform',
         `rotate(
-            ${clockToSvgAngle(minuteAngle)},
+            ${minuteAngle},
             200,
             200
         )`
@@ -1655,12 +1734,16 @@ function updateClock(){
     hourHand.setAttribute(
         'transform',
         `rotate(
-            ${clockToSvgAngle(hourAngle)},
+            ${hourAngle},
             200,
             200
         )`
     );
 
+
+    /*
+     * 次のフレームで更新。
+     */
 
     requestAnimationFrame(
         updateClock
