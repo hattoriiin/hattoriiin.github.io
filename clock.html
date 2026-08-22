@@ -188,12 +188,22 @@ body{
 ================================================== */
 
 /*
- * ここは「線」ではない。
+ * 「袋とじ」は線ではない。
  *
- * 時間帯の始点・終点を横切る
- * 放射方向の面として使用する。
+ * 各時間帯の始点・終点に、
+ * R100〜R180を横断する薄い面を置く。
  *
- * そのため帯幅80px全体を閉じる。
+ * その面にも本体と同じradialGradientを適用する。
+ *
+ * これによって、
+ *
+ *     本体 ┃ 端面
+ *
+ * ではなく、
+ *
+ *     本体 → 端面
+ *
+ * と色が連続する。
  */
 
 .time-cap{
@@ -487,7 +497,7 @@ and
 
 
 <!-- ==================================================
-     青：外来診療
+     青：外来診療グラデーション
 ================================================== -->
 
 <radialGradient
@@ -556,10 +566,10 @@ and
 
 
 <!-- ==================================================
-     緑：訪問診療
+     緑：訪問診療グラデーション
      
-     青と同じstop位置。
-     見かけ上の帯幅を揃える。
+     青と同じstop位置にして、
+     帯の見え方を揃える。
 ================================================== -->
 
 <radialGradient
@@ -679,47 +689,41 @@ and
 <!-- ==================================================
      袋とじ
      
-     始点・終点の「面」をここで閉じる。
+     各端に「薄い面」を置く。
      
-     円弧ではない。
+     本体と同じグラデーションを使用する。
 ================================================== -->
 
 <path
     id="morningStartCap"
     class="time-cap"
-    fill="#3d8bdc"
 />
 
 <path
     id="morningEndCap"
     class="time-cap"
-    fill="#3d8bdc"
 />
 
 
 <path
     id="visitStartCap"
     class="time-cap"
-    fill="#70ad47"
 />
 
 <path
     id="visitEndCap"
     class="time-cap"
-    fill="#70ad47"
 />
 
 
 <path
     id="eveningStartCap"
     class="time-cap"
-    fill="#3d8bdc"
 />
 
 <path
     id="eveningEndCap"
     class="time-cap"
-    fill="#3d8bdc"
 />
 
 
@@ -830,15 +834,27 @@ and
 
 const SVG_CENTER = 200;
 
+
+/*
+ * 外周R180。
+ *
+ * これまで揃えた値を維持する。
+ */
+
 const OUTER_RADIUS = 180;
+
+
+/*
+ * 内周R100。
+ *
+ * 帯幅は80pxになる。
+ */
 
 const INNER_RADIUS = 100;
 
 
 /*
- * 帯幅は80px。
- *
- * ここは変更しない。
+ * 帯幅。
  */
 
 const BAND_WIDTH =
@@ -847,10 +863,23 @@ const BAND_WIDTH =
 
 
 /*
- * 角丸半径。
+ * 角丸。
  */
 
 const CORNER_RADIUS = 10;
+
+
+/*
+ * 袋とじの角度幅。
+ *
+ * 「線」ではなく、
+ * 実際に面積を持つ薄い扇形にする。
+ *
+ * 1.2°なら時間位置への影響は
+ * 見た目上ほぼ発生しない。
+ */
+
+const CAP_HALF_ANGLE = 0.6;
 
 
 /* ==================================================
@@ -858,7 +887,7 @@ const CORNER_RADIUS = 10;
 ================================================== */
 
 /**
- * 時刻を12時間時計の角度へ変換する。
+ * 時刻を時計上の角度へ変換する。
  *
  * 12時を0°として時計回りに増加する。
  *
@@ -869,7 +898,7 @@ const CORNER_RADIUS = 10;
  * @throws {RangeError} 分が0〜59以外の場合
  *
  * @example
- * timeToClockAngle(9, 0); // 270
+ * timeToClockAngle(9,0); // 270
  */
 
 function timeToClockAngle(
@@ -902,8 +931,7 @@ function timeToClockAngle(
 
 
     return (
-        ((hour % 12) * 30)
-        +
+        ((hour % 12) * 30) +
         minute * 0.5
     ) % 360;
 
@@ -917,14 +945,8 @@ function timeToClockAngle(
 /**
  * 時計角度をSVG角度へ変換する。
  *
- * SVGの0°は3時方向なので、
- * 12時を上に合わせる。
- *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
- *
- * @example
- * clockToSvgAngle(0); // -90
  */
 
 function clockToSvgAngle(
@@ -941,7 +963,7 @@ function clockToSvgAngle(
 ================================================== */
 
 /**
- * 角度を0〜360°へ正規化する。
+ * 角度を0〜360°に正規化する。
  *
  * @param {number} angle 角度
  * @returns {number} 正規化角度
@@ -964,7 +986,7 @@ function normalizeAngle(
 ================================================== */
 
 /**
- * 円周上の座標を求める。
+ * 極座標をSVG座標へ変換する。
  *
  * @param {number} radius 半径
  * @param {number} svgAngle SVG角度
@@ -1000,13 +1022,13 @@ function polarToPoint(
 
 
 /* ==================================================
-   時間帯Path
+   時間帯本体
 ================================================== */
 
 /**
- * 角丸の円環状時間帯を生成する。
+ * 角丸円環帯を生成する。
  *
- * R180とR100を維持する。
+ * 外周R180、内周R100を維持する。
  *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
@@ -1057,10 +1079,6 @@ function createBandPath(
 
     }
 
-
-    /*
-     * 角丸半径が帯幅を超えないよう制限。
-     */
 
     const radius =
         Math.min(
@@ -1269,22 +1287,23 @@ function createBandPath(
 
 
 /* ==================================================
-   袋とじ用の端面
+   袋とじ端面
 ================================================== */
 
 /**
- * 時間帯の始点または終点を、
- * 帯幅全体の色で閉じる面を生成する。
+ * 時間帯の端を閉じるための薄い面を生成する。
  *
- * 「線」ではなく四辺形として作る。
+ * 2点だけの線ではなく、
+ * 内周・外周それぞれに2点を持つ
+ * 4点の薄い扇形面として生成する。
  *
- * これによりR100〜R180の80px全体が
- * 同色で閉じられる。
+ * そのため実際に面積を持ち、
+ * 本体の色を端まで閉じることができる。
  *
  * @param {number} hour 時
  * @param {number} minute 分
  * @returns {string} SVG Path
- * @throws {TypeError} 時刻が数値でない場合
+ * @throws {TypeError} 時刻が不正な場合
  *
  * @example
  * createCapPath(9,0);
@@ -1303,61 +1322,99 @@ function createCapPath(
 
 
     /*
-     * 端面を完全に閉じるため、
-     * 内周R100から外周R180まで
-     * そのまま線を引く。
+     * 端面の左右。
      *
-     * これが「袋とじ」の本体。
+     * 時間位置そのものは中央に維持し、
+     * その両側へ0.6°だけ広げる。
      */
 
-    const outer =
+    const leftAngle =
+        angle -
+        CAP_HALF_ANGLE;
+
+
+    const rightAngle =
+        angle +
+        CAP_HALF_ANGLE;
+
+
+    /*
+     * 外周側2点。
+     */
+
+    const outerLeft =
         polarToPoint(
             OUTER_RADIUS,
-            clockToSvgAngle(angle)
+            clockToSvgAngle(
+                leftAngle
+            )
         );
 
 
-    const inner =
+    const outerRight =
         polarToPoint(
-            INNER_RADIUS,
-            clockToSvgAngle(angle)
+            OUTER_RADIUS,
+            clockToSvgAngle(
+                rightAngle
+            )
         );
 
 
     /*
-     * 極細の角丸の影響で隙間が見えないよう、
-     * 半径方向にわずかに余裕を持たせる。
-     *
-     * 外周リングそのものは覆わない。
+     * 内周側2点。
      */
 
-    const outerCap =
+    const innerRight =
         polarToPoint(
-            OUTER_RADIUS - 0.3,
-            clockToSvgAngle(angle)
+            INNER_RADIUS,
+            clockToSvgAngle(
+                rightAngle
+            )
         );
 
 
-    const innerCap =
+    const innerLeft =
         polarToPoint(
-            INNER_RADIUS + 0.3,
-            clockToSvgAngle(angle)
+            INNER_RADIUS,
+            clockToSvgAngle(
+                leftAngle
+            )
         );
 
+
+    /*
+     * 4点を持つ薄い円環扇形。
+     *
+     * これが実際の「袋とじ」。
+     */
 
     return [
 
         `M
-        ${outerCap.x}
-        ${outerCap.y}`,
+        ${outerLeft.x}
+        ${outerLeft.y}`,
+
+        `A
+        ${OUTER_RADIUS}
+        ${OUTER_RADIUS}
+        0
+        0
+        1
+        ${outerRight.x}
+        ${outerRight.y}`,
 
         `L
-        ${innerCap.x}
-        ${innerCap.y}`,
+        ${innerRight.x}
+        ${innerRight.y}`,
 
-        /*
-         * SVGの閉じた面として処理。
-         */
+        `A
+        ${INNER_RADIUS}
+        ${INNER_RADIUS}
+        0
+        0
+        0
+        ${innerLeft.x}
+        ${innerLeft.y}`,
 
         'Z'
 
@@ -1367,22 +1424,30 @@ function createCapPath(
 
 
 /* ==================================================
-   帯を設定
+   帯設定
 ================================================== */
 
 /**
  * 時間帯本体と両端の袋とじを設定する。
  *
  * @param {string} bandId 本体ID
- * @param {string} startCapId 始点キャップID
- * @param {string} endCapId 終点キャップID
+ * @param {string} startCapId 始点ID
+ * @param {string} endCapId 終点ID
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
  * @param {string} gradient グラデーションID
- * @param {string} capColor 袋とじ色
  * @returns {void}
+ *
+ * @example
+ * setBand(
+ *   'morningBand',
+ *   'morningStartCap',
+ *   'morningEndCap',
+ *   9,0,12,0,
+ *   'outpatientGradient'
+ * );
  */
 
 function setBand(
@@ -1393,8 +1458,7 @@ function setBand(
     startMinute,
     endHour,
     endMinute,
-    gradient,
-    capColor
+    gradient
 ){
 
     const band =
@@ -1422,7 +1486,7 @@ function setBand(
     ){
 
         console.error(
-            `時間帯のSVG要素が見つかりません: ${bandId}`
+            `SVG要素が見つかりません: ${bandId}`
         );
 
         return;
@@ -1431,9 +1495,7 @@ function setBand(
 
 
     /*
-     * グラデーションIDを固定リストで検証。
-     *
-     * 外部入力をCSSへ直接渡さない。
+     * グラデーションIDを固定値だけに限定する。
      */
 
     const allowedGradients =
@@ -1478,7 +1540,9 @@ function setBand(
 
 
         /*
-         * 始点を色で閉じる。
+         * 始点の袋とじ。
+         *
+         * 本体と同じグラデーション。
          */
 
         startCap.setAttribute(
@@ -1490,14 +1554,12 @@ function setBand(
         );
 
 
-        startCap.setAttribute(
-            'fill',
-            capColor
-        );
+        startCap.style.fill =
+            `url(#${gradient})`;
 
 
         /*
-         * 終点を色で閉じる。
+         * 終点の袋とじ。
          */
 
         endCap.setAttribute(
@@ -1509,10 +1571,8 @@ function setBand(
         );
 
 
-        endCap.setAttribute(
-            'fill',
-            capColor
-        );
+        endCap.style.fill =
+            `url(#${gradient})`;
 
     }
 
@@ -1545,9 +1605,7 @@ setBand(
     12,
     0,
 
-    'outpatientGradient',
-
-    '#3d8bdc'
+    'outpatientGradient'
 );
 
 
@@ -1568,9 +1626,7 @@ setBand(
     16,
     30,
 
-    'visitGradient',
-
-    '#70ad47'
+    'visitGradient'
 );
 
 
@@ -1591,9 +1647,7 @@ setBand(
     19,
     30,
 
-    'outpatientGradient',
-
-    '#3d8bdc'
+    'outpatientGradient'
 );
 
 
@@ -1609,7 +1663,7 @@ setBand(
  *     minute:number,
  *     second:number
  * }}
- * @throws {Error} 時刻取得に失敗した場合
+ * @throws {Error} 日本時間を取得できない場合
  *
  * @example
  * getJapanTime();
@@ -1658,7 +1712,7 @@ function getJapanTime(){
 
 
         /*
-         * 一部環境で24時になる問題を防ぐ。
+         * 0時を24として返す環境への対策。
          */
 
         if(
@@ -1810,7 +1864,7 @@ function updateClock(){
 
 
     /*
-     * 12時を0°として時計回りに回転。
+     * 12時を0°として時計回り。
      */
 
     secondHand.setAttribute(
