@@ -176,51 +176,40 @@ body{
    時間帯
 ================================================== */
 
-/*
- * 外側の色レイヤー。
- *
- * stroke-linecap:round にすることで、
- * 始点・終点を完全に閉じた
- * 「角の取れたバームクーヘン型」にする。
- */
-
 .time-band{
 
-    fill:none;
-
-    stroke-linecap:round;
-
-    stroke-linejoin:round;
+    stroke:none;
 
 }
 
 
 /*
- * 外側の色レイヤー。
+ * ベース。
  *
- * 青・緑とも同じ幅にすることで、
- * 見た目の太さを完全に揃える。
+ * 実際の時間帯そのもの。
+ *
+ * ここでは角度を一切縮めない。
  */
 
-.time-band.outer{
+.time-band-base{
 
-    stroke-width:80;
+    stroke:none;
 
 }
 
 
 /*
- * 内側の白レイヤー。
+ * 白レイヤー。
  *
- * 外側より十分細くする。
+ * ベースより半径方向だけ小さい。
  *
- * これによって白が広がりすぎず、
- * 外側の青・緑のグラデーションが残る。
+ * そのため両端には必ず
+ * ベースの色が残る。
  */
 
-.time-band.inner{
+.time-band-inner{
 
-    stroke-width:40;
+    stroke:none;
 
 }
 
@@ -507,17 +496,28 @@ and
 
 
 <!-- ==================================================
-     青：外側レイヤー
+     青：ベースグラデーション
      
-     中央を少し淡くし、
-     外側・内側へ向かって青を戻す。
-
-     白レイヤーを上から重ねるため、
-     ここでは白を作らない。
+     R100〜R180の全幅を使う。
+     
+     外側
+       ↓
+     青
+       ↓
+     淡青
+       ↓
+     白に近い淡青
+       ↓
+     淡青
+       ↓
+     青
+     内側
+     
+     完全な白帯にはしない。
 ================================================== -->
 
 <radialGradient
-    id="outpatientOuterGradient"
+    id="blueBaseGradient"
     cx="200"
     cy="200"
     r="180"
@@ -527,51 +527,56 @@ and
     <stop
         offset="55%"
         stop-color="#3d8bdc"
-        stop-opacity=".72"
+        stop-opacity=".68"
     />
 
     <stop
-        offset="64%"
-        stop-color="#72afe8"
-        stop-opacity=".58"
+        offset="62%"
+        stop-color="#68a9e3"
+        stop-opacity=".55"
     />
 
     <stop
-        offset="70%"
-        stop-color="#a9d1f2"
-        stop-opacity=".48"
+        offset="68%"
+        stop-color="#a9d0ef"
+        stop-opacity=".42"
     />
 
     <stop
-        offset="76%"
-        stop-color="#72afe8"
-        stop-opacity=".58"
+        offset="73%"
+        stop-color="#dcecf8"
+        stop-opacity=".35"
     />
 
     <stop
-        offset="86%"
-        stop-color="#3d8bdc"
-        stop-opacity=".72"
+        offset="78%"
+        stop-color="#a9d0ef"
+        stop-opacity=".42"
+    />
+
+    <stop
+        offset="84%"
+        stop-color="#68a9e3"
+        stop-opacity=".55"
     />
 
     <stop
         offset="100%"
         stop-color="#3d8bdc"
-        stop-opacity=".78"
+        stop-opacity=".68"
     />
 
 </radialGradient>
 
 
 <!-- ==================================================
-     緑：外側レイヤー
+     緑：ベースグラデーション
      
      青と完全に同じ構造。
-     これで青と緑の幅・濃淡の見え方を揃える。
 ================================================== -->
 
 <radialGradient
-    id="visitOuterGradient"
+    id="greenBaseGradient"
     cx="200"
     cy="200"
     r="180"
@@ -581,51 +586,57 @@ and
     <stop
         offset="55%"
         stop-color="#70ad47"
-        stop-opacity=".72"
+        stop-opacity=".68"
     />
 
     <stop
-        offset="64%"
-        stop-color="#95c66f"
-        stop-opacity=".58"
+        offset="62%"
+        stop-color="#8fc36a"
+        stop-opacity=".55"
     />
 
     <stop
-        offset="70%"
-        stop-color="#c2dda9"
-        stop-opacity=".48"
+        offset="68%"
+        stop-color="#c0dda9"
+        stop-opacity=".42"
     />
 
     <stop
-        offset="76%"
-        stop-color="#95c66f"
-        stop-opacity=".58"
+        offset="73%"
+        stop-color="#e5f1dc"
+        stop-opacity=".35"
     />
 
     <stop
-        offset="86%"
-        stop-color="#70ad47"
-        stop-opacity=".72"
+        offset="78%"
+        stop-color="#c0dda9"
+        stop-opacity=".42"
+    />
+
+    <stop
+        offset="84%"
+        stop-color="#8fc36a"
+        stop-opacity=".55"
     />
 
     <stop
         offset="100%"
         stop-color="#70ad47"
-        stop-opacity=".78"
+        stop-opacity=".68"
     />
 
 </radialGradient>
 
 
 <!-- ==================================================
-     白：内側レイヤー
+     白レイヤー
      
-     完全な白ではなく、
-     透明 → 白 → 透明
-     とする。
-
-     これによって下の青・緑を完全には殺さず、
-     「白い光が中央に入った」ように見せる。
+     完全な白ベタではない。
+     
+     中央を薄くして、
+     ベースのグラデーションを残す。
+     
+     これが今回のポイント。
 ================================================== -->
 
 <radialGradient
@@ -637,45 +648,45 @@ and
 >
 
     <stop
-        offset="58%"
+        offset="65%"
         stop-color="#ffffff"
-        stop-opacity=".08"
+        stop-opacity=".10"
     />
 
     <stop
-        offset="66%"
+        offset="69%"
         stop-color="#ffffff"
-        stop-opacity=".38"
+        stop-opacity=".22"
     />
 
     <stop
-        offset="71%"
+        offset="72%"
         stop-color="#ffffff"
-        stop-opacity=".72"
+        stop-opacity=".42"
     />
 
     <stop
-        offset="74%"
+        offset="75%"
         stop-color="#ffffff"
-        stop-opacity=".84"
+        stop-opacity=".50"
     />
 
     <stop
-        offset="77%"
+        offset="78%"
         stop-color="#ffffff"
-        stop-opacity=".72"
+        stop-opacity=".42"
     />
 
     <stop
-        offset="82%"
+        offset="81%"
         stop-color="#ffffff"
-        stop-opacity=".38"
+        stop-opacity=".22"
     />
 
     <stop
-        offset="90%"
+        offset="84%"
         stop-color="#ffffff"
-        stop-opacity=".08"
+        stop-opacity=".10"
     />
 
 </radialGradient>
@@ -709,58 +720,59 @@ and
 
 
 <!-- ==================================================
-     午前診
+     時間帯ベース
      
-     外側：青
-     内側：白透過
+     ここが「バームクーヘンの型」。
      
-     同じ中心線・同じ始点・同じ終点。
+     外周R180
+     内周R100
+     
+     時間角度は正確に維持する。
 ================================================== -->
 
 <path
-    id="morningOuter"
-    class="time-band outer"
+    id="morningBandBase"
+    class="time-band-base"
 />
 
+
 <path
-    id="morningInner"
-    class="time-band inner"
+    id="visitBandBase"
+    class="time-band-base"
+/>
+
+
+<path
+    id="eveningBandBase"
+    class="time-band-base"
 />
 
 
 <!-- ==================================================
-     訪問診療
+     白の内側レイヤー
      
-     外側：緑
-     内側：白透過
+     ベースより外周・内周を少し内側へ。
+     
+     ただし角度はベースと完全に同じ。
+     
+     したがって時間が前後に伸びない。
 ================================================== -->
 
 <path
-    id="visitOuter"
-    class="time-band outer"
-/>
-
-<path
-    id="visitInner"
-    class="time-band inner"
+    id="morningBandInner"
+    class="time-band-inner"
 />
 
 
-<!-- ==================================================
-     午後診
-     
-     外側：青
-     内側：白透過
-================================================== -->
-
 <path
-    id="eveningOuter"
-    class="time-band outer"
+    id="visitBandInner"
+    class="time-band-inner"
 />
 
+
 <path
-    id="eveningInner"
-    class="time-band inner"
+    id="eveningBandInner"
+    class="time-band-inner"
 />
 
 
@@ -873,22 +885,56 @@ const SVG_CENTER = 200;
 
 
 /*
- * 時間帯の中心線の半径。
+ * ベースの外周。
  *
- * 外側レイヤー80px、
- * 内側レイヤー40pxなので、
- *
- * 外周：180
- * 中心：140
- * 内周：100
- *
- * となる。
- *
- * これにより時計全体の位置を変えずに
- * 「外側＋内側」の二層構造を作る。
+ * 時間帯の外側は常にR180。
  */
 
-const BAND_CENTER_RADIUS = 140;
+const OUTER_RADIUS = 180;
+
+
+/*
+ * ベースの内周。
+ *
+ * 時間帯の内側は常にR100。
+ */
+
+const INNER_RADIUS = 100;
+
+
+/*
+ * 白レイヤーの外周。
+ *
+ * ベースより6px内側。
+ *
+ * ここを小さくすることで、
+ * ベースの青・緑が外側に残る。
+ */
+
+const INNER_LAYER_OUTER_RADIUS = 174;
+
+
+/*
+ * 白レイヤーの内周。
+ *
+ * ベースより6px外側。
+ *
+ * したがって白レイヤーは
+ * 半径方向だけで小さくなる。
+ */
+
+const INNER_LAYER_INNER_RADIUS = 106;
+
+
+/*
+ * ベースの角丸。
+ *
+ * 大きくしすぎると時間の端が
+ * 前後に逃げて見えるため、
+ * 今回は非常に小さくする。
+ */
+
+const CORNER_RADIUS = 5;
 
 
 /* ==================================================
@@ -902,9 +948,9 @@ const BAND_CENTER_RADIUS = 140;
  *
  * @param {number} hour 時
  * @param {number} minute 分
- * @returns {number} 時計角度（0〜360°）
- * @throws {TypeError} 時・分が数値でない場合
- * @throws {RangeError} 分が0〜59の範囲外の場合
+ * @returns {number} 時計角度
+ * @throws {TypeError} 時または分が数値でない場合
+ * @throws {RangeError} 分が0〜59でない場合
  *
  * @example
  * timeToClockAngle(9, 0); // 270
@@ -955,13 +1001,10 @@ function timeToClockAngle(
  * 時計角度をSVG角度へ変換する。
  *
  * SVGの0°は3時方向なので、
- * 12時方向を0°として扱うため90°を引く。
+ * 12時方向を0°に合わせるため90°引く。
  *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
- *
- * @example
- * clockToSvgAngle(0); // -90
  */
 
 function clockToSvgAngle(
@@ -974,7 +1017,7 @@ function clockToSvgAngle(
 
 
 /* ==================================================
-   正規化
+   角度正規化
 ================================================== */
 
 /**
@@ -982,9 +1025,6 @@ function clockToSvgAngle(
  *
  * @param {number} angle 角度
  * @returns {number} 正規化された角度
- *
- * @example
- * normalizeAngle(-30); // 330
  */
 
 function normalizeAngle(
@@ -1004,14 +1044,11 @@ function normalizeAngle(
 ================================================== */
 
 /**
- * 極座標をSVG座標へ変換する。
+ * 円周上の座標をSVG座標へ変換する。
  *
  * @param {number} radius 半径
  * @param {number} svgAngle SVG角度
  * @returns {{x:number,y:number}} SVG座標
- *
- * @example
- * polarToPoint(140, -90);
  */
 
 function polarToPoint(
@@ -1043,29 +1080,57 @@ function polarToPoint(
 
 
 /* ==================================================
-   円弧パス生成
+   時計座標
 ================================================== */
 
 /**
- * 指定した時間範囲を、
- * 角の取れた一本の円弧パスとして生成する。
+ * 時計角度をSVG座標へ変換する。
  *
- * stroke-linecap:round と組み合わせることで、
- * 始点・終点が完全に閉じた
- * バームクーヘン型の時間帯になる。
+ * @param {number} radius 半径
+ * @param {number} clockAngle 時計角度
+ * @returns {{x:number,y:number}} SVG座標
+ */
+
+function clockPoint(
+    radius,
+    clockAngle
+){
+
+    return polarToPoint(
+        radius,
+        clockToSvgAngle(
+            clockAngle
+        )
+    );
+
+}
+
+
+/* ==================================================
+   ベース時間帯
+================================================== */
+
+/**
+ * バームクーヘン型の時間帯を作る。
+ *
+ * ベースはR100〜R180の完全な円環帯を基本とし、
+ * 始点・終点の角度を一切変更しない。
+ *
+ * 端だけを小さく丸めることで、
+ * 「〔　　　〕」に近い袋とじ形状を作る。
  *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
- * @returns {string} SVG pathデータ
+ * @returns {string} SVG path
  * @throws {RangeError} 時間範囲が不正な場合
  *
  * @example
- * createBandPath(9,0,12,0);
+ * createBaseBandPath(9,0,12,0);
  */
 
-function createBandPath(
+function createBaseBandPath(
     startHour,
     startMinute,
     endHour,
@@ -1098,61 +1163,229 @@ function createBandPath(
     ){
 
         throw new RangeError(
-            '開始時刻と終了時刻の角度が不正です'
+            '時間帯の角度が不正です'
         );
 
     }
 
 
-    const startPoint =
-        polarToPoint(
-            BAND_CENTER_RADIUS,
-            clockToSvgAngle(start)
-        );
-
-
-    const endPoint =
-        polarToPoint(
-            BAND_CENTER_RADIUS,
-            clockToSvgAngle(end)
-        );
-
-
     /*
-     * 180°を超える場合だけ
-     * 大きな円弧フラグを1にする。
+     * 角丸は最小限。
+     *
+     * ここで時間角度そのものを変更しないため、
+     * 見た目の時間範囲を維持できる。
      */
 
-    const largeArcFlag =
-        sweep > 180
-            ? 1
-            : 0;
+    const r =
+        Math.min(
+            CORNER_RADIUS,
+            (OUTER_RADIUS - INNER_RADIUS) / 2
+        );
 
 
     /*
-     * 時計回りに円弧を描く。
+     * 外周側。
+     */
+
+    const outerStart =
+        clockPoint(
+            OUTER_RADIUS,
+            start
+        );
+
+
+    const outerEnd =
+        clockPoint(
+            OUTER_RADIUS,
+            end
+        );
+
+
+    /*
+     * 内周側。
+     */
+
+    const innerEnd =
+        clockPoint(
+            INNER_RADIUS,
+            end
+        );
+
+
+    const innerStart =
+        clockPoint(
+            INNER_RADIUS,
+            start
+        );
+
+
+    /*
+     * まずは正確な時間端を持つ
+     * 基本的な閉じた円環帯を作る。
      *
-     * このpath自体は一本の中心線。
-     * 実際の太さはCSSのstroke-widthで決める。
-     *
-     * そのため外側と内側で同じpathを使え、
-     * 始点・終点が完全に一致する。
+     * この方法なら、
+     * 時間が前後へ伸びることがない。
      */
 
     return [
 
-        `M
-        ${startPoint.x}
-        ${startPoint.y}`,
+        `M ${outerStart.x} ${outerStart.y}`,
 
         `A
-        ${BAND_CENTER_RADIUS}
-        ${BAND_CENTER_RADIUS}
-        0
-        ${largeArcFlag}
-        1
-        ${endPoint.x}
-        ${endPoint.y}`
+            ${OUTER_RADIUS}
+            ${OUTER_RADIUS}
+            0
+            ${sweep > 180 ? 1 : 0}
+            1
+            ${outerEnd.x}
+            ${outerEnd.y}`,
+
+        `L
+            ${innerEnd.x}
+            ${innerEnd.y}`,
+
+        `A
+            ${INNER_RADIUS}
+            ${INNER_RADIUS}
+            0
+            ${sweep > 180 ? 1 : 0}
+            0
+            ${innerStart.x}
+            ${innerStart.y}`,
+
+        'Z'
+
+    ].join(' ');
+
+}
+
+
+/* ==================================================
+   白内側レイヤー
+================================================== */
+
+/**
+ * ベースと同じ時間角度の白レイヤーを作る。
+ *
+ * 重要なのは、
+ * start / end の角度をベースと完全に同じにすること。
+ *
+ * これにより白レイヤーを重ねても、
+ * 時間帯そのものが前後に伸縮しない。
+ *
+ * 半径方向だけを小さくする。
+ *
+ * @param {number} startHour 開始時
+ * @param {number} startMinute 開始分
+ * @param {number} endHour 終了時
+ * @param {number} endMinute 終了分
+ * @returns {string} SVG path
+ * @throws {RangeError} 時間範囲が不正な場合
+ *
+ * @example
+ * createInnerLayerPath(9,0,12,0);
+ */
+
+function createInnerLayerPath(
+    startHour,
+    startMinute,
+    endHour,
+    endMinute
+){
+
+    const start =
+        timeToClockAngle(
+            startHour,
+            startMinute
+        );
+
+
+    const end =
+        timeToClockAngle(
+            endHour,
+            endMinute
+        );
+
+
+    const sweep =
+        normalizeAngle(
+            end - start
+        );
+
+
+    if(
+        sweep <= 0 ||
+        sweep >= 360
+    ){
+
+        throw new RangeError(
+            '時間帯の角度が不正です'
+        );
+
+    }
+
+
+    const outerStart =
+        clockPoint(
+            INNER_LAYER_OUTER_RADIUS,
+            start
+        );
+
+
+    const outerEnd =
+        clockPoint(
+            INNER_LAYER_OUTER_RADIUS,
+            end
+        );
+
+
+    const innerEnd =
+        clockPoint(
+            INNER_LAYER_INNER_RADIUS,
+            end
+        );
+
+
+    const innerStart =
+        clockPoint(
+            INNER_LAYER_INNER_RADIUS,
+            start
+        );
+
+
+    /*
+     * ベースと完全に同じ角度。
+     *
+     * ここを縮めないことが重要。
+     */
+
+    return [
+
+        `M ${outerStart.x} ${outerStart.y}`,
+
+        `A
+            ${INNER_LAYER_OUTER_RADIUS}
+            ${INNER_LAYER_OUTER_RADIUS}
+            0
+            ${sweep > 180 ? 1 : 0}
+            1
+            ${outerEnd.x}
+            ${outerEnd.y}`,
+
+        `L
+            ${innerEnd.x}
+            ${innerEnd.y}`,
+
+        `A
+            ${INNER_LAYER_INNER_RADIUS}
+            ${INNER_LAYER_INNER_RADIUS}
+            0
+            ${sweep > 180 ? 1 : 0}
+            0
+            ${innerStart.x}
+            ${innerStart.y}`,
+
+        'Z'
 
     ].join(' ');
 
@@ -1164,62 +1397,47 @@ function createBandPath(
 ================================================== */
 
 /**
- * 外側の色レイヤーと、
- * 内側の白透過レイヤーを同じ時間範囲に設定する。
+ * ベースと白レイヤーを同じ時間角度で配置する。
  *
- * @param {string} outerId 外側パスID
- * @param {string} innerId 内側パスID
+ * @param {string} baseId ベース要素ID
+ * @param {string} innerId 白レイヤー要素ID
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
  * @param {number} endMinute 終了分
- * @param {string} outerGradient 外側グラデーションID
+ * @param {string} baseGradient ベースグラデーション
  * @returns {void}
- *
- * @example
- * setBand(
- *     'morningOuter',
- *     'morningInner',
- *     9,0,
- *     12,0,
- *     'outpatientOuterGradient'
- * );
  */
 
 function setBand(
-    outerId,
+    baseId,
     innerId,
     startHour,
     startMinute,
     endHour,
     endMinute,
-    outerGradient
+    baseGradient
 ){
 
-    const outerElement =
+    const base =
         document.getElementById(
-            outerId
+            baseId
         );
 
 
-    const innerElement =
+    const inner =
         document.getElementById(
             innerId
         );
 
 
-    /*
-     * どちらかが存在しない場合、
-     * JavaScriptエラーを起こさず終了する。
-     */
-
     if(
-        !outerElement ||
-        !innerElement
+        !base ||
+        !inner
     ){
 
         console.error(
-            `時間帯要素が見つかりません: ${outerId}, ${innerId}`
+            '時間帯用SVG要素が見つかりません'
         );
 
         return;
@@ -1229,53 +1447,47 @@ function setBand(
 
     try{
 
-        const path =
-            createBandPath(
+        /*
+         * ベース。
+         */
+
+        base.setAttribute(
+            'd',
+            createBaseBandPath(
                 startHour,
                 startMinute,
                 endHour,
                 endMinute
-            );
+            )
+        );
+
+
+        base.setAttribute(
+            'fill',
+            `url(#${baseGradient})`
+        );
 
 
         /*
-         * 外側と内側に
-         * 完全に同じpathを設定する。
+         * 白レイヤー。
          *
-         * これが今回の重要部分。
-         *
-         * 始点も終点も完全に一致するため、
-         * 白レイヤーだけ端から抜けることがない。
+         * ベースより小さいが、
+         * 時間角度は同一。
          */
 
-        outerElement.setAttribute(
+        inner.setAttribute(
             'd',
-            path
+            createInnerLayerPath(
+                startHour,
+                startMinute,
+                endHour,
+                endMinute
+            )
         );
 
 
-        innerElement.setAttribute(
-            'd',
-            path
-        );
-
-
-        /*
-         * 外側には青または緑。
-         */
-
-        outerElement.setAttribute(
-            'stroke',
-            `url(#${outerGradient})`
-        );
-
-
-        /*
-         * 内側には白の透過グラデーション。
-         */
-
-        innerElement.setAttribute(
-            'stroke',
+        inner.setAttribute(
+            'fill',
             'url(#whiteOverlayGradient)'
         );
 
@@ -1284,7 +1496,7 @@ function setBand(
     catch(error){
 
         console.error(
-            `${outerId} / ${innerId} の描画に失敗しました`,
+            '時間帯の描画に失敗しました',
             error
         );
 
@@ -1299,16 +1511,13 @@ function setBand(
 ================================================== */
 
 setBand(
-    'morningOuter',
-    'morningInner',
-
+    'morningBandBase',
+    'morningBandInner',
     9,
     0,
-
     12,
     0,
-
-    'outpatientOuterGradient'
+    'blueBaseGradient'
 );
 
 
@@ -1318,16 +1527,13 @@ setBand(
 ================================================== */
 
 setBand(
-    'visitOuter',
-    'visitInner',
-
+    'visitBandBase',
+    'visitBandInner',
     13,
     30,
-
     16,
     30,
-
-    'visitOuterGradient'
+    'greenBaseGradient'
 );
 
 
@@ -1337,16 +1543,13 @@ setBand(
 ================================================== */
 
 setBand(
-    'eveningOuter',
-    'eveningInner',
-
+    'eveningBandBase',
+    'eveningBandInner',
     17,
     30,
-
     19,
     30,
-
-    'outpatientOuterGradient'
+    'blueBaseGradient'
 );
 
 
@@ -1362,7 +1565,7 @@ setBand(
  *     minute:number,
  *     second:number
  * }}
- * @throws {Error} 日本時間を正常に取得できない場合
+ * @throws {Error} 日本時間を取得できない場合
  *
  * @example
  * getJapanTime();
@@ -1375,9 +1578,7 @@ function getJapanTime(){
             'en-US',
             {
                 timeZone:'Asia/Tokyo',
-
                 hour12:false,
-
                 hour:'2-digit',
                 minute:'2-digit',
                 second:'2-digit'
@@ -1391,8 +1592,7 @@ function getJapanTime(){
 
 
     for(
-        const part
-        of parts
+        const part of parts
     ){
 
         if(
@@ -1410,9 +1610,8 @@ function getJapanTime(){
 
 
     /*
-     * 一部の環境では深夜0時を
-     * 24として返すことがあるため、
-     * 0時へ正規化する。
+     * 一部環境では0時が24として
+     * 返る場合があるため補正する。
      */
 
     if(
@@ -1448,8 +1647,6 @@ function getJapanTime(){
 
 /**
  * 日本時間に合わせて時計の針を更新する。
- *
- * 時針・分針・秒針を連続的に動かす。
  *
  * @returns {void}
  *
@@ -1501,9 +1698,6 @@ function updateClock(){
 
     /*
      * 分針。
-     *
-     * 秒も加味することで、
-     * 分の途中でも少しずつ進む。
      */
 
     const minuteAngle =
@@ -1515,9 +1709,6 @@ function updateClock(){
 
     /*
      * 時針。
-     *
-     * 分・秒を加味することで、
-     * 時針も滑らかに進む。
      */
 
     const hourAngle =
@@ -1546,11 +1737,6 @@ function updateClock(){
         );
 
 
-    /*
-     * 必要なSVG要素がない場合は
-     * requestAnimationFrameを継続しない。
-     */
-
     if(
         !secondHand ||
         !minuteHand ||
@@ -1567,13 +1753,10 @@ function updateClock(){
 
 
     /*
-     * 針は12時方向を初期位置としている。
+     * 針は12時位置を基準にしているので、
+     * 時計角度をそのまま回転角にする。
      *
-     * そのため時計角度をそのまま
-     * SVGのrotate角度として使用する。
-     *
-     * ここでclockToSvgAngle()を使うと
-     * 3時間ずれるため使用しない。
+     * 以前のように90°を二重に補正しない。
      */
 
     secondHand.setAttribute(
