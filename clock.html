@@ -184,10 +184,22 @@ body{
 
 
 /*
- * ベース帯。
+ * ==================================================
+ * ベース帯
  *
- * ここは「色の土台」。
- * 白を入れないことで、端まで色が存在する。
+ * 外周・内周の色を残しながら、
+ * 白抜き部分へ向かって徐々に色を薄くする。
+ *
+ * これにより、
+ *
+ * 「濃い外枠｜白｜濃い外枠」
+ *
+ * ではなく、
+ *
+ * 「濃い色 → 淡い色 → 白 → 淡い色 → 濃い色」
+ *
+ * という連続した質感にする。
+ * ==================================================
  */
 
 .band-base.blue{
@@ -207,17 +219,26 @@ body{
 
 
 /*
- * 白レイヤー。
+ * ==================================================
+ * 白レイヤー
  *
- * ベースより小さいため、
- * 始点・終点には必ず色が残る。
+ * 白抜き部分は完全な白にする。
+ *
+ * 下のグラデーションを透過させないことで、
+ * 白の中に青や緑が透ける現象を防ぐ。
+ *
+ * 始点・終点はベース帯より内側なので、
+ * 端部には必ず色が残る。
+ * ==================================================
  */
 
 .band-inner{
 
     fill:#fff;
 
-    opacity:.78;
+    opacity:1;
+
+    stroke:none;
 
 }
 
@@ -504,15 +525,18 @@ and
 
 
 <!-- ==================================================
-     青：外側のベースグラデーション
+     青：ベースグラデーション
 
-     白をここには入れない。
+     外周側はしっかりした青。
 
-     外側 → 濃い青
-     中間   → 淡い青
-     内側 → 青
+     そこから中心方向へ向かって
+     徐々に白へ近づける。
 
-     白は別レイヤーで処理する。
+     白抜きとの境界で急に色が切れないよう、
+     64〜68%付近をかなり淡くする。
+
+     その後、内周側へ向かって
+     再び青へ戻す。
 ================================================== -->
 
 <radialGradient
@@ -530,21 +554,45 @@ and
     />
 
     <stop
+        offset="58%"
+        stop-color="#6fa9df"
+        stop-opacity=".58"
+    />
+
+    <stop
+        offset="61%"
+        stop-color="#b8d8f1"
+        stop-opacity=".35"
+    />
+
+    <stop
         offset="64%"
-        stop-color="#72afe8"
-        stop-opacity=".62"
+        stop-color="#e2eff9"
+        stop-opacity=".18"
     />
 
     <stop
-        offset="72%"
-        stop-color="#a9d2f2"
-        stop-opacity=".48"
+        offset="68%"
+        stop-color="#f5faff"
+        stop-opacity=".08"
     />
 
     <stop
-        offset="82%"
-        stop-color="#72afe8"
-        stop-opacity=".62"
+        offset="90%"
+        stop-color="#f5faff"
+        stop-opacity=".08"
+    />
+
+    <stop
+        offset="94%"
+        stop-color="#e2eff9"
+        stop-opacity=".18"
+    />
+
+    <stop
+        offset="97%"
+        stop-color="#6fa9df"
+        stop-opacity=".58"
     />
 
     <stop
@@ -557,7 +605,12 @@ and
 
 
 <!-- ==================================================
-     緑：外側のベースグラデーション
+     緑：ベースグラデーション
+
+     青と同じ構造。
+
+     訪問診療だけ質感が違って見えないよう、
+     白への抜け方を青と揃える。
 ================================================== -->
 
 <radialGradient
@@ -575,21 +628,45 @@ and
     />
 
     <stop
+        offset="58%"
+        stop-color="#94c46d"
+        stop-opacity=".58"
+    />
+
+    <stop
+        offset="61%"
+        stop-color="#c8dfaf"
+        stop-opacity=".35"
+    />
+
+    <stop
         offset="64%"
-        stop-color="#95c66f"
-        stop-opacity=".62"
+        stop-color="#e6f2dc"
+        stop-opacity=".18"
     />
 
     <stop
-        offset="72%"
-        stop-color="#c5dfa9"
-        stop-opacity=".48"
+        offset="68%"
+        stop-color="#f7fbf3"
+        stop-opacity=".08"
     />
 
     <stop
-        offset="82%"
-        stop-color="#95c66f"
-        stop-opacity=".62"
+        offset="90%"
+        stop-color="#f7fbf3"
+        stop-opacity=".08"
+    />
+
+    <stop
+        offset="94%"
+        stop-color="#e6f2dc"
+        stop-opacity=".18"
+    />
+
+    <stop
+        offset="97%"
+        stop-color="#94c46d"
+        stop-opacity=".58"
     />
 
     <stop
@@ -633,10 +710,12 @@ and
 
      各時間帯につき
 
-     ① 色のベース
-     ② 小さい白レイヤー
+     ① グラデーション付きベース帯
+     ② 内側の完全な白レイヤー
 
      の2枚構造。
+
+     ベース帯の形状は変更しない。
 ================================================== -->
 
 
@@ -802,8 +881,8 @@ const SVG_CENTER = 200;
 /*
  * 外周半径。
  *
- * ここは変更しない。
- * 時計の外周との位置関係を維持するため。
+ * 時計全体の外周との位置関係を維持するため、
+ * この値は変更しない。
  */
 
 const OUTER_RADIUS = 180;
@@ -821,8 +900,9 @@ const INNER_RADIUS = 100;
 /*
  * ベース帯の角丸。
  *
- * 大きくすると角が丸くなりすぎるため、
- * 今回は小さく設定する。
+ * 角を丸くしすぎると、
+ * バームクーヘン型ではなく
+ * カプセル型に近づくため小さくする。
  */
 
 const CORNER_RADIUS = 5;
@@ -831,7 +911,9 @@ const CORNER_RADIUS = 5;
 /*
  * 白レイヤーの放射方向の縮小量。
  *
- * 外周・内周の色を残す。
+ * ベース帯の外周・内周を残すための値。
+ *
+ * ここは今回変更しない。
  */
 
 const WHITE_RADIAL_INSET = 7;
@@ -840,10 +922,11 @@ const WHITE_RADIAL_INSET = 7;
 /*
  * 白レイヤーの時間方向の縮小。
  *
- * これが「袋とじ」の重要部分。
+ * 白レイヤーだけを始点・終点から
+ * 少し内側へ引っ込める。
  *
- * 始点・終点そのものには触れず、
- * 白だけを少し内側へ引っ込める。
+ * これにより、時間帯の端部には
+ * ベース色が残る。
  */
 
 const WHITE_ANGLE_INSET = 2.5;
@@ -861,7 +944,7 @@ const WHITE_ANGLE_INSET = 2.5;
  * @param {number} hour 時
  * @param {number} minute 分
  * @returns {number} 時計角度
- * @throws {TypeError} 数値でない場合
+ * @throws {TypeError} 時または分が数値でない場合
  * @throws {RangeError} 分が0〜59でない場合
  *
  * @example
@@ -911,6 +994,9 @@ function timeToClockAngle(
 
 /**
  * 時計角度をSVG角度へ変換する。
+ *
+ * SVGの0°は右方向なので、
+ * 12時方向を-90°として扱う。
  *
  * @param {number} clockAngle 時計角度
  * @returns {number} SVG角度
@@ -1031,9 +1117,6 @@ function clockPoint(
  * 外周・内周は円弧。
  * 始点・終点は端面で閉じる。
  *
- * 角丸は小さくし、
- * 時間位置そのものは変更しない。
- *
  * @param {number} startHour 開始時
  * @param {number} startMinute 開始分
  * @param {number} endHour 終了時
@@ -1041,7 +1124,7 @@ function clockPoint(
  * @param {number} radialInset 放射方向の縮小量
  * @param {number} angleInset 角度方向の縮小量
  * @returns {string} SVG path
- * @throws {RangeError} 時間範囲が不正な場合
+ * @throws {RangeError} 時間範囲または帯幅が不正な場合
  *
  * @example
  * createBandPath(9,0,12,0);
@@ -1119,8 +1202,10 @@ function createBandPath(
      * --------------------------------------------------
      * 時間方向の縮小
      *
-     * ベースでは0。
-     * 白レイヤーだけが内側へ入る。
+     * ベース帯では0。
+     *
+     * 白レイヤーだけを少し縮小して、
+     * 始点・終点に色を残す。
      * --------------------------------------------------
      */
 
@@ -1156,11 +1241,8 @@ function createBandPath(
      * --------------------------------------------------
      * 角丸
      *
-     * 今回は5px。
-     *
-     * これ以上大きくすると
-     * バームクーヘン型ではなく
-     * カプセル型に近づくため。
+     * 大きくすると角が丸くなりすぎるため、
+     * 5pxに固定。
      * --------------------------------------------------
      */
 
@@ -1341,7 +1423,8 @@ function createBandPath(
      * ↓
      * Z
      *
-     * これで穴は残さない。
+     * この構造は変更しない。
+     * 帯の「袋とじ」を維持するため。
      * --------------------------------------------------
      */
 
@@ -1493,9 +1576,6 @@ function setBaseBand(
 
 /**
  * ベース帯より一回り小さい白レイヤーを設定する。
- *
- * 白レイヤーを時間方向にも少し縮めることで、
- * 始点・終点に青または緑の「袋とじ」が残る。
  *
  * @param {string} id SVG要素ID
  * @param {number} startHour 開始時
@@ -1824,7 +1904,7 @@ function updateClock(){
 
     /*
      * 必要なSVG要素がない場合、
-     * requestAnimationFrameを継続させない。
+     * 無限にrequestAnimationFrameを実行しない。
      */
 
     if(
@@ -1843,10 +1923,8 @@ function updateClock(){
 
 
     /*
-     * 針は元々12時方向を向いている。
-     *
-     * そのため時計角度をそのまま
-     * SVGのrotateへ渡す。
+     * 針は12時方向を基準としているため、
+     * 時計角度をそのままrotateへ渡す。
      */
 
     secondHand.setAttribute(
