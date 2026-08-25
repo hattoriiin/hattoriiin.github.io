@@ -1,4 +1,3 @@
-<!-- HTML -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -379,41 +378,11 @@ body{
    時計の針
 ================================================== */
 
-/*
- * 重要：
- *
- * ここではCSSによる transform-box / transform-originを
- * 一切指定しない。
- *
- * 針の回転はJavaScript側の
- *
- *     rotate(angle 200 200)
- *
- * だけで行う。
- *
- * これにより、3本すべてがSVG座標上の
- * (200,200)を正確な回転中心として動く。
- *
- * 以前の
- *
- *     transform-box:fill-box;
- *     transform-origin:center;
- *
- * とSVGのrotate()を併用すると、
- * 針自身を基準としたCSS変換が重なって
- * 位置が吹っ飛ぶ原因になる。
- */
-
 .clock-hand{
 
     stroke:#31556e;
 
     stroke-linecap:round;
-
-    /*
-     * SVGのtransform属性だけで位置・角度を制御するため、
-     * CSS transformはここでは使用しない。
-     */
 
     vector-effect:non-scaling-stroke;
 
@@ -966,10 +935,6 @@ and
 
 <!-- ==================================================
      時計の針
-     
-     ★ここは絶対にCSS transformを併用しない。
-     
-     3本とも根元を200,200に固定。
 ================================================== -->
 
 <line
@@ -1044,11 +1009,17 @@ document.addEventListener(
 
         const INNER_RADIUS = 100;
 
-        const CORNER_RADIUS = 5;
+        /*
+         * 【変更箇所】
+         * 角丸を5から0.5に小さく調整。
+         * 切り口の膨らみをなくし、中心(200,200)を正確に指す直線状の先端にすることで、
+         * 13:30や16:30などの「30分単位」の境界の誤認を防ぎます。
+         */
+        const CORNER_RADIUS = 0.5;
 
         const WHITE_RADIAL_INSET = 3;
 
-        const WHITE_ANGLE_INSET = 1.5;
+        const WHITE_ANGLE_INSET = 0.5;
 
         const INNER_NUMBER_RADIUS = 126;
 
@@ -1158,19 +1129,6 @@ document.addEventListener(
            時刻 → 時計角度
         ================================================== */
 
-        /**
-         * 時刻を12時間時計上の角度へ変換する。
-         *
-         * @param {number} hour 0〜23
-         * @param {number} minute 0〜59
-         * @returns {number} 12時を0°とした角度
-         * @throws {TypeError} 数値以外の場合
-         * @throws {RangeError} 範囲外の場合
-         *
-         * @example
-         * timeToClockAngle(9, 0); // 270
-         */
-
         function timeToClockAngle(
             hour,
             minute
@@ -1228,17 +1186,6 @@ document.addEventListener(
            時計角度 → SVG角度
         ================================================== */
 
-        /**
-         * 時計角度をSVG角度へ変換する。
-         *
-         * @param {number} clockAngle 時計角度
-         * @returns {number} SVG角度
-         * @throws {TypeError} 数値以外の場合
-         *
-         * @example
-         * clockToSvgAngle(0); // -90
-         */
-
         function clockToSvgAngle(
             clockAngle
         ){
@@ -1262,18 +1209,6 @@ document.addEventListener(
         /* ==================================================
            極座標 → SVG座標
         ================================================== */
-
-        /**
-         * 極座標をSVG座標へ変換する。
-         *
-         * @param {number} radius 半径
-         * @param {number} svgAngle SVG角度
-         * @returns {{x:number,y:number}} SVG座標
-         * @throws {TypeError} 不正な値の場合
-         *
-         * @example
-         * polarToPoint(180, -90);
-         */
 
         function polarToPoint(
             radius,
@@ -1319,18 +1254,6 @@ document.addEventListener(
            時計座標
         ================================================== */
 
-        /**
-         * 時計角度からSVG座標を取得する。
-         *
-         * @param {number} radius 半径
-         * @param {number} clockAngle 時計角度
-         * @returns {{x:number,y:number}} SVG座標
-         * @throws {TypeError} 不正な値の場合
-         *
-         * @example
-         * clockPoint(150, 90);
-         */
-
         function clockPoint(
             radius,
             clockAngle
@@ -1349,22 +1272,6 @@ document.addEventListener(
         /* ==================================================
            円環帯生成
         ================================================== */
-
-        /**
-         * 閉じた円環状の時間帯を生成する。
-         *
-         * @param {number} startHour 開始時
-         * @param {number} startMinute 開始分
-         * @param {number} endHour 終了時
-         * @param {number} endMinute 終了分
-         * @param {number} radialInset 放射方向縮小量
-         * @param {number} angleInset 角度方向縮小量
-         * @returns {string} SVG path
-         * @throws {RangeError} 時間帯が不正な場合
-         *
-         * @example
-         * createBandPath(9,0,12,0);
-         */
 
         function createBandPath(
             startHour,
@@ -1633,20 +1540,6 @@ document.addEventListener(
            時間帯設定
         ================================================== */
 
-        /**
-         * 時間帯pathを設定する。
-         *
-         * @param {SVGPathElement} element 対象要素
-         * @param {number} startHour 開始時
-         * @param {number} startMinute 開始分
-         * @param {number} endHour 終了時
-         * @param {number} endMinute 終了分
-         * @returns {boolean} 成功時true
-         *
-         * @example
-         * setBand(morningBand,9,0,12,0);
-         */
-
         function setBand(
             element,
             startHour,
@@ -1690,20 +1583,6 @@ document.addEventListener(
         /* ==================================================
            白レイヤー
         ================================================== */
-
-        /**
-         * 時間帯内部の白レイヤーを設定する。
-         *
-         * @param {SVGPathElement} element 対象要素
-         * @param {number} startHour 開始時
-         * @param {number} startMinute 開始分
-         * @param {number} endHour 終了時
-         * @param {number} endMinute 終了分
-         * @returns {boolean} 成功時true
-         *
-         * @example
-         * setWhiteBand(morningWhite,9,0,12,0);
-         */
 
         function setWhiteBand(
             element,
@@ -1750,15 +1629,6 @@ document.addEventListener(
         /* ==================================================
            分目盛り
         ================================================== */
-
-        /**
-         * 60個の分目盛りを生成する。
-         *
-         * @returns {void}
-         *
-         * @example
-         * createMinuteTicks();
-         */
 
         function createMinuteTicks(){
 
@@ -1895,15 +1765,6 @@ document.addEventListener(
         /* ==================================================
            時計数字
         ================================================== */
-
-        /**
-         * 12時間表示と24時間表示を生成する。
-         *
-         * @returns {void}
-         *
-         * @example
-         * createClockNumbers();
-         */
 
         function createClockNumbers(){
 
@@ -2135,15 +1996,6 @@ document.addEventListener(
            日本時間
         ================================================== */
 
-        /**
-         * 現在の日本標準時を取得する。
-         *
-         * @returns {number} JST基準のタイムスタンプ
-         *
-         * @example
-         * getJapanTimestamp();
-         */
-
         function getJapanTimestamp(){
 
             return (
@@ -2157,23 +2009,6 @@ document.addEventListener(
         /* ==================================================
            時計針更新
         ================================================== */
-
-        /**
-         * 3本の針を現在時刻に合わせる。
-         *
-         * 針はすべてSVG座標上の
-         * (200,200)
-         * を中心として回転する。
-         *
-         * CSSのtransformは使用せず、
-         * SVGのtransform属性だけを使用する。
-         *
-         * @param {number} timestamp JST換算タイムスタンプ
-         * @returns {void}
-         *
-         * @example
-         * updateClock(getJapanTimestamp());
-         */
 
         function updateClock(
             timestamp
@@ -2228,22 +2063,10 @@ document.addEventListener(
                 millisecondsInMinute;
 
 
-            /*
-             * 秒針
-             *
-             * 1分 = 360°
-             */
-
             const secondAngle =
                 secondFraction *
                 360;
 
-
-            /*
-             * 分針
-             *
-             * 秒の進行まで含める。
-             */
 
             const minuteAngle =
                 (
@@ -2252,12 +2075,6 @@ document.addEventListener(
                 ) *
                 6;
 
-
-            /*
-             * 時針
-             *
-             * 分・秒まで含めて滑らかに進む。
-             */
 
             const hourAngle =
                 (
@@ -2271,24 +2088,6 @@ document.addEventListener(
                 ) *
                 30;
 
-
-            /*
-             * ==================================================
-             * ここが今回の核心
-             *
-             * 3本とも必ず
-             *
-             * rotate(角度 200 200)
-             *
-             * とする。
-             *
-             * CSS transform-box / transform-originは使わない。
-             *
-             * したがって針の根元は常に
-             * (200,200)
-             * に固定される。
-             * ==================================================
-             */
 
             hourHand.setAttribute(
                 'transform',
@@ -2313,15 +2112,6 @@ document.addEventListener(
         /* ==================================================
            アニメーション
         ================================================== */
-
-        /**
-         * 秒針を滑らかに更新する。
-         *
-         * requestAnimationFrameを使うことで、
-         * ブラウザの描画タイミングに同期する。
-         *
-         * @returns {void}
-         */
 
         function animateClock(){
 
