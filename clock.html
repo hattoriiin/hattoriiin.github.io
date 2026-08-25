@@ -102,11 +102,11 @@ body{
 .outer-tick.half{ opacity:.7; stroke-width:1.8; stroke:#1d394e; }
 .outer-dot{ fill:#31556e; opacity:.28; }
 
-/* 時間帯（シンプルな単色・円弧） */
+/* 時間帯（グラデーション適用） */
 .time-band{ stroke:none; }
-.band-morning{ fill:#3d8bdc; opacity:.45; }
-.band-visit{ fill:#70ad47; opacity:.6; }
-.band-evening{ fill:#3d8bdc; opacity:.45; }
+.band-morning{ fill:url(#morningGrad); }
+.band-visit{ fill:url(#visitGrad); }
+.band-evening{ fill:url(#eveningGrad); }
 
 /* 時計文字 */
 .clock-face{ pointer-events:none; }
@@ -189,9 +189,26 @@ body{
 <div class="time-ring">
 <svg viewBox="0 0 400 400" aria-hidden="true" focusable="false">
 
+<!-- グラデーション定義 -->
+<defs>
+    <linearGradient id="morningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#3d8bdc" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#64b5f6" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="visitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#70ad47" stop-opacity="0.75"/>
+        <stop offset="100%" stop-color="#a8d08d" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="eveningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2b6cb0" stop-opacity="0.65"/>
+        <stop offset="100%" stop-color="#4299e1" stop-opacity="0.35"/>
+    </linearGradient>
+</defs>
+
 <circle class="clock-disc" cx="200" cy="200" r="179"/>
 <g id="outerClockTicks" aria-hidden="true"></g>
 
+<!-- ドーナツ状にくり抜かれた帯 -->
 <path id="morningBand" class="time-band band-morning"/>
 <path id="visitBand" class="time-band band-visit"/>
 <path id="eveningBand" class="time-band band-evening"/>
@@ -280,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function(){
         return false;
     }
 
+    /* 内側を切り抜いた円弧（ドーナツ状パス）を生成 */
     function createBandPath(startHour, startMinute, endHour, endMinute){
         const start = timeToClockAngle(startHour, startMinute);
         const end = timeToClockAngle(endHour, endMinute);
