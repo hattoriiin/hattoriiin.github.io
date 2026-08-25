@@ -149,116 +149,6 @@ body{
 .clock-center{ fill:#ffffff; stroke:#2c3e50; stroke-width:1.5; pointer-events:none; }
 .clock-dot{ fill:#3d8bdc; pointer-events:none; }
 
-/* ==================================================
-   中央電話リンク（円＋はみ出るアイコン）
-================================================== */
-.phone-link-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.phone-btn {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    height: 200px;
-    text-decoration: none;
-    color: #2b73c2;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.85);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    cursor: pointer;
-}
-
-.phone-btn.is-active {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-}
-
-/* 背景の円（別パーツ：中心軸に設置） */
-.phone-btn-circle {
-    position: absolute;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 1.5px solid rgba(43, 115, 194, 0.35);
-    box-shadow: 0 4px 14px rgba(43, 115, 194, 0.16);
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    z-index: 1;
-}
-
-/* ホバー時の円の変化 */
-.phone-btn:hover .phone-btn-circle {
-    background: #2b73c2;
-    border-color: #2b73c2;
-    box-shadow: 0 6px 18px rgba(43, 115, 194, 0.3);
-}
-
-/* 📞 アイコン（円の上にはみ出す配置） */
-.phone-icon-wrapper {
-    position: relative;
-    z-index: 2;
-    margin-top: -18px; /* 円の上辺からはみ出させる */
-    background: #ffffff;
-    border-radius: 50%;
-    padding: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.phone-btn:hover .phone-icon-wrapper {
-    background: #ffffff;
-    transform: translateY(-2px);
-}
-
-.phone-icon {
-    width: 26px;
-    height: 26px;
-    display: block;
-    stroke: #2b73c2;
-}
-
-/* テキストラベル情報（円内に収める） */
-.phone-text-wrapper {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2px;
-}
-
-.phone-label {
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    transition: color 0.2s ease;
-}
-
-.phone-number {
-    font-size: 10px;
-    font-weight: 600;
-    margin-top: 1px;
-    font-family: sans-serif;
-    transition: color 0.2s ease;
-}
-
-/* ホバー時のテキスト色調整 */
-.phone-btn:hover .phone-label,
-.phone-btn:hover .phone-number {
-    color: #ffffff;
-}
-
 @media(max-width:600px) and (orientation:portrait){
     .page-main{ padding:1rem; }
     .clock-title{ width:78%; margin-bottom:1rem; font-size:.98rem; }
@@ -272,7 +162,6 @@ body{
 
 @media(prefers-reduced-motion:reduce){
     .clock-hand{ transition:none; }
-    .phone-btn{ transition:none; }
 }
 </style>
 </head>
@@ -329,29 +218,6 @@ body{
     <g id="clock24"></g>
 </g>
 
-<!-- 電話リンク（円＋はみ出るアイコン） -->
-<foreignObject x="100" y="100" width="200" height="200">
-    <div xmlns="http://www.w3.org/1999/xhtml" class="phone-link-container">
-        <a href="tel:0000000000" id="phoneBtn" class="phone-btn" aria-label="受付に電話をかける">
-            <!-- 背景パーツ: 円 -->
-            <div class="phone-btn-circle"></div>
-            
-            <!-- 独立パーツ: はみ出る電話アイコン -->
-            <div class="phone-icon-wrapper">
-                <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-            </div>
-
-            <!-- テキスト情報 -->
-            <div class="phone-text-wrapper">
-                <span class="phone-label">電話をかける</span>
-                <span class="phone-number">00-0000-0000</span>
-            </div>
-        </a>
-    </div>
-</foreignObject>
-
 <!-- 針 -->
 <line class="clock-hand hour" x1="200" y1="200" x2="200" y2="125"/>
 <line class="clock-hand minute" x1="200" y1="200" x2="200" y2="108"/>
@@ -394,7 +260,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const hourHand = document.querySelector('.clock-hand.hour');
     const minuteHand = document.querySelector('.clock-hand.minute');
     const secondHand = document.querySelector('.clock-hand.second');
-    const phoneBtn = document.getElementById('phoneBtn');
 
     function timeToClockAngle(hour, minute){
         return (((hour % 12) * 30) + minute * .5) % 360;
@@ -548,20 +413,6 @@ document.addEventListener('DOMContentLoaded', function(){
         return Date.now() + 9 * 60 * 60 * 1000;
     }
 
-    /* 外来受付時間内かどうかを判定 (テスト用: 午後17:00〜19:00) */
-    function checkOutpatientReceptionStatus(hour, minute){
-        const currentMins = hour * 60 + minute;
-        
-        const morningStart = 8 * 60 + 45;  // 8:45
-        const morningEnd   = 11 * 60 + 30; // 11:30
-        
-        const eveningStart = 17 * 60 + 0;  // 17:00
-        const eveningEnd   = 19 * 60 + 0;  // 19:00
-
-        return (currentMins >= morningStart && currentMins <= morningEnd) ||
-               (currentMins >= eveningStart && currentMins <= eveningEnd);
-    }
-
     function updateClock(timestamp){
         const millisecondsInHour = 60 * 60 * 1000;
         const millisecondsInMinute = 60 * 1000;
@@ -577,14 +428,6 @@ document.addEventListener('DOMContentLoaded', function(){
         hourHand.setAttribute('transform', `rotate(${hourAngle} 200 200)`);
         minuteHand.setAttribute('transform', `rotate(${minuteAngle} 200 200)`);
         secondHand.setAttribute('transform', `rotate(${secondAngle} 200 200)`);
-
-        /* 外来受付時間内判定 */
-        const isReceiving = checkOutpatientReceptionStatus(hour, minute);
-        if(isReceiving){
-            phoneBtn.classList.add('is-active');
-        } else {
-            phoneBtn.classList.remove('is-active');
-        }
     }
 
     function animateClock(){
