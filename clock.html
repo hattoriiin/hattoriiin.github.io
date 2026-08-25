@@ -298,7 +298,7 @@ body{
 
 
 /* ==================================================
-   受付時間帯（極細ライン＋透き通る柔らかな光の質感を徹底追及）
+   受付時間帯（端点ドット＋微細ライン）
 ================================================== */
 
 .reception-glow{
@@ -329,6 +329,15 @@ body{
     stroke-linecap:round;
 
     opacity:.85;
+
+}
+
+
+.reception-dot{
+
+    fill:#2b69a9;
+
+    opacity:.9;
 
 }
 
@@ -635,7 +644,7 @@ body{
 </radialGradient>
 
 
-<!-- 受付時間ライン用の上品で透明感あふれるグラデーション定義 -->
+<!-- 受付時間ライン用グラデーション -->
 
 <linearGradient
     id="receptionLineGradient"
@@ -669,7 +678,7 @@ body{
 </linearGradient>
 
 
-<!-- 柔らかで清潔な光のオーラを与えるフィルター -->
+<!-- フィルター -->
 
 <filter
     id="softGlowFilter"
@@ -743,7 +752,7 @@ body{
 />
 
 
-<!-- 受付時間ライン（光のグロー層＋メインの極細ライン） -->
+<!-- 受付時間ライン（光のグロー層＋メインライン＋始端・終端ドット） -->
 
 <g class="reception-group">
 
@@ -765,6 +774,34 @@ body{
     <path
         id="eveningReceptionArc"
         class="reception-arc"
+    />
+
+    <!-- 午前受付 端点ドット -->
+
+    <circle
+        id="morningReceptionStart"
+        class="reception-dot"
+        r="2.5"
+    />
+
+    <circle
+        id="morningReceptionEnd"
+        class="reception-dot"
+        r="2.5"
+    />
+
+    <!-- 午後受付 端点ドット -->
+
+    <circle
+        id="eveningReceptionStart"
+        class="reception-dot"
+        r="2.5"
+    />
+
+    <circle
+        id="eveningReceptionEnd"
+        class="reception-dot"
+        r="2.5"
     />
 
 </g>
@@ -923,6 +960,14 @@ document.addEventListener(
 
         const eveningReceptionGlow = document.getElementById('eveningReceptionGlow');
 
+        const morningReceptionStart = document.getElementById('morningReceptionStart');
+
+        const morningReceptionEnd = document.getElementById('morningReceptionEnd');
+
+        const eveningReceptionStart = document.getElementById('eveningReceptionStart');
+
+        const eveningReceptionEnd = document.getElementById('eveningReceptionEnd');
+
         const clock12 = document.getElementById('clock12');
 
         const clock24 = document.getElementById('clock24');
@@ -1028,6 +1073,32 @@ document.addEventListener(
                 `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endPt.x} ${endPt.y}`
 
             ].join(' ');
+
+        }
+
+
+        /* 受付時間の端点ドット位置設定 */
+
+        function setReceptionEndpoints(startElem, endElem, startHour, startMinute, endHour, endMinute, radius){
+
+            const startAngle = timeToClockAngle(startHour, startMinute);
+
+            const endAngle = timeToClockAngle(endHour, endMinute);
+
+
+            const startPt = clockPoint(radius, startAngle);
+
+            const endPt = clockPoint(radius, endAngle);
+
+
+            startElem.setAttribute('cx', startPt.x);
+
+            startElem.setAttribute('cy', startPt.y);
+
+
+            endElem.setAttribute('cx', endPt.x);
+
+            endElem.setAttribute('cy', endPt.y);
 
         }
 
@@ -1320,7 +1391,7 @@ document.addEventListener(
         setWhiteBand(eveningWhite, 17, 30, 19, 30);
 
 
-        /* 受付時間（外側アーク＆光層）の設定：開始15分前〜終了30分前 */
+        /* 受付時間（外側アーク＆光層＆端点ドット）の設定：開始15分前〜終了30分前 */
 
         const morningArcPath = createArcPath(8, 45, 11, 30, RECEPTION_RADIUS);
 
@@ -1333,12 +1404,16 @@ document.addEventListener(
 
         morningReceptionGlow.setAttribute('d', morningArcPath);
 
+        setReceptionEndpoints(morningReceptionStart, morningReceptionEnd, 8, 45, 11, 30, RECEPTION_RADIUS);
+
 
         /* 午後診（17:30〜19:30）→ 受付：17:15〜19:00 */
 
         eveningReceptionArc.setAttribute('d', eveningArcPath);
 
         eveningReceptionGlow.setAttribute('d', eveningArcPath);
+
+        setReceptionEndpoints(eveningReceptionStart, eveningReceptionEnd, 5, 15, 7, 0, RECEPTION_RADIUS);
 
 
         createOuterMinuteTicks();
