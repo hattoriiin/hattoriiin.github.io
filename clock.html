@@ -12,7 +12,7 @@
 
 <meta
     name="description"
-    content="服部医院の外来診療時間および受付時間。午前診9:00〜12:00（受付8:45〜11:30）、訪問診療13:30〜16:30、午後診17:30〜19:30（受付17:15〜19:00）。"
+    content="服部医院の外来診療時間および受付時間インジケーター。"
 >
 
 <title>服部医院｜外来診療・受付時間</title>
@@ -207,7 +207,7 @@ body{
 
 
 /* ==================================================
-   外周目盛り（帯のない白地エリアのみ）
+   外周目盛り
 ================================================== */
 
 .outer-tick{
@@ -262,7 +262,7 @@ body{
 
 
 /* ==================================================
-   時間帯（診療時間）
+   時間帯（診療・受付）
 ================================================== */
 
 .time-band{
@@ -288,30 +288,32 @@ body{
 }
 
 
-.band-inner{
+/* 受付開始用のアプローチライン */
 
-    fill:#fff;
+.reception-lead{
 
-    opacity:.78;
+    fill:none;
+
+    stroke:#3d8bdc;
+
+    stroke-width:2.5;
+
+    stroke-linecap:round;
+
+    opacity:.85;
 
 }
 
 
-/* ==================================================
-   受付時間帯（診療時間の外側に寄り添うスリムな円弧）
-================================================== */
+/* 受付開始のドット */
 
-.reception-arc{
+.reception-dot{
 
-    fill:none;
+    fill:#3d8bdc;
 
-    stroke:#2b69a9;
+    stroke:#fff;
 
-    stroke-width:3;
-
-    stroke-linecap:round;
-
-    opacity:.75;
+    stroke-width:1.5;
 
 }
 
@@ -631,7 +633,7 @@ body{
 />
 
 
-<!-- 外周に沿う内側目盛り（帯がある区間は自動的に除外） -->
+<!-- 外周に沿う内側目盛り -->
 
 <g
     id="outerClockTicks"
@@ -639,16 +641,11 @@ body{
 ></g>
 
 
-<!-- 時間帯（100px〜180px） -->
+<!-- 時間帯（診療帯：受付終了時刻でシャープに斜断カットされた形状） -->
 
 <path
     id="morningBand"
     class="time-band band-base blue"
-/>
-
-<path
-    id="morningWhite"
-    class="band-inner"
 />
 
 
@@ -657,34 +654,16 @@ body{
     class="time-band band-base green"
 />
 
-<path
-    id="visitWhite"
-    class="band-inner"
-/>
-
 
 <path
     id="eveningBand"
     class="time-band band-base blue"
 />
 
-<path
-    id="eveningWhite"
-    class="band-inner"
-/>
 
+<!-- 受付開始を示唆するアプローチライン＆ドット -->
 
-<!-- 受付時間ライン（外来診療帯のすぐ外周に描画） -->
-
-<path
-    id="morningReceptionArc"
-    class="reception-arc"
-/>
-
-<path
-    id="eveningReceptionArc"
-    class="reception-arc"
-/>
+<g id="receptionLeads"></g>
 
 
 <!-- 外周ライン -->
@@ -776,18 +755,12 @@ document.addEventListener(
 
         const INNER_RADIUS = 100;
 
-        const CORNER_RADIUS = 4;
-
-        const WHITE_RADIAL_INSET = 3;
-
-        const WHITE_ANGLE_INSET = 0.5;
-
         const INNER_NUMBER_RADIUS = 126;
 
         const OUTER_NUMBER_RADIUS = 150;
 
 
-        /* 外周沿い目盛り（173〜180px） */
+        /* 目盛り用 */
 
         const OUT_TICK_OUTER = 180;
 
@@ -802,39 +775,26 @@ document.addEventListener(
         const OUT_DOT_RADIUS = 178.5;
 
 
-        /* 受付時間描画用半径（診療帯のすぐ外周 `183px` ） */
-
-        const RECEPTION_RADIUS = 183;
-
-
-        /* 診療時間帯の定義 */
+        /* 診療帯の定義 */
 
         const BANDS = [
 
-            { startH: 9, startM: 0, endH: 12, endM: 0 },   // 午前診
+            { startH: 9, startM: 0, endH: 12, endM: 0 },
 
-            { startH: 1, startM: 30, endH: 4, endM: 30 },  // 訪問診療
+            { startH: 1, startM: 30, endH: 4, endM: 30 },
 
-            { startH: 5, startM: 30, endH: 7, endM: 30 }   // 午後診
+            { startH: 5, startM: 30, endH: 7, endM: 30 }
 
         ];
 
 
         const morningBand = document.getElementById('morningBand');
 
-        const morningWhite = document.getElementById('morningWhite');
-
         const visitBand = document.getElementById('visitBand');
-
-        const visitWhite = document.getElementById('visitWhite');
 
         const eveningBand = document.getElementById('eveningBand');
 
-        const eveningWhite = document.getElementById('eveningWhite');
-
-        const morningReceptionArc = document.getElementById('morningReceptionArc');
-
-        const eveningReceptionArc = document.getElementById('eveningReceptionArc');
+        const receptionLeads = document.getElementById('receptionLeads');
 
         const clock12 = document.getElementById('clock12');
 
@@ -893,8 +853,6 @@ document.addEventListener(
 
                 const end = timeToClockAngle(b.endH, b.endM);
 
-                
-
                 if(start < end){
 
                     if(angle >= start && angle <= end) return true;
@@ -912,147 +870,169 @@ document.addEventListener(
         }
 
 
-        /* 円弧（受付時間用）パス生成 */
+        /* 受付締切（11:30 / 19:00）で斜めにカッティングした帯を生成 */
 
-        function createArcPath(startHour, startMinute, endHour, endMinute, radius){
+        function createCustomBandPath(startH, startM, endH, endM, cutH, cutM){
 
-            const start = timeToClockAngle(startHour, startMinute);
+            const startAngle = timeToClockAngle(startH, startM);
 
-            const end = timeToClockAngle(endHour, endMinute);
+            const endAngle = timeToClockAngle(endH, endM);
 
-
-            let sweep = end - start;
-
-            if(sweep < 0) sweep += 360;
+            const cutAngle = cutH !== undefined ? timeToClockAngle(cutH, cutM) : null;
 
 
-            const startPt = clockPoint(radius, start);
+            const outerStart = clockPoint(OUTER_RADIUS, startAngle);
 
-            const endPt = clockPoint(radius, end);
-
-
-            const largeArcFlag = sweep > 180 ? 1 : 0;
+            const innerStart = clockPoint(INNER_RADIUS, startAngle);
 
 
-            return [
+            const outerEnd = clockPoint(OUTER_RADIUS, endAngle);
 
-                `M ${startPt.x} ${startPt.y}`,
+            const innerEnd = clockPoint(INNER_RADIUS, endAngle);
 
-                `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endPt.x} ${endPt.y}`
 
-            ].join(' ');
+            let path = [];
+
+
+            if(cutAngle !== null){
+
+                /* 受付終了位置（cutAngle）で外周から内周へカットラインを入れる */
+
+                const outerCut = clockPoint(OUTER_RADIUS, cutAngle);
+
+                const innerCutPoint = clockPoint(INNER_RADIUS + 25, cutAngle); // 角度をつけた斜断ノッチ
+
+
+                const sweep1 = (cutAngle - startAngle + 360) % 360;
+
+                const largeArc1 = sweep1 > 180 ? 1 : 0;
+
+
+                const sweep2 = (endAngle - cutAngle + 360) % 360;
+
+                const largeArc2 = sweep2 > 180 ? 1 : 0;
+
+
+                path = [
+
+                    `M ${outerStart.x} ${outerStart.y}`,
+
+                    `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 ${largeArc1} 1 ${outerCut.x} ${outerCut.y}`,
+
+                    `L ${innerCutPoint.x} ${innerCutPoint.y}`,
+
+                    `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 ${largeArc2} 1 ${outerEnd.x} ${outerEnd.y}`,
+
+                    `L ${innerEnd.x} ${innerEnd.y}`,
+
+                    `A ${INNER_RADIUS} ${INNER_RADIUS} 0 0 0 ${innerStart.x} ${innerStart.y}`,
+
+                    'Z'
+
+                ];
+
+            } else {
+
+                const sweep = (endAngle - startAngle + 360) % 360;
+
+                const largeArc = sweep > 180 ? 1 : 0;
+
+
+                path = [
+
+                    `M ${outerStart.x} ${outerStart.y}`,
+
+                    `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
+
+                    `L ${innerEnd.x} ${innerEnd.y}`,
+
+                    `A ${INNER_RADIUS} ${INNER_RADIUS} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y}`,
+
+                    'Z'
+
+                ];
+
+            }
+
+
+            return path.join(' ');
 
         }
 
 
-        /* 円環帯（診療時間用）描画 */
+        /* 受付開始アプローチ（8:45→9:00 の外側引き込みライン） */
 
-        function createBandPath(startHour, startMinute, endHour, endMinute, radialInset = 0, angleInset = 0){
+        function drawReceptionLead(recH, recM, startH, startM){
 
-            const start = timeToClockAngle(startHour, startMinute);
+            const recAngle = timeToClockAngle(recH, recM);
 
-            const end = timeToClockAngle(endHour, endMinute);
-
-
-            let sweep = end - start;
-
-            if(sweep < 0) sweep += 360;
+            const startAngle = timeToClockAngle(startH, startM);
 
 
-            const outerRadius = OUTER_RADIUS - radialInset;
+            const dotPt = clockPoint(OUTER_RADIUS + 10, recAngle);
 
-            const innerRadius = INNER_RADIUS + radialInset;
-
-
-            const localStart = start + angleInset;
-
-            const localEnd = start + sweep - angleInset;
+            const entryPt = clockPoint(OUTER_RADIUS, startAngle);
 
 
-            const r = Math.min(CORNER_RADIUS, (outerRadius - innerRadius) / 2 - .5);
+            /* ドット */
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+            circle.setAttribute('class', 'reception-dot');
+
+            circle.setAttribute('cx', dotPt.x);
+
+            circle.setAttribute('cy', dotPt.y);
+
+            circle.setAttribute('r', '4');
 
 
-            const midRadius = (outerRadius + innerRadius) / 2;
+            /* なめらかな引き込み曲線（ベジェ曲線） */
 
-            const angularCorrection = (r / midRadius) * (180 / Math.PI);
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-
-            const adjustedStart = localStart + angularCorrection;
-
-            const adjustedEnd = localEnd - angularCorrection;
+            const ctrlPt = clockPoint(OUTER_RADIUS + 10, startAngle);
 
 
-            const outerFilletRadius = outerRadius - r;
+            const d = `M ${dotPt.x} ${dotPt.y} Q ${ctrlPt.x} ${ctrlPt.y} ${entryPt.x} ${entryPt.y}`;
 
-            const innerFilletRadius = innerRadius + r;
+            path.setAttribute('d', d);
 
-
-            const outerDelta = Math.asin(r / outerFilletRadius) * 180 / Math.PI;
-
-            const innerDelta = Math.asin(r / innerFilletRadius) * 180 / Math.PI;
+            path.setAttribute('class', 'reception-lead');
 
 
-            const outerStart = clockPoint(outerRadius, adjustedStart);
+            receptionLeads.appendChild(path);
 
-            const outerEnd = clockPoint(outerRadius, adjustedEnd);
-
-            const innerEnd = clockPoint(innerRadius, adjustedEnd);
-
-            const innerStart = clockPoint(innerRadius, adjustedStart);
-
-
-            const outerStartTangent = clockPoint(outerFilletRadius, adjustedStart - outerDelta);
-
-            const innerStartTangent = clockPoint(innerFilletRadius, adjustedStart - innerDelta);
-
-            const outerEndTangent = clockPoint(outerFilletRadius, adjustedEnd + outerDelta);
-
-            const innerEndTangent = clockPoint(innerFilletRadius, adjustedEnd + innerDelta);
-
-
-            const largeArcFlag = (adjustedEnd - adjustedStart) > 180 ? 1 : 0;
-
-
-            return [
-
-                `M ${outerStartTangent.x} ${outerStartTangent.y}`,
-
-                `A ${r} ${r} 0 0 1 ${outerStart.x} ${outerStart.y}`,
-
-                `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${outerEnd.x} ${outerEnd.y}`,
-
-                `A ${r} ${r} 0 0 1 ${outerEndTangent.x} ${outerEndTangent.y}`,
-
-                `L ${innerEndTangent.x} ${innerEndTangent.y}`,
-
-                `A ${r} ${r} 0 0 1 ${innerEnd.x} ${innerEnd.y}`,
-
-                `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerStart.x} ${innerStart.y}`,
-
-                `A ${r} ${r} 0 0 1 ${innerStartTangent.x} ${innerStartTangent.y}`,
-
-                'Z'
-
-            ].join(' ');
+            receptionLeads.appendChild(circle);
 
         }
 
 
-        function setBand(element, startHour, startMinute, endHour, endMinute){
+        /* 診療帯の設定 */
 
-            element.setAttribute('d', createBandPath(startHour, startMinute, endHour, endMinute));
+        /* 午前診（9:00〜12:00、受付締切11:30で斜断ノッチ） */
 
-        }
-
-
-        function setWhiteBand(element, startHour, startMinute, endHour, endMinute){
-
-            element.setAttribute('d', createBandPath(startHour, startMinute, endHour, endMinute, WHITE_RADIAL_INSET, WHITE_ANGLE_INSET));
-
-        }
+        morningBand.setAttribute('d', createCustomBandPath(9, 0, 12, 0, 11, 30));
 
 
-        /* 外周沿い目盛り生成 */
+        /* 訪問診療（13:30〜16:30、カットなし） */
+
+        visitBand.setAttribute('d', createCustomBandPath(1, 30, 4, 30));
+
+
+        /* 午後診（17:30〜19:30、受付締切19:00で斜断ノッチ） */
+
+        eveningBand.setAttribute('d', createCustomBandPath(5, 30, 7, 30, 7, 0));
+
+
+        /* 受付開始アプローチの描画 */
+
+        drawReceptionLead(8, 45, 9, 0);   // 8:45スタート
+
+        drawReceptionLead(5, 15, 5, 30);  // 17:15スタート
+
+
+        /* 外周目盛り生成 */
 
         function createOuterMinuteTicks(){
 
@@ -1214,35 +1194,6 @@ document.addEventListener(
             }
 
         }
-
-
-        /* 診療時間（帯）の設定 */
-
-        setBand(morningBand, 9, 0, 12, 0);
-
-        setWhiteBand(morningWhite, 9, 0, 12, 0);
-
-
-        setBand(visitBand, 13, 30, 16, 30);
-
-        setWhiteBand(visitWhite, 13, 30, 16, 30);
-
-
-        setBand(eveningBand, 17, 30, 19, 30);
-
-        setWhiteBand(eveningWhite, 17, 30, 19, 30);
-
-
-        /* 受付時間（外側アーク）の設定：開始15分前〜終了30分前 */
-
-        /* 午前診（9:00〜12:00）→ 受付：8:45〜11:30 */
-
-        morningReceptionArc.setAttribute('d', createArcPath(8, 45, 11, 30, RECEPTION_RADIUS));
-
-
-        /* 午後診（17:30〜19:30）→ 受付：17:15〜19:00 */
-
-        eveningReceptionArc.setAttribute('d', createArcPath(5, 15, 7, 0, RECEPTION_RADIUS));
 
 
         createOuterMinuteTicks();
