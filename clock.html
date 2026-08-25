@@ -149,7 +149,7 @@ body{
 .clock-dot{ fill:#3d8bdc; }
 
 /* ==================================================
-   中央電話リンク（受付時間内のみ浮き上がる工夫）
+   中央電話リンク（受付時間内のみ表示）
 ================================================== */
 .phone-link-container {
     width: 100%;
@@ -164,22 +164,21 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     text-decoration: none;
     color: #2b73c2;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(43, 115, 194, 0.25);
-    box-shadow: 0 4px 16px rgba(43, 115, 194, 0.15);
+    background: #ffffff;
+    border: 1px solid rgba(43, 115, 194, 0.3);
+    box-shadow: 0 4px 12px rgba(43, 115, 194, 0.12);
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.85);
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     cursor: pointer;
 }
 
-/* 受付時間内に付与されるクラス */
 .phone-btn.is-active {
     opacity: 1;
     visibility: visible;
@@ -190,7 +189,7 @@ body{
     background: #2b73c2;
     color: #ffffff;
     border-color: #2b73c2;
-    box-shadow: 0 6px 20px rgba(43, 115, 194, 0.3);
+    box-shadow: 0 6px 16px rgba(43, 115, 194, 0.25);
 }
 
 .phone-btn:hover .phone-icon {
@@ -198,8 +197,8 @@ body{
 }
 
 .phone-icon {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     margin-bottom: 4px;
     stroke: #2b73c2;
     transition: stroke 0.2s ease;
@@ -208,11 +207,11 @@ body{
 .phone-label {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
 }
 
 .phone-number {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     margin-top: 2px;
     font-family: sans-serif;
@@ -288,15 +287,7 @@ body{
     <g id="clock24"></g>
 </g>
 
-<!-- 針 -->
-<line class="clock-hand hour" x1="200" y1="200" x2="200" y2="125"/>
-<line class="clock-hand minute" x1="200" y1="200" x2="200" y2="108"/>
-<line class="clock-hand second" x1="200" y1="200" x2="200" y2="100"/>
-
-<circle class="clock-center" cx="200" cy="200" r="6"/>
-<circle class="clock-dot" cx="200" cy="200" r="2.5"/>
-
-<!-- 時計中心に浮かび上がる電話ボタン -->
+<!-- 外来受付時間内のみ浮かび上がる電話ボタン -->
 <foreignObject x="100" y="100" width="200" height="200">
     <div xmlns="http://www.w3.org/1999/xhtml" class="phone-link-container">
         <a href="tel:0000000000" id="phoneBtn" class="phone-btn" aria-label="受付に電話をかける">
@@ -308,6 +299,14 @@ body{
         </a>
     </div>
 </foreignObject>
+
+<!-- 針 -->
+<line class="clock-hand hour" x1="200" y1="200" x2="200" y2="125"/>
+<line class="clock-hand minute" x1="200" y1="200" x2="200" y2="108"/>
+<line class="clock-hand second" x1="200" y1="200" x2="200" y2="100"/>
+
+<circle class="clock-center" cx="200" cy="200" r="6"/>
+<circle class="clock-dot" cx="200" cy="200" r="2.5"/>
 
 </svg>
 </div>
@@ -497,20 +496,19 @@ document.addEventListener('DOMContentLoaded', function(){
         return Date.now() + 9 * 60 * 60 * 1000;
     }
 
-    /* 外来受付時間内かどうかを判定 (午前: 8:45〜11:30 / 午後: 17:15〜19:00) */
+    /* 外来受付時間内かどうかを判定 (テスト用: 午後17:00〜19:00) */
     function checkOutpatientReceptionStatus(hour, minute){
         const currentMins = hour * 60 + minute;
         
         const morningStart = 8 * 60 + 45;  // 8:45
         const morningEnd   = 11 * 60 + 30; // 11:30
         
-        const eveningStart = 17 * 60 + 15; // 17:15
+        // 17:00から浮かび上がるよう一時的に変更
+        const eveningStart = 17 * 60 + 0;  // 17:00
         const eveningEnd   = 19 * 60 + 0;  // 19:00
 
-        const isMorningReception = (currentMins >= morningStart && currentMins <= morningEnd);
-        const isEveningReception = (currentMins >= eveningStart && currentMins <= eveningEnd);
-
-        return isMorningReception || isEveningReception;
+        return (currentMins >= morningStart && currentMins <= morningEnd) ||
+               (currentMins >= eveningStart && currentMins <= eveningEnd);
     }
 
     function updateClock(timestamp){
@@ -529,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function(){
         minuteHand.setAttribute('transform', `rotate(${minuteAngle} 200 200)`);
         secondHand.setAttribute('transform', `rotate(${secondAngle} 200 200)`);
 
-        /* 外来受付時間内のみボタンを表示 */
+        /* 外来受付時間内判定 */
         const isReceiving = checkOutpatientReceptionStatus(hour, minute);
         if(isReceiving){
             phoneBtn.classList.add('is-active');
