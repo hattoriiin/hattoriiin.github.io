@@ -102,7 +102,7 @@ body{
 .outer-tick.half{ opacity:.7; stroke-width:1.8; stroke:#1d394e; }
 .outer-dot{ fill:#31556e; opacity:.28; }
 
-/* 時間帯（グラデーション適用） */
+/* 時間帯（放射状グラデーション） */
 .time-band{ stroke:none; }
 .band-morning{ fill:url(#morningGrad); }
 .band-visit{ fill:url(#visitGrad); }
@@ -189,29 +189,37 @@ body{
 <div class="time-ring">
 <svg viewBox="0 0 400 400" aria-hidden="true" focusable="false">
 
-<!-- グラデーション定義 -->
 <defs>
-    <linearGradient id="morningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#3d8bdc" stop-opacity="0.6"/>
-        <stop offset="100%" stop-color="#64b5f6" stop-opacity="0.3"/>
-    </linearGradient>
-    <linearGradient id="visitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#70ad47" stop-opacity="0.75"/>
-        <stop offset="100%" stop-color="#a8d08d" stop-opacity="0.4"/>
-    </linearGradient>
-    <linearGradient id="eveningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#2b6cb0" stop-opacity="0.65"/>
-        <stop offset="100%" stop-color="#4299e1" stop-opacity="0.35"/>
-    </linearGradient>
+    <!-- 放射状グラデーション -->
+    <radialGradient id="morningGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#3d8bdc" stop-opacity="0.1"/>
+        <stop offset="60%" stop-color="#3d8bdc" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#3d8bdc" stop-opacity="0.6"/>
+    </radialGradient>
+    <radialGradient id="visitGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#70ad47" stop-opacity="0.1"/>
+        <stop offset="60%" stop-color="#70ad47" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#70ad47" stop-opacity="0.75"/>
+    </radialGradient>
+    <radialGradient id="eveningGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#3d8bdc" stop-opacity="0.1"/>
+        <stop offset="60%" stop-color="#3d8bdc" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#3d8bdc" stop-opacity="0.6"/>
+    </radialGradient>
 </defs>
 
+<!-- 背景台紙 -->
 <circle class="clock-disc" cx="200" cy="200" r="179"/>
-<g id="outerClockTicks" aria-hidden="true"></g>
 
-<!-- ドーナツ状にくり抜かれた帯 -->
+<!-- 扇形のグラデーション帯 -->
 <path id="morningBand" class="time-band band-morning"/>
 <path id="visitBand" class="time-band band-visit"/>
 <path id="eveningBand" class="time-band band-evening"/>
+
+<!-- 中の抜けた白（中央部分を白で塗りつぶしてドーナツ状にする円） -->
+<circle cx="200" cy="200" r="100" fill="#ffffff"/>
+
+<g id="outerClockTicks" aria-hidden="true"></g>
 
 <circle class="outer-ring" cx="200" cy="200" r="180"/>
 
@@ -236,8 +244,6 @@ body{
 document.addEventListener('DOMContentLoaded', function(){
     const SVG_CENTER = 200;
     const OUTER_RADIUS = 180;
-    const INNER_RADIUS = 100;
-    const CORNER_RADIUS = 4;
     const INNER_NUMBER_RADIUS = 126;
     const OUTER_NUMBER_RADIUS = 150;
 
@@ -297,58 +303,29 @@ document.addEventListener('DOMContentLoaded', function(){
         return false;
     }
 
-    /* 内側を切り抜いた円弧（ドーナツ状パス）を生成 */
-    function createBandPath(startHour, startMinute, endHour, endMinute){
+    /* 中心から外側へ伸びるシンプルな扇形パス生成（中央は白い円で抜く） */
+    function createPiePath(startHour, startMinute, endHour, endMinute){
         const start = timeToClockAngle(startHour, startMinute);
         const end = timeToClockAngle(endHour, endMinute);
 
         let sweep = end - start;
         if(sweep < 0) sweep += 360;
 
-        const outerRadius = OUTER_RADIUS;
-        const innerRadius = INNER_RADIUS;
-
-        const r = Math.min(CORNER_RADIUS, (outerRadius - innerRadius) / 2 - .5);
-        const midRadius = (outerRadius + innerRadius) / 2;
-        const angularCorrection = (r / midRadius) * (180 / Math.PI);
-
-        const adjustedStart = start + angularCorrection;
-        const adjustedEnd = start + sweep - angularCorrection;
-
-        const outerFilletRadius = outerRadius - r;
-        const innerFilletRadius = innerRadius + r;
-
-        const outerDelta = Math.asin(r / outerFilletRadius) * 180 / Math.PI;
-        const innerDelta = Math.asin(r / innerFilletRadius) * 180 / Math.PI;
-
-        const outerStart = clockPoint(outerRadius, adjustedStart);
-        const outerEnd = clockPoint(outerRadius, adjustedEnd);
-        const innerEnd = clockPoint(innerRadius, adjustedEnd);
-        const innerStart = clockPoint(innerRadius, adjustedStart);
-
-        const outerStartTangent = clockPoint(outerFilletRadius, adjustedStart - outerDelta);
-        const innerStartTangent = clockPoint(innerFilletRadius, adjustedStart - innerDelta);
-        const outerEndTangent = clockPoint(outerFilletRadius, adjustedEnd + outerDelta);
-        const innerEndTangent = clockPoint(innerFilletRadius, adjustedEnd + innerDelta);
-
-        const largeArcFlag = (adjustedEnd - adjustedStart) > 180 ? 1 : 0;
+        const outerStart = clockPoint(OUTER_RADIUS, start);
+        const outerEnd = clockPoint(OUTER_RADIUS, end);
+        const largeArcFlag = sweep > 180 ? 1 : 0;
 
         return [
-            `M ${outerStartTangent.x} ${outerStartTangent.y}`,
-            `A ${r} ${r} 0 0 1 ${outerStart.x} ${outerStart.y}`,
-            `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${outerEnd.x} ${outerEnd.y}`,
-            `A ${r} ${r} 0 0 1 ${outerEndTangent.x} ${outerEndTangent.y}`,
-            `L ${innerEndTangent.x} ${innerEndTangent.y}`,
-            `A ${r} ${r} 0 0 1 ${innerEnd.x} ${innerEnd.y}`,
-            `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerStart.x} ${innerStart.y}`,
-            `A ${r} ${r} 0 0 1 ${innerStartTangent.x} ${innerStartTangent.y}`,
+            `M ${SVG_CENTER} ${SVG_CENTER}`,
+            `L ${outerStart.x} ${outerStart.y}`,
+            `A ${OUTER_RADIUS} ${OUTER_RADIUS} 0 ${largeArcFlag} 1 ${outerEnd.x} ${outerEnd.y}`,
             'Z'
         ].join(' ');
     }
 
-    morningBand.setAttribute('d', createBandPath(9, 0, 12, 0));
-    visitBand.setAttribute('d', createBandPath(1, 30, 4, 30));
-    eveningBand.setAttribute('d', createBandPath(5, 30, 7, 30));
+    morningBand.setAttribute('d', createPiePath(9, 0, 12, 0));
+    visitBand.setAttribute('d', createPiePath(1, 30, 4, 30));
+    eveningBand.setAttribute('d', createPiePath(5, 30, 7, 30));
 
     function createOuterMinuteTicks(){
         const fragment = document.createDocumentFragment();
