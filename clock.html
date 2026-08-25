@@ -191,22 +191,6 @@ body{
 
 
 /* ==================================================
-   外周ライン
-================================================== */
-
-.outer-ring{
-
-    fill:none;
-
-    stroke:
-        rgba(49,85,110,.12);
-
-    stroke-width:1.2;
-
-}
-
-
-/* ==================================================
    外周目盛り（帯のない白地エリアのみ）
 ================================================== */
 
@@ -307,11 +291,11 @@ body{
 
     stroke:url(#receptionGlowGradient);
 
-    stroke-width:5px;
+    stroke-width:4px;
 
     stroke-linecap:round;
 
-    opacity:.38;
+    opacity:.35;
 
     filter:url(#softGlowFilter);
 
@@ -328,7 +312,7 @@ body{
 
     stroke-linecap:round;
 
-    opacity:.85;
+    opacity:.9;
 
 }
 
@@ -337,7 +321,7 @@ body{
 
     fill:#2b69a9;
 
-    opacity:.9;
+    opacity:.95;
 
 }
 
@@ -705,11 +689,11 @@ body{
     class="clock-disc"
     cx="200"
     cy="200"
-    r="179"
+    r="180"
 />
 
 
-<!-- 外周に沿う内側目盛り（帯がある区間は自動的に除外） -->
+<!-- 外周沿い目盛り（帯のない白地エリアのみ） -->
 
 <g
     id="outerClockTicks"
@@ -805,16 +789,6 @@ body{
     />
 
 </g>
-
-
-<!-- 外周ライン -->
-
-<circle
-    class="outer-ring"
-    cx="200"
-    cy="200"
-    r="180"
-/>
 
 
 <!-- 時計数字 -->
@@ -922,9 +896,9 @@ document.addEventListener(
         const OUT_DOT_RADIUS = 178.5;
 
 
-        /* 受付時間描画用半径（診療帯のすぐ外周 `183.5px` ） */
+        /* 受付時間描画用半径（診療帯の外縁にぴったり添わせる `182px` ） */
 
-        const RECEPTION_RADIUS = 183.5;
+        const RECEPTION_RADIUS = 182;
 
 
         /* 診療時間帯の定義 */
