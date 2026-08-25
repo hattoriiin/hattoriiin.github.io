@@ -12,10 +12,10 @@
 
 <meta
     name="description"
-    content="服部医院の外来診療時間。午前診9:00〜12:00、訪問診療13:30〜16:30、午後診17:30〜19:30。"
+    content="服部医院の外来診療時間および受付時間。午前診9:00〜12:00（受付8:45〜11:30）、訪問診療13:30〜16:30、午後診17:30〜19:30（受付17:15〜19:00）。"
 >
 
-<title>服部医院｜外来診療時間</title>
+<title>服部医院｜外来診療・受付時間</title>
 
 
 <style>
@@ -207,61 +207,8 @@ body{
 
 
 /* ==================================================
-   目盛り & 30秒ドット スタイル
+   外周目盛り（帯のない白地エリアのみ）
 ================================================== */
-
-.minute-tick{
-
-    stroke:#31556e;
-
-    stroke-linecap:round;
-
-    opacity:.25;
-
-    vector-effect:non-scaling-stroke;
-
-}
-
-
-.minute-tick.five{
-
-    opacity:.4;
-
-    stroke-width:1.2;
-
-}
-
-
-.minute-tick.quarter{
-
-    opacity:.55;
-
-    stroke-width:1.4;
-
-}
-
-
-.minute-tick.half{
-
-    opacity:.75;
-
-    stroke-width:1.8;
-
-    stroke:#1d394e;
-
-}
-
-
-.half-minute-dot{
-
-    fill:#31556e;
-
-    opacity:.3;
-
-}
-
-
-/* 外周に沿う目盛り専用スタイル */
 
 .outer-tick{
 
@@ -315,7 +262,7 @@ body{
 
 
 /* ==================================================
-   時間帯
+   時間帯（診療時間）
 ================================================== */
 
 .time-band{
@@ -346,6 +293,25 @@ body{
     fill:#fff;
 
     opacity:.78;
+
+}
+
+
+/* ==================================================
+   受付時間帯（診療時間の外側に寄り添うスリムな円弧）
+================================================== */
+
+.reception-arc{
+
+    fill:none;
+
+    stroke:#2b69a9;
+
+    stroke-width:3;
+
+    stroke-linecap:round;
+
+    opacity:.75;
 
 }
 
@@ -576,21 +542,21 @@ body{
     id="clockHeading"
     class="clock-title"
 >
-    外来診療時間
+    外来診療・受付時間
 </h1>
 
 
 <div class="sr-only">
 
-    <p>服部医院の外来診療時間です。</p>
+    <p>服部医院の外来診療および受付時間です。</p>
 
     <ul>
 
-        <li>午前診：9:00〜12:00</li>
+        <li>午前診：9:00〜12:00（受付 8:45〜11:30）</li>
 
         <li>訪問診療：13:30〜16:30</li>
 
-        <li>午後診：17:30〜19:30</li>
+        <li>午後診：17:30〜19:30（受付 17:15〜19:00）</li>
 
     </ul>
 
@@ -665,15 +631,7 @@ body{
 />
 
 
-<!-- 内側目盛り & 30秒ドット（現状通り） -->
-
-<g
-    id="clockTicks"
-    aria-hidden="true"
-></g>
-
-
-<!-- 【追加】外周に沿う内側の目盛り（帯がある区間は自動的に除外） -->
+<!-- 外周に沿う内側目盛り（帯がある区間は自動的に除外） -->
 
 <g
     id="outerClockTicks"
@@ -681,7 +639,7 @@ body{
 ></g>
 
 
-<!-- 時間帯（100px〜180px。帯部分には目盛りが重なりません） -->
+<!-- 時間帯（100px〜180px） -->
 
 <path
     id="morningBand"
@@ -713,6 +671,19 @@ body{
 <path
     id="eveningWhite"
     class="band-inner"
+/>
+
+
+<!-- 受付時間ライン（外来診療帯のすぐ外周に描画） -->
+
+<path
+    id="morningReceptionArc"
+    class="reception-arc"
+/>
+
+<path
+    id="eveningReceptionArc"
+    class="reception-arc"
 />
 
 
@@ -816,45 +787,35 @@ document.addEventListener(
         const OUTER_NUMBER_RADIUS = 150;
 
 
-        /* 【内側目盛り】現状の設定（変更なし） */
+        /* 外周沿い目盛り（173〜180px） */
 
-        const TICK_OUTER_RADIUS = 98;
+        const OUT_TICK_OUTER = 180;
 
-        const TICK_INNER_RADIUS = 95;
+        const OUT_TICK_INNER = 177;
 
-        const TICK_INNER_RADIUS_FIVE = 93;
+        const OUT_TICK_INNER_FIVE = 175;
 
-        const TICK_INNER_RADIUS_QUARTER = 91;
+        const OUT_TICK_INNER_QUARTER = 174;
 
-        const TICK_INNER_RADIUS_HALF = 89;
+        const OUT_TICK_INNER_HALF = 173;
 
-        const DOT_RADIUS = 96.5;
-
-
-        /* 【追加：外周沿い目盛り】外周180pxにピッタリ内接（173〜180px） */
-
-        const OUT_TICK_OUTER = 180;             // 外周円のピッタリ内側
-
-        const OUT_TICK_INNER = 177;             // 通常目盛り
-
-        const OUT_TICK_INNER_FIVE = 175;        // 5分刻み
-
-        const OUT_TICK_INNER_QUARTER = 174;     // 15分刻み
-
-        const OUT_TICK_INNER_HALF = 173;        // 30分刻み
-
-        const OUT_DOT_RADIUS = 178.5;           // 30秒ドット半径
+        const OUT_DOT_RADIUS = 178.5;
 
 
-        /* 診療時間帯の定義（12時間制での角度計算用） */
+        /* 受付時間描画用半径（診療帯のすぐ外周 `183px` ） */
+
+        const RECEPTION_RADIUS = 183;
+
+
+        /* 診療時間帯の定義 */
 
         const BANDS = [
 
             { startH: 9, startM: 0, endH: 12, endM: 0 },   // 午前診
 
-            { startH: 1, startM: 30, endH: 4, endM: 30 },  // 訪問診療 (13:30~16:30)
+            { startH: 1, startM: 30, endH: 4, endM: 30 },  // 訪問診療
 
-            { startH: 5, startM: 30, endH: 7, endM: 30 }   // 午後診 (17:30~19:30)
+            { startH: 5, startM: 30, endH: 7, endM: 30 }   // 午後診
 
         ];
 
@@ -871,11 +832,13 @@ document.addEventListener(
 
         const eveningWhite = document.getElementById('eveningWhite');
 
+        const morningReceptionArc = document.getElementById('morningReceptionArc');
+
+        const eveningReceptionArc = document.getElementById('eveningReceptionArc');
+
         const clock12 = document.getElementById('clock12');
 
         const clock24 = document.getElementById('clock24');
-
-        const clockTicks = document.getElementById('clockTicks');
 
         const outerClockTicks = document.getElementById('outerClockTicks');
 
@@ -922,8 +885,6 @@ document.addEventListener(
         }
 
 
-        /* 指定された角度（時計角度0〜360°）が帯の範囲内かどうか判定する関数 */
-
         function isAngleInBands(angle){
 
             for(const b of BANDS){
@@ -951,7 +912,40 @@ document.addEventListener(
         }
 
 
-        /* 円環帯描画 */
+        /* 円弧（受付時間用）パス生成 */
+
+        function createArcPath(startHour, startMinute, endHour, endMinute, radius){
+
+            const start = timeToClockAngle(startHour, startMinute);
+
+            const end = timeToClockAngle(endHour, endMinute);
+
+
+            let sweep = end - start;
+
+            if(sweep < 0) sweep += 360;
+
+
+            const startPt = clockPoint(radius, start);
+
+            const endPt = clockPoint(radius, end);
+
+
+            const largeArcFlag = sweep > 180 ? 1 : 0;
+
+
+            return [
+
+                `M ${startPt.x} ${startPt.y}`,
+
+                `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endPt.x} ${endPt.y}`
+
+            ].join(' ');
+
+        }
+
+
+        /* 円環帯（診療時間用）描画 */
 
         function createBandPath(startHour, startMinute, endHour, endMinute, radialInset = 0, angleInset = 0){
 
@@ -1058,95 +1052,7 @@ document.addEventListener(
         }
 
 
-        /* 【1】内側目盛り & 30秒ドット（全周描画） */
-
-        function createInnerMinuteTicks(){
-
-            const fragment = document.createDocumentFragment();
-
-
-            for(let minute = 0; minute < 60; minute++){
-
-                const angle = minute * 6;
-
-                let innerRadius = TICK_INNER_RADIUS;
-
-                let className = 'minute-tick';
-
-
-                if(minute % 30 === 0 && minute !== 0){
-
-                    innerRadius = TICK_INNER_RADIUS_HALF;
-
-                    className += ' half';
-
-                }
-
-                else if(minute % 15 === 0){
-
-                    innerRadius = TICK_INNER_RADIUS_QUARTER;
-
-                    className += ' quarter';
-
-                }
-
-                else if(minute % 5 === 0){
-
-                    innerRadius = TICK_INNER_RADIUS_FIVE;
-
-                    className += ' five';
-
-                }
-
-
-                const outerPoint = clockPoint(TICK_OUTER_RADIUS, angle);
-
-                const innerPoint = clockPoint(innerRadius, angle);
-
-
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-
-                line.setAttribute('class', className);
-
-                line.setAttribute('x1', outerPoint.x);
-
-                line.setAttribute('y1', outerPoint.y);
-
-                line.setAttribute('x2', innerPoint.x);
-
-                line.setAttribute('y2', innerPoint.y);
-
-
-                fragment.appendChild(line);
-
-
-                const halfAngle = angle + 3;
-
-                const dotPoint = clockPoint(DOT_RADIUS, halfAngle);
-
-
-                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-
-                circle.setAttribute('class', 'half-minute-dot');
-
-                circle.setAttribute('cx', dotPoint.x);
-
-                circle.setAttribute('cy', dotPoint.y);
-
-                circle.setAttribute('r', '0.75');
-
-
-                fragment.appendChild(circle);
-
-            }
-
-
-            clockTicks.appendChild(fragment);
-
-        }
-
-
-        /* 【2】外周沿い目盛り & 30秒ドット（帯がある場所を自動スキップして描画） */
+        /* 外周沿い目盛り生成 */
 
         function createOuterMinuteTicks(){
 
@@ -1157,8 +1063,6 @@ document.addEventListener(
 
                 const angle = minute * 6;
 
-
-                /* 帯のある場所なら目盛りを描画しない（消去） */
 
                 if(!isAngleInBands(angle)){
 
@@ -1214,8 +1118,6 @@ document.addEventListener(
 
                 }
 
-
-                /* 30秒刻みドットも帯がない場所のみ描画 */
 
                 const halfAngle = angle + 3;
 
@@ -1314,7 +1216,7 @@ document.addEventListener(
         }
 
 
-        /* 診療時間設定 */
+        /* 診療時間（帯）の設定 */
 
         setBand(morningBand, 9, 0, 12, 0);
 
@@ -1331,7 +1233,17 @@ document.addEventListener(
         setWhiteBand(eveningWhite, 17, 30, 19, 30);
 
 
-        createInnerMinuteTicks();
+        /* 受付時間（外側アーク）の設定：開始15分前〜終了30分前 */
+
+        /* 午前診（9:00〜12:00）→ 受付：8:45〜11:30 */
+
+        morningReceptionArc.setAttribute('d', createArcPath(8, 45, 11, 30, RECEPTION_RADIUS));
+
+
+        /* 午後診（17:30〜19:30）→ 受付：17:15〜19:00 */
+
+        eveningReceptionArc.setAttribute('d', createArcPath(5, 15, 7, 0, RECEPTION_RADIUS));
+
 
         createOuterMinuteTicks();
 
