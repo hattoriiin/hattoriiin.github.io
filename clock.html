@@ -207,7 +207,7 @@ body{
 
 
 /* ==================================================
-   分目盛り
+   分目盛り & 30秒ドット（帯の外側に配置）
 ================================================== */
 
 .minute-tick{
@@ -216,7 +216,7 @@ body{
 
     stroke-linecap:round;
 
-    opacity:.16;
+    opacity:.2;
 
     vector-effect:non-scaling-stroke;
 
@@ -225,31 +225,40 @@ body{
 
 .minute-tick.five{
 
-    opacity:.28;
+    opacity:.35;
 
-    stroke-width:1.1;
+    stroke-width:1.2;
 
 }
 
 
 .minute-tick.quarter{
 
-    opacity:.38;
+    opacity:.45;
 
-    stroke-width:1.3;
+    stroke-width:1.4;
 
 }
 
 
-/* 30分目盛り（半刻）をくっきり目立たせる定義 */
-
 .minute-tick.half{
 
-    opacity:.75;
+    opacity:.65;
 
-    stroke-width:2.2;
+    stroke-width:1.8;
 
     stroke:#1d394e;
+
+}
+
+
+/* 1分間の中間（30秒刻み）を可視化するスタイリッシュなドット */
+
+.half-minute-dot{
+
+    fill:#31556e;
+
+    opacity:.25;
 
 }
 
@@ -605,17 +614,15 @@ body{
 />
 
 
-<!-- 外周 -->
+<!-- 分目盛り & 30秒ドット（帯の下に配置し、帯被りを回避） -->
 
-<circle
-    class="outer-ring"
-    cx="200"
-    cy="200"
-    r="180"
-/>
+<g
+    id="clockTicks"
+    aria-hidden="true"
+></g>
 
 
-<!-- 時間帯 -->
+<!-- 時間帯（目盛りの上に描画して帯内部を完全にすっきり見せる） -->
 
 <path
     id="morningBand"
@@ -650,12 +657,14 @@ body{
 />
 
 
-<!-- 分目盛り（帯の上に描画して視認性を高める） -->
+<!-- 外周ライン -->
 
-<g
-    id="clockTicks"
-    aria-hidden="true"
-></g>
+<circle
+    class="outer-ring"
+    cx="200"
+    cy="200"
+    r="180"
+/>
 
 
 <!-- 時計数字 -->
@@ -747,19 +756,19 @@ document.addEventListener(
 
         const OUTER_NUMBER_RADIUS = 150;
 
-        /* 目盛りの長さ・深さを微調整 */
+        /* 目盛りを帯の外縁（180pxより外〜外周際）に寄せて配置 */
 
-        const TICK_OUTER_RADIUS = 180;
+        const TICK_OUTER_RADIUS = 186;
 
-        const TICK_INNER_RADIUS = 173;
+        const TICK_INNER_RADIUS = 181;
 
-        const TICK_INNER_RADIUS_FIVE = 171;
+        const TICK_INNER_RADIUS_FIVE = 180;
 
-        const TICK_INNER_RADIUS_QUARTER = 168;
+        const TICK_INNER_RADIUS_QUARTER = 178;
 
-        /* 各時間の「30分」目盛りを帯の深くまで伸ばして境界を明確に */
+        const TICK_INNER_RADIUS_HALF = 176;
 
-        const TICK_INNER_RADIUS_HALF = 160;
+        const DOT_RADIUS = 182;
 
 
         const morningBand = document.getElementById('morningBand');
@@ -930,7 +939,7 @@ document.addEventListener(
         }
 
 
-        /* 目盛り生成（30分刻みをはっきり表示） */
+        /* 目盛り & 30秒ドットの生成（外周に配置） */
 
         function createMinuteTicks(){
 
@@ -947,8 +956,6 @@ document.addEventListener(
 
 
                 if(minute % 30 === 0 && minute !== 0){
-
-                    /* 30分（1:30, 2:30等）の目盛りを長く濃くする */
 
                     innerRadius = TICK_INNER_RADIUS_HALF;
 
@@ -992,6 +999,27 @@ document.addEventListener(
 
 
                 fragment.appendChild(line);
+
+
+                /* --- 各1分刻みの間に「30秒単位（0.5分）」を示すドットを打ち込む --- */
+
+                const halfAngle = angle + 3; // 3°（＝30秒/0.5分）
+
+                const dotPoint = clockPoint(DOT_RADIUS, halfAngle);
+
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+                circle.setAttribute('class', 'half-minute-dot');
+
+                circle.setAttribute('cx', dotPoint.x);
+
+                circle.setAttribute('cy', dotPoint.y);
+
+                circle.setAttribute('r', '0.8');
+
+
+                fragment.appendChild(circle);
 
             }
 
