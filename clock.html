@@ -191,7 +191,7 @@ body{
 
 
 /* ==================================================
-   外周目盛り（帯のない白地エリアのみ）
+   外周目盛り
 ================================================== */
 
 .outer-tick{
@@ -246,7 +246,7 @@ body{
 
 
 /* ==================================================
-   時間帯（診療時間）
+   診療時間帯
 ================================================== */
 
 .time-band{
@@ -282,46 +282,110 @@ body{
 
 
 /* ==================================================
-   受付時間帯（端点ドット＋微細ライン）
+   受付時間
 ================================================== */
+
+/*
+ * 受付時間は診療帯とは別の「もう一つの時間帯」として
+ * 強く主張するのではなく、
+ *
+ * 「診療帯の外側に添う細い時間軸」
+ *
+ * として扱う。
+ *
+ * そのため、以前よりグローを弱くし、
+ * 実線そのものを主役にする。
+ */
+
+.reception-arc{
+
+    fill:none;
+
+    stroke:#397db5;
+
+    stroke-width:1.45px;
+
+    stroke-linecap:round;
+
+    opacity:.72;
+
+    vector-effect:non-scaling-stroke;
+
+}
+
+
+/*
+ * 受付線のごく薄い光。
+ *
+ * 装飾感が強くなりすぎないよう、
+ * 主線よりかなり弱くする。
+ */
 
 .reception-glow{
 
     fill:none;
 
-    stroke:url(#receptionGlowGradient);
+    stroke:#6fa8d8;
 
-    stroke-width:4px;
+    stroke-width:3.5px;
 
     stroke-linecap:round;
 
-    opacity:.35;
+    opacity:.16;
 
     filter:url(#softGlowFilter);
 
 }
 
 
-.reception-arc{
+/*
+ * 受付開始・受付終了。
+ *
+ * 小さな点にして、
+ * 「ここから」「ここまで」を示す。
+ */
 
-    fill:none;
+.reception-dot{
 
-    stroke:url(#receptionLineGradient);
+    fill:#31556e;
 
-    stroke-width:1.8px;
-
-    stroke-linecap:round;
-
-    opacity:.9;
+    opacity:.92;
 
 }
 
 
-.reception-dot{
+/*
+ * 診療開始・診療終了の境界。
+ *
+ * 受付時間の線そのものではなく、
+ * 診療帯の境界を示すための短い放射線。
+ */
 
-    fill:#2b69a9;
+.reception-boundary{
 
-    opacity:.95;
+    stroke:#31556e;
+
+    stroke-width:1.15px;
+
+    stroke-linecap:round;
+
+    opacity:.62;
+
+    vector-effect:non-scaling-stroke;
+
+}
+
+
+/*
+ * 診療帯の始点・終点にある境界を、
+ * 少しだけ強調する。
+ */
+
+.reception-boundary.strong{
+
+    stroke-width:1.35px;
+
+    opacity:.78;
 
 }
 
@@ -480,54 +544,149 @@ body{
 
 
 /* ==================================================
-   レスポンス調整
+   レスポンシブ
 ================================================== */
 
 @media(max-width:600px) and (orientation:portrait){
 
-    .page-main{ padding:.7rem; }
+    .page-main{
 
-    .clock-title{ width:72%; margin-bottom:.7rem; font-size:.98rem; }
+        padding:.7rem;
 
-    .time-ring{ width:min(94vw, 440px); min-width:280px; }
+    }
 
-    .clock-face .hour12{ font-size:29px; }
 
-    .clock-face .hour12.small{ font-size:14px; }
+    .clock-title{
 
-    .clock-face .hour12.twelve{ font-size:31px; }
+        width:72%;
 
-    .clock-face .hour24{ font-size:14px; }
+        margin-bottom:.7rem;
 
-    .clock-face .hour24.large{ font-size:29px; }
+        font-size:.98rem;
+
+    }
+
+
+    .time-ring{
+
+        width:min(
+            94vw,
+            440px
+        );
+
+        min-width:280px;
+
+    }
+
+
+    .clock-face .hour12{
+
+        font-size:29px;
+
+    }
+
+
+    .clock-face .hour12.small{
+
+        font-size:14px;
+
+    }
+
+
+    .clock-face .hour12.twelve{
+
+        font-size:31px;
+
+    }
+
+
+    .clock-face .hour24{
+
+        font-size:14px;
+
+    }
+
+
+    .clock-face .hour24.large{
+
+        font-size:29px;
+
+    }
 
 }
 
 
 @media(max-width:380px){
 
-    .page-main{ padding:.5rem; }
+    .page-main{
 
-    .clock-title{ font-size:.92rem; }
+        padding:.5rem;
 
-    .time-ring{ min-width:260px; }
+    }
 
-    .clock-face .hour12{ font-size:27px; }
 
-    .clock-face .hour12.small{ font-size:13px; }
+    .clock-title{
 
-    .clock-face .hour12.twelve{ font-size:29px; }
+        font-size:.92rem;
 
-    .clock-face .hour24{ font-size:13px; }
+    }
 
-    .clock-face .hour24.large{ font-size:27px; }
+
+    .time-ring{
+
+        min-width:260px;
+
+    }
+
+
+    .clock-face .hour12{
+
+        font-size:27px;
+
+    }
+
+
+    .clock-face .hour12.small{
+
+        font-size:13px;
+
+    }
+
+
+    .clock-face .hour12.twelve{
+
+        font-size:29px;
+
+    }
+
+
+    .clock-face .hour24{
+
+        font-size:13px;
+
+    }
+
+
+    .clock-face .hour24.large{
+
+        font-size:27px;
+
+    }
 
 }
 
 
+/* ==================================================
+   動きを抑える設定
+================================================== */
+
 @media(prefers-reduced-motion:reduce){
 
-    .clock-hand{ transition:none; }
+    .clock-hand{
+
+        transition:none;
+
+    }
 
 }
 
@@ -562,11 +721,17 @@ body{
 
     <ul>
 
-        <li>午前診：9:00〜12:00（受付 8:45〜11:30）</li>
+        <li>
+            午前診：9:00〜12:00（受付 8:45〜11:30）
+        </li>
 
-        <li>訪問診療：13:30〜16:30</li>
+        <li>
+            訪問診療：13:30〜16:30
+        </li>
 
-        <li>午後診：17:30〜19:30（受付 17:15〜19:00）</li>
+        <li>
+            午後診：17:30〜19:30（受付 17:15〜19:00）
+        </li>
 
     </ul>
 
@@ -586,6 +751,10 @@ body{
 <defs>
 
 
+<!-- ==================================================
+     青グラデーション
+================================================== -->
+
 <radialGradient
     id="blueBaseGradient"
     cx="200"
@@ -594,18 +763,42 @@ body{
     gradientUnits="userSpaceOnUse"
 >
 
-    <stop offset="55%" stop-color="#3d8bdc" stop-opacity=".72"/>
+    <stop
+        offset="55%"
+        stop-color="#3d8bdc"
+        stop-opacity=".72"
+    />
 
-    <stop offset="64%" stop-color="#72afe8" stop-opacity=".62"/>
+    <stop
+        offset="64%"
+        stop-color="#72afe8"
+        stop-opacity=".62"
+    />
 
-    <stop offset="72%" stop-color="#a9d2f2" stop-opacity=".48"/>
+    <stop
+        offset="72%"
+        stop-color="#a9d2f2"
+        stop-opacity=".48"
+    />
 
-    <stop offset="82%" stop-color="#72afe8" stop-opacity=".62"/>
+    <stop
+        offset="82%"
+        stop-color="#72afe8"
+        stop-opacity=".62"
+    />
 
-    <stop offset="100%" stop-color="#3d8bdc" stop-opacity=".72"/>
+    <stop
+        offset="100%"
+        stop-color="#3d8bdc"
+        stop-opacity=".72"
+    />
 
 </radialGradient>
 
+
+<!-- ==================================================
+     緑グラデーション
+================================================== -->
 
 <radialGradient
     id="greenBaseGradient"
@@ -615,54 +808,42 @@ body{
     gradientUnits="userSpaceOnUse"
 >
 
-    <stop offset="55%" stop-color="#70ad47" stop-opacity=".72"/>
+    <stop
+        offset="55%"
+        stop-color="#70ad47"
+        stop-opacity=".72"
+    />
 
-    <stop offset="64%" stop-color="#95c66f" stop-opacity=".62"/>
+    <stop
+        offset="64%"
+        stop-color="#95c66f"
+        stop-opacity=".62"
+    />
 
-    <stop offset="72%" stop-color="#c5dfa9" stop-opacity=".48"/>
+    <stop
+        offset="72%"
+        stop-color="#c5dfa9"
+        stop-opacity=".48"
+    />
 
-    <stop offset="82%" stop-color="#95c66f" stop-opacity=".62"/>
+    <stop
+        offset="82%"
+        stop-color="#95c66f"
+        stop-opacity=".62"
+    />
 
-    <stop offset="100%" stop-color="#70ad47" stop-opacity=".72"/>
+    <stop
+        offset="100%"
+        stop-color="#70ad47"
+        stop-opacity=".72"
+    />
 
 </radialGradient>
 
 
-<!-- 受付時間ライン用グラデーション -->
-
-<linearGradient
-    id="receptionLineGradient"
-    x1="0%"
-    y1="0%"
-    x2="100%"
-    y2="100%"
->
-
-    <stop offset="0%" stop-color="#2b69a9" stop-opacity=".95"/>
-
-    <stop offset="50%" stop-color="#5b9bd5" stop-opacity=".80"/>
-
-    <stop offset="100%" stop-color="#a3c9e8" stop-opacity=".65"/>
-
-</linearGradient>
-
-
-<linearGradient
-    id="receptionGlowGradient"
-    x1="0%"
-    y1="0%"
-    x2="100%"
-    y2="100%"
->
-
-    <stop offset="0%" stop-color="#4a90e2" stop-opacity=".55"/>
-
-    <stop offset="100%" stop-color="#8cc1f0" stop-opacity=".25"/>
-
-</linearGradient>
-
-
-<!-- フィルター -->
+<!-- ==================================================
+     受付用グロー
+================================================== -->
 
 <filter
     id="softGlowFilter"
@@ -674,7 +855,6 @@ body{
 
     <feGaussianBlur
         stdDeviation="1.8"
-        result="blur"
     />
 
 </filter>
@@ -683,7 +863,9 @@ body{
 </defs>
 
 
-<!-- 時計盤 -->
+<!-- ==================================================
+     時計盤
+================================================== -->
 
 <circle
     class="clock-disc"
@@ -693,7 +875,9 @@ body{
 />
 
 
-<!-- 外周沿い目盛り（帯のない白地エリアのみ） -->
+<!-- ==================================================
+     外周目盛り
+================================================== -->
 
 <g
     id="outerClockTicks"
@@ -701,7 +885,9 @@ body{
 ></g>
 
 
-<!-- 時間帯（100px〜180px） -->
+<!-- ==================================================
+     診療時間帯
+================================================== -->
 
 <path
     id="morningBand"
@@ -736,62 +922,100 @@ body{
 />
 
 
-<!-- 受付時間ライン（光のグロー層＋メインライン＋始端・終端ドット） -->
+<!-- ==================================================
+     受付時間
+================================================== -->
 
-<g class="reception-group">
+<g
+    class="reception-group"
+    aria-hidden="true"
+>
 
-    <path
-        id="morningReceptionGlow"
-        class="reception-glow"
-    />
 
-    <path
-        id="eveningReceptionGlow"
-        class="reception-glow"
-    />
+<!-- 午前 -->
 
-    <path
-        id="morningReceptionArc"
-        class="reception-arc"
-    />
+<path
+    id="morningReceptionGlow"
+    class="reception-glow"
+/>
 
-    <path
-        id="eveningReceptionArc"
-        class="reception-arc"
-    />
+<path
+    id="morningReceptionArc"
+    class="reception-arc"
+/>
 
-    <!-- 午前受付 端点ドット -->
 
-    <circle
-        id="morningReceptionStart"
-        class="reception-dot"
-        r="2.5"
-    />
+<circle
+    id="morningReceptionStart"
+    class="reception-dot"
+    r="2.4"
+/>
 
-    <circle
-        id="morningReceptionEnd"
-        class="reception-dot"
-        r="2.5"
-    />
+<circle
+    id="morningReceptionEnd"
+    class="reception-dot"
+    r="2.4"
+/>
 
-    <!-- 午後受付 端点ドット -->
 
-    <circle
-        id="eveningReceptionStart"
-        class="reception-dot"
-        r="2.5"
-    />
+<!-- 午後 -->
 
-    <circle
-        id="eveningReceptionEnd"
-        class="reception-dot"
-        r="2.5"
-    />
+<path
+    id="eveningReceptionGlow"
+    class="reception-glow"
+/>
+
+<path
+    id="eveningReceptionArc"
+    class="reception-arc"
+/>
+
+
+<circle
+    id="eveningReceptionStart"
+    class="reception-dot"
+    r="2.4"
+/>
+
+<circle
+    id="eveningReceptionEnd"
+    class="reception-dot"
+    r="2.4"
+/>
+
+
+<!-- ==================================================
+     診療開始・診療終了の境界線
+================================================== -->
+
+<line
+    id="morningOpenBoundary"
+    class="reception-boundary strong"
+/>
+
+<line
+    id="morningCloseBoundary"
+    class="reception-boundary"
+/>
+
+
+<line
+    id="eveningOpenBoundary"
+    class="reception-boundary strong"
+/>
+
+<line
+    id="eveningCloseBoundary"
+    class="reception-boundary"
+/>
+
 
 </g>
 
 
-<!-- 時計数字 -->
+<!-- ==================================================
+     時計数字
+================================================== -->
 
 <g
     class="clock-face"
@@ -805,7 +1029,9 @@ body{
 </g>
 
 
-<!-- 時計の針 -->
+<!-- ==================================================
+     時計の針
+================================================== -->
 
 <line
     class="clock-hand hour"
@@ -815,6 +1041,7 @@ body{
     y2="125"
 />
 
+
 <line
     class="clock-hand minute"
     x1="200"
@@ -822,6 +1049,7 @@ body{
     x2="200"
     y2="108"
 />
+
 
 <line
     class="clock-hand second"
@@ -832,7 +1060,9 @@ body{
 />
 
 
-<!-- 中央 -->
+<!-- ==================================================
+     中央
+================================================== -->
 
 <circle
     class="clock-center"
@@ -840,6 +1070,7 @@ body{
     cy="200"
     r="7"
 />
+
 
 <circle
     class="clock-dot"
@@ -864,6 +1095,10 @@ document.addEventListener(
     'DOMContentLoaded',
     function(){
 
+        /* ==================================================
+           基本設定
+        ================================================== */
+
         const SVG_CENTER = 200;
 
         const OUTER_RADIUS = 180;
@@ -881,7 +1116,9 @@ document.addEventListener(
         const OUTER_NUMBER_RADIUS = 150;
 
 
-        /* 外周沿い目盛り（173〜180px） */
+        /* ==================================================
+           外周目盛り
+        ================================================== */
 
         const OUT_TICK_OUTER = 180;
 
@@ -896,148 +1133,529 @@ document.addEventListener(
         const OUT_DOT_RADIUS = 178.5;
 
 
-        /* 受付時間描画用半径（診療帯の外縁にぴったり添わせる `182px` ） */
+        /*
+         * 受付線は診療帯の外側にわずかに離して配置する。
+         *
+         * 180pxの診療帯に対して182pxとすることで、
+         * 診療帯そのものを隠さず、別の情報として読めるようにする。
+         */
 
         const RECEPTION_RADIUS = 182;
 
 
-        /* 診療時間帯の定義 */
+        /*
+         * 診療開始・終了境界線。
+         *
+         * 受付線と診療帯の関係を視覚的に示すため、
+         * 受付線から診療帯外周まで短く接続する。
+         */
+
+        const RECEPTION_BOUNDARY_OUTER = 183;
+
+        const RECEPTION_BOUNDARY_INNER = 176;
+
+
+        /* ==================================================
+           診療時間
+        ================================================== */
+
+        /*
+         * ここは実際の24時間表記で統一する。
+         *
+         * timeToClockAngle()側で12時間時計へ変換するため、
+         * 13:30や17:30をそのまま書ける。
+         */
 
         const BANDS = [
 
-            { startH: 9, startM: 0, endH: 12, endM: 0 },   // 午前診
+            {
+                startH:9,
+                startM:0,
+                endH:12,
+                endM:0
+            },
 
-            { startH: 1, startM: 30, endH: 4, endM: 30 },  // 訪問診療
+            {
+                startH:13,
+                startM:30,
+                endH:16,
+                endM:30
+            },
 
-            { startH: 5, startM: 30, endH: 7, endM: 30 }   // 午後診
+            {
+                startH:17,
+                startM:30,
+                endH:19,
+                endM:30
+            }
 
         ];
 
 
-        const morningBand = document.getElementById('morningBand');
+        /* ==================================================
+           DOM取得
+        ================================================== */
 
-        const morningWhite = document.getElementById('morningWhite');
+        const morningBand =
+            document.getElementById(
+                'morningBand'
+            );
 
-        const visitBand = document.getElementById('visitBand');
+        const morningWhite =
+            document.getElementById(
+                'morningWhite'
+            );
 
-        const visitWhite = document.getElementById('visitWhite');
+        const visitBand =
+            document.getElementById(
+                'visitBand'
+            );
 
-        const eveningBand = document.getElementById('eveningBand');
+        const visitWhite =
+            document.getElementById(
+                'visitWhite'
+            );
 
-        const eveningWhite = document.getElementById('eveningWhite');
+        const eveningBand =
+            document.getElementById(
+                'eveningBand'
+            );
 
-        const morningReceptionArc = document.getElementById('morningReceptionArc');
-
-        const eveningReceptionArc = document.getElementById('eveningReceptionArc');
-
-        const morningReceptionGlow = document.getElementById('morningReceptionGlow');
-
-        const eveningReceptionGlow = document.getElementById('eveningReceptionGlow');
-
-        const morningReceptionStart = document.getElementById('morningReceptionStart');
-
-        const morningReceptionEnd = document.getElementById('morningReceptionEnd');
-
-        const eveningReceptionStart = document.getElementById('eveningReceptionStart');
-
-        const eveningReceptionEnd = document.getElementById('eveningReceptionEnd');
-
-        const clock12 = document.getElementById('clock12');
-
-        const clock24 = document.getElementById('clock24');
-
-        const outerClockTicks = document.getElementById('outerClockTicks');
-
-        const hourHand = document.querySelector('.clock-hand.hour');
-
-        const minuteHand = document.querySelector('.clock-hand.minute');
-
-        const secondHand = document.querySelector('.clock-hand.second');
+        const eveningWhite =
+            document.getElementById(
+                'eveningWhite'
+            );
 
 
-        function timeToClockAngle(hour, minute){
+        const morningReceptionArc =
+            document.getElementById(
+                'morningReceptionArc'
+            );
 
-            return (((hour % 12) * 30) + minute * .5) % 360;
+        const morningReceptionGlow =
+            document.getElementById(
+                'morningReceptionGlow'
+            );
+
+        const morningReceptionStart =
+            document.getElementById(
+                'morningReceptionStart'
+            );
+
+        const morningReceptionEnd =
+            document.getElementById(
+                'morningReceptionEnd'
+            );
+
+
+        const eveningReceptionArc =
+            document.getElementById(
+                'eveningReceptionArc'
+            );
+
+        const eveningReceptionGlow =
+            document.getElementById(
+                'eveningReceptionGlow'
+            );
+
+        const eveningReceptionStart =
+            document.getElementById(
+                'eveningReceptionStart'
+            );
+
+        const eveningReceptionEnd =
+            document.getElementById(
+                'eveningReceptionEnd'
+            );
+
+
+        const morningOpenBoundary =
+            document.getElementById(
+                'morningOpenBoundary'
+            );
+
+        const morningCloseBoundary =
+            document.getElementById(
+                'morningCloseBoundary'
+            );
+
+        const eveningOpenBoundary =
+            document.getElementById(
+                'eveningOpenBoundary'
+            );
+
+        const eveningCloseBoundary =
+            document.getElementById(
+                'eveningCloseBoundary'
+            );
+
+
+        const clock12 =
+            document.getElementById(
+                'clock12'
+            );
+
+        const clock24 =
+            document.getElementById(
+                'clock24'
+            );
+
+        const outerClockTicks =
+            document.getElementById(
+                'outerClockTicks'
+            );
+
+
+        const hourHand =
+            document.querySelector(
+                '.clock-hand.hour'
+            );
+
+        const minuteHand =
+            document.querySelector(
+                '.clock-hand.minute'
+            );
+
+        const secondHand =
+            document.querySelector(
+                '.clock-hand.second'
+            );
+
+
+        /*
+         * 必須要素が不足している場合、
+         * そのまま処理を続けると画面の一部だけが壊れるため、
+         * 初期化を停止する。
+         */
+
+        if(
+
+            !morningBand ||
+            !morningWhite ||
+            !visitBand ||
+            !visitWhite ||
+            !eveningBand ||
+            !eveningWhite ||
+
+            !morningReceptionArc ||
+            !morningReceptionGlow ||
+            !morningReceptionStart ||
+            !morningReceptionEnd ||
+
+            !eveningReceptionArc ||
+            !eveningReceptionGlow ||
+            !eveningReceptionStart ||
+            !eveningReceptionEnd ||
+
+            !morningOpenBoundary ||
+            !morningCloseBoundary ||
+            !eveningOpenBoundary ||
+            !eveningCloseBoundary ||
+
+            !clock12 ||
+            !clock24 ||
+            !outerClockTicks ||
+
+            !hourHand ||
+            !minuteHand ||
+            !secondHand
+
+        ){
+
+            console.error(
+                '時計の初期化に必要な要素が見つかりません。'
+            );
+
+            return;
 
         }
 
 
-        function clockToSvgAngle(clockAngle){
+        /* ==================================================
+           時刻 → 時計角度
+        ================================================== */
+
+        /**
+         * 24時間表記の時刻を12時間時計の角度へ変換する。
+         *
+         * 12時を0°として時計回りに増加する。
+         *
+         * @param {number} hour 0〜23の時
+         * @param {number} minute 0〜59の分
+         * @returns {number} 時計角度
+         * @throws {TypeError} 数値でない場合
+         * @throws {RangeError} 時刻範囲が不正な場合
+         */
+
+        function timeToClockAngle(
+            hour,
+            minute
+        ){
+
+            if(
+                !Number.isFinite(hour) ||
+                !Number.isFinite(minute)
+            ){
+
+                throw new TypeError(
+                    '時刻は数値で指定してください。'
+                );
+
+            }
+
+
+            if(
+                !Number.isInteger(hour) ||
+                hour < 0 ||
+                hour > 23
+            ){
+
+                throw new RangeError(
+                    '時は0〜23で指定してください。'
+                );
+
+            }
+
+
+            if(
+                !Number.isInteger(minute) ||
+                minute < 0 ||
+                minute > 59
+            ){
+
+                throw new RangeError(
+                    '分は0〜59で指定してください。'
+                );
+
+            }
+
+
+            return (
+                (
+                    (hour % 12) * 30
+                ) +
+                minute * .5
+            ) % 360;
+
+        }
+
+
+        /* ==================================================
+           時計角度 → SVG角度
+        ================================================== */
+
+        function clockToSvgAngle(
+            clockAngle
+        ){
 
             return clockAngle - 90;
 
         }
 
 
-        function polarToPoint(radius, svgAngle){
+        /* ==================================================
+           極座標 → SVG座標
+        ================================================== */
 
-            const radians = svgAngle * Math.PI / 180;
+        function polarToPoint(
+            radius,
+            svgAngle
+        ){
+
+            if(
+                !Number.isFinite(radius) ||
+                !Number.isFinite(svgAngle)
+            ){
+
+                throw new TypeError(
+                    '半径と角度は数値で指定してください。'
+                );
+
+            }
+
+
+            const radians =
+                svgAngle *
+                Math.PI /
+                180;
+
 
             return {
 
-                x: SVG_CENTER + radius * Math.cos(radians),
+                x:
+                    SVG_CENTER +
+                    radius *
+                    Math.cos(radians),
 
-                y: SVG_CENTER + radius * Math.sin(radians)
+                y:
+                    SVG_CENTER +
+                    radius *
+                    Math.sin(radians)
 
             };
 
         }
 
 
-        function clockPoint(radius, clockAngle){
+        /* ==================================================
+           時計座標
+        ================================================== */
 
-            return polarToPoint(radius, clockToSvgAngle(clockAngle));
+        function clockPoint(
+            radius,
+            clockAngle
+        ){
+
+            return polarToPoint(
+                radius,
+                clockToSvgAngle(
+                    clockAngle
+                )
+            );
 
         }
 
 
-        function isAngleInBands(angle){
+        /* ==================================================
+           角度範囲判定
+        ================================================== */
 
-            for(const b of BANDS){
+        function isAngleInBands(
+            angle
+        ){
 
-                const start = timeToClockAngle(b.startH, b.startM);
+            for(
+                const band of BANDS
+            ){
 
-                const end = timeToClockAngle(b.endH, b.endM);
+                const start =
+                    timeToClockAngle(
+                        band.startH,
+                        band.startM
+                    );
 
-                
+                const end =
+                    timeToClockAngle(
+                        band.endH,
+                        band.endM
+                    );
 
-                if(start < end){
 
-                    if(angle >= start && angle <= end) return true;
+                if(
+                    start < end
+                ){
 
-                } else {
+                    if(
+                        angle >= start &&
+                        angle <= end
+                    ){
 
-                    if(angle >= start || angle <= end) return true;
+                        return true;
+
+                    }
+
+                }
+
+                else{
+
+                    if(
+                        angle >= start ||
+                        angle <= end
+                    ){
+
+                        return true;
+
+                    }
 
                 }
 
             }
+
 
             return false;
 
         }
 
 
-        /* 円弧（受付時間用）パス生成 */
+        /* ==================================================
+           受付円弧
+        ================================================== */
 
-        function createArcPath(startHour, startMinute, endHour, endMinute, radius){
+        /**
+         * 指定した受付時間を円弧として生成する。
+         *
+         * @param {number} startHour 開始時
+         * @param {number} startMinute 開始分
+         * @param {number} endHour 終了時
+         * @param {number} endMinute 終了分
+         * @param {number} radius 円弧半径
+         * @returns {string} SVG path
+         * @throws {RangeError} 時間範囲が不正な場合
+         */
 
-            const start = timeToClockAngle(startHour, startMinute);
+        function createArcPath(
+            startHour,
+            startMinute,
+            endHour,
+            endMinute,
+            radius
+        ){
 
-            const end = timeToClockAngle(endHour, endMinute);
+            const start =
+                timeToClockAngle(
+                    startHour,
+                    startMinute
+                );
+
+            const end =
+                timeToClockAngle(
+                    endHour,
+                    endMinute
+                );
 
 
-            let sweep = end - start;
-
-            if(sweep < 0) sweep += 360;
-
-
-            const startPt = clockPoint(radius, start);
-
-            const endPt = clockPoint(radius, end);
+            let sweep =
+                end - start;
 
 
-            const largeArcFlag = sweep > 180 ? 1 : 0;
+            if(
+                sweep < 0
+            ){
+
+                sweep += 360;
+
+            }
+
+
+            if(
+                sweep <= 0 ||
+                sweep > 360
+            ){
+
+                throw new RangeError(
+                    '受付時間の範囲が不正です。'
+                );
+
+            }
+
+
+            const startPt =
+                clockPoint(
+                    radius,
+                    start
+                );
+
+            const endPt =
+                clockPoint(
+                    radius,
+                    end
+                );
+
+
+            const largeArcFlag =
+                sweep > 180
+                    ? 1
+                    : 0;
 
 
             return [
@@ -1051,98 +1669,346 @@ document.addEventListener(
         }
 
 
-        /* 受付時間の端点ドット位置設定 */
+        /* ==================================================
+           受付端点
+        ================================================== */
 
-        function setReceptionEndpoints(startElem, endElem, startHour, startMinute, endHour, endMinute, radius){
+        function setReceptionEndpoints(
+            startElem,
+            endElem,
+            startHour,
+            startMinute,
+            endHour,
+            endMinute,
+            radius
+        ){
 
-            const startAngle = timeToClockAngle(startHour, startMinute);
-
-            const endAngle = timeToClockAngle(endHour, endMinute);
-
-
-            const startPt = clockPoint(radius, startAngle);
-
-            const endPt = clockPoint(radius, endAngle);
-
-
-            startElem.setAttribute('cx', startPt.x);
-
-            startElem.setAttribute('cy', startPt.y);
+            const startPt =
+                clockPoint(
+                    radius,
+                    timeToClockAngle(
+                        startHour,
+                        startMinute
+                    )
+                );
 
 
-            endElem.setAttribute('cx', endPt.x);
+            const endPt =
+                clockPoint(
+                    radius,
+                    timeToClockAngle(
+                        endHour,
+                        endMinute
+                    )
+                );
 
-            endElem.setAttribute('cy', endPt.y);
+
+            startElem.setAttribute(
+                'cx',
+                startPt.x
+            );
+
+            startElem.setAttribute(
+                'cy',
+                startPt.y
+            );
+
+
+            endElem.setAttribute(
+                'cx',
+                endPt.x
+            );
+
+            endElem.setAttribute(
+                'cy',
+                endPt.y
+            );
 
         }
 
 
-        /* 円環帯（診療時間用）描画 */
+        /* ==================================================
+           診療境界線
+        ================================================== */
 
-        function createBandPath(startHour, startMinute, endHour, endMinute, radialInset = 0, angleInset = 0){
+        /**
+         * 診療開始・終了位置に短い放射線を置く。
+         *
+         * 受付線と診療帯の境界を視覚的につなげるための
+         * 補助線であり、時刻そのものを示す目盛りではない。
+         *
+         * @param {SVGLineElement} element 対象line
+         * @param {number} hour 時
+         * @param {number} minute 分
+         */
 
-            const start = timeToClockAngle(startHour, startMinute);
+        function setBoundary(
+            element,
+            hour,
+            minute
+        ){
 
-            const end = timeToClockAngle(endHour, endMinute);
-
-
-            let sweep = end - start;
-
-            if(sweep < 0) sweep += 360;
-
-
-            const outerRadius = OUTER_RADIUS - radialInset;
-
-            const innerRadius = INNER_RADIUS + radialInset;
-
-
-            const localStart = start + angleInset;
-
-            const localEnd = start + sweep - angleInset;
-
-
-            const r = Math.min(CORNER_RADIUS, (outerRadius - innerRadius) / 2 - .5);
-
-
-            const midRadius = (outerRadius + innerRadius) / 2;
-
-            const angularCorrection = (r / midRadius) * (180 / Math.PI);
+            const angle =
+                timeToClockAngle(
+                    hour,
+                    minute
+                );
 
 
-            const adjustedStart = localStart + angularCorrection;
-
-            const adjustedEnd = localEnd - angularCorrection;
-
-
-            const outerFilletRadius = outerRadius - r;
-
-            const innerFilletRadius = innerRadius + r;
+            const outerPoint =
+                clockPoint(
+                    RECEPTION_BOUNDARY_OUTER,
+                    angle
+                );
 
 
-            const outerDelta = Math.asin(r / outerFilletRadius) * 180 / Math.PI;
-
-            const innerDelta = Math.asin(r / innerFilletRadius) * 180 / Math.PI;
-
-
-            const outerStart = clockPoint(outerRadius, adjustedStart);
-
-            const outerEnd = clockPoint(outerRadius, adjustedEnd);
-
-            const innerEnd = clockPoint(innerRadius, adjustedEnd);
-
-            const innerStart = clockPoint(innerRadius, adjustedStart);
+            const innerPoint =
+                clockPoint(
+                    RECEPTION_BOUNDARY_INNER,
+                    angle
+                );
 
 
-            const outerStartTangent = clockPoint(outerFilletRadius, adjustedStart - outerDelta);
+            element.setAttribute(
+                'x1',
+                outerPoint.x
+            );
 
-            const innerStartTangent = clockPoint(innerFilletRadius, adjustedStart - innerDelta);
+            element.setAttribute(
+                'y1',
+                outerPoint.y
+            );
 
-            const outerEndTangent = clockPoint(outerFilletRadius, adjustedEnd + outerDelta);
+            element.setAttribute(
+                'x2',
+                innerPoint.x
+            );
 
-            const innerEndTangent = clockPoint(innerFilletRadius, adjustedEnd + innerDelta);
+            element.setAttribute(
+                'y2',
+                innerPoint.y
+            );
+
+        }
 
 
-            const largeArcFlag = (adjustedEnd - adjustedStart) > 180 ? 1 : 0;
+        /* ==================================================
+           診療帯生成
+        ================================================== */
+
+        function createBandPath(
+            startHour,
+            startMinute,
+            endHour,
+            endMinute,
+            radialInset = 0,
+            angleInset = 0
+        ){
+
+            const start =
+                timeToClockAngle(
+                    startHour,
+                    startMinute
+                );
+
+            const end =
+                timeToClockAngle(
+                    endHour,
+                    endMinute
+                );
+
+
+            let sweep =
+                end - start;
+
+
+            if(
+                sweep < 0
+            ){
+
+                sweep += 360;
+
+            }
+
+
+            if(
+                sweep <= 0 ||
+                sweep > 360
+            ){
+
+                throw new RangeError(
+                    '診療時間の範囲が不正です。'
+                );
+
+            }
+
+
+            const outerRadius =
+                OUTER_RADIUS -
+                radialInset;
+
+            const innerRadius =
+                INNER_RADIUS +
+                radialInset;
+
+
+            if(
+                innerRadius >= outerRadius
+            ){
+
+                throw new RangeError(
+                    '診療帯の内外半径が逆転しています。'
+                );
+
+            }
+
+
+            const localStart =
+                start +
+                angleInset;
+
+            const localEnd =
+                start +
+                sweep -
+                angleInset;
+
+
+            const r =
+                Math.min(
+                    CORNER_RADIUS,
+                    (
+                        outerRadius -
+                        innerRadius
+                    ) / 2 - .5
+                );
+
+
+            if(
+                r <= 0
+            ){
+
+                throw new RangeError(
+                    '診療帯の幅が狭すぎます。'
+                );
+
+            }
+
+
+            const midRadius =
+                (
+                    outerRadius +
+                    innerRadius
+                ) / 2;
+
+
+            const angularCorrection =
+                (
+                    r /
+                    midRadius
+                ) *
+                (
+                    180 /
+                    Math.PI
+                );
+
+
+            const adjustedStart =
+                localStart +
+                angularCorrection;
+
+            const adjustedEnd =
+                localEnd -
+                angularCorrection;
+
+
+            const outerFilletRadius =
+                outerRadius -
+                r;
+
+            const innerFilletRadius =
+                innerRadius +
+                r;
+
+
+            const outerDelta =
+                Math.asin(
+                    r /
+                    outerFilletRadius
+                ) *
+                180 /
+                Math.PI;
+
+
+            const innerDelta =
+                Math.asin(
+                    r /
+                    innerFilletRadius
+                ) *
+                180 /
+                Math.PI;
+
+
+            const outerStart =
+                clockPoint(
+                    outerRadius,
+                    adjustedStart
+                );
+
+            const outerEnd =
+                clockPoint(
+                    outerRadius,
+                    adjustedEnd
+                );
+
+            const innerEnd =
+                clockPoint(
+                    innerRadius,
+                    adjustedEnd
+                );
+
+            const innerStart =
+                clockPoint(
+                    innerRadius,
+                    adjustedStart
+                );
+
+
+            const outerStartTangent =
+                clockPoint(
+                    outerFilletRadius,
+                    adjustedStart -
+                    outerDelta
+                );
+
+            const innerStartTangent =
+                clockPoint(
+                    innerFilletRadius,
+                    adjustedStart -
+                    innerDelta
+                );
+
+            const outerEndTangent =
+                clockPoint(
+                    outerFilletRadius,
+                    adjustedEnd +
+                    outerDelta
+                );
+
+            const innerEndTangent =
+                clockPoint(
+                    innerFilletRadius,
+                    adjustedEnd +
+                    innerDelta
+                );
+
+
+            const largeArcFlag =
+                (
+                    adjustedEnd -
+                    adjustedStart
+                ) > 180
+                    ? 1
+                    : 0;
 
 
             return [
@@ -1170,118 +2036,273 @@ document.addEventListener(
         }
 
 
-        function setBand(element, startHour, startMinute, endHour, endMinute){
+        /* ==================================================
+           診療帯設定
+        ================================================== */
 
-            element.setAttribute('d', createBandPath(startHour, startMinute, endHour, endMinute));
+        function setBand(
+            element,
+            startHour,
+            startMinute,
+            endHour,
+            endMinute
+        ){
+
+            try{
+
+                element.setAttribute(
+                    'd',
+                    createBandPath(
+                        startHour,
+                        startMinute,
+                        endHour,
+                        endMinute
+                    )
+                );
+
+            }
+
+            catch(error){
+
+                console.error(
+                    '診療帯の描画に失敗しました。',
+                    error
+                );
+
+            }
 
         }
 
 
-        function setWhiteBand(element, startHour, startMinute, endHour, endMinute){
+        function setWhiteBand(
+            element,
+            startHour,
+            startMinute,
+            endHour,
+            endMinute
+        ){
 
-            element.setAttribute('d', createBandPath(startHour, startMinute, endHour, endMinute, WHITE_RADIAL_INSET, WHITE_ANGLE_INSET));
+            try{
+
+                element.setAttribute(
+                    'd',
+                    createBandPath(
+                        startHour,
+                        startMinute,
+                        endHour,
+                        endMinute,
+                        WHITE_RADIAL_INSET,
+                        WHITE_ANGLE_INSET
+                    )
+                );
+
+            }
+
+            catch(error){
+
+                console.error(
+                    '診療帯内部の描画に失敗しました。',
+                    error
+                );
+
+            }
 
         }
 
 
-        /* 外周沿い目盛り生成 */
+        /* ==================================================
+           外周目盛り
+        ================================================== */
 
         function createOuterMinuteTicks(){
 
-            const fragment = document.createDocumentFragment();
+            const fragment =
+                document.createDocumentFragment();
 
 
-            for(let minute = 0; minute < 60; minute++){
+            for(
+                let minute = 0;
+                minute < 60;
+                minute++
+            ){
 
-                const angle = minute * 6;
-
-
-                if(!isAngleInBands(angle)){
-
-                    let innerRadius = OUT_TICK_INNER;
-
-                    let className = 'outer-tick';
+                const angle =
+                    minute * 6;
 
 
-                    if(minute % 30 === 0 && minute !== 0){
+                if(
+                    !isAngleInBands(angle)
+                ){
 
-                        innerRadius = OUT_TICK_INNER_HALF;
+                    let innerRadius =
+                        OUT_TICK_INNER;
 
-                        className += ' half';
+                    let className =
+                        'outer-tick';
+
+
+                    if(
+                        minute % 30 === 0 &&
+                        minute !== 0
+                    ){
+
+                        innerRadius =
+                            OUT_TICK_INNER_HALF;
+
+                        className +=
+                            ' half';
 
                     }
 
-                    else if(minute % 15 === 0){
+                    else if(
+                        minute % 15 === 0
+                    ){
 
-                        innerRadius = OUT_TICK_INNER_QUARTER;
+                        innerRadius =
+                            OUT_TICK_INNER_QUARTER;
 
-                        className += ' quarter';
-
-                    }
-
-                    else if(minute % 5 === 0){
-
-                        innerRadius = OUT_TICK_INNER_FIVE;
-
-                        className += ' five';
+                        className +=
+                            ' quarter';
 
                     }
 
+                    else if(
+                        minute % 5 === 0
+                    ){
 
-                    const outerPoint = clockPoint(OUT_TICK_OUTER, angle);
+                        innerRadius =
+                            OUT_TICK_INNER_FIVE;
 
-                    const innerPoint = clockPoint(innerRadius, angle);
+                        className +=
+                            ' five';
 
-
-                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-
-                    line.setAttribute('class', className);
-
-                    line.setAttribute('x1', outerPoint.x);
-
-                    line.setAttribute('y1', outerPoint.y);
-
-                    line.setAttribute('x2', innerPoint.x);
-
-                    line.setAttribute('y2', innerPoint.y);
+                    }
 
 
-                    fragment.appendChild(line);
+                    const outerPoint =
+                        clockPoint(
+                            OUT_TICK_OUTER,
+                            angle
+                        );
+
+                    const innerPoint =
+                        clockPoint(
+                            innerRadius,
+                            angle
+                        );
+
+
+                    const line =
+                        document.createElementNS(
+                            'http://www.w3.org/2000/svg',
+                            'line'
+                        );
+
+
+                    line.setAttribute(
+                        'class',
+                        className
+                    );
+
+                    line.setAttribute(
+                        'x1',
+                        outerPoint.x
+                    );
+
+                    line.setAttribute(
+                        'y1',
+                        outerPoint.y
+                    );
+
+                    line.setAttribute(
+                        'x2',
+                        innerPoint.x
+                    );
+
+                    line.setAttribute(
+                        'y2',
+                        innerPoint.y
+                    );
+
+
+                    fragment.appendChild(
+                        line
+                    );
 
                 }
 
 
-                const halfAngle = angle + 3;
+                /*
+                 * 分目盛りの間に小さな点を置く。
+                 *
+                 * 診療帯上では表示しないことで、
+                 * 帯の視認性を維持する。
+                 */
 
-                if(!isAngleInBands(halfAngle)){
-
-                    const dotPoint = clockPoint(OUT_DOT_RADIUS, halfAngle);
-
-
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-
-                    circle.setAttribute('class', 'outer-dot');
-
-                    circle.setAttribute('cx', dotPoint.x);
-
-                    circle.setAttribute('cy', dotPoint.y);
-
-                    circle.setAttribute('r', '0.75');
+                const halfAngle =
+                    angle + 3;
 
 
-                    fragment.appendChild(circle);
+                if(
+                    !isAngleInBands(
+                        halfAngle
+                    )
+                ){
+
+                    const dotPoint =
+                        clockPoint(
+                            OUT_DOT_RADIUS,
+                            halfAngle
+                        );
+
+
+                    const circle =
+                        document.createElementNS(
+                            'http://www.w3.org/2000/svg',
+                            'circle'
+                        );
+
+
+                    circle.setAttribute(
+                        'class',
+                        'outer-dot'
+                    );
+
+                    circle.setAttribute(
+                        'cx',
+                        dotPoint.x
+                    );
+
+                    circle.setAttribute(
+                        'cy',
+                        dotPoint.y
+                    );
+
+                    circle.setAttribute(
+                        'r',
+                        '0.75'
+                    );
+
+
+                    fragment.appendChild(
+                        circle
+                    );
 
                 }
 
             }
 
 
-            outerClockTicks.appendChild(fragment);
+            outerClockTicks.appendChild(
+                fragment
+            );
 
         }
 
 
-        /* 数字生成 */
+        /* ==================================================
+           時計数字
+        ================================================== */
 
         function createClockNumbers(){
 
@@ -1290,160 +2311,497 @@ document.addEventListener(
             clock24.replaceChildren();
 
 
-            for(let hour = 1; hour <= 12; hour++){
+            for(
+                let hour = 1;
+                hour <= 12;
+                hour++
+            ){
 
-                const clockAngle = hour === 12 ? 0 : hour * 30;
-
-                const point = clockPoint(INNER_NUMBER_RADIUS, clockAngle);
-
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-
-
-                let className = 'hour12';
-
-                if(hour >= 1 && hour <= 7) className += ' small';
-
-                if(hour === 12) className += ' twelve';
+                const clockAngle =
+                    hour === 12
+                        ? 0
+                        : hour * 30;
 
 
-                text.setAttribute('class', className);
+                const point =
+                    clockPoint(
+                        INNER_NUMBER_RADIUS,
+                        clockAngle
+                    );
 
-                text.setAttribute('x', point.x);
 
-                text.setAttribute('y', point.y);
+                const text =
+                    document.createElementNS(
+                        'http://www.w3.org/2000/svg',
+                        'text'
+                    );
 
-                text.textContent = String(hour);
 
-                clock12.appendChild(text);
+                let className =
+                    'hour12';
+
+
+                if(
+                    hour >= 1 &&
+                    hour <= 7
+                ){
+
+                    className +=
+                        ' small';
+
+                }
+
+
+                if(
+                    hour === 12
+                ){
+
+                    className +=
+                        ' twelve';
+
+                }
+
+
+                text.setAttribute(
+                    'class',
+                    className
+                );
+
+                text.setAttribute(
+                    'x',
+                    point.x
+                );
+
+                text.setAttribute(
+                    'y',
+                    point.y
+                );
+
+                text.textContent =
+                    String(hour);
+
+
+                clock12.appendChild(
+                    text
+                );
 
             }
 
 
-            for(let hour = 0; hour < 12; hour++){
+            for(
+                let hour = 0;
+                hour < 12;
+                hour++
+            ){
 
-                const clockAngle = hour * 30;
-
-                const displayHour = hour === 0 ? 24 : hour + 12;
-
-                const point = clockPoint(OUTER_NUMBER_RADIUS, clockAngle);
-
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-
-
-                const className = displayHour >= 13 && displayHour <= 19 ? 'hour24 large' : 'hour24';
+                const clockAngle =
+                    hour * 30;
 
 
-                text.setAttribute('class', className);
+                const displayHour =
+                    hour === 0
+                        ? 24
+                        : hour + 12;
 
-                text.setAttribute('x', point.x);
 
-                text.setAttribute('y', point.y);
+                const point =
+                    clockPoint(
+                        OUTER_NUMBER_RADIUS,
+                        clockAngle
+                    );
 
-                text.textContent = String(displayHour);
 
-                clock24.appendChild(text);
+                const text =
+                    document.createElementNS(
+                        'http://www.w3.org/2000/svg',
+                        'text'
+                    );
+
+
+                const className =
+                    displayHour >= 13 &&
+                    displayHour <= 19
+                        ? 'hour24 large'
+                        : 'hour24';
+
+
+                text.setAttribute(
+                    'class',
+                    className
+                );
+
+                text.setAttribute(
+                    'x',
+                    point.x
+                );
+
+                text.setAttribute(
+                    'y',
+                    point.y
+                );
+
+                text.textContent =
+                    String(displayHour);
+
+
+                clock24.appendChild(
+                    text
+                );
 
             }
 
         }
 
 
-        /* 診療時間（帯）の設定 */
+        /* ==================================================
+           診療時間設定
+        ================================================== */
 
-        setBand(morningBand, 9, 0, 12, 0);
+        setBand(
+            morningBand,
+            9,
+            0,
+            12,
+            0
+        );
 
-        setWhiteBand(morningWhite, 9, 0, 12, 0);
-
-
-        setBand(visitBand, 13, 30, 16, 30);
-
-        setWhiteBand(visitWhite, 13, 30, 16, 30);
-
-
-        setBand(eveningBand, 17, 30, 19, 30);
-
-        setWhiteBand(eveningWhite, 17, 30, 19, 30);
-
-
-        /* 受付時間（外側アーク＆光層＆端点ドット）の設定：開始15分前〜終了30分前 */
-
-        const morningArcPath = createArcPath(8, 45, 11, 30, RECEPTION_RADIUS);
-
-        const eveningArcPath = createArcPath(5, 15, 7, 0, RECEPTION_RADIUS);
+        setWhiteBand(
+            morningWhite,
+            9,
+            0,
+            12,
+            0
+        );
 
 
-        /* 午前診（9:00〜12:00）→ 受付：8:45〜11:30 */
+        setBand(
+            visitBand,
+            13,
+            30,
+            16,
+            30
+        );
 
-        morningReceptionArc.setAttribute('d', morningArcPath);
+        setWhiteBand(
+            visitWhite,
+            13,
+            30,
+            16,
+            30
+        );
 
-        morningReceptionGlow.setAttribute('d', morningArcPath);
 
-        setReceptionEndpoints(morningReceptionStart, morningReceptionEnd, 8, 45, 11, 30, RECEPTION_RADIUS);
+        setBand(
+            eveningBand,
+            17,
+            30,
+            19,
+            30
+        );
+
+        setWhiteBand(
+            eveningWhite,
+            17,
+            30,
+            19,
+            30
+        );
 
 
-        /* 午後診（17:30〜19:30）→ 受付：17:15〜19:00 */
+        /* ==================================================
+           受付時間
+        ================================================== */
 
-        eveningReceptionArc.setAttribute('d', eveningArcPath);
+        /*
+         * 午前
+         *
+         * 診療：9:00〜12:00
+         * 受付：8:45〜11:30
+         */
 
-        eveningReceptionGlow.setAttribute('d', eveningArcPath);
+        const morningReceptionPath =
+            createArcPath(
+                8,
+                45,
+                11,
+                30,
+                RECEPTION_RADIUS
+            );
 
-        setReceptionEndpoints(eveningReceptionStart, eveningReceptionEnd, 5, 15, 7, 0, RECEPTION_RADIUS);
 
+        morningReceptionArc.setAttribute(
+            'd',
+            morningReceptionPath
+        );
+
+
+        morningReceptionGlow.setAttribute(
+            'd',
+            morningReceptionPath
+        );
+
+
+        setReceptionEndpoints(
+            morningReceptionStart,
+            morningReceptionEnd,
+            8,
+            45,
+            11,
+            30,
+            RECEPTION_RADIUS
+        );
+
+
+        /*
+         * 午後
+         *
+         * 診療：17:30〜19:30
+         * 受付：17:15〜19:00
+         */
+
+        const eveningReceptionPath =
+            createArcPath(
+                17,
+                15,
+                19,
+                0,
+                RECEPTION_RADIUS
+            );
+
+
+        eveningReceptionArc.setAttribute(
+            'd',
+            eveningReceptionPath
+        );
+
+
+        eveningReceptionGlow.setAttribute(
+            'd',
+            eveningReceptionPath
+        );
+
+
+        setReceptionEndpoints(
+            eveningReceptionStart,
+            eveningReceptionEnd,
+            17,
+            15,
+            19,
+            0,
+            RECEPTION_RADIUS
+        );
+
+
+        /* ==================================================
+           診療境界線
+        ================================================== */
+
+        /*
+         * 午前：
+         *
+         * 9:00 ＝ 診療開始
+         * 12:00 ＝ 診療終了
+         *
+         * 受付線との関係を示すため、
+         * 外側から帯側へ短い境界線を入れる。
+         */
+
+        setBoundary(
+            morningOpenBoundary,
+            9,
+            0
+        );
+
+        setBoundary(
+            morningCloseBoundary,
+            12,
+            0
+        );
+
+
+        /*
+         * 午後
+         */
+
+        setBoundary(
+            eveningOpenBoundary,
+            17,
+            30
+        );
+
+        setBoundary(
+            eveningCloseBoundary,
+            19,
+            30
+        );
+
+
+        /* ==================================================
+           静的要素生成
+        ================================================== */
 
         createOuterMinuteTicks();
 
         createClockNumbers();
 
 
+        /* ==================================================
+           日本時間
+        ================================================== */
+
+        /**
+         * 現在の日本時間を取得する。
+         *
+         * 日本はUTC+9でDSTを採用していないため、
+         * Date.now()へ9時間を加えて時計計算に使用する。
+         *
+         * @returns {number} 日本時間基準のミリ秒
+         */
+
         function getJapanTimestamp(){
 
-            return Date.now() + 9 * 60 * 60 * 1000;
+            return (
+                Date.now() +
+                9 * 60 * 60 * 1000
+            );
 
         }
 
 
-        function updateClock(timestamp){
+        /* ==================================================
+           時計針
+        ================================================== */
 
-            const millisecondsInHour = 60 * 60 * 1000;
+        /**
+         * 現在時刻に合わせて時計針を滑らかに更新する。
+         *
+         * 秒未満まで計算することで、
+         * 秒針・分針・時針を連続的に動かす。
+         *
+         * @param {number} timestamp 日本時間基準のミリ秒
+         */
 
-            const millisecondsInMinute = 60 * 1000;
+        function updateClock(
+            timestamp
+        ){
+
+            const millisecondsInHour =
+                60 *
+                60 *
+                1000;
+
+            const millisecondsInMinute =
+                60 *
+                1000;
 
 
-            const hour = Math.floor(timestamp / millisecondsInHour) % 24;
-
-            const minute = Math.floor((timestamp % millisecondsInHour) / millisecondsInMinute);
-
-            const secondFraction = (timestamp % millisecondsInMinute) / millisecondsInMinute;
-
-
-            const secondAngle = secondFraction * 360;
-
-            const minuteAngle = (minute + secondFraction) * 6;
-
-            const hourAngle = ((hour % 12) + (minute + secondFraction) / 60) * 30;
+            const hour =
+                Math.floor(
+                    timestamp /
+                    millisecondsInHour
+                ) % 24;
 
 
-            hourHand.setAttribute('transform', `rotate(${hourAngle} 200 200)`);
+            const minute =
+                Math.floor(
+                    (
+                        timestamp %
+                        millisecondsInHour
+                    ) /
+                    millisecondsInMinute
+                );
 
-            minuteHand.setAttribute('transform', `rotate(${minuteAngle} 200 200)`);
 
-            secondHand.setAttribute('transform', `rotate(${secondAngle} 200 200)`);
+            const secondFraction =
+                (
+                    timestamp %
+                    millisecondsInMinute
+                ) /
+                millisecondsInMinute;
+
+
+            const secondAngle =
+                secondFraction *
+                360;
+
+
+            const minuteAngle =
+                (
+                    minute +
+                    secondFraction
+                ) *
+                6;
+
+
+            const hourAngle =
+                (
+                    (
+                        hour % 12
+                    ) +
+                    (
+                        minute +
+                        secondFraction
+                    ) / 60
+                ) *
+                30;
+
+
+            hourHand.setAttribute(
+                'transform',
+                `rotate(${hourAngle} 200 200)`
+            );
+
+
+            minuteHand.setAttribute(
+                'transform',
+                `rotate(${minuteAngle} 200 200)`
+            );
+
+
+            secondHand.setAttribute(
+                'transform',
+                `rotate(${secondAngle} 200 200)`
+            );
 
         }
 
+
+        /* ==================================================
+           アニメーション
+        ================================================== */
+
+        /**
+         * requestAnimationFrameで時計を連続運針する。
+         *
+         * @returns {void}
+         */
 
         function animateClock(){
 
-            updateClock(getJapanTimestamp());
+            updateClock(
+                getJapanTimestamp()
+            );
 
-            requestAnimationFrame(animateClock);
+
+            requestAnimationFrame(
+                animateClock
+            );
 
         }
 
 
-        updateClock(getJapanTimestamp());
+        /* ==================================================
+           初期表示
+        ================================================== */
 
-        requestAnimationFrame(animateClock);
+        updateClock(
+            getJapanTimestamp()
+        );
+
+
+        requestAnimationFrame(
+            animateClock
+        );
 
     }
 
