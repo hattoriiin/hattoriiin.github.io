@@ -10,6 +10,11 @@
     content="width=device-width, initial-scale=1.0"
 >
 
+<meta
+    name="description"
+    content="服部医院の外来診療時間。午前診9:00〜12:00、訪問診療13:30〜16:30、午後診17:30〜19:30。"
+>
+
 <title>服部医院｜外来診療時間</title>
 
 
@@ -23,11 +28,9 @@
     box-sizing:border-box;
 }
 
-
 html{
     scroll-behavior:smooth;
 }
-
 
 body{
 
@@ -48,15 +51,15 @@ body{
 
 
 /* ==================================================
-   スクリーンリーダー専用テキスト
+   アクセシビリティ
 ================================================== */
 
 /*
- * 時計本体は aria-hidden="true" としているため、
- * 診療時間を読み上げるための情報はここに固定する。
+ * 時計そのものは aria-hidden="true" なので、
+ * スクリーンリーダーには静的な診療時間だけを読ませる。
  *
- * 視覚上は表示しないが、スクリーンリーダーからは
- * 「午前診 9:00〜12:00」のように読み上げられる。
+ * display:none ではなく視覚的にだけ隠すことで、
+ * 支援技術からは情報として認識できるようにする。
  */
 
 .sr-only{
@@ -212,6 +215,66 @@ body{
 
 
 /* ==================================================
+   分目盛り
+================================================== */
+
+/*
+ * 1分＝6°。
+ *
+ * すべてを同じ強さにすると目盛りがうるさくなるため、
+ *
+ * ・1分　→ ごく薄い短い目盛り
+ * ・5分　→ 少し長くする
+ * ・15分 → さらに明確
+ * ・30分 → 最も明確
+ *
+ * という階層を作る。
+ *
+ * これにより13:30や17:30など、
+ * 「30分」の位置を視覚的に読み取りやすくする。
+ */
+
+.minute-tick{
+
+    stroke:#31556e;
+
+    stroke-linecap:round;
+
+    opacity:.16;
+
+    vector-effect:non-scaling-stroke;
+
+}
+
+
+.minute-tick.five{
+
+    opacity:.28;
+
+    stroke-width:1.1;
+
+}
+
+
+.minute-tick.quarter{
+
+    opacity:.38;
+
+    stroke-width:1.3;
+
+}
+
+
+.minute-tick.half{
+
+    opacity:.55;
+
+    stroke-width:1.7;
+
+}
+
+
+/* ==================================================
    時間帯
 ================================================== */
 
@@ -223,10 +286,10 @@ body{
 
 
 /*
- * 色付きの時間帯本体。
+ * ベース帯。
  *
- * 白抜けは別レイヤーにしているため、
- * 帯の外周・内周には色が残る。
+ * 色の土台として使用する。
+ * 白抜けは別レイヤーで処理する。
  */
 
 .band-base.blue{
@@ -246,10 +309,10 @@ body{
 
 
 /*
- * 白抜け部分。
+ * 白レイヤー。
  *
- * ベース帯よりわずかに小さくすることで、
- * 帯の周囲に色の縁を残す。
+ * ベース帯より少し内側に配置することで、
+ * 外周・内周・始点・終点に色が残る。
  */
 
 .band-inner{
@@ -257,47 +320,6 @@ body{
     fill:#fff;
 
     opacity:.78;
-
-}
-
-
-/* ==================================================
-   分目盛り
-================================================== */
-
-.clock-tick{
-
-    stroke:
-        rgba(49,85,110,.18);
-
-    stroke-width:1;
-
-    stroke-linecap:round;
-
-}
-
-
-.clock-tick.major{
-
-    stroke:
-        rgba(49,85,110,.30);
-
-    stroke-width:1.5;
-
-}
-
-
-/*
- * 30分位置は開始・終了時間の視認性に重要なので、
- * 5分目盛りの中でも少し強くする。
- */
-
-.clock-tick.half{
-
-    stroke:
-        rgba(49,85,110,.42);
-
-    stroke-width:2;
 
 }
 
@@ -314,13 +336,72 @@ body{
 
 
 /*
- * 1〜12と13〜24は同じ書体を使用する。
+ * ==================================================
+ * 内側 1〜12
  *
- * サイズだけを変更することで、
- * 書体そのものの違いによる見え方の差をなくす。
+ * ここを基準フォントとする。
+ * ==================================================
  */
 
-.clock-face .hour12,
+.clock-face .hour12{
+
+    font-family:
+
+        "Bodoni 72",
+
+        "Didot",
+
+        "Bodoni MT",
+
+        "Times New Roman",
+
+        serif;
+
+    font-size:31px;
+
+    font-weight:500;
+
+    text-anchor:middle;
+
+    dominant-baseline:middle;
+
+    fill:#31556e;
+
+}
+
+
+/*
+ * 1〜7。
+ *
+ * 既存のデザイン上、小さめに設定。
+ */
+
+.clock-face .hour12.small{
+
+    font-size:15px;
+
+}
+
+
+/*
+ * 12。
+ */
+
+.clock-face .hour12.twelve{
+
+    font-size:33px;
+
+}
+
+
+/*
+ * ==================================================
+ * 外側 13〜24
+ *
+ * 内側と同じフォントを使用する。
+ * ==================================================
+ */
+
 .clock-face .hour24{
 
     font-family:
@@ -335,6 +416,8 @@ body{
 
         serif;
 
+    font-size:15px;
+
     font-weight:500;
 
     text-anchor:middle;
@@ -343,100 +426,20 @@ body{
 
     fill:#31556e;
 
-}
-
-
-/* ==================================================
-   内側 1〜12
-================================================== */
-
-.clock-face .hour12{
-
-    font-size:31px;
-
-}
-
-
-/*
- * 1〜7は小さめ。
- */
-
-.clock-face .hour12.small{
-
-    font-size:15px;
-
-}
-
-
-/*
- * 12だけ少し強調。
- */
-
-.clock-face .hour12.twelve{
-
-    font-size:33px;
-
-}
-
-
-/* ==================================================
-   外側 13〜24
-================================================== */
-
-.clock-face .hour24{
-
-    font-size:15px;
-
     opacity:.55;
 
 }
 
 
 /*
- * 13〜19は外側の時間帯表示として強調。
+ * 13〜19。
+ *
+ * 1〜7との視覚的な対応を維持する。
  */
 
 .clock-face .hour24.large{
 
     font-size:31px;
-
-}
-
-
-/* ==================================================
-   AM / PM
-================================================== */
-
-.am-pm{
-
-    font-family:
-
-        "Noto Sans JP",
-
-        "Hiragino Kaku Gothic ProN",
-
-        sans-serif;
-
-    font-size:11px;
-
-    font-weight:500;
-
-    letter-spacing:.12em;
-
-    text-anchor:middle;
-
-    dominant-baseline:middle;
-
-    fill:#31556e;
-
-    opacity:.55;
-
-}
-
-
-.am-pm.pm{
-
-    opacity:.72;
 
 }
 
@@ -452,6 +455,10 @@ body{
     stroke-linecap:round;
 
     opacity:.25;
+
+    transform-box:fill-box;
+
+    transform-origin:center;
 
 }
 
@@ -579,13 +586,6 @@ and
 
     }
 
-
-    .am-pm{
-
-        font-size:10px;
-
-    }
-
 }
 
 
@@ -595,14 +595,9 @@ and
 
 @media(max-width:380px){
 
-    /*
-     * 時計自体を極端に縮小させない。
-     * 数字と目盛りの視認性を優先する。
-     */
+    .page-main{
 
-    .time-ring{
-
-        min-width:270px;
+        padding:.5rem;
 
     }
 
@@ -610,6 +605,13 @@ and
     .clock-title{
 
         font-size:.92rem;
+
+    }
+
+
+    .time-ring{
+
+        min-width:260px;
 
     }
 
@@ -648,10 +650,23 @@ and
 
     }
 
+}
 
-    .am-pm{
 
-        font-size:9px;
+/* ==================================================
+   極小画面
+================================================== */
+
+/*
+ * 画面幅が極端に小さい場合だけ、
+ * min-widthによる横溢れを防ぐ。
+ */
+
+@media(max-width:300px){
+
+    .time-ring{
+
+        min-width:240px;
 
     }
 
@@ -697,7 +712,7 @@ and
             390px
         );
 
-        min-width:270px;
+        min-width:240px;
 
     }
 
@@ -736,25 +751,25 @@ and
 
     }
 
-
-    .am-pm{
-
-        font-size:9px;
-
-    }
-
 }
 
 
 /* ==================================================
-   動きを抑える設定
+   動きを抑える設定への対応
 ================================================== */
+
+/*
+ * OS側で「視差効果を減らす」等が指定されている場合、
+ * 秒針を連続運針させず、静かな表示にする。
+ *
+ * 医療機関サイトとして不要な動きを強制しないための処理。
+ */
 
 @media(prefers-reduced-motion:reduce){
 
-    html{
+    .clock-hand{
 
-        scroll-behavior:auto;
+        transition:none;
 
     }
 
@@ -771,36 +786,40 @@ and
 <main class="page-main">
 
 
-<section class="clock-area">
+<section
+    class="clock-area"
+    aria-labelledby="clockHeading"
+>
 
 
-<h1 class="clock-title">
+<h1
+    id="clockHeading"
+    class="clock-title"
+>
     外来診療時間
 </h1>
 
 
 <!-- ==================================================
-     スクリーンリーダー用診療時間
+     スクリーンリーダー用静的情報
 ================================================== -->
 
 <div class="sr-only">
 
-    <p>
-        服部医院の外来診療時間。
-    </p>
+    <p>服部医院の外来診療時間です。</p>
 
     <ul>
 
         <li>
-            午前診：9時00分から12時00分
+            午前診：9:00〜12:00
         </li>
 
         <li>
-            訪問診療：13時30分から16時30分
+            訪問診療：13:30〜16:30
         </li>
 
         <li>
-            午後診：17時30分から19時30分
+            午後診：17:30〜19:30
         </li>
 
     </ul>
@@ -811,10 +830,14 @@ and
 <div class="time-ring">
 
 
+<!-- ==================================================
+     時計本体
+================================================== -->
+
 <svg
     viewBox="0 0 400 400"
-    role="img"
     aria-hidden="true"
+    focusable="false"
 >
 
 
@@ -927,6 +950,16 @@ and
 
 
 <!-- ==================================================
+     分目盛り
+================================================== -->
+
+<g
+    id="clockTicks"
+    aria-hidden="true"
+></g>
+
+
+<!-- ==================================================
      外周
 ================================================== -->
 
@@ -936,16 +969,6 @@ and
     cy="200"
     r="180"
 />
-
-
-<!-- ==================================================
-     分目盛り
-================================================== -->
-
-<g
-    id="clockTicks"
-    aria-hidden="true"
-></g>
 
 
 <!-- ==================================================
@@ -992,37 +1015,16 @@ and
      時計数字
 ================================================== -->
 
-<g class="clock-face">
+<g
+    class="clock-face"
+    aria-hidden="true"
+>
 
     <g id="clock12"></g>
 
     <g id="clock24"></g>
 
 </g>
-
-
-<!-- ==================================================
-     AM / PM
-================================================== -->
-
-<text
-    id="amIndicator"
-    class="am-pm"
-    x="200"
-    y="184"
->
-    AM
-</text>
-
-
-<text
-    id="pmIndicator"
-    class="am-pm pm"
-    x="200"
-    y="216"
->
-    PM
-</text>
 
 
 <!-- ==================================================
@@ -1088,76 +1090,112 @@ and
 <script>
 
 /* ==================================================
-   時計初期化
+   時計初期設定
 ================================================== */
 
 document.addEventListener(
     'DOMContentLoaded',
-    () => {
+    function(){
 
         /*
-         * --------------------------------------------------
-         * 基本設定
-         * --------------------------------------------------
+         * SVGの中心。
+         *
+         * viewBox 400×400 の中央を共通座標として使用する。
          */
 
         const SVG_CENTER = 200;
 
+
+        /*
+         * 外周半径。
+         *
+         * 既存の帯の外側位置を維持する。
+         */
+
         const OUTER_RADIUS = 180;
+
+
+        /*
+         * 内周半径。
+         *
+         * 既存の帯幅を維持する。
+         */
 
         const INNER_RADIUS = 100;
 
+
+        /*
+         * 帯の角丸。
+         *
+         * 小さすぎる時間帯でも破綻しないよう、
+         * createBandPath() 内で実際の幅に合わせて制限する。
+         */
+
         const CORNER_RADIUS = 5;
 
+
+        /*
+         * 白抜けの放射方向縮小量。
+         *
+         * 帯の外周・内周に青または緑を残す。
+         */
+
         const WHITE_RADIAL_INSET = 3;
+
+
+        /*
+         * 白抜けの時間方向縮小量。
+         *
+         * 帯の始点・終点にも色を残す。
+         */
 
         const WHITE_ANGLE_INSET = 1.5;
 
 
         /*
-         * --------------------------------------------------
-         * 数字の配置半径
-         * --------------------------------------------------
+         * 内側の12時間数字。
          */
 
         const INNER_NUMBER_RADIUS = 126;
+
+
+        /*
+         * 外側の24時間数字。
+         *
+         * 以前より中心方向へ寄せた現在値を維持する。
+         */
 
         const OUTER_NUMBER_RADIUS = 150;
 
 
         /*
-         * --------------------------------------------------
-         * SVG名前空間
-         * --------------------------------------------------
+         * 分目盛りの配置半径。
+         *
+         * 外側24時間数字より外に置き、
+         * 数字と重ならないようにする。
          */
 
-        const SVG_NS =
-            'http://www.w3.org/2000/svg';
+        const TICK_OUTER_RADIUS = 176;
 
 
         /*
-         * --------------------------------------------------
-         * DOM要素
+         * 分目盛りの内側位置。
          *
-         * 毎回 querySelector / getElementById を行わず、
-         * 最初に取得した要素を再利用する。
-         * --------------------------------------------------
+         * 種類ごとに長さを変える。
          */
 
-        const clock12 =
-            document.getElementById(
-                'clock12'
-            );
+        const TICK_INNER_RADIUS = 171;
 
-        const clock24 =
-            document.getElementById(
-                'clock24'
-            );
+        const TICK_INNER_RADIUS_FIVE = 169;
 
-        const clockTicks =
-            document.getElementById(
-                'clockTicks'
-            );
+        const TICK_INNER_RADIUS_QUARTER = 167;
+
+        const TICK_INNER_RADIUS_HALF = 164;
+
+
+        /* ==================================================
+           DOM要素を一度だけ取得
+        ================================================== */
 
         const morningBand =
             document.getElementById(
@@ -1189,6 +1227,21 @@ document.addEventListener(
                 'eveningWhite'
             );
 
+        const clock12 =
+            document.getElementById(
+                'clock12'
+            );
+
+        const clock24 =
+            document.getElementById(
+                'clock24'
+            );
+
+        const clockTicks =
+            document.getElementById(
+                'clockTicks'
+            );
+
         const hourHand =
             document.querySelector(
                 '.clock-hand.hour'
@@ -1204,59 +1257,31 @@ document.addEventListener(
                 '.clock-hand.second'
             );
 
-        const amIndicator =
-            document.getElementById(
-                'amIndicator'
-            );
-
-        const pmIndicator =
-            document.getElementById(
-                'pmIndicator'
-            );
-
 
         /*
-         * --------------------------------------------------
-         * 必須要素の確認
+         * 必須DOMが欠けている場合は、
+         * JavaScriptだけがエラーを連発しないよう初期化を中止する。
          *
-         * HTML側の記述漏れがあっても、
-         * JavaScript全体を無言で停止させない。
-         * --------------------------------------------------
+         * HTML構造のミスをコンソールへ1回だけ通知する。
          */
 
-        const requiredElements = [
-
-            clock12,
-            clock24,
-            clockTicks,
-
-            morningBand,
-            morningWhite,
-
-            visitBand,
-            visitWhite,
-
-            eveningBand,
-            eveningWhite,
-
-            hourHand,
-            minuteHand,
-            secondHand,
-
-            amIndicator,
-            pmIndicator
-
-        ];
-
-
         if(
-            requiredElements.some(
-                element => !element
-            )
+            !morningBand ||
+            !morningWhite ||
+            !visitBand ||
+            !visitWhite ||
+            !eveningBand ||
+            !eveningWhite ||
+            !clock12 ||
+            !clock24 ||
+            !clockTicks ||
+            !hourHand ||
+            !minuteHand ||
+            !secondHand
         ){
 
             console.error(
-                '時計に必要なHTML要素が見つかりません'
+                '時計の初期化に必要な要素が見つかりません。'
             );
 
             return;
@@ -1269,15 +1294,15 @@ document.addEventListener(
         ================================================== */
 
         /**
-         * 時刻を12時間盤上の角度へ変換する。
+         * 時刻を12時間時計上の角度へ変換する。
          *
-         * 12時を0°として時計回りに増加する。
+         * 12時を0°とし、時計回りを正方向とする。
          *
-         * @param {number} hour 時
-         * @param {number} minute 分
-         * @returns {number} 時計角度
+         * @param {number} hour 時刻の時
+         * @param {number} minute 時刻の分
+         * @returns {number} 0〜360°の時計角度
          * @throws {TypeError} 数値でない場合
-         * @throws {RangeError} 分が0〜59でない場合
+         * @throws {RangeError} 時・分の範囲が不正な場合
          *
          * @example
          * timeToClockAngle(9, 0); // 270
@@ -1294,19 +1319,33 @@ document.addEventListener(
             ){
 
                 throw new TypeError(
-                    '時刻は数値で指定してください'
+                    '時刻は数値で指定してください。'
                 );
 
             }
 
 
             if(
-                minute < 0 ||
-                minute >= 60
+                !Number.isInteger(hour) ||
+                hour < 0 ||
+                hour > 23
             ){
 
                 throw new RangeError(
-                    '分は0〜59で指定してください'
+                    '時は0〜23の整数で指定してください。'
+                );
+
+            }
+
+
+            if(
+                !Number.isInteger(minute) ||
+                minute < 0 ||
+                minute > 59
+            ){
+
+                throw new RangeError(
+                    '分は0〜59の整数で指定してください。'
                 );
 
             }
@@ -1323,26 +1362,6 @@ document.addEventListener(
 
 
         /* ==================================================
-           時計角度 → SVG角度
-        ================================================== */
-
-        /**
-         * 時計角度をSVG角度へ変換する。
-         *
-         * @param {number} clockAngle 時計角度
-         * @returns {number} SVG角度
-         */
-
-        function clockToSvgAngle(
-            clockAngle
-        ){
-
-            return clockAngle - 90;
-
-        }
-
-
-        /* ==================================================
            角度正規化
         ================================================== */
 
@@ -1351,16 +1370,54 @@ document.addEventListener(
          *
          * @param {number} angle 角度
          * @returns {number} 正規化された角度
+         * @throws {TypeError} 数値でない場合
+         *
+         * @example
+         * normalizeAngle(-30); // 330
          */
 
         function normalizeAngle(
             angle
         ){
 
+            if(
+                !Number.isFinite(angle)
+            ){
+
+                throw new TypeError(
+                    '角度は数値で指定してください。'
+                );
+
+            }
+
+
             return (
                 angle % 360 +
                 360
             ) % 360;
+
+        }
+
+
+        /* ==================================================
+           時計角度 → SVG角度
+        ================================================== */
+
+        /**
+         * 時計角度をSVG角度へ変換する。
+         *
+         * @param {number} clockAngle 時計角度
+         * @returns {number} SVG角度
+         *
+         * @example
+         * clockToSvgAngle(0); // -90
+         */
+
+        function clockToSvgAngle(
+            clockAngle
+        ){
+
+            return clockAngle - 90;
 
         }
 
@@ -1375,12 +1432,27 @@ document.addEventListener(
          * @param {number} radius 半径
          * @param {number} svgAngle SVG角度
          * @returns {{x:number,y:number}} SVG座標
+         *
+         * @example
+         * polarToPoint(180, -90);
          */
 
         function polarToPoint(
             radius,
             svgAngle
         ){
+
+            if(
+                !Number.isFinite(radius) ||
+                !Number.isFinite(svgAngle)
+            ){
+
+                throw new TypeError(
+                    '半径と角度は数値で指定してください。'
+                );
+
+            }
+
 
             const radians =
                 svgAngle *
@@ -1415,6 +1487,9 @@ document.addEventListener(
          * @param {number} radius 半径
          * @param {number} clockAngle 時計角度
          * @returns {{x:number,y:number}} SVG座標
+         *
+         * @example
+         * clockPoint(150, 90);
          */
 
         function clockPoint(
@@ -1433,72 +1508,17 @@ document.addEventListener(
 
 
         /* ==================================================
-           時刻を分へ変換
-        ================================================== */
-
-        /**
-         * 時刻を1日の中の分数へ変換する。
-         *
-         * 日跨ぎ判定を角度ではなく時刻そのもので行うために使用する。
-         *
-         * @param {number} hour 時
-         * @param {number} minute 分
-         * @returns {number} 0〜1439の分数
-         */
-
-        function timeToMinutes(
-            hour,
-            minute
-        ){
-
-            if(
-                !Number.isInteger(hour) ||
-                hour < 0 ||
-                hour > 23
-            ){
-
-                throw new RangeError(
-                    '時は0〜23で指定してください'
-                );
-
-            }
-
-
-            if(
-                !Number.isInteger(minute) ||
-                minute < 0 ||
-                minute > 59
-            ){
-
-                throw new RangeError(
-                    '分は0〜59で指定してください'
-                );
-
-            }
-
-
-            return (
-                hour * 60 +
-                minute
-            );
-
-        }
-
-
-        /* ==================================================
            円環帯生成
         ================================================== */
 
         /**
          * 閉じた円環状の時間帯を生成する。
          *
-         * 終了時刻が開始時刻より前の場合は、
-         * 12時間盤上で時計を1周またぐものとして扱う。
+         * 終了時刻が開始時刻より前の場合も、
+         * 時計を1周して終了する日跨ぎとして扱う。
          *
          * 例：
-         * 21:00 → 02:00
-         *
-         * 21時から2時まで5時間として描画する。
+         * 21:00 → 2:00
          *
          * @param {number} startHour 開始時
          * @param {number} startMinute 開始分
@@ -1507,7 +1527,10 @@ document.addEventListener(
          * @param {number} radialInset 放射方向の縮小量
          * @param {number} angleInset 角度方向の縮小量
          * @returns {string} SVG path
-         * @throws {RangeError} 時間範囲が不正な場合
+         * @throws {RangeError} 時間帯が不正な場合
+         *
+         * @example
+         * createBandPath(9,0,12,0);
          */
 
         function createBandPath(
@@ -1519,57 +1542,6 @@ document.addEventListener(
             angleInset = 0
         ){
 
-            const startMinutes =
-                timeToMinutes(
-                    startHour,
-                    startMinute
-                );
-
-
-            const endMinutes =
-                timeToMinutes(
-                    endHour,
-                    endMinute
-                );
-
-
-            /*
-             * まず実際の経過時間を計算する。
-             *
-             * 終了時刻が開始時刻より前なら日跨ぎ。
-             */
-
-            let durationMinutes =
-                endMinutes -
-                startMinutes;
-
-
-            if(
-                durationMinutes <= 0
-            ){
-
-                durationMinutes += 24 * 60;
-
-            }
-
-
-            /*
-             * この時計は12時間盤なので、
-             * 24時間を超える帯は表現できない。
-             */
-
-            if(
-                durationMinutes <= 0 ||
-                durationMinutes > 12 * 60
-            ){
-
-                throw new RangeError(
-                    '時間帯は12時間以内で指定してください'
-                );
-
-            }
-
-
             const start =
                 timeToClockAngle(
                     startHour,
@@ -1577,26 +1549,63 @@ document.addEventListener(
                 );
 
 
-            const sweep =
-                durationMinutes /
-                2;
+            const end =
+                timeToClockAngle(
+                    endHour,
+                    endMinute
+                );
+
+
+            /*
+             * まず通常の差分を求める。
+             *
+             * 終了側が小さい場合は、
+             * 360°を足して日跨ぎを表現する。
+             */
+
+            let sweep =
+                end - start;
 
 
             if(
-                sweep <= 0 ||
-                sweep >= 360
+                sweep < 0
+            ){
+
+                sweep += 360;
+
+            }
+
+
+            /*
+             * 同じ時刻は「12時間帯」と解釈すると
+             * 意図しない巨大な帯になる可能性があるため拒否する。
+             */
+
+            if(
+                sweep === 0
             ){
 
                 throw new RangeError(
-                    '時間帯の角度範囲が不正です'
+                    '開始時刻と終了時刻を同じにはできません。'
                 );
 
             }
 
 
-            const end =
-                start +
-                sweep;
+            /*
+             * 12時間を超える診療帯は、
+             * この時計の1周構造では表現しない。
+             */
+
+            if(
+                sweep > 360
+            ){
+
+                throw new RangeError(
+                    '時間帯は12時間以内で指定してください。'
+                );
+
+            }
 
 
             const outerRadius =
@@ -1614,7 +1623,7 @@ document.addEventListener(
             ){
 
                 throw new RangeError(
-                    '帯の内外径が不正です'
+                    '帯の内外半径が逆転しています。'
                 );
 
             }
@@ -1626,7 +1635,8 @@ document.addEventListener(
 
 
             const localEnd =
-                end -
+                start +
+                sweep -
                 angleInset;
 
 
@@ -1640,20 +1650,32 @@ document.addEventListener(
             ){
 
                 throw new RangeError(
-                    '帯の角度方向の余白が大きすぎます'
+                    '白抜けによって帯の角度範囲がなくなりました。'
                 );
 
             }
 
 
+            /*
+             * 角丸半径は帯幅を超えないよう制限する。
+             */
+
             const r =
                 Math.min(
                     CORNER_RADIUS,
-                    (
-                        outerRadius -
-                        innerRadius
-                    ) / 2 - .5
+                    (outerRadius - innerRadius) / 2 - .5
                 );
+
+
+            if(
+                r <= 0
+            ){
+
+                throw new RangeError(
+                    '帯幅が狭すぎて角丸を作れません。'
+                );
+
+            }
 
 
             const outerFilletRadius =
@@ -1772,67 +1794,21 @@ document.addEventListener(
 
                 `M ${outerStart.x} ${outerStart.y}`,
 
-                `A
-                    ${outerRadius}
-                    ${outerRadius}
-                    0
-                    ${largeArcFlag}
-                    1
-                    ${outerEnd.x}
-                    ${outerEnd.y}`,
+                `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${outerEnd.x} ${outerEnd.y}`,
 
-                `A
-                    ${r}
-                    ${r}
-                    0
-                    0
-                    1
-                    ${outerEndTangent.x}
-                    ${outerEndTangent.y}`,
+                `A ${r} ${r} 0 0 1 ${outerEndTangent.x} ${outerEndTangent.y}`,
 
-                `L
-                    ${innerEndTangent.x}
-                    ${innerEndTangent.y}`,
+                `L ${innerEndTangent.x} ${innerEndTangent.y}`,
 
-                `A
-                    ${r}
-                    ${r}
-                    0
-                    0
-                    1
-                    ${innerEnd.x}
-                    ${innerEnd.y}`,
+                `A ${r} ${r} 0 0 1 ${innerEnd.x} ${innerEnd.y}`,
 
-                `A
-                    ${innerRadius}
-                    ${innerRadius}
-                    0
-                    ${largeArcFlag}
-                    0
-                    ${innerStart.x}
-                    ${innerStart.y}`,
+                `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerStart.x} ${innerStart.y}`,
 
-                `A
-                    ${r}
-                    ${r}
-                    0
-                    0
-                    1
-                    ${innerStartTangent.x}
-                    ${innerStartTangent.y}`,
+                `A ${r} ${r} 0 0 1 ${innerStartTangent.x} ${innerStartTangent.y}`,
 
-                `L
-                    ${outerStartTangent.x}
-                    ${outerStartTangent.y}`,
+                `L ${outerStartTangent.x} ${outerStartTangent.y}`,
 
-                `A
-                    ${r}
-                    ${r}
-                    0
-                    0
-                    1
-                    ${outerStart.x}
-                    ${outerStart.y}`,
+                `A ${r} ${r} 0 0 1 ${outerStart.x} ${outerStart.y}`,
 
                 'Z'
 
@@ -1846,26 +1822,25 @@ document.addEventListener(
         ================================================== */
 
         /**
-         * SVG帯へ時間範囲を設定する。
+         * 指定したSVG要素へ時間帯パスを設定する。
          *
-         * @param {SVGPathElement} element 対象SVG path
+         * @param {SVGPathElement} element 対象path
          * @param {number} startHour 開始時
          * @param {number} startMinute 開始分
          * @param {number} endHour 終了時
          * @param {number} endMinute 終了分
-         * @param {number} radialInset 放射方向の縮小量
-         * @param {number} angleInset 角度方向の縮小量
          * @returns {boolean} 成功した場合true
+         *
+         * @example
+         * setBand(morningBand, 9, 0, 12, 0);
          */
 
-        function setBandPath(
+        function setBand(
             element,
             startHour,
             startMinute,
             endHour,
-            endMinute,
-            radialInset = 0,
-            angleInset = 0
+            endMinute
         ){
 
             try{
@@ -1876,9 +1851,7 @@ document.addEventListener(
                         startHour,
                         startMinute,
                         endHour,
-                        endMinute,
-                        radialInset,
-                        angleInset
+                        endMinute
                     )
                 );
 
@@ -1890,7 +1863,67 @@ document.addEventListener(
             catch(error){
 
                 console.error(
-                    '時間帯の生成に失敗しました',
+                    '時間帯の描画に失敗しました。',
+                    error
+                );
+
+
+                return false;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           白レイヤー設定
+        ================================================== */
+
+        /**
+         * ベース帯より小さい白レイヤーを設定する。
+         *
+         * @param {SVGPathElement} element 対象path
+         * @param {number} startHour 開始時
+         * @param {number} startMinute 開始分
+         * @param {number} endHour 終了時
+         * @param {number} endMinute 終了分
+         * @returns {boolean} 成功した場合true
+         *
+         * @example
+         * setWhiteBand(morningWhite, 9, 0, 12, 0);
+         */
+
+        function setWhiteBand(
+            element,
+            startHour,
+            startMinute,
+            endHour,
+            endMinute
+        ){
+
+            try{
+
+                element.setAttribute(
+                    'd',
+                    createBandPath(
+                        startHour,
+                        startMinute,
+                        endHour,
+                        endMinute,
+                        WHITE_RADIAL_INSET,
+                        WHITE_ANGLE_INSET
+                    )
+                );
+
+
+                return true;
+
+            }
+
+            catch(error){
+
+                console.error(
+                    '白レイヤーの描画に失敗しました。',
                     error
                 );
 
@@ -1907,117 +1940,98 @@ document.addEventListener(
         ================================================== */
 
         /**
-         * 5分刻みの目盛りを時計外周に生成する。
+         * 1分ごとの目盛りを生成する。
          *
-         * 30分位置だけ強調することで、
-         * 13:30や17:30などの位置を確認しやすくする。
+         * 1分＝6°として60個の目盛りを配置する。
+         *
+         * 5分、15分、30分で長さと濃さを変えることで、
+         * 30分単位の診療時間を読み取りやすくする。
          *
          * @returns {void}
+         *
+         * @example
+         * createMinuteTicks();
          */
 
-        function createTicks(){
+        function createMinuteTicks(){
 
-            clockTicks.replaceChildren();
-
-
-            const outerRadius = 174;
-
-            const shortInnerRadius = 169;
-
-            const majorInnerRadius = 167;
-
-            const halfInnerRadius = 164;
+            const fragment =
+                document.createDocumentFragment();
 
 
             for(
                 let minute = 0;
                 minute < 60;
-                minute += 5
+                minute++
             ){
 
                 const angle =
                     minute * 6;
 
 
-                const isHalf =
-                    minute === 30;
+                let innerRadius =
+                    TICK_INNER_RADIUS;
+
+                let className =
+                    'minute-tick';
 
 
-                const isMajor =
-                    minute % 15 === 0;
+                if(
+                    minute % 30 === 0
+                ){
+
+                    innerRadius =
+                        TICK_INNER_RADIUS_HALF;
+
+                    className +=
+                        ' half';
+
+                }
+
+                else if(
+                    minute % 15 === 0
+                ){
+
+                    innerRadius =
+                        TICK_INNER_RADIUS_QUARTER;
+
+                    className +=
+                        ' quarter';
+
+                }
+
+                else if(
+                    minute % 5 === 0
+                ){
+
+                    innerRadius =
+                        TICK_INNER_RADIUS_FIVE;
+
+                    className +=
+                        ' five';
+
+                }
 
 
-                const innerRadius =
-                    isHalf
-                        ? halfInnerRadius
-                        : isMajor
-                            ? majorInnerRadius
-                            : shortInnerRadius;
+                const outerPoint =
+                    clockPoint(
+                        TICK_OUTER_RADIUS,
+                        angle
+                    );
 
 
-                const start =
+                const innerPoint =
                     clockPoint(
                         innerRadius,
                         angle
                     );
 
 
-                const end =
-                    clockPoint(
-                        outerRadius,
-                        angle
-                    );
-
-
                 const line =
                     document.createElementNS(
-                        SVG_NS,
+                        'http://www.w3.org/2000/svg',
                         'line'
                     );
-
-
-                line.setAttribute(
-                    'x1',
-                    start.x
-                );
-
-
-                line.setAttribute(
-                    'y1',
-                    start.y
-                );
-
-
-                line.setAttribute(
-                    'x2',
-                    end.x
-                );
-
-
-                line.setAttribute(
-                    'y2',
-                    end.y
-                );
-
-
-                let className =
-                    'clock-tick';
-
-
-                if(isMajor){
-
-                    className +=
-                        ' major';
-
-                }
-
-
-                if(isHalf){
-
-                    className +=
-                        ' half';
-
-                }
 
 
                 line.setAttribute(
@@ -2026,11 +2040,51 @@ document.addEventListener(
                 );
 
 
-                clockTicks.appendChild(
+                line.setAttribute(
+                    'x1',
+                    outerPoint.x
+                );
+
+
+                line.setAttribute(
+                    'y1',
+                    outerPoint.y
+                );
+
+
+                line.setAttribute(
+                    'x2',
+                    innerPoint.x
+                );
+
+
+                line.setAttribute(
+                    'y2',
+                    innerPoint.y
+                );
+
+
+                /*
+                 * aria-hiddenは親グループでも指定しているが、
+                 * 生成要素単体でも装飾要素であることを明確にする。
+                 */
+
+                line.setAttribute(
+                    'aria-hidden',
+                    'true'
+                );
+
+
+                fragment.appendChild(
                     line
                 );
 
             }
+
+
+            clockTicks.appendChild(
+                fragment
+            );
 
         }
 
@@ -2043,9 +2097,17 @@ document.addEventListener(
          * 12時間表示と24時間表示を生成する。
          *
          * @returns {void}
+         *
+         * @example
+         * createClockNumbers();
          */
 
         function createClockNumbers(){
+
+            /*
+             * 再実行時に数字が二重にならないよう、
+             * 既存内容を先に消去する。
+             */
 
             clock12.replaceChildren();
 
@@ -2053,9 +2115,9 @@ document.addEventListener(
 
 
             /*
-             * --------------------------------------------------
+             * ------------------------------
              * 1〜12
-             * --------------------------------------------------
+             * ------------------------------
              */
 
             for(
@@ -2079,7 +2141,7 @@ document.addEventListener(
 
                 const text =
                     document.createElementNS(
-                        SVG_NS,
+                        'http://www.w3.org/2000/svg',
                         'text'
                     );
 
@@ -2087,6 +2149,13 @@ document.addEventListener(
                 let className =
                     'hour12';
 
+
+                /*
+                 * 1〜7だけ小さくする。
+                 *
+                 * 8〜11は基準サイズ、
+                 * 12は専用サイズとする。
+                 */
 
                 if(
                     hour >= 1 &&
@@ -2099,7 +2168,9 @@ document.addEventListener(
                 }
 
 
-                if(hour === 12){
+                if(
+                    hour === 12
+                ){
 
                     className +=
                         ' twelve';
@@ -2137,14 +2208,15 @@ document.addEventListener(
 
 
             /*
-             * --------------------------------------------------
+             * ------------------------------
              * 13〜24
+             * ------------------------------
              *
              * 12時方向 → 24
              * 1時方向  → 13
+             * 2時方向  → 14
              * …
              * 11時方向 → 23
-             * --------------------------------------------------
              */
 
             for(
@@ -2157,6 +2229,12 @@ document.addEventListener(
                     hour * 30;
 
 
+                const displayHour =
+                    hour === 0
+                        ? 24
+                        : hour + 12;
+
+
                 const point =
                     clockPoint(
                         OUTER_NUMBER_RADIUS,
@@ -2164,15 +2242,9 @@ document.addEventListener(
                     );
 
 
-                const displayHour =
-                    hour === 0
-                        ? 24
-                        : hour + 12;
-
-
                 const text =
                     document.createElementNS(
-                        SVG_NS,
+                        'http://www.w3.org/2000/svg',
                         'text'
                     );
 
@@ -2216,257 +2288,7 @@ document.addEventListener(
 
 
         /* ==================================================
-           AM / PM表示
-        ================================================== */
-
-        /**
-         * 現在時刻に応じてAM/PM表示を切り替える。
-         *
-         * SVG本体はaria-hiddenのため、
-         * この表示は視覚的な補助だけを目的とする。
-         *
-         * @param {number} hour 現在時
-         * @returns {void}
-         */
-
-        function updateAmPm(
-            hour
-        ){
-
-            const isPm =
-                hour >= 12;
-
-
-            amIndicator.setAttribute(
-                'opacity',
-                isPm
-                    ? '.25'
-                    : '.75'
-            );
-
-
-            pmIndicator.setAttribute(
-                'opacity',
-                isPm
-                    ? '.75'
-                    : '.25'
-            );
-
-        }
-
-
-        /* ==================================================
-           日本時間フォーマッター
-        ================================================== */
-
-        /*
-         * Intl.DateTimeFormat は毎回生成すると無駄なので、
-         * 時計開始時に1回だけ作る。
-         */
-
-        const japanTimeFormatter =
-            new Intl.DateTimeFormat(
-                'en-US',
-                {
-                    timeZone:'Asia/Tokyo',
-
-                    hour12:false,
-
-                    hour:'2-digit',
-                    minute:'2-digit',
-                    second:'2-digit'
-                }
-            );
-
-
-        /* ==================================================
-           日本時間取得
-        ================================================== */
-
-        /**
-         * 日本時間を取得する。
-         *
-         * ミリ秒も取得して秒針を滑らかに動かす。
-         *
-         * @returns {{
-         *     hour:number,
-         *     minute:number,
-         *     second:number,
-         *     millisecond:number
-         * }}
-         * @throws {Error} 時刻取得結果が不正な場合
-         */
-
-        function getJapanTime(){
-
-            const now =
-                new Date();
-
-
-            const parts =
-                japanTimeFormatter.formatToParts(
-                    now
-                );
-
-
-            const result = {};
-
-
-            for(
-                const part of parts
-            ){
-
-                if(
-                    part.type === 'hour' ||
-                    part.type === 'minute' ||
-                    part.type === 'second'
-                ){
-
-                    result[part.type] =
-                        Number(
-                            part.value
-                        );
-
-                }
-
-            }
-
-
-            if(
-                result.hour === 24
-            ){
-
-                result.hour = 0;
-
-            }
-
-
-            result.millisecond =
-                now.getMilliseconds();
-
-
-            if(
-                !Number.isInteger(
-                    result.hour
-                ) ||
-                !Number.isInteger(
-                    result.minute
-                ) ||
-                !Number.isInteger(
-                    result.second
-                )
-            ){
-
-                throw new Error(
-                    '日本時間の取得結果が不正です'
-                );
-
-            }
-
-
-            return result;
-
-        }
-
-
-        /* ==================================================
-           時計更新
-        ================================================== */
-
-        /**
-         * 日本時間に合わせて時計の針を更新する。
-         *
-         * 秒未満も計算するため、250ms周期でも秒針が
-         * 不自然に1秒ごとジャンプしにくい。
-         *
-         * @returns {void}
-         */
-
-        function updateClock(){
-
-            try{
-
-                const now =
-                    getJapanTime();
-
-
-                const seconds =
-                    now.second +
-                    now.millisecond / 1000;
-
-
-                const minutes =
-                    now.minute +
-                    seconds / 60;
-
-
-                const hours =
-                    (
-                        now.hour % 12
-                    ) +
-                    minutes / 60;
-
-
-                const secondAngle =
-                    seconds * 6;
-
-
-                const minuteAngle =
-                    minutes * 6;
-
-
-                const hourAngle =
-                    hours * 30;
-
-
-                /*
-                 * SVGのtransformは改行を含めず、
-                 * 単純な文字列として設定する。
-                 */
-
-                secondHand.setAttribute(
-                    'transform',
-                    `rotate(${secondAngle} 200 200)`
-                );
-
-
-                minuteHand.setAttribute(
-                    'transform',
-                    `rotate(${minuteAngle} 200 200)`
-                );
-
-
-                hourHand.setAttribute(
-                    'transform',
-                    `rotate(${hourAngle} 200 200)`
-                );
-
-
-                updateAmPm(
-                    now.hour
-                );
-
-            }
-
-            catch(error){
-
-                /*
-                 * 時計表示そのものを壊さず、
-                 * エラーだけを記録する。
-                 */
-
-                console.error(
-                    '時計更新に失敗しました',
-                    error
-                );
-
-            }
-
-        }
-
-
-        /* ==================================================
-           診療時間帯
+           診療時間の描画
         ================================================== */
 
         /*
@@ -2474,7 +2296,7 @@ document.addEventListener(
          * 9:00 → 12:00
          */
 
-        setBandPath(
+        setBand(
             morningBand,
             9,
             0,
@@ -2483,14 +2305,12 @@ document.addEventListener(
         );
 
 
-        setBandPath(
+        setWhiteBand(
             morningWhite,
             9,
             0,
             12,
-            0,
-            WHITE_RADIAL_INSET,
-            WHITE_ANGLE_INSET
+            0
         );
 
 
@@ -2499,7 +2319,7 @@ document.addEventListener(
          * 13:30 → 16:30
          */
 
-        setBandPath(
+        setBand(
             visitBand,
             13,
             30,
@@ -2508,14 +2328,12 @@ document.addEventListener(
         );
 
 
-        setBandPath(
+        setWhiteBand(
             visitWhite,
             13,
             30,
             16,
-            30,
-            WHITE_RADIAL_INSET,
-            WHITE_ANGLE_INSET
+            30
         );
 
 
@@ -2524,7 +2342,7 @@ document.addEventListener(
          * 17:30 → 19:30
          */
 
-        setBandPath(
+        setBand(
             eveningBand,
             17,
             30,
@@ -2533,71 +2351,242 @@ document.addEventListener(
         );
 
 
-        setBandPath(
+        setWhiteBand(
             eveningWhite,
             17,
             30,
             19,
-            30,
-            WHITE_RADIAL_INSET,
-            WHITE_ANGLE_INSET
+            30
         );
 
 
         /* ==================================================
-           静的要素生成
+           静的グラフィック生成
         ================================================== */
 
-        createTicks();
+        createMinuteTicks();
 
         createClockNumbers();
+
+
+        /* ==================================================
+           日本時間の取得
+        ================================================== */
+
+        /**
+         * 現在の日本時間をUnixミリ秒から算出する。
+         *
+         * 日本はUTC+9で、現在DSTを採用していないため、
+         * 毎フレームIntl.DateTimeFormatを呼び出す必要がない。
+         *
+         * @returns {number} 日本時間として扱うUTC基準ミリ秒
+         *
+         * @example
+         * const ms = getJapanTimestamp();
+         */
+
+        function getJapanTimestamp(){
+
+            return (
+                Date.now() +
+                9 * 60 * 60 * 1000
+            );
+
+        }
+
+
+        /* ==================================================
+           時計針更新
+        ================================================== */
+
+        /**
+         * 現在時刻に合わせて3本の針を連続的に更新する。
+         *
+         * 秒未満まで計算することで、
+         * 1秒ごとの「カチッ」という動きではなく、
+         * 滑らかな連続運針を実現する。
+         *
+         * @param {number} timestamp 日本時間のUnixミリ秒
+         * @returns {void}
+         *
+         * @example
+         * updateClock(Date.now() + 9 * 3600000);
+         */
+
+        function updateClock(
+            timestamp
+        ){
+
+            /*
+             * 1時間 = 3,600,000ms
+             * 1分   = 60,000ms
+             */
+
+            const millisecondsInHour =
+                60 * 60 * 1000;
+
+            const millisecondsInMinute =
+                60 * 1000;
+
+
+            const hour =
+                Math.floor(
+                    timestamp /
+                    millisecondsInHour
+                ) % 24;
+
+
+            const minute =
+                Math.floor(
+                    (
+                        timestamp %
+                        millisecondsInHour
+                    ) /
+                    millisecondsInMinute
+                );
+
+
+            const secondFraction =
+                (
+                    timestamp %
+                    millisecondsInMinute
+                ) /
+                millisecondsInMinute;
+
+
+            /*
+             * 秒針。
+             *
+             * 1分で360°回転する。
+             */
+
+            const secondAngle =
+                secondFraction * 360;
+
+
+            /*
+             * 分針。
+             *
+             * 秒の進行も含めるため、
+             * 分の途中でも滑らかに移動する。
+             */
+
+            const minuteAngle =
+                (
+                    minute +
+                    secondFraction
+                ) *
+                6;
+
+
+            /*
+             * 時針。
+             *
+             * 分・秒まで含めて滑らかに進む。
+             */
+
+            const hourAngle =
+                (
+                    (
+                        hour % 12
+                    ) +
+                    (
+                        minute +
+                        secondFraction
+                    ) / 60
+                ) *
+                30;
+
+
+            /*
+             * SVGのrotate()は1行の文字列として生成する。
+             *
+             * 不要な改行を入れず、
+             * SVGパーサーによる解釈の曖昧さを避ける。
+             */
+
+            hourHand.setAttribute(
+                'transform',
+                `rotate(${hourAngle} 200 200)`
+            );
+
+
+            minuteHand.setAttribute(
+                'transform',
+                `rotate(${minuteAngle} 200 200)`
+            );
+
+
+            secondHand.setAttribute(
+                'transform',
+                `rotate(${secondAngle} 200 200)`
+            );
+
+        }
+
+
+        /* ==================================================
+           アニメーション
+        ================================================== */
+
+        let animationFrameId =
+            null;
+
+
+        /**
+         * requestAnimationFrameによる連続運針を開始する。
+         *
+         * 毎フレームDOM検索やIntl処理を行わず、
+         * 数値計算と3本の針の更新だけを行う。
+         *
+         * @returns {void}
+         */
+
+        function animateClock(){
+
+            updateClock(
+                getJapanTimestamp()
+            );
+
+
+            animationFrameId =
+                requestAnimationFrame(
+                    animateClock
+                );
+
+        }
+
+
+        /* ==================================================
+           初期表示
+        ================================================== */
+
+        updateClock(
+            getJapanTimestamp()
+        );
 
 
         /* ==================================================
            時計開始
         ================================================== */
 
-        updateClock();
-
-
-        /*
-         * 1秒ではなく250msごとに現在時刻を確認する。
-         *
-         * ブラウザ側で実行が多少遅れても、
-         * 次回取得時には実際の現在時刻から角度を再計算するため、
-         * 「処理が遅れた分だけ時計が遅れる」という構造にはしない。
-         */
-
-        const clockTimer =
-            window.setInterval(
-                updateClock,
-                250
+        animationFrameId =
+            requestAnimationFrame(
+                animateClock
             );
 
 
         /*
-         * ページを離れる際にはタイマーを停止する。
+         * animationFrameIdは、将来このページに
+         * ページ離脱時の停止処理などを追加する際にも
+         * 利用できるよう保持している。
          *
-         * 通常のページ遷移では不要だが、
-         * SPA等に組み込んだ場合の不要な処理継続を防ぐ。
+         * 現時点ではブラウザがページ終了時に自動的に破棄する。
          */
 
-        window.addEventListener(
-            'pagehide',
-            () => {
-
-                window.clearInterval(
-                    clockTimer
-                );
-
-            },
-            {
-                once:true
-            }
-        );
+        void animationFrameId;
 
     }
-
 );
 
 </script>
