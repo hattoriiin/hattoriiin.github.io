@@ -20,6 +20,14 @@
    基本
 ================================================== */
 
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     margin:0;
     font-family:sans-serif;
@@ -34,6 +42,16 @@ main{
     padding:1.5rem;
     background:#fff;
 }
+
+section{
+    margin-bottom:2rem;
+}
+
+h2{
+    border-bottom:2px solid #ddd;
+    padding-bottom:.5rem;
+}
+
 
 /* ==================================================
    ヘッダー
@@ -60,9 +78,13 @@ header{
     );
 
     color:#fff;
+
     padding:.8rem 1rem;
+
     text-align:center;
+
     position:relative;
+
     overflow:hidden;
 
     box-shadow:
@@ -70,11 +92,11 @@ header{
         inset 0 -25px 40px rgba(0,0,0,.08);
 }
 
-/* ---------- ヘッダー光 ---------- */
-
 header::before{
     content:"";
+
     position:absolute;
+
     inset:0;
 
     background:
@@ -86,10 +108,14 @@ header::before{
         );
 
     pointer-events:none;
+
     z-index:0;
 }
 
-/* ---------- タイトル ---------- */
+
+/* ==================================================
+   タイトル
+================================================== */
 
 .clinic-title,
 .catchcopy{
@@ -104,6 +130,7 @@ header::before{
 
 .clinic-name{
     display:block;
+
     margin-top:.45em;
 
     font-family:
@@ -112,7 +139,9 @@ header::before{
         sans-serif;
 
     font-size:1.5em;
+
     font-weight:400;
+
     letter-spacing:.35em;
 
     text-shadow:
@@ -122,11 +151,13 @@ header::before{
 .catchcopy{
     margin-top:10px;
     margin-bottom:0;
+
     font-size:.95em;
 
     text-shadow:
         0 1px 4px rgba(0,0,0,.18);
 }
+
 
 /* ==================================================
    法人名
@@ -134,8 +165,11 @@ header::before{
 
 .seishokai{
     display:flex;
+
     justify-content:center;
+
     align-items:flex-end;
+
     gap:.4em;
 
     font-size:.55em;
@@ -153,21 +187,30 @@ header::before{
 
 .logo-block{
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
 }
 
 .furigana{
     font-size:.48em;
+
     color:#d9d9d9;
+
     margin-bottom:.15em;
+
     letter-spacing:0;
 }
 
 .kanji{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:.45em;
+
     text-align:center;
 }
 
@@ -175,18 +218,6 @@ header::before{
     display:block;
 }
 
-/* ==================================================
-   本文
-================================================== */
-
-section{
-    margin-bottom:2rem;
-}
-
-h2{
-    border-bottom:2px solid #ddd;
-    padding-bottom:.5rem;
-}
 
 /* ==================================================
    お知らせカード
@@ -194,72 +225,24 @@ h2{
 
 .news-card{
     margin:1.5rem 0 .8rem;
+
     text-align:center;
 }
 
 .news-card span{
     display:inline-block;
+
     padding:.65rem 2.5rem;
 
     background:#31556e;
+
     color:#fff;
 
     border-radius:8px;
+
     font-weight:bold;
 }
 
-/* ==================================================
-   お知らせ詳細への導線
-================================================== */
-
-.news-detail-jump{
-    margin:1rem auto 1.5rem;
-    text-align:center;
-}
-
-.news-detail-jump a{
-    display:inline-block;
-    min-width:9rem;
-
-    padding:.45rem 1.5rem;
-
-    color:#31556e;
-    text-decoration:none;
-
-    font-size:.85rem;
-    font-weight:500;
-    letter-spacing:.08em;
-
-    background:#fff;
-    border:1px solid transparent;
-
-    border-image:
-        linear-gradient(
-            135deg,
-            #20384d 0%,
-            #31556e 35%,
-            #4d7d98 70%,
-            #78b8c4 100%
-        ) 1;
-
-    transition:
-        background-color .2s ease,
-        color .2s ease;
-}
-
-.news-detail-jump a:active{
-    background:#f2f7f9;
-}
-
-/* ==================================================
-   フッター
-================================================== */
-
-footer{
-    text-align:center;
-    padding:1rem;
-    background:#f5f5f5;
-}
 
 /* ==================================================
    お知らせ 最新3件プレビュー
@@ -269,11 +252,10 @@ footer{
     position:relative;
 
     width:88%;
+
     margin:1rem auto .5rem;
 
     padding:1rem 1.2rem;
-
-    box-sizing:border-box;
 
     background:
         linear-gradient(
@@ -296,6 +278,7 @@ footer{
     content:"";
 
     position:absolute;
+
     inset:-10px;
 
     border:2px solid transparent;
@@ -325,17 +308,21 @@ footer{
 
 .news-preview-date{
     display:inline-block;
+
     margin-right:.8rem;
 
     color:#8a875f;
 
     font-size:.75rem;
+
     letter-spacing:.06em;
 }
 
 .news-preview-item a{
     color:#31556e;
+
     text-decoration:none;
+
     font-size:.92rem;
 }
 
@@ -343,22 +330,56 @@ footer{
     text-decoration:underline;
 }
 
-.news-detail-note{
-    margin:.8rem 0 0;
+
+/* ==================================================
+   お知らせ詳細への導線
+================================================== */
+
+.news-detail-jump{
+    margin:1rem auto 1.5rem;
 
     text-align:center;
-
-    font-size:.75rem;
 }
 
-.news-detail-note a{
-    color:#4d7d98;
+.news-detail-jump a{
+    display:inline-block;
+
+    min-width:9rem;
+
+    padding:.45rem 1.5rem;
+
+    color:#31556e;
+
     text-decoration:none;
+
+    font-size:.85rem;
+
+    font-weight:500;
+
+    letter-spacing:.08em;
+
+    background:#fff;
+
+    border:1px solid transparent;
+
+    border-image:
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        ) 1;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
 }
 
-.news-detail-note a:hover{
-    text-decoration:underline;
+.news-detail-jump a:active{
+    background:#f2f7f9;
 }
+
 
 /* ==================================================
    鳥
@@ -368,6 +389,7 @@ footer{
     position:absolute;
 
     top:10px;
+
     right:-120px;
 
     width:80px;
@@ -375,6 +397,7 @@ footer{
     z-index:4;
 
     pointer-events:none;
+
     opacity:0;
 }
 
@@ -390,8 +413,6 @@ footer{
         fadebird2 25s linear infinite;
 }
 
-/* ---------- 鳥の移動 ---------- */
-
 @keyframes flybird{
 
     from{
@@ -406,8 +427,6 @@ footer{
     }
 
 }
-
-/* ---------- 通常鳥 ---------- */
 
 @keyframes fadebird1{
 
@@ -436,8 +455,6 @@ footer{
     }
 
 }
-
-/* ---------- 白縁鳥 ---------- */
 
 @keyframes fadebird2{
 
@@ -471,15 +488,18 @@ footer{
 
 }
 
+
 /* ==================================================
    診療時間表
 ================================================== */
 
 .schedule{
     width:100%;
+
     table-layout:auto;
 
     border-collapse:separate;
+
     border-spacing:0;
 
     margin-top:1.2rem;
@@ -494,27 +514,26 @@ footer{
 
 .schedule th,
 .schedule td{
-
     border-bottom:1px solid #ddd;
 
     padding:.25rem .35rem;
 
     text-align:center;
 
-    font-size:1.0rem;
+    font-size:1rem;
+
     line-height:1.15;
 }
 
 .schedule tr:first-child th{
-
     background:#31556e;
+
     color:#fff;
 
     font-weight:400;
 }
 
 .schedule tr:not(:first-child) th{
-
     background:#f2f7f9;
 
     font-weight:400;
@@ -537,34 +556,32 @@ footer{
 
 .schedule th span{
     display:inline-block;
+
     margin-top:4px;
 }
 
 .schedule tr:not(:first-child) th{
-
     line-height:1.35;
 
     padding-top:.55rem;
+
     padding-bottom:.55rem;
 
     letter-spacing:.05em;
 }
 
-.visit-circle svg{
-    width:12px;
-    height:12px;
-}
 
 /* ==================================================
    診療マーク
 ================================================== */
 
 .out-circle{
-
     display:inline-block;
+
     position:relative;
 
     width:18px;
+
     height:18px;
 
     border-radius:50%;
@@ -583,10 +600,10 @@ footer{
 }
 
 .visit-circle{
-
     position:relative;
 
     width:18px;
+
     height:18px;
 
     border-radius:50%;
@@ -602,6 +619,7 @@ footer{
     display:inline-flex;
 
     align-items:center;
+
     justify-content:center;
 
     box-shadow:
@@ -614,12 +632,12 @@ footer{
     height:10px;
 }
 
+
 /* ==================================================
    固定電話ボタン
 ================================================== */
 
 .fixed-call{
-
     position:fixed !important;
 
     left:16px;
@@ -643,15 +661,15 @@ footer{
     text-decoration:none;
 
     font-size:1rem;
+
     font-weight:500;
 
     box-shadow:
         0 6px 20px rgba(0,0,0,.18);
 
     transform:translateZ(0);
-    -webkit-transform:translateZ(0);
 
-    will-change:transform;
+    -webkit-transform:translateZ(0);
 
     margin-bottom:
         env(safe-area-inset-bottom);
@@ -659,21 +677,24 @@ footer{
 
 .online-note{
     margin-top:10px;
+
     text-align:left;
+
     font-size:.85rem;
 }
 
 .online-note a{
     color:#4d7d98;
+
     text-decoration:none;
 }
+
 
 /* ==================================================
    画像保護
 ================================================== */
 
 .protected-image{
-
     float:left;
 
     width:180px;
@@ -681,31 +702,36 @@ footer{
     margin:0 20px 10px 0;
 
     user-select:none;
+
     -webkit-user-select:none;
+
     -webkit-touch-callout:none;
 }
 
 .protected-image img{
-
     display:block;
 
     width:100%;
+
     height:auto;
 
     user-select:none;
+
     -webkit-user-select:none;
+
     -webkit-user-drag:none;
+
     -webkit-touch-callout:none;
 
     pointer-events:none;
 }
+
 
 /* ==================================================
    所在地・アクセス
 ================================================== */
 
 .location-grid{
-
     display:grid;
 
     grid-template-columns:40% 60%;
@@ -716,17 +742,16 @@ footer{
 }
 
 .location-map iframe{
-
     display:block;
 
     width:100%;
+
     height:260px;
 
     border-radius:10px;
 }
 
 .map-link{
-
     margin-top:.6rem;
 
     text-align:center;
@@ -735,14 +760,14 @@ footer{
 }
 
 .map-link a{
-
     color:#4d7d98;
+
     text-decoration:none;
 }
 
 .location-info h3{
-
     margin-top:0;
+
     margin-bottom:.5rem;
 
     padding-bottom:.3rem;
@@ -752,32 +777,33 @@ footer{
     color:#31556e;
 
     font-size:1rem;
+
     font-weight:500;
 }
 
 .location-info p{
-
     margin-top:.5rem;
+
     margin-bottom:1rem;
 }
 
 .access-note{
-
     font-size:.85rem;
+
     color:#666;
 }
 
+
 /* ==================================================
-   診療内容 フローティングカード
+   診療内容カード
 ================================================== */
 
 .service-card{
-
     position:relative;
 
     margin:1rem 0;
 
-    padding:1.1rem 1.1rem;
+    padding:1.1rem;
 
     background:
         linear-gradient(
@@ -799,13 +825,14 @@ footer{
 }
 
 .service-card::before{
-
     content:"";
 
     position:absolute;
 
     left:0;
+
     top:0;
+
     bottom:0;
 
     width:7px;
@@ -822,34 +849,34 @@ footer{
 }
 
 .service-card h3{
-
     margin:0 0 .45rem;
 
     color:#31556e;
 
     font-size:1.25rem;
+
     font-weight:500;
 }
 
 .service-card p{
-
     margin:0;
 
     font-size:.92rem;
+
     line-height:1.75;
 }
+
 
 /* ==================================================
    検査機器カード
 ================================================== */
 
 .equipment-card{
-
     position:relative;
 
     margin:1rem 0;
 
-    padding:1.1rem 1.1rem;
+    padding:1.1rem;
 
     background:
         linear-gradient(
@@ -871,13 +898,14 @@ footer{
 }
 
 .equipment-card::before{
-
     content:"";
 
     position:absolute;
 
     left:0;
+
     top:0;
+
     bottom:0;
 
     width:7px;
@@ -894,38 +922,37 @@ footer{
 }
 
 .equipment-card h3{
-
     margin:0 0 .45rem;
 
     color:#31556e;
 
     font-size:1.25rem;
+
     font-weight:500;
 
     letter-spacing:.04em;
 }
 
 .equipment-card p{
-
     margin:0;
 
     font-size:.92rem;
+
     line-height:1.75;
 }
 
+
 /* ==================================================
-   お知らせ
+   お知らせ詳細
 ================================================== */
 
 .news-section{
-
     width:88%;
 
     margin:3rem auto;
 }
 
 .news-section h2{
-
     width:72%;
 
     margin:0 auto 1.8rem;
@@ -941,20 +968,19 @@ footer{
         rgba(49,85,110,.45);
 
     font-size:1.15rem;
+
     font-weight:400;
 
     letter-spacing:.16em;
 }
 
 .news-list{
-
     width:88%;
 
     margin:0 auto;
 }
 
 .news-item{
-
     padding:1rem 0;
 
     border-bottom:1px solid
@@ -962,13 +988,11 @@ footer{
 }
 
 .news-item:first-child{
-
     border-top:1px solid
         rgba(49,85,110,.18);
 }
 
 .news-date{
-
     display:block;
 
     margin-bottom:.25rem;
@@ -976,11 +1000,11 @@ footer{
     color:#777;
 
     font-size:.78rem;
+
     letter-spacing:.08em;
 }
 
 .news-item a{
-
     color:#31556e;
 
     text-decoration:none;
@@ -992,58 +1016,57 @@ footer{
     text-decoration:underline;
 }
 
-/* ==================================================
-   院内写真
-================================================== */
+.news-body{
+    margin:.4rem 0 0;
 
-.clinic-photo{
-
-    width:100%;
-
-    margin:1.5rem 0;
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-    position:relative;
-
-    box-shadow:
-        0 3px 10px
-        rgba(40,80,80,.05);
+    font-size:.9rem;
 }
 
-.clinic-photo img{
-
-    display:block;
-
-    width:100%;
-    height:auto;
-
-    opacity:.72;
-}
 
 /* ==================================================
-   院内スクロール演出
+   院内写真・スクロール演出
 ================================================== */
+
+/*
+ * ここが今回の重要修正です。
+ *
+ * 以前は .clinic-view が 38vh しかなかったため、
+ * JavaScript側で
+ *
+ *     offsetHeight - window.innerHeight
+ *
+ * を計算するとマイナスになり、
+ * updateClinicImage() が途中で return していました。
+ *
+ * そこで「写真を表示する窓」と
+ * 「その窓をスクロールさせる区間」を分離します。
+ *
+ * clinic-view = スクロール区間
+ * clinic-camera = 実際に見える写真の窓
+ */
 
 .clinic-view{
-
     position:relative;
 
     width:100%;
 
-    height:38vh;
+    /*
+     * 写真がスクロールに連動して動くための
+     * 実際のスクロール区間を確保します。
+     */
+    height:140vh;
 
     margin:0;
 
-    overflow:hidden;
+    overflow:visible;
 }
 
 .clinic-camera{
-
     position:sticky;
 
+    /*
+     * 画面の約31%の位置に写真の窓を固定します。
+     */
     top:31vh;
 
     width:100%;
@@ -1062,7 +1085,6 @@ footer{
 }
 
 .clinic-camera::after{
-
     content:"";
 
     position:absolute;
@@ -1088,12 +1110,15 @@ footer{
 }
 
 .clinic-image{
-
     position:absolute;
 
     top:50%;
     left:50%;
 
+    /*
+     * 写真そのものを大きく表示します。
+     * 横方向へ移動させるため width を確保します。
+     */
     width:100%;
     height:100%;
 
@@ -1102,16 +1127,12 @@ footer{
     max-width:none;
 
     transform:
-        translate3d(
-            -50%,
-            -50%,
-            0
-        )
+        translate3d(-50%,-50%,0)
         scale(.85);
 
     /*
-     * currentXを毎フレーム変更するため、
-     * transformをGPU側で処理しやすくします。
+     * スクロール時だけtransformを変更するため、
+     * ブラウザに変更対象を事前に知らせます。
      */
     will-change:transform;
 
@@ -1134,16 +1155,17 @@ footer{
         );
 }
 
+
 /* ==================================================
    連絡先
 ================================================== */
 
 .contact-label{
-
     display:inline-block;
 
     width:3.5em;
 }
+
 
 /* ==================================================
    スマートフォン
@@ -1152,22 +1174,20 @@ footer{
 @media (max-width:600px){
 
     .protected-image{
-
         width:120px;
 
         margin-right:15px;
+
         margin-bottom:8px;
     }
 
     .news-section{
-
         width:94%;
 
         margin:2.5rem auto;
     }
 
     .news-section h2{
-
         width:78%;
 
         font-size:1.05rem;
@@ -1176,78 +1196,42 @@ footer{
     }
 
     .news-list{
-
         width:92%;
     }
 
     .location-grid{
-
         grid-template-columns:55% 45%;
 
         gap:.7rem;
     }
 
     .location-map iframe{
-
         height:180px;
     }
 
     .location-info h3{
-
         font-size:.85rem;
     }
 
     .location-info p{
-
         font-size:.92rem;
 
         line-height:1.55;
     }
 
     .map-link{
-
         font-size:.65rem;
     }
-}
 
-/* ==================================================
-   スマートフォン横向き
-================================================== */
-
-@media (max-width:900px) and (orientation:landscape){
-
-    .clinic-view{
-
-        height:100vh;
-    }
-
-    .clinic-camera{
-
-        height:100vh;
-
-        top:0;
-    }
-
+    /*
+     * 縦長スマホでは写真を横方向に
+     * 大きく切り出します。
+     *
+     * なぜそうしているか：
+     * 横長の院内写真を画面いっぱいに表示しながら、
+     * 横方向のスクロール演出を成立させるためです。
+     */
     .clinic-image{
-
-        width:auto;
-
-        height:120%;
-
-        min-width:100%;
-
-        object-fit:cover;
-    }
-}
-
-/* ==================================================
-   スマートフォン縦向き
-================================================== */
-
-@media (max-width:600px) and (orientation:portrait){
-
-    .clinic-image{
-
         width:auto;
 
         height:100%;
@@ -1256,7 +1240,42 @@ footer{
 
         object-fit:cover;
     }
+
 }
+
+
+/* ==================================================
+   スマートフォン横向き
+================================================== */
+
+@media (
+    max-width:900px
+) and (
+    orientation:landscape
+){
+
+    .clinic-view{
+        height:140vh;
+    }
+
+    .clinic-camera{
+        height:100vh;
+
+        top:0;
+    }
+
+    .clinic-image{
+        width:auto;
+
+        height:120%;
+
+        min-width:100%;
+
+        object-fit:cover;
+    }
+
+}
+
 
 /* ==================================================
    モバイル用 鳥フェード
@@ -1289,6 +1308,7 @@ footer{
         100%{
             opacity:0;
         }
+
     }
 
     @keyframes fadebird2{
@@ -1320,14 +1340,31 @@ footer{
         100%{
             opacity:0;
         }
+
     }
+
+}
+
+
+/* ==================================================
+   フッター
+================================================== */
+
+footer{
+    text-align:center;
+
+    padding:1rem;
+
+    background:#f5f5f5;
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <!-- ==================================================
      固定電話
@@ -1339,6 +1376,7 @@ footer{
 >
     ☎ 電話する
 </a>
+
 
 <!-- ==================================================
      ヘッダー
@@ -1373,11 +1411,9 @@ footer{
             </span>
 
             <span class="kanji">
-
                 <span>誠</span>
                 <span>彰</span>
                 <span>会</span>
-
             </span>
 
         </span>
@@ -1396,7 +1432,9 @@ footer{
 
 </header>
 
+
 <main>
+
 
 <!-- ==================================================
      お知らせ
@@ -1410,6 +1448,7 @@ footer{
 
 </div>
 
+
 <!-- ==================================================
      最新3件プレビュー
 ================================================== -->
@@ -1419,6 +1458,7 @@ footer{
     <div class="news-preview-list"></div>
 
 </div>
+
 
 <!-- ==================================================
      お知らせ詳細への導線
@@ -1431,6 +1471,7 @@ footer{
     </a>
 
 </div>
+
 
 <!-- ==================================================
      ごあいさつ
@@ -1470,8 +1511,14 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      院内写真
+     
+     写真を表示する窓。
+     clinic-view自体には140vhのスクロール区間があり、
+     この窓がstickyで一定位置に留まる間、
+     写真だけが横方向へ移動します。
 ================================================== -->
 
 <section class="clinic-view">
@@ -1488,6 +1535,7 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      診療・業務内容
 ================================================== -->
@@ -1498,13 +1546,14 @@ footer{
     診療・業務内容
 </h2>
 
+
 <div class="service-card">
 
-    <h3>
-        外来診療
-    </h3>
+<h3>
+    外来診療
+</h3>
 
-    <p>
+<p>
 
 ⚫︎生活習慣病（高血圧・糖尿病・脂質異常症）などの慢性疾患の管理
 
@@ -1560,17 +1609,18 @@ footer{
 
 メニューは準備中にてご相談ください
 
-    </p>
+</p>
 
 </div>
 
+
 <div class="service-card">
 
-    <h3>
-        訪問診療
-    </h3>
+<h3>
+    訪問診療
+</h3>
 
-    <p>
+<p>
 
 在宅療養支援診療所として、訪問看護ステーション等の
 多職種と連携し、24時間の連絡・対応体制を整えています。
@@ -1579,29 +1629,33 @@ footer{
 
 基本的には月曜日から木曜日の午前診と午後診の間での診療時間を設定します。
 
-    </p>
+</p>
 
 </div>
 
+
 <div class="service-card">
 
-    <h3>
-        往診
-    </h3>
+<h3>
+    往診
+</h3>
 
-    <p>
+<p>
+
 外来診療、訪問診療ともに往診対応いたします。
-    </p>
+
+</p>
 
 </div>
 
+
 <div class="service-card">
 
-    <h3>
-        オンライン診療
-    </h3>
+<h3>
+    オンライン診療
+</h3>
 
-    <p>
+<p>
 
 予約制となります。初診は基本的に来院での診療とさせていただきます。
 
@@ -1609,9 +1663,10 @@ footer{
 
 ただし、安定している場合でも4か月に一度は来院での診察を受けていただきます。
 
-    </p>
+</p>
 
 </div>
+
 
 <p>
 
@@ -1633,6 +1688,7 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      検査機器
 ================================================== -->
@@ -1647,6 +1703,7 @@ footer{
 当院では、診療内容に応じて以下の検査機器を備えています。
 </p>
 
+
 <div class="equipment-card">
 
 <h3>
@@ -1658,6 +1715,7 @@ footer{
 </p>
 
 </div>
+
 
 <div class="equipment-card">
 
@@ -1684,6 +1742,7 @@ footer{
 </p>
 
 </div>
+
 
 <div class="equipment-card">
 
@@ -1717,6 +1776,7 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      お知らせ詳細
 ================================================== -->
@@ -1734,6 +1794,7 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      診療時間
 ================================================== -->
@@ -1744,11 +1805,13 @@ footer{
     診療時間
 </h2>
 
+
 <table class="schedule">
 
 <tr>
 
 <th></th>
+
 <th>月</th>
 <th>火</th>
 <th>水</th>
@@ -1757,6 +1820,7 @@ footer{
 <th>土</th>
 
 </tr>
+
 
 <tr>
 
@@ -1798,6 +1862,7 @@ footer{
 
 </tr>
 
+
 <tr>
 
 <th>
@@ -1810,31 +1875,6 @@ footer{
 
 </th>
 
-<td>
-
-<span class="visit-circle">
-
-<svg viewBox="0 0 24 24">
-
-<path
-    d="M3 10.5L12 3L21 10.5"
-    stroke="white"
-    stroke-width="2"
-    fill="none"
-/>
-
-<path
-    d="M6 9.5V20H18V9.5"
-    stroke="white"
-    stroke-width="2"
-    fill="none"
-/>
-
-</svg>
-
-</span>
-
-</td>
 
 <td>
 
@@ -1862,31 +1902,6 @@ footer{
 
 </td>
 
-<td>
-
-<span class="visit-circle">
-
-<svg viewBox="0 0 24 24">
-
-<path
-    d="M3 10.5L12 3L21 10.5"
-    stroke="white"
-    stroke-width="2"
-    fill="none"
-/>
-
-<path
-    d="M6 9.5V20H18V9.5"
-    stroke="white"
-    stroke-width="2"
-    fill="none"
-/>
-
-</svg>
-
-</span>
-
-</td>
 
 <td>
 
@@ -1913,6 +1928,61 @@ footer{
 </span>
 
 </td>
+
+
+<td>
+
+<span class="visit-circle">
+
+<svg viewBox="0 0 24 24">
+
+<path
+    d="M3 10.5L12 3L21 10.5"
+    stroke="white"
+    stroke-width="2"
+    fill="none"
+/>
+
+<path
+    d="M6 9.5V20H18V9.5"
+    stroke="white"
+    stroke-width="2"
+    fill="none"
+/>
+
+</svg>
+
+</span>
+
+</td>
+
+
+<td>
+
+<span class="visit-circle">
+
+<svg viewBox="0 0 24 24">
+
+<path
+    d="M3 10.5L12 3L21 10.5"
+    stroke="white"
+    stroke-width="2"
+    fill="none"
+/>
+
+<path
+    d="M6 9.5V20H18V9.5"
+    stroke="white"
+    stroke-width="2"
+    fill="none"
+/>
+
+</svg>
+
+</span>
+
+</td>
+
 
 <td>
     ―
@@ -1923,6 +1993,7 @@ footer{
 </td>
 
 </tr>
+
 
 <tr>
 
@@ -1939,6 +2010,7 @@ footer{
 <br>
 
 </th>
+
 
 <td>
     <span class="out-circle"></span>
@@ -1968,6 +2040,7 @@ footer{
 
 </table>
 
+
 <p class="online-note">
 
 <a href="online.html">
@@ -1988,6 +2061,7 @@ footer{
 
 </section>
 
+
 <!-- ==================================================
      所在地・アクセス
 ================================================== -->
@@ -1998,7 +2072,9 @@ footer{
     所在地・アクセス
 </h2>
 
+
 <div class="location-grid">
+
 
 <div class="location-map">
 
@@ -2013,6 +2089,7 @@ referrerpolicy="strict-origin-when-cross-origin"
 >
 </iframe>
 
+
 <p class="map-link">
 
 <a
@@ -2026,6 +2103,7 @@ Googleマップで見る
 </p>
 
 </div>
+
 
 <div class="location-info">
 
@@ -2047,11 +2125,14 @@ Googleマップで見る
 
 </p>
 
+
 <br>
+
 
 <h3>
     公共交通機関
 </h3>
+
 
 <p>
 
@@ -2073,7 +2154,9 @@ Googleマップで見る
 
 </p>
 
+
 <br>
+
 
 <p>
 
@@ -2091,7 +2174,9 @@ Googleマップで見る
 
 </p>
 
+
 <br>
+
 
 <p>
 
@@ -2113,19 +2198,28 @@ Googleマップで見る
 
 </p>
 
+
 <br>
+
 
 <h3>
     お車でお越しの方
 </h3>
 
+
 <p>
+
 名古屋高速「堀田出口」より約1分
+
 </p>
 
+
 <p class="access-note">
+
 ※堀田出口は右側車線から降ります。
+
 </p>
+
 
 <p>
 
@@ -2144,6 +2238,7 @@ Googleマップで見る
 </div>
 
 </section>
+
 
 <!-- ==================================================
      連絡先
@@ -2180,7 +2275,9 @@ Googleマップで見る
 
 </section>
 
+
 </main>
+
 
 <!-- ==================================================
      フッター
@@ -2198,41 +2295,31 @@ Googleマップで見る
 
 </footer>
 
+
 <!-- ==================================================
      院内写真・スクロール連動
-     
-     旧方式へ復元
-     
-     currentX：
-     実際に表示している位置
-     
-     targetX：
-     スクロール位置から計算した目標位置
-     
-     currentXがtargetXへ少しずつ近づくことで、
-     スクロールに対して写真が滑らかに追従します。
 ================================================== -->
 
 <script>
 
 /**
- * 院内写真のスクロール連動を制御します。
+ * 院内写真のスクロール連動を管理します。
  *
  * なぜそうしているか：
- * スクロール位置を直接transformへ反映すると、
- * スクロールイベントの揺れがそのまま写真に出ます。
+ * 常時requestAnimationFrame()を実行すると、
+ * スクロールしていない状態でも毎フレーム処理が
+ * 発生します。
  *
- * currentXとtargetXを分け、
- * currentXを毎フレーム少しずつtargetXへ近づけることで、
- * 滑らかなカメラ移動を実現します。
+ * そこでscrollイベントが発生した場合だけ、
+ * 次の描画フレームで写真位置を更新します。
  *
  * エラー処理：
- * - 対象DOMが存在しない場合は処理を停止します。
- * - 移動可能領域が0以下の場合は安全に終了します。
- * - progressは0〜1に制限します。
+ * - 対象要素が存在しない場合は処理を終了します。
+ * - 計算値が不正な場合は0〜1へ制限します。
  *
  * セキュリティ：
- * - 外部入力を使用せず固定DOMだけを操作します。
+ * - 固定されたDOM要素だけを操作します。
+ * - 外部入力を使用しません。
  *
  * 計算量：
  * 時間 O(1)
@@ -2244,67 +2331,75 @@ const clinicView =
         '.clinic-view'
     );
 
+const clinicCamera =
+    document.querySelector(
+        '.clinic-camera'
+    );
+
 const clinicImage =
     document.querySelector(
         '.clinic-image'
     );
 
-
-/*
- * 実際に表示しているX位置。
- *
- * 初期値を-30%にすることで、
- * ページ読み込み直後から写真の中央ではなく
- * 少し左寄りの状態から開始します。
- */
-let currentX = -30;
-
-
-/*
- * スクロール位置から計算された目標X位置。
- */
-let targetX = -30;
+let clinicScrollTicking =
+    false;
 
 
 /**
- * スクロール位置からtargetXを計算します。
+ * 院内写真の位置を更新します。
  *
  * なぜそうしているか：
- * スクロールそのものではなく、
- * スクロール領域内の進行率を0〜1へ変換して
- * 写真の移動量を決めるためです。
+ * clinic-view全体をスクロール区間として使用し、
+ * その区間内で写真を-30%〜+30%移動させます。
  *
  * @returns {void}
+ *
+ * @throws {Error}
+ * この関数内部では例外を意図的に投げません。
  */
-function updateClinicTarget(){
+
+function updateClinicImage(){
 
     if(
         !clinicView ||
+        !clinicCamera ||
         !clinicImage
     ){
         return;
     }
 
+
     const rect =
         clinicView.getBoundingClientRect();
 
-    const total =
-        clinicView.offsetHeight -
-        window.innerHeight;
-
-    if(total <= 0){
-        return;
-    }
-
-    let progress =
-        -rect.top / total;
 
     /*
-     * progressが範囲外へ出ないようにします。
+     * clinic-viewが画面を通過する距離を
+     * スクロール範囲として使用します。
+     *
+     * clinic-viewは140vhなので、
+     * 通常のスマートフォンでも
+     * 必ず正のスクロール範囲になります。
+     */
+    const travel =
+        Math.max(
+            1,
+            clinicView.offsetHeight -
+            window.innerHeight
+        );
+
+
+    let progress =
+        -rect.top / travel;
+
+
+    /*
+     * 計算値が0〜1を超えないようにします。
      *
      * なぜそうしているか：
-     * ページ端やブラウザの特殊なスクロール状態で
-     * 写真が想定範囲を飛び出すことを防ぐためです。
+     * ページ上端・下端でスクロール位置が
+     * ブラウザによって少し overscroll しても、
+     * 写真が想定外の位置まで飛ばないようにするためです。
      */
     progress =
         Math.max(
@@ -2320,8 +2415,8 @@ function updateClinicTarget(){
      * smootherstep。
      *
      * なぜそうしているか：
-     * 直線的な移動では開始・終了部分が機械的になるため、
-     * 加速→定速→減速に近い自然な動きを作ります。
+     * 写真の動き始めと動き終わりを
+     * 急激にせず、自然な速度変化にするためです。
      */
     const smooth =
         progress *
@@ -2338,84 +2433,69 @@ function updateClinicTarget(){
 
 
     /*
-     * 写真を-30%から+30%まで移動させます。
+     * 写真を左→右へ60%移動します。
+     *
+     * progress 0 = -30%
+     * progress 1 = +30%
      */
-    targetX =
+    const x =
         -30 +
         smooth * 60;
+
+
+    clinicImage.style.transform =
+        `translate3d(
+            calc(-50% + ${x}%),
+            -50%,
+            0
+        ) scale(.85)`;
 }
 
 
 /**
- * 院内写真をtargetXへ滑らかに近づけます。
+ * スクロール処理を1フレームにまとめます。
  *
  * なぜそうしているか：
- * 毎フレーム6%だけ目標値へ近づけることで、
- * 写真が急に移動せず、滑らかな追従になります。
+ * scrollイベントは非常に高頻度で発生するため、
+ * 同じ描画フレーム内で何度も写真位置を
+ * 計算することを防ぎます。
  *
  * @returns {void}
  */
-function animateClinic(){
 
-    if(!clinicImage){
+function requestClinicUpdate(){
+
+    if(clinicScrollTicking){
         return;
     }
 
 
-    /*
-     * 現在位置と目標位置の差を少しずつ縮めます。
-     *
-     * 0.06という値が小さいほど滑らかになりますが、
-     * 反応が遅くなります。
-     */
-    currentX +=
-        (
-            targetX -
-            currentX
-        ) * 0.06;
+    clinicScrollTicking =
+        true;
 
 
-    /*
-     * transformのみを変更します。
-     *
-     * なぜそうしているか：
-     * widthやheightなどのレイアウト値を変更せず、
-     * GPUで処理しやすいtransformだけを動かすことで
-     * レイアウト再計算を抑えます。
-     */
-    clinicImage.style.transform =
-        `translate3d(
-            calc(-50% + ${currentX}%),
-            -50%,
-            0
-        )
-        scale(.85)`;
+    requestAnimationFrame(() => {
 
+        updateClinicImage();
 
-    /*
-     * ここが旧方式の重要部分です。
-     *
-     * スクロールしていない状態でも毎フレーム実行されます。
-     *
-     * その代わり、currentXがtargetXへ近づくことで
-     * スクロール後の写真移動が滑らかになります。
-     */
-    requestAnimationFrame(
-        animateClinic
-    );
+        clinicScrollTicking =
+            false;
+
+    });
+
 }
 
 
 /*
- * スクロール時には目標位置だけ変更します。
+ * スクロール時だけ更新します。
  *
- * なぜそうしているか：
- * スクロールイベントそのものではtransformを直接変更せず、
- * アニメーション側がcurrentXを追従させる構造にするためです。
+ * passive:trueにすることで、
+ * ブラウザのスクロール処理を妨げないようにします。
  */
+
 window.addEventListener(
     'scroll',
-    updateClinicTarget,
+    requestClinicUpdate,
     {
         passive:true
     }
@@ -2423,29 +2503,31 @@ window.addEventListener(
 
 
 /*
- * 画面サイズが変わった場合も、
- * スクロール領域を再計算します。
+ * 画面サイズ変更時にも再計算します。
+ *
+ * なぜそうしているか：
+ * 縦向き・横向き変更やブラウザサイズ変更で
+ * vhとスクロール範囲が変化するためです。
  */
+
 window.addEventListener(
     'resize',
-    updateClinicTarget
+    updateClinicImage
 );
 
 
 /*
- * 初期状態を設定します。
+ * 初期表示。
+ *
+ * なぜそうしているか：
+ * ページを開いた瞬間にも写真位置を
+ * 正しい位置に設定するためです。
  */
-updateClinicTarget();
 
-
-/*
- * 滑らかなアニメーションを開始します。
- */
-requestAnimationFrame(
-    animateClinic
-);
+updateClinicImage();
 
 </script>
+
 
 <!-- ==================================================
      お知らせ読み込み
@@ -2454,32 +2536,43 @@ requestAnimationFrame(
 <script>
 
 /**
- * news.jsonからお知らせを読み込み、
+ * news.jsonを読み込み、
  * 上部プレビューと下部詳細へ表示します。
  *
  * なぜそうしているか：
- * お知らせ本文をindex.htmlへ直接書かず、
- * news.jsonだけを更新できる構造にするためです。
+ * お知らせ本文をindex.htmlから分離し、
+ * news.jsonだけを更新できるようにするためです。
+ *
+ * セキュリティ：
+ * news.jsonの文字列をinnerHTMLへ直接入れず、
+ * textContentを使用します。
+ * これにより、news.jsonに悪意のあるHTMLや
+ * JavaScriptが混入してもXSSとして実行されません。
  *
  * エラー処理：
  * - HTTPエラー
  * - JSON解析エラー
- * - 配列ではないデータ
- * を捕捉します。
- *
- * セキュリティ：
- * news.jsonは管理者のみが編集する前提です。
- *
- * 将来的に外部ユーザーが編集できる構造へ変更する場合は、
- * innerHTMLではなくtextContentを使用してください。
+ * - 配列以外のJSON
+ * - 必要なDOM要素がない場合
+ * を処理します。
  *
  * 計算量：
  * 時間 O(N)
  * 空間 O(N)
  */
-fetch('news.json')
 
-    .then(response => {
+async function loadNews(){
+
+    try{
+
+        const response =
+            await fetch(
+                'news.json',
+                {
+                    cache:'no-cache'
+                }
+            );
+
 
         if(!response.ok){
 
@@ -2489,11 +2582,10 @@ fetch('news.json')
 
         }
 
-        return response.json();
 
-    })
+        const news =
+            await response.json();
 
-    .then(news => {
 
         if(!Array.isArray(news)){
 
@@ -2504,98 +2596,168 @@ fetch('news.json')
         }
 
 
-        /* ==================================================
-           上のお知らせ：最新3件
-        ================================================== */
+        /*
+         * 最新3件だけを使用します。
+         *
+         * なぜそうしているか：
+         * index.html上では最新情報だけを
+         * 簡潔に見せるためです。
+         */
+        const latest =
+            news.slice(0,3);
+
 
         const previewList =
             document.querySelector(
                 '.news-preview-list'
             );
 
+
         if(previewList){
 
-            previewList.innerHTML = '';
+            previewList.replaceChildren();
 
-            news
-                .slice(0,3)
-                .forEach(item => {
 
-                    const previewItem =
-                        document.createElement(
-                            'div'
-                        );
+            latest.forEach(item => {
 
-                    previewItem.className =
-                        'news-preview-item';
-
-                    previewItem.innerHTML = `
-                        <span class="news-preview-date">
-                            ${item.date}
-                        </span>
-                        <a href="${item.link}">
-                            ${item.title}
-                        </a>
-                    `;
-
-                    previewList.appendChild(
-                        previewItem
+                const previewItem =
+                    document.createElement(
+                        'div'
                     );
 
-                });
+                previewItem.className =
+                    'news-preview-item';
+
+
+                const date =
+                    document.createElement(
+                        'span'
+                    );
+
+                date.className =
+                    'news-preview-date';
+
+                date.textContent =
+                    String(
+                        item?.date ?? ''
+                    );
+
+
+                const link =
+                    document.createElement(
+                        'a'
+                    );
+
+                link.href =
+                    String(
+                        item?.link ?? '#'
+                    );
+
+                link.textContent =
+                    String(
+                        item?.title ?? ''
+                    );
+
+
+                previewItem.append(
+                    date,
+                    link
+                );
+
+
+                previewList.appendChild(
+                    previewItem
+                );
+
+            });
 
         }
 
-
-        /* ==================================================
-           下のお知らせ：最新3件
-        ================================================== */
 
         const newsList =
             document.querySelector(
                 '.news-list'
             );
 
+
         if(newsList){
 
-            newsList.innerHTML = '';
+            newsList.replaceChildren();
 
-            news
-                .slice(0,3)
-                .forEach(item => {
 
-                    const newsItem =
-                        document.createElement(
-                            'div'
-                        );
+            latest.forEach(item => {
 
-                    newsItem.className =
-                        'news-item';
-
-                    newsItem.innerHTML = `
-                        <span class="news-date">
-                            ${item.date}
-                        </span>
-                        <a href="${item.link}">
-                            ${item.title}
-                        </a>
-                        <p class="news-body">
-                            ${
-                                item.body ||
-                                '詳細は準備中です。'
-                            }
-                        </p>
-                    `;
-
-                    newsList.appendChild(
-                        newsItem
+                const newsItem =
+                    document.createElement(
+                        'div'
                     );
 
-                });
+                newsItem.className =
+                    'news-item';
 
 
-            /* ---------- 過去のお知らせ ---------- */
+                const date =
+                    document.createElement(
+                        'span'
+                    );
 
+                date.className =
+                    'news-date';
+
+                date.textContent =
+                    String(
+                        item?.date ?? ''
+                    );
+
+
+                const link =
+                    document.createElement(
+                        'a'
+                    );
+
+                link.href =
+                    String(
+                        item?.link ?? '#'
+                    );
+
+                link.textContent =
+                    String(
+                        item?.title ?? ''
+                    );
+
+
+                const body =
+                    document.createElement(
+                        'p'
+                    );
+
+                body.className =
+                    'news-body';
+
+                body.textContent =
+                    String(
+                        item?.body ??
+                        '詳細は準備中です。'
+                    );
+
+
+                newsItem.append(
+                    date,
+                    link,
+                    body
+                );
+
+
+                newsList.appendChild(
+                    newsItem
+                );
+
+            });
+
+
+            /*
+             * 過去のお知らせへの導線。
+             */
             const past =
                 document.createElement(
                     'p'
@@ -2604,11 +2766,23 @@ fetch('news.json')
             past.className =
                 'news-detail-note';
 
-            past.innerHTML = `
-                <a href="news.html">
-                    ※ 過去のお知らせはクリック
-                </a>
-            `;
+
+            const pastLink =
+                document.createElement(
+                    'a'
+                );
+
+            pastLink.href =
+                'news.html';
+
+            pastLink.textContent =
+                '※ 過去のお知らせはクリック';
+
+
+            past.appendChild(
+                pastLink
+            );
+
 
             newsList.appendChild(
                 past
@@ -2616,35 +2790,65 @@ fetch('news.json')
 
         }
 
-    })
-
-    .catch(error => {
+    }catch(error){
 
         /*
-         * news.jsonの取得に失敗しても、
-         * ページ本体は表示できるようにします。
+         * お知らせ取得に失敗しても
+         * ページ本体はそのまま表示します。
+         *
+         * なぜそうしているか：
+         * news.jsonの一時的な取得失敗によって
+         * index.html全体が使用不能になるのを防ぐためです。
          */
+
         console.error(
             'お知らせの読み込みに失敗しました。',
             error
         );
 
-    });
+    }
+
+}
+
+
+loadNews();
 
 </script>
 
+
 <!-- ==================================================
      「詳細はこちら」→ お知らせ詳細
+     
+     重複していた処理を1本に統合
 ================================================== -->
 
 <script>
 
 /**
- * 「詳細はこちら」からお知らせ欄へ
- * 滑らかにスクロールします。
+ * 「詳細はこちら」からお知らせ詳細へ
+ * 滑らかに移動します。
  *
- * @returns {void}
+ * なぜそうしているか：
+ * 標準アンカー移動だけでは移動距離によって
+ * 急激に移動するため、距離に応じた時間で
+ * 滑らかに移動させます。
+ *
+ * エラー処理：
+ * - リンクがない場合
+ * - #newsがない場合
+ * は何もしません。
+ *
+ * セキュリティ：
+ * 外部入力を使用せず、
+ * 固定されたDOM要素だけを操作します。
+ *
+ * 計算量：
+ * 1フレームあたり O(1)
+ *
+ * 空間計算量：
+ * O(1)
  */
+
 const newsJump =
     document.querySelector(
         '.news-detail-jump a'
@@ -2669,9 +2873,15 @@ if(
 
 
             /*
-             * ユーザーがアニメーションを減らす設定をしている場合は、
-             * 滑らかなアニメーションを行わず即座に移動します。
+             * ユーザーがOS側で
+             * reduced-motionを指定している場合は、
+             * アニメーションを使用しません。
+             *
+             * なぜそうしているか：
+             * 視差効果やアニメーションを避けたい
+             * ユーザーへの配慮です。
              */
+
             if(
                 window.matchMedia(
                     '(prefers-reduced-motion: reduce)'
@@ -2684,11 +2894,13 @@ if(
                 });
 
                 return;
+
             }
 
 
             const startY =
                 window.scrollY;
+
 
             const targetY =
                 newsTarget
@@ -2696,22 +2908,24 @@ if(
                     .top +
                 window.scrollY;
 
+
             const distance =
                 targetY -
                 startY;
 
 
             /*
-             * 距離に応じて移動時間を設定します。
+             * 移動時間を距離から決定します。
              *
-             * 最低1.8秒、最大3秒。
+             * 最低1.8秒、
+             * 最大3秒とします。
              */
             const duration =
                 Math.min(
                     3000,
                     Math.max(
                         1800,
-                        Math.abs(distance) * 0.8
+                        Math.abs(distance) * .8
                     )
                 );
 
@@ -2724,11 +2938,12 @@ if(
              * 滑らかな加減速を作ります。
              *
              * @param {number} t
-             * 進行率
+             * 0〜1の進行率
              *
              * @returns {number}
              * 補間後の進行率
              */
+
             function ease(t){
 
                 return t *
@@ -2739,13 +2954,14 @@ if(
 
 
             /**
-             * スクロールアニメーション。
+             * スクロールアニメーションを実行します。
              *
              * @param {number} now
              * requestAnimationFrameの時刻
              *
              * @returns {void}
              */
+
             function animate(now){
 
                 const progress =
@@ -2787,6 +3003,7 @@ if(
 }
 
 </script>
+
 
 </body>
 
