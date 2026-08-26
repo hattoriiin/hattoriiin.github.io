@@ -14,11 +14,6 @@
 
 <style>
 
-@import url(
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap'
-);
-
-
 /* ==================================================
    基本
 ================================================== */
@@ -64,6 +59,16 @@ main{
 
 header{
 
+    position:relative;
+
+    overflow:hidden;
+
+    padding:.8rem 1rem;
+
+    text-align:center;
+
+    color:#fff;
+
     background:
         radial-gradient(
             circle at 90% 15%,
@@ -82,16 +87,6 @@ header{
             #4d7d98 70%,
             #78b8c4 100%
         );
-
-    color:#fff;
-
-    padding:.8rem 1rem;
-
-    text-align:center;
-
-    position:relative;
-
-    overflow:hidden;
 
     box-shadow:
         inset 0 1px rgba(255,255,255,.20),
@@ -129,14 +124,14 @@ header::before{
 
     position:relative;
 
-    z-index:3;
+    z-index:20;
 }
 
 .clinic-title{
 
     margin:0;
 
-    line-height:1.0;
+    line-height:1;
 }
 
 .clinic-name{
@@ -212,11 +207,11 @@ header::before{
 
 .furigana{
 
-    font-size:.48em;
+    margin-bottom:.15em;
 
     color:#d9d9d9;
 
-    margin-bottom:.15em;
+    font-size:.48em;
 
     letter-spacing:0;
 }
@@ -250,9 +245,9 @@ section{
 
 h2{
 
-    border-bottom:2px solid #ddd;
-
     padding-bottom:.5rem;
+
+    border-bottom:2px solid #ddd;
 }
 
 
@@ -275,9 +270,9 @@ h2{
     padding:
         .65rem 2.5rem;
 
-    background:#31556e;
-
     color:#fff;
+
+    background:#31556e;
 
     border-radius:8px;
 
@@ -346,9 +341,9 @@ h2{
 
 footer{
 
-    text-align:center;
-
     padding:1rem;
+
+    text-align:center;
 
     background:#f5f5f5;
 }
@@ -478,34 +473,44 @@ footer{
 ================================================== */
 
 /*
- * 鳥は「2羽が別々に飛ぶ」のではありません。
+ * 鳥は2種類を「別々の飛行物体」として動かします。
  *
- * 1本の飛行経路を2種類の画像が共有します。
+ * 重要：
  *
- * 右
- *   鳥1が入る
- *        ↓
- *   鳥1 → 鳥2へ変身
- *        ↓
- *   鳥2がそのまま飛び去る
- *        ↓
- * 左
+ * bird1 と bird2 を同じ要素として
+ * opacityだけで切り替えるのではありません。
  *
- * なぜこうするか：
- * 「途中で別の鳥に置き換わる」ように見せるためです。
+ * それぞれが実際に右→左へ移動します。
+ *
+ * さらに同じ飛行シーケンスの途中で
+ *
+ * 鳥1
+ *   ↓
+ * フェードアウト
+ *   ↓
+ * 鳥2
+ *   ↓
+ * フェードイン
+ *
+ * と交代します。
+ *
+ * つまり「途中で変身する」ように見えます。
+ *
+ * ただし、2種類は別々の高さ・別々のタイミングで
+ * 独立して飛行します。
  */
 
 .bird{
 
     position:absolute;
 
-    top:10px;
+    width:80px;
+
+    height:auto;
 
     right:-100px;
 
-    width:80px;
-
-    z-index:4;
+    z-index:5;
 
     pointer-events:none;
 
@@ -517,48 +522,63 @@ footer{
 }
 
 
-/*
- * 2つの画像は同じtransformを持ちます。
- *
- * そのため、鳥1と鳥2が別方向へ飛ぶことはありません。
- *
- * 重要なのはanimation-delayではなく、
- * 1本の時間軸の中でopacityだけを入れ替えることです。
- */
+/* --------------------------------------------------
+   飛行ルート1
+-------------------------------------------------- */
 
 .bird1{
 
+    top:14px;
+
     animation:
-        bird-flight 18s linear infinite;
+        birdFlight1
+        18s
+        linear
+        infinite;
 }
+
+
+/* --------------------------------------------------
+   飛行ルート2
+-------------------------------------------------- */
 
 .bird2{
 
+    top:48px;
+
     animation:
-        bird-flight-2 18s linear infinite;
+        birdFlight2
+        23s
+        linear
+        infinite;
+
+    animation-delay:
+        -7s;
 }
 
 
 /*
- * 鳥1
+ * 1羽目。
  *
- * 0%
- *   右端の外
+ * 0〜18%
+ * 右側からゆっくり出現
  *
- * 8%
- *   フェードイン
+ * 18〜43%
+ * 鳥1として飛行
  *
- * 18〜45%
- *   飛行
+ * 43〜50%
+ * 鳥1がフェードアウト
  *
- * 45〜55%
- *   鳥2へ変身するためフェードアウト
+ * 50〜57%
+ * 鳥2が出現する時間と重なる
  *
- * 55%以降
- *   完全に消える
+ * ここで「変身」に見えるようにしています。
+ *
+ * 100%
+ * 左へ完全に抜ける
  */
 
-@keyframes bird-flight{
+@keyframes birdFlight1{
 
     0%{
 
@@ -572,42 +592,32 @@ footer{
         opacity:0;
     }
 
-    6%{
+    8%{
 
-        opacity:0;
-    }
-
-    10%{
-
-        opacity:.28;
+        opacity:.38;
     }
 
     18%{
 
-        opacity:.42;
+        opacity:.48;
     }
 
     38%{
 
-        opacity:.42;
+        opacity:.48;
     }
 
-    44%{
+    43%{
 
-        opacity:.40;
+        opacity:.44;
     }
 
     48%{
 
-        opacity:.30;
+        opacity:.22;
     }
 
     52%{
-
-        opacity:.12;
-    }
-
-    56%{
 
         opacity:0;
     }
@@ -617,7 +627,7 @@ footer{
         transform:
             translate3d(
                 calc(-100vw - 220px),
-                24px,
+                18px,
                 0
             );
 
@@ -627,18 +637,16 @@ footer{
 
 
 /*
- * 鳥2
+ * 2羽目。
  *
- * 鳥1がいる場所と同じ位置を飛びます。
+ * bird1とは別のタイミングで始まり、
+ * 別の高さを飛びます。
  *
- * 48〜52%でフェードインし、
- * 鳥1が消えるタイミングと重ねます。
- *
- * そのため「鳥が突然消えて別の鳥が出る」
- * ではなく、途中で変身したように見えます。
+ * 中間でフェードインすることで、
+ * 1羽目から2羽目へ切り替わるように見えます。
  */
 
-@keyframes bird-flight-2{
+@keyframes birdFlight2{
 
     0%{
 
@@ -652,41 +660,29 @@ footer{
         opacity:0;
     }
 
-    42%{
-
-        transform:
-            translate3d(
-                calc(-100vw - 220px) * .42,
-                10px,
-                0
-            );
+    30%{
 
         opacity:0;
     }
 
-    46%{
+    38%{
 
-        opacity:.05;
+        opacity:.18;
     }
 
-    49%{
-
-        opacity:.20;
-    }
-
-    53%{
+    45%{
 
         opacity:.40;
     }
 
-    62%{
+    58%{
 
-        opacity:.42;
+        opacity:.48;
     }
 
     78%{
 
-        opacity:.42;
+        opacity:.48;
     }
 
     88%{
@@ -704,23 +700,13 @@ footer{
         transform:
             translate3d(
                 calc(-100vw - 220px),
-                24px,
+                -14px,
                 0
             );
 
         opacity:0;
     }
 }
-
-
-/*
- * 鳥2の途中位置を正確にするため、
- * animation本体とは別にCSS変数を使わず、
- * JavaScriptで飛行位置を補間する方式にはしません。
- *
- * CSS animationだけで完結させることで、
- * ページのスクロールとは独立して確実に飛びます。
- */
 
 
 /* ==================================================
@@ -751,13 +737,13 @@ footer{
 .schedule th,
 .schedule td{
 
-    border-bottom:
-        1px solid #ddd;
-
     padding:
         .25rem .35rem;
 
     text-align:center;
+
+    border-bottom:
+        1px solid #ddd;
 
     font-size:1rem;
 
@@ -766,9 +752,9 @@ footer{
 
 .schedule tr:first-child th{
 
-    background:#31556e;
-
     color:#fff;
+
+    background:#31556e;
 
     font-weight:400;
 }
@@ -807,11 +793,11 @@ footer{
 
 .schedule tr:not(:first-child) th{
 
-    line-height:1.35;
-
     padding-top:.55rem;
 
     padding-bottom:.55rem;
+
+    line-height:1.35;
 
     letter-spacing:.05em;
 }
@@ -823,15 +809,13 @@ footer{
 
 .out-circle{
 
-    display:inline-block;
-
     position:relative;
+
+    display:inline-block;
 
     width:18px;
 
     height:18px;
-
-    border-radius:50%;
 
     background:
         linear-gradient(
@@ -840,6 +824,8 @@ footer{
             #3d8bdc 45%,
             #1769aa 100%
         );
+
+    border-radius:50%;
 
     box-shadow:
         inset 0 2px 3px
@@ -853,11 +839,15 @@ footer{
 
     position:relative;
 
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
     width:18px;
 
     height:18px;
-
-    border-radius:50%;
 
     background:
         linear-gradient(
@@ -867,11 +857,7 @@ footer{
             #4f8a2f 100%
         );
 
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
+    border-radius:50%;
 
     box-shadow:
         inset 0 2px 3px
@@ -890,7 +876,7 @@ footer{
 
 
 /* ==================================================
-   固定電話ボタン
+   固定電話
 ================================================== */
 
 .fixed-call{
@@ -911,11 +897,6 @@ footer{
 
     text-align:center;
 
-    border-radius:14px;
-
-    background:
-        rgba(49,85,110,.94);
-
     color:#fff;
 
     text-decoration:none;
@@ -923,6 +904,11 @@ footer{
     font-size:1rem;
 
     font-weight:500;
+
+    background:
+        rgba(49,85,110,.94);
+
+    border-radius:14px;
 
     box-shadow:
         0 6px 20px
@@ -1046,10 +1032,10 @@ footer{
 
     padding-bottom:.3rem;
 
+    color:#31556e;
+
     border-bottom:
         1px solid #ddd;
-
-    color:#31556e;
 
     font-size:1rem;
 
@@ -1065,14 +1051,14 @@ footer{
 
 .access-note{
 
-    font-size:.85rem;
-
     color:#666;
+
+    font-size:.85rem;
 }
 
 
 /* ==================================================
-   診療内容 フローティングカード
+   診療内容カード
 ================================================== */
 
 .service-card{
@@ -1082,7 +1068,9 @@ footer{
     margin:1rem 0;
 
     padding:
-        1.1rem 1.1rem;
+        1.1rem;
+
+    overflow:hidden;
 
     background:
         linear-gradient(
@@ -1096,8 +1084,6 @@ footer{
         rgba(110,170,160,.18);
 
     border-radius:14px;
-
-    overflow:hidden;
 
     box-shadow:
         0 4px 14px
@@ -1163,7 +1149,9 @@ footer{
     margin:1rem 0;
 
     padding:
-        1.1rem 1.1rem;
+        1.1rem;
+
+    overflow:hidden;
 
     background:
         linear-gradient(
@@ -1177,8 +1165,6 @@ footer{
         rgba(90,145,175,.20);
 
     border-radius:14px;
-
-    overflow:hidden;
 
     box-shadow:
         0 4px 14px
@@ -1336,25 +1322,13 @@ footer{
 ================================================== */
 
 /*
- * 写真表示領域
+ * 写真表示領域。
  *
  * 高さ：約40vh
  *
- * 写真そのものにも左右グラデーション。
- * さらに表示領域にも非常に薄い白グラデーション。
+ * stickyは使用しません。
  *
- * 2つの役割を分けています。
- *
- * 1.
- * clinic-image
- *   → 写真そのものの端を薄くする
- *
- * 2.
- * clinic-camera::after
- *   → 表示窓の端を白く柔らかくする
- *
- * この2つを重ねることで、
- * 写真の端が自然に背景へ溶け込みます。
+ * 写真そのものを横方向へ動かします。
  */
 
 .clinic-view{
@@ -1383,6 +1357,11 @@ footer{
         rgba(40,80,80,.07);
 }
 
+
+/*
+ * 写真を見る窓。
+ */
+
 .clinic-camera{
 
     position:absolute;
@@ -1400,20 +1379,21 @@ footer{
 
 
 /*
- * 写真本体
+ * 写真本体。
  *
- * 180%幅を維持。
+ * 重要：
  *
- * 画像自体の左右端を
- * 白へ向かって滑らかに薄くします。
+ * 写真そのものにも左右グラデーションを持たせます。
  *
- * 数字で言えば、
+ * そのため、写真画像そのものに
+ * mask-imageを使用します。
  *
- * 112233445556666677777888888888888888888888888888888888888888888888888888877777
- * 76666655544332211
+ * 中央はほぼ100%表示。
  *
- * のように、
- * 中央が濃く、端へ行くほど薄くなる構造です。
+ * 左右へ向かうほど透明になり、
+ * 最端ではかなり薄くなります。
+ *
+ * これが「写真自身のグラデーション」です。
  */
 
 .clinic-image{
@@ -1448,63 +1428,99 @@ footer{
 
     pointer-events:none;
 
-    /*
-     * 写真そのものの左右グラデーション。
-     *
-     * 白 → ほぼ透明 → 完全に透明 → ほぼ透明 → 白
-     *
-     * 中央の写真を残しながら、
-     * 左右端だけを背景へ溶かします。
-     */
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-            #fff 0%,
-            rgba(255,255,255,.92) 5%,
-            rgba(255,255,255,.60) 10%,
-            rgba(255,255,255,.18) 16%,
-            #fff 23%,
-            #fff 77%,
-            rgba(255,255,255,.18) 84%,
-            rgba(255,255,255,.60) 90%,
-            rgba(255,255,255,.92) 95%,
-            #fff 100%
-        );
-
-    mask-image:
-        linear-gradient(
-            to right,
-            #fff 0%,
-            rgba(255,255,255,.92) 5%,
-            rgba(255,255,255,.60) 10%,
-            rgba(255,255,255,.18) 16%,
-            #fff 23%,
-            #fff 77%,
-            rgba(255,255,255,.18) 84%,
-            rgba(255,255,255,.60) 90%,
-            rgba(255,255,255,.92) 95%,
-            #fff 100%
-        );
-
-    /*
-     * 横スクロール開始位置。
-     */
     transform:
         translate3d(
             -120vw,
             0,
             0
         );
+
+    /*
+     * 写真自身の左右グラデーション。
+     *
+     * 100%
+     * ↓
+     * ほぼ完全表示
+     *
+     * 88%
+     * ↓
+     * かなり表示
+     *
+     * 65%
+     * ↓
+     * 徐々に薄くなる
+     *
+     * 0%
+     * ↓
+     * 完全透明
+     *
+     * つまりユーザーが指定した
+     *
+     * 11223344555666667777788888888888888888888888888888888888888888888888888887777776666655544332211
+     *
+     * のように、
+     * 中央を厚く、端を長く滑らかに薄くします。
+     */
+
+    -webkit-mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.10) 7%,
+            rgba(0,0,0,.30) 14%,
+            rgba(0,0,0,.55) 22%,
+            rgba(0,0,0,.78) 30%,
+            rgba(0,0,0,.92) 38%,
+            #000 46%,
+            #000 54%,
+            rgba(0,0,0,.92) 62%,
+            rgba(0,0,0,.78) 70%,
+            rgba(0,0,0,.55) 78%,
+            rgba(0,0,0,.30) 86%,
+            rgba(0,0,0,.10) 93%,
+            transparent 100%
+        );
+
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.10) 7%,
+            rgba(0,0,0,.30) 14%,
+            rgba(0,0,0,.55) 22%,
+            rgba(0,0,0,.78) 30%,
+            rgba(0,0,0,.92) 38%,
+            #000 46%,
+            #000 54%,
+            rgba(0,0,0,.92) 62%,
+            rgba(0,0,0,.78) 70%,
+            rgba(0,0,0,.55) 78%,
+            rgba(0,0,0,.30) 86%,
+            rgba(0,0,0,.10) 93%,
+            transparent 100%
+        );
 }
 
 
 /*
- * 表示区域側の白グラデーション。
+ * ここは「表示領域自身」のグラデーション。
  *
- * 写真そのもののグラデーションとは別レイヤーです。
+ * 写真そのものとは別レイヤーです。
  *
- * ただし強くしすぎると二重に白く見えるため、
- * 非常に薄く設定しています。
+ * 写真本体：
+ *     clinic-image
+ *
+ * 表示区域：
+ *     clinic-camera::after
+ *
+ * と完全に分離しています。
+ *
+ * そのため、
+ * 「写真のグラデーション」と
+ * 「窓のグラデーション」が
+ * 一方を追加・修正しても消えません。
+ *
+ * 左右とも完全に対称です。
  */
 
 .clinic-camera::after{
@@ -1515,21 +1531,23 @@ footer{
 
     inset:0;
 
-    pointer-events:none;
-
     z-index:2;
+
+    pointer-events:none;
 
     background:
         linear-gradient(
             to right,
-            rgba(255,255,255,.20) 0%,
-            rgba(255,255,255,.08) 5%,
-            rgba(255,255,255,.02) 10%,
-            transparent 16%,
-            transparent 84%,
-            rgba(255,255,255,.02) 90%,
-            rgba(255,255,255,.08) 95%,
-            rgba(255,255,255,.20) 100%
+            rgba(255,255,255,.34) 0%,
+            rgba(255,255,255,.22) 5%,
+            rgba(255,255,255,.10) 11%,
+            rgba(255,255,255,.035) 18%,
+            transparent 25%,
+            transparent 75%,
+            rgba(255,255,255,.035) 82%,
+            rgba(255,255,255,.10) 89%,
+            rgba(255,255,255,.22) 95%,
+            rgba(255,255,255,.34) 100%
         );
 }
 
@@ -1626,17 +1644,8 @@ footer{
     .clinic-image{
 
         width:180%;
-    }
 
-    /*
-     * スマートフォンでは飛行距離を
-     * 画面幅に合わせます。
-     */
-    .bird{
-
-        width:68px;
-
-        right:-80px;
+        height:100%;
     }
 }
 
@@ -1798,20 +1807,12 @@ footer{
 </div>
 
 
-<!-- ==================================================
-     最新3件プレビュー
-================================================== -->
-
 <div class="news-preview">
 
     <div class="news-preview-list"></div>
 
 </div>
 
-
-<!-- ==================================================
-     お知らせ詳細への導線
-================================================== -->
 
 <div class="news-detail-jump">
 
@@ -2184,30 +2185,12 @@ footer{
 
 </th>
 
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    ―
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td>―</td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
 
 </tr>
 
@@ -2228,7 +2211,6 @@ footer{
 
 
 <td>
-
 <span class="visit-circle">
 
 <svg viewBox="0 0 24 24">
@@ -2250,12 +2232,10 @@ footer{
 </svg>
 
 </span>
-
 </td>
 
 
 <td>
-
 <span class="visit-circle">
 
 <svg viewBox="0 0 24 24">
@@ -2277,12 +2257,10 @@ footer{
 </svg>
 
 </span>
-
 </td>
 
 
 <td>
-
 <span class="visit-circle">
 
 <svg viewBox="0 0 24 24">
@@ -2304,12 +2282,10 @@ footer{
 </svg>
 
 </span>
-
 </td>
 
 
 <td>
-
 <span class="visit-circle">
 
 <svg viewBox="0 0 24 24">
@@ -2331,17 +2307,10 @@ footer{
 </svg>
 
 </span>
-
 </td>
 
-
-<td>
-    ―
-</td>
-
-<td>
-    ―
-</td>
+<td>―</td>
+<td>―</td>
 
 </tr>
 
@@ -2358,34 +2327,14 @@ footer{
     17:30〜19:30
 </span>
 
-<br>
-
 </th>
 
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    <span class="out-circle"></span>
-</td>
-
-<td>
-    ―
-</td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td><span class="out-circle"></span></td>
+<td>―</td>
 
 </tr>
 
@@ -2484,7 +2433,6 @@ Googleマップで見る
     公共交通機関
 </h3>
 
-
 <p>
 
 <strong>
@@ -2563,13 +2511,11 @@ Googleマップで見る
 
 </p>
 
-
 <p class="access-note">
 
 ※堀田出口は右側車線から降ります。
 
 </p>
-
 
 <p>
 
@@ -2656,20 +2602,18 @@ Googleマップで見る
 <script>
 
 /**
- * 院内写真を縦スクロールに連動して横移動させます。
+ * 院内写真を縦スクロールに応じて横移動させます。
  *
  * なぜそうしているか：
- * 写真をsticky固定せず、
- * 通常の文書フローの中で横移動させることで、
- * 下部に不自然な白い領域が発生するのを防ぎます。
- *
- * @returns {void}
+ * stickyを使用せず、写真表示領域そのものは
+ * 通常の文書フローに置いたまま、
+ * 写真だけを横方向へ移動させるためです。
  *
  * エラー処理：
- * 対象要素が存在しない場合は処理を終了します。
+ * 必要なDOMが存在しない場合は安全に終了します。
  *
  * セキュリティ：
- * 外部入力は扱わず、固定されたDOM要素だけを操作します。
+ * 外部入力は使用せず、固定DOMだけを操作します。
  *
  * 計算量：
  * 時間 O(1)
@@ -2691,7 +2635,7 @@ let clinicFramePending =
 
 
 /**
- * 院内写真の横位置を更新します。
+ * 院内写真位置を更新します。
  *
  * @returns {void}
  */
@@ -2715,7 +2659,6 @@ function updateClinicImage(){
 
     const sectionHeight =
         rect.height;
-
 
     const totalTravel =
         viewportHeight +
@@ -2744,8 +2687,8 @@ function updateClinicImage(){
      * smoothstep。
      *
      * なぜそうしているか：
-     * 移動開始と終了を滑らかにし、
-     * 写真が急に動き始める印象を抑えます。
+     * 始点・終点付近の動きを緩やかにして、
+     * 写真が急に動き始めたり止まったりする印象を防ぎます。
      */
 
     const eased =
@@ -2760,7 +2703,7 @@ function updateClinicImage(){
     /*
      * -120vw → +40vw
      *
-     * これまでの横スクロール仕様を維持します。
+     * の範囲で移動します。
      */
 
     const x =
@@ -2769,16 +2712,12 @@ function updateClinicImage(){
 
 
     clinicImage.style.transform =
-        `translate3d(
-            ${x}vw,
-            0,
-            0
-        )`;
+        `translate3d(${x}vw,0,0)`;
 }
 
 
 /**
- * 次の描画タイミングで更新します。
+ * 次の描画フレームで更新します。
  *
  * @returns {void}
  */
@@ -2837,8 +2776,15 @@ updateClinicImage();
 <script>
 
 /**
- * news.jsonを読み込み、
- * 最新3件を表示します。
+ * news.jsonを読み込みます。
+ *
+ * なぜそうしているか：
+ * index.htmlを編集せず、お知らせだけを
+ * news.jsonで更新できるようにするためです。
+ *
+ * セキュリティ：
+ * JSONの文字列はinnerHTMLへ入れず、
+ * textContentを使用します。
  *
  * @returns {Promise<void>}
  */
@@ -2860,7 +2806,6 @@ fetch(
             throw new Error(
                 `news.json取得失敗: ${response.status}`
             );
-
         }
 
         return response.json();
@@ -2878,7 +2823,6 @@ fetch(
             throw new Error(
                 'news.jsonは配列ではありません。'
             );
-
         }
 
 
@@ -2888,10 +2832,6 @@ fetch(
                 3
             );
 
-
-        /* ==================================================
-           上部プレビュー
-        ================================================== */
 
         const previewList =
             document.querySelector(
@@ -2961,14 +2901,6 @@ fetch(
                         );
 
 
-                    /*
-                     * javascript: 等の危険なURLを拒否します。
-                     *
-                     * なぜそうしているか：
-                     * news.jsonを書き換えられた場合でも、
-                     * JavaScriptをリンクとして実行させないためです。
-                     */
-
                     if(
                         /^(?:[a-z][a-z0-9+.-]*:)/i.test(
                             target
@@ -2978,11 +2910,13 @@ fetch(
                         )
                     ){
 
-                        link.href = '#';
+                        link.href =
+                            '#';
 
                     }else{
 
-                        link.href = target;
+                        link.href =
+                            target;
 
                     }
 
@@ -3004,10 +2938,6 @@ fetch(
 
         }
 
-
-        /* ==================================================
-           下部詳細
-        ================================================== */
 
         const newsList =
             document.querySelector(
@@ -3086,11 +3016,13 @@ fetch(
                         )
                     ){
 
-                        link.href = '#';
+                        link.href =
+                            '#';
 
                     }else{
 
-                        link.href = target;
+                        link.href =
+                            target;
 
                     }
 
@@ -3168,8 +3100,8 @@ fetch(
     error => {
 
         /*
-         * お知らせだけのエラーで
-         * トップページ全体を止めないためです。
+         * お知らせだけの障害で
+         * トップページ全体が停止しないようにします。
          */
 
         console.error(
@@ -3184,13 +3116,13 @@ fetch(
 
 
 <!-- ==================================================
-     「詳細はこちら」
+     詳細はこちら
 ================================================== -->
 
 <script>
 
 /**
- * 「詳細はこちら」からお知らせへ滑らかに移動します。
+ * お知らせ詳細へ滑らかに移動します。
  *
  * @returns {void}
  */
@@ -3282,12 +3214,11 @@ if(
                         2 * t
                     )
                 );
-
             }
 
 
             /**
-             * スクロールアニメーション。
+             * スクロール処理。
              *
              * @param {number} now
              * 現在時刻
@@ -3323,7 +3254,6 @@ if(
                     requestAnimationFrame(
                         animate
                     );
-
                 }
 
             }
