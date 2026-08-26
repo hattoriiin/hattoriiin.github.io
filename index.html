@@ -477,6 +477,26 @@ footer{
    鳥
 ================================================== */
 
+/*
+ * 鳥は2種類を別々の周期で飛ばします。
+ *
+ * それぞれ、
+ *
+ *   フェードイン
+ *       ↓
+ *   飛行
+ *       ↓
+ *   フェードアウト
+ *       ↓
+ *   画面外へ消失
+ *
+ * という一連の流れを独立して繰り返します。
+ *
+ * なぜそうしているか：
+ * 2羽を同じタイミングで動かすと、
+ * 「2羽セットのアニメーション」に見えてしまうためです。
+ */
+
 .bird{
 
     position:absolute;
@@ -492,20 +512,54 @@ footer{
     pointer-events:none;
 
     opacity:0;
+
+    will-change:
+        transform,
+        opacity;
 }
+
+
+/* --------------------------------------------------
+   鳥1
+-------------------------------------------------- */
 
 .bird1{
 
     animation:
-        flybird1 18s linear infinite;
+        flybird1
+        18s
+        linear
+        infinite;
 }
+
+
+/* --------------------------------------------------
+   鳥2
+-------------------------------------------------- */
 
 .bird2{
 
     animation:
-        flybird2 18s linear infinite;
+        flybird2
+        18s
+        linear
+        infinite;
+
+    /*
+     * 1羽目と半周期ずらします。
+     *
+     * なぜそうしているか：
+     * 2羽が同時に出現することを避けるためです。
+     */
+
+    animation-delay:
+        -9s;
 }
 
+
+/* ==================================================
+   鳥1の飛行
+================================================== */
 
 @keyframes flybird1{
 
@@ -521,25 +575,62 @@ footer{
         opacity:0;
     }
 
+
+    /* フェードイン */
+
     8%{
-        opacity:.30;
+
+        opacity:0;
+    }
+
+    14%{
+
+        opacity:.22;
     }
 
     20%{
+
+        opacity:.40;
+    }
+
+
+    /* 飛行 */
+
+    25%{
+
         opacity:.42;
     }
 
-    70%{
+    65%{
+
         opacity:.42;
     }
+
+    74%{
+
+        opacity:.36;
+    }
+
+
+    /* フェードアウト */
 
     82%{
-        opacity:.18;
+
+        opacity:.20;
     }
 
-    92%{
+    89%{
+
+        opacity:.08;
+    }
+
+    94%{
+
         opacity:0;
     }
+
+
+    /* 左側へ消える */
 
     100%{
 
@@ -555,6 +646,10 @@ footer{
 }
 
 
+/* ==================================================
+   鳥2の飛行
+================================================== */
+
 @keyframes flybird2{
 
     0%{
@@ -569,25 +664,62 @@ footer{
         opacity:0;
     }
 
-    42%{
+
+    /* フェードイン */
+
+    10%{
+
         opacity:0;
     }
 
-    50%{
-        opacity:.28;
+    17%{
+
+        opacity:.18;
     }
 
-    62%{
+    23%{
+
+        opacity:.36;
+    }
+
+
+    /* 飛行 */
+
+    28%{
+
         opacity:.38;
     }
 
-    82%{
-        opacity:.28;
+    63%{
+
+        opacity:.38;
     }
 
-    92%{
+    72%{
+
+        opacity:.30;
+    }
+
+
+    /* フェードアウト */
+
+    80%{
+
+        opacity:.18;
+    }
+
+    88%{
+
+        opacity:.07;
+    }
+
+    94%{
+
         opacity:0;
     }
+
+
+    /* 左側へ消える */
 
     100%{
 
@@ -1216,34 +1348,11 @@ footer{
 ================================================== */
 
 /*
- * ここは今回の重要部分です。
+ * 表示高さ：約40vh
  *
- * レイヤーを完全に分離します。
+ * 写真は通常の文書フローに置きます。
  *
- * ① clinic-image
- *    写真そのもの
- *
- * ② clinic-image-fade
- *    写真自身の左右フェード
- *
- * ③ clinic-edge-fade
- *    表示区域そのものの左右白グラデーション
- *
- * ①と②は一緒に横移動します。
- *
- * ③は固定です。
- *
- * そのため、
- *
- * 写真そのもの
- *     ↓
- * 端へ行くほど薄くなる
- *
- * 表示区域
- *     ↓
- * 端へ行くほど白くなる
- *
- * を同時に成立させます。
+ * 縦スクロールに応じて写真画像だけを横移動させます。
  */
 
 .clinic-view{
@@ -1273,9 +1382,14 @@ footer{
 }
 
 
-/* ==================================================
-   固定された写真表示窓
-================================================== */
+/*
+ * 写真表示領域。
+ *
+ * ここ自身にも左右の白いグラデーションを
+ * 独立したレイヤーとして載せます。
+ *
+ * 写真画像側のグラデーションとは別です。
+ */
 
 .clinic-camera{
 
@@ -1293,11 +1407,21 @@ footer{
 }
 
 
-/* ==================================================
-   横移動する写真レイヤー
-================================================== */
+/*
+ * 写真そのもの。
+ *
+ * 写真自体にも左右方向の白いグラデーションを
+ * mask-imageで付けます。
+ *
+ * これにより、
+ *
+ * 112233445556666677777888...
+ *
+ * のように中央が最も濃く、
+ * 左右端へ向かって滑らかに薄くなります。
+ */
 
-.clinic-image-layer{
+.clinic-image{
 
     position:absolute;
 
@@ -1311,139 +1435,13 @@ footer{
 
     max-width:none;
 
-    /*
-     * このレイヤーだけがJSで横移動します。
-     *
-     * なぜそうしているか：
-     * 表示区域の白グラデーションを固定し、
-     * 写真だけを動かすためです。
-     */
-
-    will-change:transform;
-
-    /*
-     * 写真自身の左右フェード。
-     *
-     * 左右完全対称です。
-     *
-     * 中央は濃く、
-     * 左右へ向かうほど透明になります。
-     *
-     * 白い表示区域グラデーションとは
-     * 別レイヤーなので二重化しても
-     * 互いに動きを邪魔しません。
-     */
-
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-
-            rgba(0,0,0,0) 0%,
-
-            rgba(0,0,0,.12) 4%,
-
-            rgba(0,0,0,.30) 8%,
-
-            rgba(0,0,0,.52) 13%,
-
-            rgba(0,0,0,.74) 18%,
-
-            rgba(0,0,0,.90) 24%,
-
-            #000 30%,
-
-            #000 70%,
-
-            rgba(0,0,0,.90) 76%,
-
-            rgba(0,0,0,.74) 82%,
-
-            rgba(0,0,0,.52) 87%,
-
-            rgba(0,0,0,.30) 92%,
-
-            rgba(0,0,0,.12) 96%,
-
-            rgba(0,0,0,0) 100%
-        );
-
-    mask-image:
-        linear-gradient(
-            to right,
-
-            rgba(0,0,0,0) 0%,
-
-            rgba(0,0,0,.12) 4%,
-
-            rgba(0,0,0,.30) 8%,
-
-            rgba(0,0,0,.52) 13%,
-
-            rgba(0,0,0,.74) 18%,
-
-            rgba(0,0,0,.90) 24%,
-
-            #000 30%,
-
-            #000 70%,
-
-            rgba(0,0,0,.90) 76%,
-
-            rgba(0,0,0,.74) 82%,
-
-            rgba(0,0,0,.52) 87%,
-
-            rgba(0,0,0,.30) 92%,
-
-            rgba(0,0,0,.12) 96%,
-
-            rgba(0,0,0,0) 100%
-        );
-
-    -webkit-mask-repeat:no-repeat;
-
-    mask-repeat:no-repeat;
-
-    -webkit-mask-size:100% 100%;
-
-    mask-size:100% 100%;
-}
-
-
-/* ==================================================
-   写真
-================================================== */
-
-.clinic-image{
-
-    display:block;
-
-    position:absolute;
-
-    top:0;
-
-    left:0;
-
-    width:100%;
-
-    height:100%;
-
-    max-width:none;
-
     object-fit:cover;
 
     object-position:center;
 
-    /*
-     * 写真そのものの透明度。
-     *
-     * ここでは左右フェードをopacityで
-     * 作らないことが重要です。
-     *
-     * 左右フェードはmaskが担当します。
-     */
-
     opacity:.78;
+
+    will-change:transform;
 
     user-select:none;
 
@@ -1454,77 +1452,122 @@ footer{
     -webkit-touch-callout:none;
 
     pointer-events:none;
+
+    /*
+     * 写真そのものの左右フェード。
+     *
+     * なぜmaskを使うか：
+     * 表示区域のグラデーションと重ねても、
+     * 写真そのものの端だけを自然に薄くできます。
+     */
+
+    -webkit-mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.18) 7%,
+            rgba(0,0,0,.45) 14%,
+            rgba(0,0,0,.72) 22%,
+            rgba(0,0,0,.90) 30%,
+            #000 40%,
+            #000 60%,
+            rgba(0,0,0,.90) 70%,
+            rgba(0,0,0,.72) 78%,
+            rgba(0,0,0,.45) 86%,
+            rgba(0,0,0,.18) 93%,
+            transparent 100%
+        );
+
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,.18) 7%,
+            rgba(0,0,0,.45) 14%,
+            rgba(0,0,0,.72) 22%,
+            rgba(0,0,0,.90) 30%,
+            #000 40%,
+            #000 60%,
+            rgba(0,0,0,.90) 70%,
+            rgba(0,0,0,.72) 78%,
+            rgba(0,0,0,.45) 86%,
+            rgba(0,0,0,.18) 93%,
+            transparent 100%
+        );
+
+    /*
+     * 写真の移動範囲。
+     *
+     * JSから
+     *
+     * -120vw → +40vw
+     *
+     * を設定します。
+     */
+
+    transform:
+        translate3d(
+            -120vw,
+            0,
+            0
+        );
 }
 
 
-/* ==================================================
-   表示区域の白グラデーション
-================================================== */
-
 /*
- * ここは「固定レイヤー」です。
+ * 表示区域自身のグラデーション。
  *
- * clinic-image-layerとは別物です。
+ * ここは写真画像とは別レイヤーです。
  *
- * JSで横移動させません。
+ * なぜ別にするか：
+ * 「写真そのものの端が薄くなる効果」と
+ * 「画面に見えている区域の端が白くぼける効果」は
+ * 別々の役割だからです。
  *
- * つまり、
+ * このレイヤーでは中央を透明にして、
+ * 左右だけを白くします。
  *
- * ┌─────────────────────┐
- * │ 白 → 写真 → 白       │
- * │ ↑固定      固定↑      │
- * └─────────────────────┘
- *
- * 写真だけがその下を横切ります。
- *
- * 左右は完全対称です。
- *
- * 白い部分を以前より少なくするため、
- * 実質的なフェード範囲を約18%にしています。
+ * 左右は完全に対称です。
  */
 
-.clinic-edge-fade{
+.clinic-camera::after{
+
+    content:"";
 
     position:absolute;
 
     inset:0;
 
-    z-index:10;
-
     pointer-events:none;
+
+    z-index:2;
 
     background:
         linear-gradient(
             to right,
-
-            rgba(255,255,255,1) 0%,
-
-            rgba(255,255,255,.92) 2%,
-
-            rgba(255,255,255,.65) 4%,
-
-            rgba(255,255,255,.35) 7%,
-
-            rgba(255,255,255,.14) 11%,
-
-            rgba(255,255,255,.04) 15%,
-
-            rgba(255,255,255,0) 18%,
-
-            rgba(255,255,255,0) 82%,
-
-            rgba(255,255,255,.04) 85%,
-
-            rgba(255,255,255,.14) 89%,
-
-            rgba(255,255,255,.35) 93%,
-
-            rgba(255,255,255,.65) 96%,
-
-            rgba(255,255,255,.92) 98%,
-
-            rgba(255,255,255,1) 100%
+            rgba(255,255,255,.62) 0%,
+            rgba(255,255,255,.44) 5%,
+            rgba(255,255,255,.22) 10%,
+            rgba(255,255,255,.08) 16%,
+            transparent 22%,
+            transparent 78%,
+            rgba(255,255,255,.08) 84%,
+            rgba(255,255,255,.22) 90%,
+            rgba(255,255,255,.44) 95%,
+            rgba(255,255,255,.62) 100%
         );
+}
+
+
+/* ==================================================
+   連絡先
+================================================== */
+
+.contact-label{
+
+    display:inline-block;
+
+    width:3.5em;
 }
 
 
@@ -1533,6 +1576,67 @@ footer{
 ================================================== */
 
 @media (max-width:600px){
+
+    .protected-image{
+
+        width:120px;
+
+        margin-right:15px;
+
+        margin-bottom:8px;
+    }
+
+    .news-section{
+
+        width:94%;
+
+        margin:2.5rem auto;
+    }
+
+    .news-section h2{
+
+        width:78%;
+
+        font-size:1.05rem;
+
+        letter-spacing:.13em;
+    }
+
+    .news-list{
+
+        width:92%;
+    }
+
+    .location-grid{
+
+        grid-template-columns:
+            55% 45%;
+
+        gap:.7rem;
+    }
+
+    .location-map iframe{
+
+        height:180px;
+    }
+
+    .location-info h3{
+
+        font-size:.85rem;
+    }
+
+    .location-info p{
+
+        font-size:.92rem;
+
+        line-height:1.55;
+    }
+
+    .map-link{
+
+        font-size:.65rem;
+    }
+
 
     .clinic-view{
 
@@ -1545,51 +1649,11 @@ footer{
         border-radius:12px;
     }
 
-    .clinic-image-layer{
+    .clinic-image{
 
         width:180%;
 
         height:100%;
-    }
-
-    /*
-     * スマートフォンでも左右対称を維持します。
-     */
-
-    .clinic-edge-fade{
-
-        background:
-            linear-gradient(
-                to right,
-
-                rgba(255,255,255,1) 0%,
-
-                rgba(255,255,255,.92) 2%,
-
-                rgba(255,255,255,.65) 4%,
-
-                rgba(255,255,255,.35) 7%,
-
-                rgba(255,255,255,.14) 11%,
-
-                rgba(255,255,255,.04) 15%,
-
-                rgba(255,255,255,0) 18%,
-
-                rgba(255,255,255,0) 82%,
-
-                rgba(255,255,255,.04) 85%,
-
-                rgba(255,255,255,.14) 89%,
-
-                rgba(255,255,255,.35) 93%,
-
-                rgba(255,255,255,.65) 96%,
-
-                rgba(255,255,255,.92) 98%,
-
-                rgba(255,255,255,1) 100%
-            );
     }
 }
 
@@ -1613,7 +1677,12 @@ footer{
         max-height:260px;
     }
 
-    .clinic-image-layer{
+    .clinic-camera{
+
+        height:100%;
+    }
+
+    .clinic-image{
 
         width:180%;
 
@@ -1630,19 +1699,37 @@ footer{
     prefers-reduced-motion:reduce
 ){
 
+    /*
+     * ページスクロールのアニメーションだけ停止。
+     */
+
     html{
 
         scroll-behavior:auto;
     }
 
+
+    /*
+     * 鳥は消さない。
+     *
+     * なぜそうしているか：
+     * 鳥を装飾として表示するため、
+     * animation:none / opacity:0 にすると
+     * 鳥そのものが完全に消えてしまうためです。
+     */
+
     .bird{
 
-        animation:none;
-
-        opacity:0;
+        animation-play-state:
+            running;
     }
 
-    .clinic-image-layer{
+
+    /*
+     * 院内写真は静止。
+     */
+
+    .clinic-image{
 
         transform:
             translate3d(
@@ -1651,18 +1738,6 @@ footer{
                 0
             );
     }
-}
-
-
-/* ==================================================
-   連絡先
-================================================== */
-
-.contact-label{
-
-    display:inline-block;
-
-    width:3.5em;
 }
 
 </style>
@@ -1823,8 +1898,6 @@ footer{
 
 <!-- ==================================================
      院内写真
-     
-     写真と表示区域のグラデーションを完全分離
 ================================================== -->
 
 <section
@@ -1834,31 +1907,12 @@ footer{
 
     <div class="clinic-camera">
 
-        <!-- 写真だけが横移動するレイヤー -->
-
-        <div class="clinic-image-layer">
-
-            <img
-                src="images/gairai.uketuke.jpg"
-                alt="服部医院 院内"
-                class="clinic-image"
-                draggable="false"
-            >
-
-        </div>
-
-
-        <!--
-         * 表示区域そのものの白グラデーション。
-         *
-         * このレイヤーは固定され、
-         * 写真と一緒には動きません。
-         -->
-
-        <div
-            class="clinic-edge-fade"
-            aria-hidden="true"
-        ></div>
+        <img
+            src="images/gairai.uketuke.jpg"
+            alt="服部医院 院内"
+            class="clinic-image"
+            draggable="false"
+        >
 
     </div>
 
@@ -2551,7 +2605,6 @@ Googleマップで見る
 
 </p>
 
-
 <p>
 
 出口を降りて直進し、
@@ -2637,26 +2690,15 @@ Googleマップで見る
 <script>
 
 /**
- * 院内写真だけを縦スクロールに連動して横移動させます。
- *
- * 写真のレイヤーだけを移動し、
- * 表示区域の白グラデーションは移動させません。
- *
- * これにより、
- *
- * 写真自身のフェード
- * ＋
- * 表示区域の固定フェード
- *
- * を独立して表示できます。
+ * 院内写真を縦スクロールに連動して横移動させます。
  *
  * @returns {void}
  *
  * エラー処理：
- * 必要なDOM要素が存在しない場合は処理を終了します。
+ * 対象要素が存在しない場合は何もしません。
  *
  * セキュリティ：
- * 外部入力は使用せず、固定されたDOM要素のみを操作します。
+ * 外部入力を扱わず、固定されたDOMだけを操作します。
  *
  * 計算量：
  * 時間 O(1)
@@ -2668,9 +2710,9 @@ const clinicView =
         '.clinic-view'
     );
 
-const clinicImageLayer =
+const clinicImage =
     document.querySelector(
-        '.clinic-image-layer'
+        '.clinic-image'
     );
 
 let clinicFramePending =
@@ -2680,11 +2722,6 @@ let clinicFramePending =
 /**
  * 院内写真の横位置を更新します。
  *
- * なぜそうしているか：
- * scrollイベントのたびに直接DOMを書き換えるのではなく、
- * requestAnimationFrameと組み合わせて描画タイミングを
- * ブラウザへ合わせるためです。
- *
  * @returns {void}
  */
 
@@ -2692,7 +2729,7 @@ function updateClinicImage(){
 
     if(
         !clinicView ||
-        !clinicImageLayer
+        !clinicImage
     ){
 
         return;
@@ -2714,22 +2751,6 @@ function updateClinicImage(){
         sectionHeight;
 
 
-    /*
-     * 写真表示区域が
-     *
-     * 画面下から入る
-     *
-     * ↓
-     *
-     * 画面中央を通る
-     *
-     * ↓
-     *
-     * 画面上から抜ける
-     *
-     * までを0〜1に変換します。
-     */
-
     let progress =
         (
             viewportHeight -
@@ -2739,11 +2760,11 @@ function updateClinicImage(){
 
 
     /*
-     * 0〜1へ制限します。
+     * 進行率を0〜1に制限します。
      *
      * なぜそうしているか：
-     * 写真が画面外にある状態で
-     * 不要な移動が発生するのを防ぐためです。
+     * 写真が画面外にあるときに
+     * 不必要な横移動が発生するのを防ぎます。
      */
 
     progress =
@@ -2760,8 +2781,7 @@ function updateClinicImage(){
      * smoothstep。
      *
      * なぜそうしているか：
-     * 開始と終了付近の動きを緩やかにし、
-     * 写真が急に動き始める印象を抑えるためです。
+     * 移動開始と終了を滑らかにします。
      */
 
     const eased =
@@ -2774,21 +2794,13 @@ function updateClinicImage(){
 
 
     /*
-     * 写真の移動範囲。
+     * 横移動。
      *
-     * 開始：
      * -120vw
-     *
-     * 中間：
-     * -40vw
-     *
-     * 終了：
+     * ↓
      * +40vw
      *
-     * ここで移動するのは
-     * clinic-image-layerだけです。
-     *
-     * clinic-edge-fadeは固定されたままです。
+     * とします。
      */
 
     const x =
@@ -2796,7 +2808,7 @@ function updateClinicImage(){
         eased * 160;
 
 
-    clinicImageLayer.style.transform =
+    clinicImage.style.transform =
         `translate3d(
             ${x}vw,
             0,
@@ -2806,7 +2818,7 @@ function updateClinicImage(){
 
 
 /**
- * 次の描画タイミングで写真位置を更新します。
+ * 次の描画タイミングで更新します。
  *
  * @returns {void}
  */
@@ -2838,6 +2850,14 @@ function requestClinicUpdate(){
 }
 
 
+/*
+ * passive:true。
+ *
+ * なぜそうしているか：
+ * preventDefault()を使用しないスクロールイベントなので、
+ * ブラウザのスクロール処理を妨げないためです。
+ */
+
 window.addEventListener(
     'scroll',
     requestClinicUpdate,
@@ -2860,7 +2880,7 @@ window.addEventListener(
 
 
 /*
- * 初期状態を設定します。
+ * 初期表示。
  */
 
 updateClinicImage();
@@ -2884,8 +2904,12 @@ updateClinicImage();
  * 配列ではないJSON、不正な項目を処理します。
  *
  * セキュリティ：
- * 外部データはinnerHTMLへ直接投入せず、
+ * 外部データをinnerHTMLへ投入せず、
  * textContentを使用します。
+ *
+ * 計算量：
+ * 時間 O(N)
+ * 空間 O(N)
  */
 
 fetch(
@@ -3005,6 +3029,14 @@ fetch(
                             '#'
                         );
 
+
+                    /*
+                     * javascript:などの危険なURLスキームを拒否します。
+                     *
+                     * なぜそうしているか：
+                     * news.jsonが編集ミスや不正な値を含んでも
+                     * スクリプト実行につながらないようにします。
+                     */
 
                     if(
                         /^(?:[a-z][a-z0-9+.-]*:)/i.test(
@@ -3205,7 +3237,7 @@ fetch(
     error => {
 
         /*
-         * お知らせだけのエラーで
+         * お知らせの取得失敗だけで
          * トップページ全体を停止させないためです。
          */
 
@@ -3327,6 +3359,7 @@ if(
              * スクロールアニメーション。
              *
              * @param {number} now
+             * 現在時刻
              *
              * @returns {void}
              */
