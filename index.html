@@ -1283,7 +1283,18 @@ footer{
 
     width:100%;
 
-    height:38vh;
+    /*
+     * ここを38vhから100vhへ変更。
+     *
+     * なぜそうしているか：
+     * 38vhのままだとスマートフォンの画面高より
+     * スクロール領域が短くなり、JavaScript側で
+     * スクロール可能距離が0以下になってしまうため。
+     *
+     * 100vhにすることで、画面1画面分のスクロール領域を
+     * 確保し、その中でclinic-cameraをsticky表示します。
+     */
+    height:100vh;
 
     margin:0;
 
@@ -2556,7 +2567,7 @@ Googleマップで見る
 <!-- ==================================================
      院内写真・スクロール連動
      
-     ★今回ここを変更
+     今回はここだけ修正
      
      常時 requestAnimationFrame() を回さず、
      スクロール発生時だけ次の描画フレームで
@@ -2576,30 +2587,27 @@ Googleマップで見る
  * そのため、スクロール時だけ更新する方式に変更し、
  * ページ全体の描画負荷を抑えます。
  *
- * 引数：
- *   なし
- *
- * 戻り値：
- *   なし
- *
  * エラー処理：
- *   - 対象要素が存在しない場合は終了します。
- *   - 計算領域が0以下の場合は終了します。
- *   - progressは0〜1の範囲に制限します。
+ * - 対象要素が存在しない場合は終了します。
+ * - 計算領域が0以下の場合は終了します。
+ * - progressは0〜1の範囲に制限します。
  *
  * セキュリティ：
- *   固定されたDOM要素のみを操作し、
- *   外部入力を使用しません。
+ * 固定されたDOM要素のみを操作し、
+ * 外部入力を使用しません。
  *
  * 計算量：
- *   時間 O(1)
- *   空間 O(1)
+ * 時間 O(1)
+ * 空間 O(1)
  */
 const clinicView =
     document.querySelector('.clinic-view');
 
 const clinicImage =
     document.querySelector('.clinic-image');
+
+const clinicCamera =
+    document.querySelector('.clinic-camera');
 
 let clinicScrollTicking =
     false;
@@ -2618,8 +2626,38 @@ function updateClinicImage(){
 
     if(
         !clinicView ||
-        !clinicImage
+        !clinicImage ||
+        !clinicCamera
     ){
+
+        return;
+
+    }
+
+
+    /*
+     * clinic-view全体の高さから、
+     * 実際に画面内に固定して見せる
+     * clinic-cameraの高さを引きます。
+     *
+     * なぜそうしているか：
+     * 以前の
+     *
+     * clinicView.offsetHeight - window.innerHeight
+     *
+     * では、clinic-viewが38vhのとき
+     * スマートフォンの画面高より小さくなり、
+     * スクロール可能距離がマイナスになっていました。
+     *
+     * そこで、stickyで表示するカメラ部分との差を
+     * スクロール可能領域として使用します。
+     */
+    const total =
+        clinicView.offsetHeight -
+        clinicCamera.offsetHeight;
+
+
+    if(total <= 0){
 
         return;
 
@@ -2628,18 +2666,6 @@ function updateClinicImage(){
 
     const rect =
         clinicView.getBoundingClientRect();
-
-
-    const total =
-        clinicView.offsetHeight -
-        window.innerHeight;
-
-
-    if(total <= 0){
-
-        return;
-
-    }
 
 
     let progress =
@@ -2964,7 +2990,7 @@ fetch('news.json')
 <!-- ==================================================
      「詳細はこちら」→ お知らせ詳細
      
-     ★重複していた2本を1本に統合
+     ★ここは今回変更していない
 ================================================== -->
 
 <script>
