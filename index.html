@@ -14,7 +14,10 @@
 
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
+@import url(
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap'
+);
+
 
 /* ==================================================
    基本
@@ -59,32 +62,28 @@ h2{
 
 header{
     background:
-    radial-gradient(
-        circle at 90% 15%,
-        rgba(255,255,255,.08),
-        transparent 30%
-    ),
-    radial-gradient(
-        circle at 15% 85%,
-        rgba(120,200,220,.08),
-        transparent 45%
-    ),
-    linear-gradient(
-        135deg,
-        #20384d 0%,
-        #31556e 35%,
-        #4d7d98 70%,
-        #78b8c4 100%
-    );
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(255,255,255,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(120,200,220,.08),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        );
 
     color:#fff;
-
     padding:.8rem 1rem;
-
     text-align:center;
-
     position:relative;
-
     overflow:hidden;
 
     box-shadow:
@@ -92,11 +91,13 @@ header{
         inset 0 -25px 40px rgba(0,0,0,.08);
 }
 
+
+/* ---------- ヘッダー光 ---------- */
+
 header::before{
     content:"";
 
     position:absolute;
-
     inset:0;
 
     background:
@@ -108,14 +109,11 @@ header::before{
         );
 
     pointer-events:none;
-
     z-index:0;
 }
 
 
-/* ==================================================
-   タイトル
-================================================== */
+/* ---------- タイトル ---------- */
 
 .clinic-title,
 .catchcopy{
@@ -125,7 +123,7 @@ header::before{
 
 .clinic-title{
     margin:0;
-    line-height:1.0;
+    line-height:1;
 }
 
 .clinic-name{
@@ -139,9 +137,7 @@ header::before{
         sans-serif;
 
     font-size:1.5em;
-
     font-weight:400;
-
     letter-spacing:.35em;
 
     text-shadow:
@@ -167,7 +163,6 @@ header::before{
     display:flex;
 
     justify-content:center;
-
     align-items:flex-end;
 
     gap:.4em;
@@ -187,15 +182,12 @@ header::before{
 
 .logo-block{
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
 }
 
 .furigana{
     font-size:.48em;
-
     color:#d9d9d9;
 
     margin-bottom:.15em;
@@ -225,7 +217,6 @@ header::before{
 
 .news-card{
     margin:1.5rem 0 .8rem;
-
     text-align:center;
 }
 
@@ -235,7 +226,6 @@ header::before{
     padding:.65rem 2.5rem;
 
     background:#31556e;
-
     color:#fff;
 
     border-radius:8px;
@@ -245,7 +235,7 @@ header::before{
 
 
 /* ==================================================
-   お知らせ 最新3件プレビュー
+   最新3件プレビュー
 ================================================== */
 
 .news-preview{
@@ -314,7 +304,6 @@ header::before{
     color:#8a875f;
 
     font-size:.75rem;
-
     letter-spacing:.06em;
 }
 
@@ -353,7 +342,6 @@ header::before{
     text-decoration:none;
 
     font-size:.85rem;
-
     font-weight:500;
 
     letter-spacing:.08em;
@@ -389,7 +377,6 @@ header::before{
     position:absolute;
 
     top:10px;
-
     right:-120px;
 
     width:80px;
@@ -425,7 +412,6 @@ header::before{
                 calc(-100vw - 220px)
             );
     }
-
 }
 
 @keyframes fadebird1{
@@ -453,7 +439,6 @@ header::before{
     100%{
         opacity:0;
     }
-
 }
 
 @keyframes fadebird2{
@@ -485,7 +470,6 @@ header::before{
     100%{
         opacity:0;
     }
-
 }
 
 
@@ -499,7 +483,6 @@ header::before{
     table-layout:auto;
 
     border-collapse:separate;
-
     border-spacing:0;
 
     margin-top:1.2rem;
@@ -564,7 +547,6 @@ header::before{
     line-height:1.35;
 
     padding-top:.55rem;
-
     padding-bottom:.55rem;
 
     letter-spacing:.05em;
@@ -581,7 +563,6 @@ header::before{
     position:relative;
 
     width:18px;
-
     height:18px;
 
     border-radius:50%;
@@ -595,15 +576,17 @@ header::before{
         );
 
     box-shadow:
-        inset 0 2px 3px rgba(255,255,255,.65),
-        0 1px 2px rgba(0,0,0,.18);
+        inset 0 2px 3px
+        rgba(255,255,255,.65),
+
+        0 1px 2px
+        rgba(0,0,0,.18);
 }
 
 .visit-circle{
     position:relative;
 
     width:18px;
-
     height:18px;
 
     border-radius:50%;
@@ -619,12 +602,14 @@ header::before{
     display:inline-flex;
 
     align-items:center;
-
     justify-content:center;
 
     box-shadow:
-        inset 0 2px 3px rgba(255,255,255,.65),
-        0 1px 2px rgba(0,0,0,.18);
+        inset 0 2px 3px
+        rgba(255,255,255,.65),
+
+        0 1px 2px
+        rgba(0,0,0,.18);
 }
 
 .visit-circle svg{
@@ -654,26 +639,34 @@ header::before{
 
     border-radius:14px;
 
-    background:rgba(49,85,110,.94);
+    background:
+        rgba(49,85,110,.94);
 
     color:#fff;
 
     text-decoration:none;
 
     font-size:1rem;
-
     font-weight:500;
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,.18);
+        0 6px 20px
+        rgba(0,0,0,.18);
 
     transform:translateZ(0);
 
     -webkit-transform:translateZ(0);
 
+    will-change:transform;
+
     margin-bottom:
         env(safe-area-inset-bottom);
 }
+
+
+/* ==================================================
+   オンライン診療
+================================================== */
 
 .online-note{
     margin-top:10px;
@@ -699,7 +692,11 @@ header::before{
 
     width:180px;
 
-    margin:0 20px 10px 0;
+    margin:
+        0
+        20px
+        10px
+        0;
 
     user-select:none;
 
@@ -712,7 +709,6 @@ header::before{
     display:block;
 
     width:100%;
-
     height:auto;
 
     user-select:none;
@@ -724,73 +720,6 @@ header::before{
     -webkit-touch-callout:none;
 
     pointer-events:none;
-}
-
-
-/* ==================================================
-   所在地・アクセス
-================================================== */
-
-.location-grid{
-    display:grid;
-
-    grid-template-columns:40% 60%;
-
-    gap:1.5rem;
-
-    align-items:start;
-}
-
-.location-map iframe{
-    display:block;
-
-    width:100%;
-
-    height:260px;
-
-    border-radius:10px;
-}
-
-.map-link{
-    margin-top:.6rem;
-
-    text-align:center;
-
-    font-size:.8rem;
-}
-
-.map-link a{
-    color:#4d7d98;
-
-    text-decoration:none;
-}
-
-.location-info h3{
-    margin-top:0;
-
-    margin-bottom:.5rem;
-
-    padding-bottom:.3rem;
-
-    border-bottom:1px solid #ddd;
-
-    color:#31556e;
-
-    font-size:1rem;
-
-    font-weight:500;
-}
-
-.location-info p{
-    margin-top:.5rem;
-
-    margin-bottom:1rem;
-}
-
-.access-note{
-    font-size:.85rem;
-
-    color:#666;
 }
 
 
@@ -830,9 +759,7 @@ header::before{
     position:absolute;
 
     left:0;
-
     top:0;
-
     bottom:0;
 
     width:7px;
@@ -845,11 +772,18 @@ header::before{
             rgba(120,184,196,.12)
         );
 
-    border-radius:0 5px 5px 0;
+    border-radius:
+        0
+        5px
+        5px
+        0;
 }
 
 .service-card h3{
-    margin:0 0 .45rem;
+    margin:
+        0
+        0
+        .45rem;
 
     color:#31556e;
 
@@ -903,9 +837,7 @@ header::before{
     position:absolute;
 
     left:0;
-
     top:0;
-
     bottom:0;
 
     width:7px;
@@ -918,11 +850,18 @@ header::before{
             rgba(90,160,190,.12)
         );
 
-    border-radius:0 5px 5px 0;
+    border-radius:
+        0
+        5px
+        5px
+        0;
 }
 
 .equipment-card h3{
-    margin:0 0 .45rem;
+    margin:
+        0
+        0
+        .45rem;
 
     color:#31556e;
 
@@ -949,22 +888,29 @@ header::before{
 .news-section{
     width:88%;
 
-    margin:3rem auto;
+    margin:
+        3rem
+        auto;
 }
 
 .news-section h2{
     width:72%;
 
-    margin:0 auto 1.8rem;
+    margin:
+        0
+        auto
+        1.8rem;
 
     padding:.5rem 0;
 
     text-align:center;
 
-    border-top:1px solid
+    border-top:
+        1px solid
         rgba(49,85,110,.45);
 
-    border-bottom:1px solid
+    border-bottom:
+        1px solid
         rgba(49,85,110,.45);
 
     font-size:1.15rem;
@@ -983,12 +929,14 @@ header::before{
 .news-item{
     padding:1rem 0;
 
-    border-bottom:1px solid
+    border-bottom:
+        1px solid
         rgba(49,85,110,.18);
 }
 
 .news-item:first-child{
-    border-top:1px solid
+    border-top:
+        1px solid
         rgba(49,85,110,.18);
 }
 
@@ -1017,32 +965,22 @@ header::before{
 }
 
 .news-body{
-    margin:.4rem 0 0;
-
-    font-size:.9rem;
+    margin-top:.5rem;
 }
 
 
 /* ==================================================
-   院内写真・スクロール演出
+   院内写真
 ================================================== */
 
 /*
- * ここが今回の重要修正です。
+ * ここが今回の重要部分。
  *
- * 以前は .clinic-view が 38vh しかなかったため、
- * JavaScript側で
+ * 写真を38vhの領域に置くだけでは、
+ * スクロールによる移動距離がほとんどありません。
  *
- *     offsetHeight - window.innerHeight
- *
- * を計算するとマイナスになり、
- * updateClinicImage() が途中で return していました。
- *
- * そこで「写真を表示する窓」と
- * 「その窓をスクロールさせる区間」を分離します。
- *
- * clinic-view = スクロール区間
- * clinic-camera = 実際に見える写真の窓
+ * そのため親要素を160vhにして、
+ * その中にstickyの写真表示領域を置きます。
  */
 
 .clinic-view{
@@ -1051,22 +989,23 @@ header::before{
     width:100%;
 
     /*
-     * 写真がスクロールに連動して動くための
-     * 実際のスクロール区間を確保します。
+     * なぜ160vhなのか：
+     * 画面1枚分より十分長い領域を作り、
+     * スクロールに応じて写真を移動させるためです。
      */
-    height:140vh;
+    height:160vh;
 
     margin:0;
-
-    overflow:visible;
 }
+
+
+/* ==================================================
+   院内写真カメラ
+================================================== */
 
 .clinic-camera{
     position:sticky;
 
-    /*
-     * 画面の約31%の位置に写真の窓を固定します。
-     */
     top:31vh;
 
     width:100%;
@@ -1098,16 +1037,29 @@ header::before{
     background:
         linear-gradient(
             to right,
+
             #fff 0%,
+
             rgba(255,255,255,.8) 5%,
+
             rgba(255,255,255,.35) 12%,
+
             transparent 20%,
+
             transparent 80%,
+
             rgba(255,255,255,.35) 88%,
+
             rgba(255,255,255,.8) 95%,
+
             #fff 100%
         );
 }
+
+
+/* ==================================================
+   院内写真本体
+================================================== */
 
 .clinic-image{
     position:absolute;
@@ -1115,10 +1067,6 @@ header::before{
     top:50%;
     left:50%;
 
-    /*
-     * 写真そのものを大きく表示します。
-     * 横方向へ移動させるため width を確保します。
-     */
     width:100%;
     height:100%;
 
@@ -1126,13 +1074,24 @@ header::before{
 
     max-width:none;
 
+    /*
+     * 初期位置。
+     *
+     * JavaScriptでスクロール量に応じて
+     * translate3dのXだけを書き換えます。
+     */
     transform:
-        translate3d(-50%,-50%,0)
+        translate3d(
+            -50%,
+            -50%,
+            0
+        )
         scale(.85);
 
     /*
-     * スクロール時だけtransformを変更するため、
-     * ブラウザに変更対象を事前に知らせます。
+     * なぜ指定するか：
+     * スクロール中にtransformだけが変化することを
+     * ブラウザへ事前に伝え、描画を滑らかにします。
      */
     will-change:transform;
 
@@ -1157,6 +1116,74 @@ header::before{
 
 
 /* ==================================================
+   所在地・アクセス
+================================================== */
+
+.location-grid{
+    display:grid;
+
+    grid-template-columns:
+        40% 60%;
+
+    gap:1.5rem;
+
+    align-items:start;
+}
+
+.location-map iframe{
+    display:block;
+
+    width:100%;
+    height:260px;
+
+    border-radius:10px;
+}
+
+.map-link{
+    margin-top:.6rem;
+
+    text-align:center;
+
+    font-size:.8rem;
+}
+
+.map-link a{
+    color:#4d7d98;
+
+    text-decoration:none;
+}
+
+.location-info h3{
+    margin-top:0;
+
+    margin-bottom:.5rem;
+
+    padding-bottom:.3rem;
+
+    border-bottom:
+        1px solid #ddd;
+
+    color:#31556e;
+
+    font-size:1rem;
+
+    font-weight:500;
+}
+
+.location-info p{
+    margin-top:.5rem;
+
+    margin-bottom:1rem;
+}
+
+.access-note{
+    font-size:.85rem;
+
+    color:#666;
+}
+
+
+/* ==================================================
    連絡先
 ================================================== */
 
@@ -1164,6 +1191,19 @@ header::before{
     display:inline-block;
 
     width:3.5em;
+}
+
+
+/* ==================================================
+   フッター
+================================================== */
+
+footer{
+    text-align:center;
+
+    padding:1rem;
+
+    background:#f5f5f5;
 }
 
 
@@ -1184,7 +1224,9 @@ header::before{
     .news-section{
         width:94%;
 
-        margin:2.5rem auto;
+        margin:
+            2.5rem
+            auto;
     }
 
     .news-section h2{
@@ -1200,7 +1242,8 @@ header::before{
     }
 
     .location-grid{
-        grid-template-columns:55% 45%;
+        grid-template-columns:
+            55% 45%;
 
         gap:.7rem;
     }
@@ -1223,24 +1266,6 @@ header::before{
         font-size:.65rem;
     }
 
-    /*
-     * 縦長スマホでは写真を横方向に
-     * 大きく切り出します。
-     *
-     * なぜそうしているか：
-     * 横長の院内写真を画面いっぱいに表示しながら、
-     * 横方向のスクロール演出を成立させるためです。
-     */
-    .clinic-image{
-        width:auto;
-
-        height:100%;
-
-        min-width:140%;
-
-        object-fit:cover;
-    }
-
 }
 
 
@@ -1248,14 +1273,17 @@ header::before{
    スマートフォン横向き
 ================================================== */
 
-@media (
-    max-width:900px
-) and (
-    orientation:landscape
-){
+@media
+(max-width:900px)
+and
+(orientation:landscape){
 
     .clinic-view{
-        height:140vh;
+        /*
+         * 横向きでは画面高さが小さいため、
+         * 縦向きよりも長いスクロール領域を確保します。
+         */
+        height:180vh;
     }
 
     .clinic-camera{
@@ -1270,6 +1298,28 @@ header::before{
         height:120%;
 
         min-width:100%;
+
+        object-fit:cover;
+    }
+
+}
+
+
+/* ==================================================
+   スマートフォン縦向き
+================================================== */
+
+@media
+(max-width:600px)
+and
+(orientation:portrait){
+
+    .clinic-image{
+        width:auto;
+
+        height:100%;
+
+        min-width:140%;
 
         object-fit:cover;
     }
@@ -1347,15 +1397,42 @@ header::before{
 
 
 /* ==================================================
-   フッター
+   動きを減らす設定
 ================================================== */
 
-footer{
-    text-align:center;
+@media (prefers-reduced-motion:reduce){
 
-    padding:1rem;
+    html{
+        scroll-behavior:auto;
+    }
 
-    background:#f5f5f5;
+    .bird{
+        animation:none;
+        opacity:0;
+    }
+
+}
+
+
+/* ==================================================
+   画面が狭すぎる場合
+================================================== */
+
+@media (max-width:360px){
+
+    .schedule th,
+    .schedule td{
+        font-size:.82rem;
+
+        padding:
+            .25rem
+            .15rem;
+    }
+
+    .schedule th:first-child{
+        width:105px;
+    }
+
 }
 
 </style>
@@ -1411,20 +1488,24 @@ footer{
             </span>
 
             <span class="kanji">
+
                 <span>誠</span>
                 <span>彰</span>
                 <span>会</span>
+
             </span>
 
         </span>
 
     </div>
 
+
     <span class="clinic-name">
         服部医院
     </span>
 
 </h1>
+
 
 <p class="catchcopy">
     地域に貢献する医療を大切にします
@@ -1483,6 +1564,7 @@ footer{
     ごあいさつ
 </h2>
 
+
 <div class="protected-image">
 
     <img
@@ -1491,6 +1573,7 @@ footer{
     >
 
 </div>
+
 
 <p>
 
@@ -1515,10 +1598,10 @@ footer{
 <!-- ==================================================
      院内写真
      
-     写真を表示する窓。
-     clinic-view自体には140vhのスクロール区間があり、
-     この窓がstickyで一定位置に留まる間、
-     写真だけが横方向へ移動します。
+     ごあいさつの「後」に配置。
+     
+     親要素を160vhにすることで、
+     スクロールに連動する領域を確保します。
 ================================================== -->
 
 <section class="clinic-view">
@@ -1699,6 +1782,7 @@ footer{
     検査機器
 </h2>
 
+
 <p>
 当院では、診療内容に応じて以下の検査機器を備えています。
 </p>
@@ -1835,6 +1919,7 @@ footer{
 </span>
 
 </th>
+
 
 <td>
     <span class="out-circle"></span>
@@ -2051,6 +2136,7 @@ footer{
 
 </p>
 
+
 <br>
 
 ※ 外来診療の受付時間
@@ -2224,7 +2310,6 @@ Googleマップで見る
 <p>
 
 出口を降りて直進し、
-
 「三菱UFJ銀行」の交差点を左折
 
 <br>
@@ -2249,6 +2334,7 @@ Googleマップで見る
 <h2>
     連絡先
 </h2>
+
 
 <p>
 
@@ -2298,42 +2384,26 @@ Googleマップで見る
 
 <!-- ==================================================
      院内写真・スクロール連動
+     
+     重要：
+     常時 requestAnimationFrame() は実行しません。
+     
+     スクロールが発生したときだけ、
+     次の描画フレームで写真を更新します。
 ================================================== -->
 
 <script>
 
 /**
- * 院内写真のスクロール連動を管理します。
+ * 院内写真のDOM要素。
  *
  * なぜそうしているか：
- * 常時requestAnimationFrame()を実行すると、
- * スクロールしていない状態でも毎フレーム処理が
- * 発生します。
- *
- * そこでscrollイベントが発生した場合だけ、
- * 次の描画フレームで写真位置を更新します。
- *
- * エラー処理：
- * - 対象要素が存在しない場合は処理を終了します。
- * - 計算値が不正な場合は0〜1へ制限します。
- *
- * セキュリティ：
- * - 固定されたDOM要素だけを操作します。
- * - 外部入力を使用しません。
- *
- * 計算量：
- * 時間 O(1)
- * 空間 O(1)
+ * ページ読み込み時に一度だけ対象を取得し、
+ * スクロールのたびにDOM検索を繰り返さないためです。
  */
-
 const clinicView =
     document.querySelector(
         '.clinic-view'
-    );
-
-const clinicCamera =
-    document.querySelector(
-        '.clinic-camera'
     );
 
 const clinicImage =
@@ -2341,6 +2411,14 @@ const clinicImage =
         '.clinic-image'
     );
 
+
+/**
+ * スクロール更新中かどうか。
+ *
+ * なぜそうしているか：
+ * scrollイベントは大量に発生するため、
+ * 1つの描画フレームにつき1回だけ更新します。
+ */
 let clinicScrollTicking =
     false;
 
@@ -2349,20 +2427,15 @@ let clinicScrollTicking =
  * 院内写真の位置を更新します。
  *
  * なぜそうしているか：
- * clinic-view全体をスクロール区間として使用し、
- * その区間内で写真を-30%〜+30%移動させます。
+ * .clinic-viewのスクロール進行率を
+ * 写真の横方向移動へ変換するためです。
  *
  * @returns {void}
- *
- * @throws {Error}
- * この関数内部では例外を意図的に投げません。
  */
-
 function updateClinicImage(){
 
     if(
         !clinicView ||
-        !clinicCamera ||
         !clinicImage
     ){
         return;
@@ -2374,33 +2447,29 @@ function updateClinicImage(){
 
 
     /*
-     * clinic-viewが画面を通過する距離を
-     * スクロール範囲として使用します。
+     * 親要素が画面を通過する間の総移動量。
      *
-     * clinic-viewは140vhなので、
-     * 通常のスマートフォンでも
-     * 必ず正のスクロール範囲になります。
+     * 160vhの親要素を用いることで、
+     * 通常の画面高さでも正の値になります。
      */
-    const travel =
-        Math.max(
-            1,
-            clinicView.offsetHeight -
-            window.innerHeight
-        );
+    const total =
+        clinicView.offsetHeight -
+        window.innerHeight;
 
 
-    let progress =
-        -rect.top / travel;
+    if(total <= 0){
+        return;
+    }
 
 
     /*
-     * 計算値が0〜1を超えないようにします。
-     *
-     * なぜそうしているか：
-     * ページ上端・下端でスクロール位置が
-     * ブラウザによって少し overscroll しても、
-     * 写真が想定外の位置まで飛ばないようにするためです。
+     * 現在どこまでスクロールしたかを
+     * 0〜1へ変換します。
      */
+    let progress =
+        -rect.top / total;
+
+
     progress =
         Math.max(
             0,
@@ -2415,8 +2484,8 @@ function updateClinicImage(){
      * smootherstep。
      *
      * なぜそうしているか：
-     * 写真の動き始めと動き終わりを
-     * 急激にせず、自然な速度変化にするためです。
+     * 動き始めと停止時を滑らかにし、
+     * 機械的な一定速度の移動を避けるためです。
      */
     const smooth =
         progress *
@@ -2433,36 +2502,39 @@ function updateClinicImage(){
 
 
     /*
-     * 写真を左→右へ60%移動します。
-     *
-     * progress 0 = -30%
-     * progress 1 = +30%
+     * 写真を左30%から右30%へ移動します。
      */
     const x =
         -30 +
         smooth * 60;
 
 
+    /*
+     * transformだけを変更します。
+     *
+     * なぜそうしているか：
+     * widthやpositionなどのレイアウトを変更せず、
+     * GPUで処理しやすいtransformだけを動かすためです。
+     */
     clinicImage.style.transform =
         `translate3d(
             calc(-50% + ${x}%),
             -50%,
             0
         ) scale(.85)`;
+
 }
 
 
 /**
- * スクロール処理を1フレームにまとめます。
+ * スクロールイベントを描画フレームへまとめます。
  *
  * なぜそうしているか：
- * scrollイベントは非常に高頻度で発生するため、
- * 同じ描画フレーム内で何度も写真位置を
- * 計算することを防ぎます。
+ * scrollイベントを直接毎回処理すると、
+ * 短時間に大量の計算が発生するためです。
  *
  * @returns {void}
  */
-
 function requestClinicUpdate(){
 
     if(clinicScrollTicking){
@@ -2487,12 +2559,12 @@ function requestClinicUpdate(){
 
 
 /*
- * スクロール時だけ更新します。
+ * passive:true。
  *
- * passive:trueにすることで、
- * ブラウザのスクロール処理を妨げないようにします。
+ * なぜそうしているか：
+ * スクロールイベント内でpreventDefault()を使わないことを
+ * ブラウザへ明示し、スクロール処理を妨げないためです。
  */
-
 window.addEventListener(
     'scroll',
     requestClinicUpdate,
@@ -2503,13 +2575,9 @@ window.addEventListener(
 
 
 /*
- * 画面サイズ変更時にも再計算します。
- *
- * なぜそうしているか：
- * 縦向き・横向き変更やブラウザサイズ変更で
- * vhとスクロール範囲が変化するためです。
+ * 画面サイズ変更時は、
+ * スクロールイベントを待たずに再計算します。
  */
-
 window.addEventListener(
     'resize',
     updateClinicImage
@@ -2517,13 +2585,8 @@ window.addEventListener(
 
 
 /*
- * 初期表示。
- *
- * なぜそうしているか：
- * ページを開いた瞬間にも写真位置を
- * 正しい位置に設定するためです。
+ * 初期位置を設定します。
  */
-
 updateClinicImage();
 
 </script>
@@ -2540,27 +2603,24 @@ updateClinicImage();
  * 上部プレビューと下部詳細へ表示します。
  *
  * なぜそうしているか：
- * お知らせ本文をindex.htmlから分離し、
- * news.jsonだけを更新できるようにするためです。
+ * index.htmlへお知らせ本文を直接書かず、
+ * news.jsonだけを更新できる構造を維持するためです。
  *
  * セキュリティ：
- * news.jsonの文字列をinnerHTMLへ直接入れず、
+ * JSONから取得した文字列はinnerHTMLへ直接入れず、
  * textContentを使用します。
- * これにより、news.jsonに悪意のあるHTMLや
- * JavaScriptが混入してもXSSとして実行されません。
  *
  * エラー処理：
  * - HTTPエラー
  * - JSON解析エラー
- * - 配列以外のJSON
- * - 必要なDOM要素がない場合
+ * - JSON形式エラー
+ * - DOM要素不存在
  * を処理します。
  *
  * 計算量：
  * 時間 O(N)
  * 空間 O(N)
  */
-
 async function loadNews(){
 
     try{
@@ -2597,15 +2657,15 @@ async function loadNews(){
 
 
         /*
-         * 最新3件だけを使用します。
-         *
-         * なぜそうしているか：
-         * index.html上では最新情報だけを
-         * 簡潔に見せるためです。
+         * 最新3件だけを使用。
          */
-        const latest =
+        const latestNews =
             news.slice(0,3);
 
+
+        /* ==================================================
+           上部プレビュー
+        ================================================== */
 
         const previewList =
             document.querySelector(
@@ -2618,7 +2678,7 @@ async function loadNews(){
             previewList.replaceChildren();
 
 
-            latest.forEach(item => {
+            latestNews.forEach(item => {
 
                 const previewItem =
                     document.createElement(
@@ -2639,7 +2699,7 @@ async function loadNews(){
 
                 date.textContent =
                     String(
-                        item?.date ?? ''
+                        item.date ?? ''
                     );
 
 
@@ -2648,22 +2708,51 @@ async function loadNews(){
                         'a'
                     );
 
-                link.href =
+                /*
+                 * 同一サイト内リンクのみ許可。
+                 *
+                 * なぜそうしているか：
+                 * news.jsonが誤って外部URLを含んだ場合でも、
+                 * 任意サイトへのリンクをそのまま生成しないためです。
+                 */
+                const rawLink =
                     String(
-                        item?.link ?? '#'
+                        item.link ?? ''
                     );
+
+
+                if(
+                    rawLink.startsWith('/') ||
+                    rawLink.startsWith('./') ||
+                    rawLink.startsWith('../') ||
+                    !rawLink.includes(':')
+                ){
+
+                    link.href =
+                        rawLink;
+
+                }
+                else{
+
+                    link.href =
+                        'news.html';
+
+                }
+
 
                 link.textContent =
                     String(
-                        item?.title ?? ''
+                        item.title ?? ''
                     );
 
 
-                previewItem.append(
-                    date,
-                    link
+                previewItem.appendChild(
+                    date
                 );
 
+                previewItem.appendChild(
+                    link
+                );
 
                 previewList.appendChild(
                     previewItem
@@ -2673,6 +2762,10 @@ async function loadNews(){
 
         }
 
+
+        /* ==================================================
+           下部詳細
+        ================================================== */
 
         const newsList =
             document.querySelector(
@@ -2685,7 +2778,7 @@ async function loadNews(){
             newsList.replaceChildren();
 
 
-            latest.forEach(item => {
+            latestNews.forEach(item => {
 
                 const newsItem =
                     document.createElement(
@@ -2706,7 +2799,7 @@ async function loadNews(){
 
                 date.textContent =
                     String(
-                        item?.date ?? ''
+                        item.date ?? ''
                     );
 
 
@@ -2715,14 +2808,35 @@ async function loadNews(){
                         'a'
                     );
 
-                link.href =
+
+                const rawLink =
                     String(
-                        item?.link ?? '#'
+                        item.link ?? ''
                     );
+
+
+                if(
+                    rawLink.startsWith('/') ||
+                    rawLink.startsWith('./') ||
+                    rawLink.startsWith('../') ||
+                    !rawLink.includes(':')
+                ){
+
+                    link.href =
+                        rawLink;
+
+                }
+                else{
+
+                    link.href =
+                        'news.html';
+
+                }
+
 
                 link.textContent =
                     String(
-                        item?.title ?? ''
+                        item.title ?? ''
                     );
 
 
@@ -2736,14 +2850,20 @@ async function loadNews(){
 
                 body.textContent =
                     String(
-                        item?.body ??
+                        item.body ??
                         '詳細は準備中です。'
                     );
 
 
-                newsItem.append(
-                    date,
-                    link,
+                newsItem.appendChild(
+                    date
+                );
+
+                newsItem.appendChild(
+                    link
+                );
+
+                newsItem.appendChild(
                     body
                 );
 
@@ -2756,7 +2876,7 @@ async function loadNews(){
 
 
             /*
-             * 過去のお知らせへの導線。
+             * 過去のお知らせへのリンク。
              */
             const past =
                 document.createElement(
@@ -2783,24 +2903,19 @@ async function loadNews(){
                 pastLink
             );
 
-
             newsList.appendChild(
                 past
             );
 
         }
 
-    }catch(error){
+    }
+    catch(error){
 
         /*
-         * お知らせ取得に失敗しても
-         * ページ本体はそのまま表示します。
-         *
-         * なぜそうしているか：
-         * news.jsonの一時的な取得失敗によって
-         * index.html全体が使用不能になるのを防ぐためです。
+         * お知らせだけが表示できない場合でも、
+         * ページ本体は正常に表示させます。
          */
-
         console.error(
             'お知らせの読み込みに失敗しました。',
             error
@@ -2811,6 +2926,9 @@ async function loadNews(){
 }
 
 
+/*
+ * ページ読み込み後に実行。
+ */
 loadNews();
 
 </script>
@@ -2819,69 +2937,53 @@ loadNews();
 <!-- ==================================================
      「詳細はこちら」→ お知らせ詳細
      
-     重複していた処理を1本に統合
+     重複していた処理を1本に統合。
 ================================================== -->
 
 <script>
 
 /**
- * 「詳細はこちら」からお知らせ詳細へ
- * 滑らかに移動します。
+ * 「詳細はこちら」を押したとき、
+ * お知らせ詳細まで滑らかにスクロールします。
  *
  * なぜそうしているか：
- * 標準アンカー移動だけでは移動距離によって
- * 急激に移動するため、距離に応じた時間で
- * 滑らかに移動させます。
+ * ページ内移動を急激に行わず、
+ * ユーザーが移動先を認識できるようにするためです。
  *
- * エラー処理：
- * - リンクがない場合
- * - #newsがない場合
- * は何もしません。
- *
- * セキュリティ：
- * 外部入力を使用せず、
- * 固定されたDOM要素だけを操作します。
- *
- * 計算量：
- * 1フレームあたり O(1)
- *
- * 空間計算量：
- * O(1)
+ * @returns {void}
  */
+function setupNewsJump(){
 
-const newsJump =
-    document.querySelector(
-        '.news-detail-jump a'
-    );
-
-const newsTarget =
-    document.querySelector(
-        '#news'
-    );
+    const newsJump =
+        document.querySelector(
+            '.news-detail-jump a'
+        );
 
 
-if(
-    newsJump &&
-    newsTarget
-){
+    const newsTarget =
+        document.querySelector(
+            '#news'
+        );
+
+
+    if(
+        !newsJump ||
+        !newsTarget
+    ){
+        return;
+    }
+
 
     newsJump.addEventListener(
         'click',
-        function(event){
+        event => {
 
             event.preventDefault();
 
 
             /*
-             * ユーザーがOS側で
-             * reduced-motionを指定している場合は、
-             * アニメーションを使用しません。
-             *
-             * なぜそうしているか：
-             * 視差効果やアニメーションを避けたい
-             * ユーザーへの配慮です。
+             * OS側でアニメーションを減らす設定の場合。
              */
-
             if(
                 window.matchMedia(
                     '(prefers-reduced-motion: reduce)'
@@ -2915,10 +3017,9 @@ if(
 
 
             /*
-             * 移動時間を距離から決定します。
+             * 移動距離に応じて時間を設定。
              *
-             * 最低1.8秒、
-             * 最大3秒とします。
+             * 最短1.8秒、最長3秒。
              */
             const duration =
                 Math.min(
@@ -2938,12 +3039,10 @@ if(
              * 滑らかな加減速を作ります。
              *
              * @param {number} t
-             * 0〜1の進行率
+             * 0〜1
              *
              * @returns {number}
-             * 補間後の進行率
              */
-
             function ease(t){
 
                 return t *
@@ -2954,14 +3053,13 @@ if(
 
 
             /**
-             * スクロールアニメーションを実行します。
+             * スクロールアニメーション。
              *
              * @param {number} now
-             * requestAnimationFrameの時刻
+             * 現在時刻
              *
              * @returns {void}
              */
-
             function animate(now){
 
                 const progress =
@@ -3001,6 +3099,9 @@ if(
     );
 
 }
+
+
+setupNewsJump();
 
 </script>
 
