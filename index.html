@@ -92,8 +92,6 @@ header{
 }
 
 
-/* ---------- ヘッダー光 ---------- */
-
 header::before{
 
     content:"";
@@ -117,8 +115,6 @@ header::before{
 
 }
 
-
-/* ---------- タイトル ---------- */
 
 .clinic-title,
 .catchcopy{
@@ -529,8 +525,6 @@ footer{
 }
 
 
-/* ---------- 鳥の移動 ---------- */
-
 @keyframes flybird{
 
     from{
@@ -550,8 +544,6 @@ footer{
 
 }
 
-
-/* ---------- 通常鳥 ---------- */
 
 @keyframes fadebird1{
 
@@ -581,8 +573,6 @@ footer{
 
 }
 
-
-/* ---------- 白縁鳥 ---------- */
 
 @keyframes fadebird2{
 
@@ -1277,24 +1267,26 @@ footer{
    院内スクロール演出
 ================================================== */
 
+/*
+ * ここは「写真の表示領域」と「スクロール量」を
+ * 別々に考えます。
+ *
+ * なぜそうしているか：
+ * 以前のように高さを100vhなどへ拡大すると、
+ * 写真の上下に不要な空白が発生するためです。
+ *
+ * 写真を表示する領域自体は38vhのまま維持し、
+ * ページをスクロールして写真が画面を通過する間だけ
+ * 写真を横方向へ移動させます。
+ */
+
 .clinic-view{
 
     position:relative;
 
     width:100%;
 
-    /*
-     * ここを38vhから100vhへ変更。
-     *
-     * なぜそうしているか：
-     * 38vhのままだとスマートフォンの画面高より
-     * スクロール領域が短くなり、JavaScript側で
-     * スクロール可能距離が0以下になってしまうため。
-     *
-     * 100vhにすることで、画面1画面分のスクロール領域を
-     * 確保し、その中でclinic-cameraをsticky表示します。
-     */
-    height:100vh;
+    height:38vh;
 
     margin:0;
 
@@ -1304,13 +1296,11 @@ footer{
 
 .clinic-camera{
 
-    position:sticky;
-
-    top:31vh;
+    position:relative;
 
     width:100%;
 
-    height:38vh;
+    height:100%;
 
     overflow:hidden;
 
@@ -1367,13 +1357,20 @@ footer{
 
     max-width:none;
 
+    /*
+     * scale(.85)は使いません。
+     *
+     * なぜそうしているか：
+     * 写真を縮小すると上下左右に背景が見え、
+     * 「白い余白」が発生するためです。
+     */
+
     transform:
-        translate3d(-50%,-50%,0)
-        scale(.85);
+        translate3d(-50%,-50%,0);
 
     /*
-     * スクロール中にtransformだけを変更するため、
-     * ブラウザに変更対象を事前に伝えます。
+     * 横方向のtransformだけを頻繁に更新するため、
+     * ブラウザに合成レイヤー化を促します。
      */
     will-change:transform;
 
@@ -1531,6 +1528,13 @@ footer{
 
     .clinic-image{
 
+        /*
+         * 写真そのものを横に余分に持たせます。
+         *
+         * なぜそうしているか：
+         * 横方向へ動かしたときにも写真の端が
+         * 表示領域の外へ出ず、白い隙間が出ないようにします。
+         */
         width:auto;
 
         height:100%;
@@ -1699,9 +1703,6 @@ footer{
 
 <!-- ==================================================
      お知らせ
-     
-     「お知らせ」は見出しとして表示するだけ。
-     クリック対象にはしない。
 ================================================== -->
 
 <div class="news-card">
@@ -2336,8 +2337,6 @@ footer{
 <div class="location-grid">
 
 
-<!-- ---------- 左：Googleマップ ---------- -->
-
 <div class="location-map">
 
 <iframe
@@ -2376,8 +2375,6 @@ Googleマップで見る
 
 </div>
 
-
-<!-- ---------- 右：所在地・アクセス ---------- -->
 
 <div class="location-info">
 
@@ -2567,34 +2564,33 @@ Googleマップで見る
 <!-- ==================================================
      院内写真・スクロール連動
      
-     今回はここだけ修正
+     ★ここだけ今回修正
      
-     常時 requestAnimationFrame() を回さず、
-     スクロール発生時だけ次の描画フレームで
-     transformを更新する。
+     写真の表示領域は38vhのまま。
+     余分なスクロール領域を作らず、
+     写真が画面内を通過するときだけ
+     横方向へ滑らかに移動させます。
 ================================================== -->
 
 <script>
 
 /**
- * 院内写真のスクロール連動位置を更新します。
+ * 院内写真のスクロール位置を更新します。
  *
  * なぜそうしているか：
- * 常時 requestAnimationFrame() を実行すると、
- * スクロールしていない状態でも毎フレーム
- * transformを書き換えることになります。
+ * clinic-view自体を100vhなどの巨大な領域にすると、
+ * 写真の上下に不要な空白が発生します。
+ * そこで、実際の表示領域は38vhに固定し、
+ * 画面内でのsectionの位置から横移動量を計算します。
  *
- * そのため、スクロール時だけ更新する方式に変更し、
- * ページ全体の描画負荷を抑えます。
+ * @returns {void}
  *
  * エラー処理：
- * - 対象要素が存在しない場合は終了します。
- * - 計算領域が0以下の場合は終了します。
- * - progressは0〜1の範囲に制限します。
+ * - 対象要素が存在しない場合は処理を終了します。
+ * - 不正な矩形値の場合は処理を終了します。
  *
  * セキュリティ：
- * 固定されたDOM要素のみを操作し、
- * 外部入力を使用しません。
+ * - 外部入力を利用せず、固定されたDOMだけを操作します。
  *
  * 計算量：
  * 時間 O(1)
@@ -2606,19 +2602,42 @@ const clinicView =
 const clinicImage =
     document.querySelector('.clinic-image');
 
-const clinicCamera =
-    document.querySelector('.clinic-camera');
-
-let clinicScrollTicking =
-    false;
+let clinicScrollTicking = false;
 
 
 /**
- * 院内写真の位置を計算して反映します。
+ * 0〜1の値を滑らかに補間します。
  *
  * なぜそうしているか：
- * スクロール位置に応じた写真移動だけを行い、
- * 不要なアニメーション処理を発生させないためです。
+ * 単純な線形移動ではスクロール開始・終了時に
+ * 動きが急に見えるため、smoothstepを使用します。
+ *
+ * @param {number} value 0〜1に収める値
+ * @returns {number} 滑らかに補間された値
+ */
+function smoothStep(value){
+
+    const t =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                value
+            )
+        );
+
+    return t * t * (3 - 2 * t);
+
+}
+
+
+/**
+ * 院内写真をスクロール位置に応じて横移動します。
+ *
+ * なぜそうしているか：
+ * 写真そのものの高さを変更せず、
+ * ページをスクロールするとカメラが
+ * 写真の左から右へ移動しているように見せるためです。
  *
  * @returns {void}
  */
@@ -2626,38 +2645,8 @@ function updateClinicImage(){
 
     if(
         !clinicView ||
-        !clinicImage ||
-        !clinicCamera
+        !clinicImage
     ){
-
-        return;
-
-    }
-
-
-    /*
-     * clinic-view全体の高さから、
-     * 実際に画面内に固定して見せる
-     * clinic-cameraの高さを引きます。
-     *
-     * なぜそうしているか：
-     * 以前の
-     *
-     * clinicView.offsetHeight - window.innerHeight
-     *
-     * では、clinic-viewが38vhのとき
-     * スマートフォンの画面高より小さくなり、
-     * スクロール可能距離がマイナスになっていました。
-     *
-     * そこで、stickyで表示するカメラ部分との差を
-     * スクロール可能領域として使用します。
-     */
-    const total =
-        clinicView.offsetHeight -
-        clinicCamera.offsetHeight;
-
-
-    if(total <= 0){
 
         return;
 
@@ -2668,8 +2657,41 @@ function updateClinicImage(){
         clinicView.getBoundingClientRect();
 
 
+    /*
+     * 写真が画面下から入り始める位置を0、
+     * 画面上から完全に抜ける位置を1とします。
+     *
+     * なぜそうしているか：
+     * clinic-view自身の高さだけを使うと、
+     * 縦38vhの領域ではスクロール量が不足するためです。
+     * viewport全体を基準にすることで、
+     * 自然な横スクロール量を確保します。
+     */
+    const viewportHeight =
+        window.innerHeight;
+
+
+    const travel =
+        viewportHeight +
+        rect.height;
+
+
+    if(
+        !Number.isFinite(travel) ||
+        travel <= 0
+    ){
+
+        return;
+
+    }
+
+
     let progress =
-        -rect.top / total;
+        (
+            viewportHeight -
+            rect.top
+        ) /
+        travel;
 
 
     progress =
@@ -2682,48 +2704,49 @@ function updateClinicImage(){
         );
 
 
+    const smooth =
+        smoothStep(progress);
+
+
     /*
-     * smootherstep。
+     * 横移動量。
      *
      * なぜそうしているか：
-     * 写真が動き始める部分と止まる部分を
-     * 滑らかにするためです。
+     * 画像を極端に動かすと不自然になるため、
+     * 左右それぞれ控えめな移動量にしています。
+     *
+     * モバイルでは画像自体を140%以上にしているため、
+     * 表示領域の外側まで写真が十分に存在します。
      */
-    const smooth =
-        progress *
-        progress *
-        progress *
-        (
-            progress *
-            (
-                progress * 6 -
-                15
-            ) +
-            10
-        );
-
-
     const x =
-        -30 +
-        smooth * 60;
+        -10 +
+        smooth * 20;
 
 
+    /*
+     * translate3d()を使用します。
+     *
+     * なぜそうしているか：
+     * iPhoneなどでtransformによる合成処理を
+     * 利用しやすくし、スクロール時のカクつきを抑えるためです。
+     */
     clinicImage.style.transform =
         `translate3d(
             calc(-50% + ${x}%),
             -50%,
             0
-        ) scale(.85)`;
+        )`;
 
 }
 
 
 /**
- * スクロール処理を描画フレーム単位にまとめます。
+ * スクロールイベントを1フレームにまとめます。
  *
  * なぜそうしているか：
- * scrollイベントは短時間に大量発生するため、
- * 同じフレーム内で何度も計算することを防ぎます。
+ * scrollイベントは大量に発生するため、
+ * イベントごとにDOMを書き換えると
+ * iPhoneでカクつく原因になります。
  *
  * @returns {void}
  */
@@ -2736,16 +2759,14 @@ function requestClinicUpdate(){
     }
 
 
-    clinicScrollTicking =
-        true;
+    clinicScrollTicking = true;
 
 
     requestAnimationFrame(() => {
 
         updateClinicImage();
 
-        clinicScrollTicking =
-            false;
+        clinicScrollTicking = false;
 
     });
 
@@ -2763,18 +2784,22 @@ window.addEventListener(
 
 window.addEventListener(
     'resize',
-    updateClinicImage
+    requestClinicUpdate,
+    {
+        passive:true
+    }
 );
 
 
 /*
- * 初期表示。
+ * 初期位置。
  *
  * なぜそうしているか：
- * ページを開いた直後にも写真位置を
+ * ページを開いた直後にも写真の位置を
  * 正しく設定するためです。
  */
 updateClinicImage();
+
 
 </script>
 
@@ -2832,10 +2857,6 @@ fetch('news.json')
         }
 
 
-        /* ==================================================
-           上のお知らせ：最新3件
-        ================================================== */
-
         const previewList =
             document.querySelector(
                 '.news-preview-list'
@@ -2882,10 +2903,6 @@ fetch('news.json')
 
         }
 
-
-        /* ==================================================
-           下のお知らせ：最新3件＋BODY
-        ================================================== */
 
         const newsList =
             document.querySelector(
@@ -2939,8 +2956,6 @@ fetch('news.json')
                 });
 
 
-            /* ---------- 過去のお知らせ ---------- */
-
             const past =
                 document.createElement(
                     'p'
@@ -2970,13 +2985,6 @@ fetch('news.json')
 
     .catch(error => {
 
-        /*
-         * お知らせ取得失敗時。
-         *
-         * なぜそうしているか：
-         * news.jsonの一時的な取得失敗で
-         * ページ全体のJavaScriptが止まらないようにします。
-         */
         console.error(
             'お知らせの読み込みに失敗しました。',
             error
@@ -2989,8 +2997,6 @@ fetch('news.json')
 
 <!-- ==================================================
      「詳細はこちら」→ お知らせ詳細
-     
-     ★ここは今回変更していない
 ================================================== -->
 
 <script>
@@ -3002,17 +3008,7 @@ fetch('news.json')
  * ブラウザ標準のアンカー移動よりも移動時間を
  * 安定させ、急激な画面移動を避けるためです。
  *
- * エラー処理：
- * - リンクまたは #news が存在しなければ何もしません。
- * - reduced-motionが有効なら即時移動します。
- *
- * セキュリティ：
- * - 固定されたDOM要素だけを操作します。
- * - 外部入力を扱いません。
- *
- * 計算量：
- * 時間 O(F)
- * 空間 O(1)
+ * @returns {void}
  */
 const newsJump =
     document.querySelector(
@@ -3037,13 +3033,6 @@ if(
             event.preventDefault();
 
 
-            /*
-             * ユーザーがOS側で
-             * 「視差効果を減らす」設定をしている場合。
-             *
-             * なぜそうしているか：
-             * 過度なアニメーションを避けるためです。
-             */
             if(
                 window.matchMedia(
                     '(prefers-reduced-motion: reduce)'
@@ -3076,14 +3065,6 @@ if(
                 startY;
 
 
-            /*
-             * 約1.8秒を基本とし、
-             * 最大3秒に制限します。
-             *
-             * なぜそうしているか：
-             * 長距離でも急激に移動せず、
-             * かつ移動が長すぎないようにするためです。
-             */
             const duration =
                 Math.min(
                     3000,
@@ -3099,13 +3080,10 @@ if(
 
 
             /**
-             * 滑らかな加減速を作ります。
+             * 滑らかなスクロール補間を行います。
              *
-             * @param {number} t
-             * 0〜1の進行率
-             *
-             * @returns {number}
-             * 補間後の進行率
+             * @param {number} t 0〜1
+             * @returns {number} 0〜1
              */
             function ease(t){
 
@@ -3119,9 +3097,7 @@ if(
             /**
              * スクロールアニメーションを実行します。
              *
-             * @param {number} now
-             * requestAnimationFrameの時刻
-             *
+             * @param {number} now 現在時刻
              * @returns {void}
              */
             function animate(now){
