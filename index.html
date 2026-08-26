@@ -477,13 +477,26 @@ footer{
    鳥
 ================================================== */
 
+/*
+ * 鳥は header の右外から左方向へ飛ばします。
+ *
+ * なぜそうしているか：
+ * 以前の「right:-120px + transform」の方式では、
+ * 初期位置とアニメーション位置の関係が分かりにくく、
+ * iPhone Safariで見えない時間が長くなることがありました。
+ *
+ * left:100% を開始点にすることで、
+ * 「画面右端から入って、左端の外へ抜ける」
+ * 動きを明確にしています。
+ */
+
 .bird{
 
     position:absolute;
 
     top:10px;
 
-    right:-120px;
+    left:100%;
 
     width:80px;
 
@@ -491,94 +504,71 @@ footer{
 
     pointer-events:none;
 
-    opacity:0;
-}
+    opacity:.32;
 
-.bird1{
+    will-change:transform,opacity;
 
     animation:
-        flybird 25s linear infinite,
-        fadebird1 25s linear infinite;
+        bird-fly 18s linear infinite;
 }
 
 .bird2{
 
-    animation:
-        flybird 25s linear infinite,
-        fadebird2 25s linear infinite;
+    top:30px;
+
+    width:65px;
+
+    opacity:.22;
+
+    animation-delay:-9s;
 }
 
-@keyframes flybird{
 
-    from{
+/*
+ * 画面右外 → 画面左外。
+ *
+ * なぜそうしているか：
+ * calc(-100vw - 100px)まで移動させることで、
+ * 鳥全体が画面外へ完全に抜けます。
+ */
+
+@keyframes bird-fly{
+
+    0%{
 
         transform:
             translateX(0);
-    }
 
-    to{
-
-        transform:
-            translateX(
-                calc(-100vw - 220px)
-            );
-    }
-}
-
-@keyframes fadebird1{
-
-    0%{
         opacity:0;
     }
 
-    15%{
-        opacity:.20;
+    8%{
+
+        opacity:.28;
     }
 
     20%{
-        opacity:.35;
-    }
 
-    42%{
-        opacity:.45;
-    }
-
-    54%{
-        opacity:0;
-    }
-
-    100%{
-        opacity:0;
-    }
-}
-
-@keyframes fadebird2{
-
-    0%{
-        opacity:0;
-    }
-
-    44%{
-        opacity:0;
-    }
-
-    54%{
-        opacity:.35;
-    }
-
-    60%{
-        opacity:.35;
-    }
-
-    66%{
-        opacity:.15;
+        opacity:.38;
     }
 
     70%{
-        opacity:0;
+
+        opacity:.30;
+    }
+
+    92%{
+
+        opacity:.12;
     }
 
     100%{
+
+        transform:
+            translateX(
+                calc(-100vw - 100px)
+            );
+
         opacity:0;
     }
 }
@@ -1197,24 +1187,32 @@ footer{
 ================================================== */
 
 /*
- * 写真の見える高さと、
- * 写真を横移動させるための縦スクロール距離を
- * 分離しています。
+ * ==================================================
+ * 今回の院内写真の本体
+ * ==================================================
  *
- * 写真そのものは約61vh。
+ * 写真窓：約60vh
  *
- * 2/3 = 約66.7vh
- * 3/5 = 60vh
+ * 写真区間：160vh
  *
- * その間の、少し低めの61vhを採用します。
+ * 重要なのは、
  *
- * clinic-viewは「スクロール区間」です。
- * cameraは「実際に見える窓」です。
+ *   「写真窓」と「スクロール区間」を
+ *   別々にすること。
  *
- * なぜ分けるか：
- * camera自体を100vhにすると、
- * 横方向へ移動するための縦方向の余地がなくなり、
- * 以前のようにスクロールが不自然になります。
+ * これにより、
+ *
+ *   縦スクロール
+ *        ↓
+ *   写真窓だけが一時的に画面上部に留まる
+ *        ↓
+ *   その間に写真が横移動
+ *        ↓
+ *   スクロール区間終了
+ *        ↓
+ *   写真窓も通常のページスクロールに戻る
+ *
+ * という自然な動きになります。
  */
 
 .clinic-view{
@@ -1224,18 +1222,13 @@ footer{
     width:100%;
 
     /*
-     * 61vhの写真を十分な距離で
-     * 左から右へ移動させるための区間。
-     *
-     * 写真が画面に表示されている間は
-     * cameraがstickyで留まり、
-     * その間だけ画像が横移動します。
+     * 160vhの高さを確保することで、
+     * 60vhの写真窓を固定している間に
+     * 十分な横移動距離を作ります。
      */
+    height:160vh;
 
-    height:150vh;
-
-    margin:
-        0 0 2rem;
+    margin:0 0 2rem;
 
     overflow:visible;
 
@@ -1244,14 +1237,11 @@ footer{
 
 
 /*
- * 実際に写真を見る窓。
+ * 実際に見える写真の窓。
  *
- * ここだけが約61vh。
+ * 60vh。
  *
- * なぜそうしているか：
- * ユーザーが求めている
- * 「2/3から3/5程度」の高さに収め、
- * 写真が大きくなりすぎないようにするためです。
+ * これが「画面の約5分の3」です。
  */
 
 .clinic-camera{
@@ -1262,7 +1252,7 @@ footer{
 
     width:100%;
 
-    height:61vh;
+    height:60vh;
 
     overflow:hidden;
 
@@ -1271,23 +1261,21 @@ footer{
     background:#fff;
 
     box-shadow:
-        0 4px 16px
-        rgba(40,80,80,.07);
+        0 5px 18px
+        rgba(40,80,80,.08);
 }
 
 
 /*
- * 写真本体。
+ * 写真。
  *
- * 画像を少し横長にしておきます。
+ * 以前の140〜160%ではなく、
+ * 120%を基準にします。
  *
- * ただし以前のように140〜160%まで
- * 巨大化させません。
+ * そのうえで横方向に大きく移動させるため、
+ * 最後には左右に白い部分が出ます。
  *
- * なぜそうしているか：
- * 横移動を穏やかにしながら、
- * 写真そのものの自然な比率を
- * できるだけ維持するためです。
+ * 今回はそれを許容します。
  */
 
 .clinic-image{
@@ -1298,37 +1286,28 @@ footer{
 
     left:50%;
 
-    width:125%;
-
-    height:100%;
+    width:120%;
 
     max-width:none;
 
-    object-fit:cover;
+    height:100%;
 
-    /*
-     * 初期位置。
-     *
-     * スクロール開始時は
-     * 写真を左側へ寄せます。
-     */
+    object-fit:cover;
 
     transform:
         translate3d(
-            -60%,
+            -50%,
             -50%,
             0
         );
 
+    opacity:.72;
+
     /*
-     * 写真そのものを
-     * 薄くしすぎない。
-     *
-     * 透明感は後ろの白との境界で作ります。
+     * transformのみを変更するため、
+     * iPhoneでもスクロール中の再レイアウトを
+     * 極力発生させません。
      */
-
-    opacity:.84;
-
     will-change:transform;
 
     user-select:none;
@@ -1344,18 +1323,13 @@ footer{
 
 
 /*
- * 透明感。
+ * 写真の左右にだけ透明感を加えます。
  *
- * 画面の左右に固定された白い帯を
- * 作るのではありません。
- *
- * ごく薄いフェードだけを入れます。
- *
- * 中央部分には白を置きません。
+ * 上下には白いマスクを置きません。
  *
  * なぜそうしているか：
- * 最終位置で右側に白を残す状態を
- * 作らないためです。
+ * 写真そのものの高さを60vhにしたため、
+ * 上下まで白くすると「写真が小さく見える」ためです。
  */
 
 .clinic-camera::after{
@@ -1373,30 +1347,26 @@ footer{
     background:
         linear-gradient(
             to right,
-
-            rgba(255,255,255,.34) 0%,
-
-            rgba(255,255,255,.12) 4%,
-
-            transparent 10%,
-
-            transparent 90%,
-
-            rgba(255,255,255,.08) 96%,
-
-            rgba(255,255,255,.20) 100%
+            rgba(255,255,255,.72) 0%,
+            rgba(255,255,255,.20) 7%,
+            transparent 16%,
+            transparent 84%,
+            rgba(255,255,255,.20) 93%,
+            rgba(255,255,255,.72) 100%
         );
 }
 
 
-/*
- * 写真の上下にはフェードを入れません。
- *
- * なぜそうしているか：
- * 写真の上下まで白くぼやけてしまうと、
- * 「透明感」ではなく「白く霞んだ画像」に
- * 見えてしまうためです。
- */
+/* ==================================================
+   連絡先
+================================================== */
+
+.contact-label{
+
+    display:inline-block;
+
+    width:3.5em;
+}
 
 
 /* ==================================================
@@ -1405,37 +1375,103 @@ footer{
 
 @media (max-width:600px){
 
-    .clinic-view{
+    .protected-image{
 
-        /*
-         * スマートフォンでは
-         * 61vhの表示窓に対して
-         * 十分な横移動距離を確保します。
-         */
+        width:120px;
 
-        height:150vh;
+        margin-right:15px;
 
-        margin-bottom:2rem;
+        margin-bottom:8px;
     }
 
-    .clinic-camera{
+    .news-section{
 
-        height:61vh;
+        width:94%;
+
+        margin:2.5rem auto;
     }
+
+    .news-section h2{
+
+        width:78%;
+
+        font-size:1.05rem;
+
+        letter-spacing:.13em;
+    }
+
+    .news-list{
+
+        width:92%;
+    }
+
+    .location-grid{
+
+        grid-template-columns:
+            55% 45%;
+
+        gap:.7rem;
+    }
+
+    .location-map iframe{
+
+        height:180px;
+    }
+
+    .location-info h3{
+
+        font-size:.85rem;
+    }
+
+    .location-info p{
+
+        font-size:.92rem;
+
+        line-height:1.55;
+    }
+
+    .map-link{
+
+        font-size:.65rem;
+    }
+
+
+    /*
+     * スマートフォンでは縦長になるため、
+     * 写真を少しだけ横長にします。
+     *
+     * ただし160%には戻しません。
+     *
+     * 120%〜125%程度に抑えることで、
+     * 写真が「巨大」に見えるのを防ぎます。
+     */
 
     .clinic-image{
 
-        /*
-         * 125%を基本にしつつ、
-         * 縦長画面で左右の移動余地を
-         * 少しだけ増やします。
-         */
-
-        width:130%;
+        width:125%;
 
         height:100%;
 
         object-fit:cover;
+    }
+
+    /*
+     * スマートフォンでも
+     * 写真窓そのものは約60vh。
+     */
+
+    .clinic-camera{
+
+        height:60vh;
+    }
+
+    /*
+     * 横移動する距離を確保します。
+     */
+
+    .clinic-view{
+
+        height:160vh;
     }
 }
 
@@ -1452,12 +1488,12 @@ footer{
 
     .clinic-view{
 
-        height:150vh;
+        height:160vh;
     }
 
     .clinic-camera{
 
-        height:61vh;
+        height:60vh;
     }
 
     .clinic-image{
@@ -1467,72 +1503,6 @@ footer{
         height:100%;
 
         object-fit:cover;
-    }
-}
-
-
-/* ==================================================
-   モバイル用 鳥フェード
-================================================== */
-
-@media (max-width:600px){
-
-    @keyframes fadebird1{
-
-        0%{
-            opacity:0;
-        }
-
-        18%{
-            opacity:.2;
-        }
-
-        25%{
-            opacity:.35;
-        }
-
-        48%{
-            opacity:.45;
-        }
-
-        55%{
-            opacity:0;
-        }
-
-        100%{
-            opacity:0;
-        }
-    }
-
-    @keyframes fadebird2{
-
-        0%{
-            opacity:0;
-        }
-
-        50%{
-            opacity:0;
-        }
-
-        55%{
-            opacity:.35;
-        }
-
-        68%{
-            opacity:.35;
-        }
-
-        74%{
-            opacity:.15;
-        }
-
-        78%{
-            opacity:0;
-        }
-
-        100%{
-            opacity:0;
-        }
     }
 }
 
@@ -1553,6 +1523,10 @@ footer{
     .bird{
 
         animation:none;
+
+        opacity:.25;
+
+        transform:none;
     }
 
     .clinic-image{
@@ -2511,50 +2485,43 @@ Googleマップで見る
 
 
 <!-- ==================================================
-     院内写真スクロール
+     院内写真 横スクロール
 ================================================== -->
 
 <script>
 
 /**
- * 院内写真を縦スクロールに合わせて
- * 左から右へ滑らかに移動させます。
- *
- * 動作イメージ：
- *
- *   開始
- *   ■■■■■□□□□
- *
- *       ↓
- *
- *   中間
- *   ■■■■■■■■■
- *
- *       ↓
- *
- *   終了
- *   □□■■■■■■■■
+ * 院内写真を縦スクロールに連動して横方向へ移動します。
  *
  * なぜそうしているか：
- * 写真を画面中央に固定したまま両端から
- * 白を出す方式ではなく、
- * 一枚の写真が実際に左から右へ
- * 横切っていくように見せるためです。
+ * sticky要素そのものを動かすのではなく、
+ * stickyで固定された「写真窓」の中だけで
+ * 写真を横移動させることで、
+ * 写真と後続本文が一緒に固定される問題を防ぎます。
  *
- * cameraにはstickyを使用していますが、
- * camera自体の高さは61vhに限定しています。
+ * 動作：
  *
- * clinic-viewを150vhにしているため、
- * sticky状態のまま画像だけを横方向へ
- * 十分な距離で移動できます。
+ *   開始
+ *      ↓
+ *   写真は左寄り
+ *      ↓
+ *   スクロール
+ *      ↓
+ *   写真が中央
+ *      ↓
+ *   さらにスクロール
+ *      ↓
+ *   写真は右寄り
+ *      ↓
+ *   写真区間終了
+ *      ↓
+ *   通常スクロールへ復帰
  *
  * エラー処理：
- * - 対象要素が存在しない場合は終了
- * - 数値が不正な場合は安全な初期値を使用
+ * 対象要素が存在しない場合は何もしません。
  *
  * セキュリティ：
- * 外部入力は使用せず、
- * 固定されたDOM要素のstyleのみ変更します。
+ * 外部入力を使用せず、固定されたDOM要素のみ操作します。
  *
  * 計算量：
  * 時間 O(1)
@@ -2564,6 +2531,11 @@ Googleマップで見る
 const clinicView =
     document.querySelector(
         '.clinic-view'
+    );
+
+const clinicCamera =
+    document.querySelector(
+        '.clinic-camera'
     );
 
 const clinicImage =
@@ -2576,71 +2548,7 @@ let clinicFramePending =
 
 
 /**
- * smoothstepによる滑らかな補間。
- *
- * なぜそうしているか：
- * スクロール開始時と終了時に動きを
- * 急に変化させず、
- * カメラが静かに動くようにするためです。
- *
- * @param {number} value
- * 0〜1の進行率。
- *
- * @returns {number}
- * 補間された0〜1の値。
- *
- * @throws {TypeError}
- * 有限な数値以外が渡された場合。
- *
- * 使用例：
- * smoothStep(0.5);
- */
-
-function smoothStep(value){
-
-    if(
-        typeof value !== 'number' ||
-        !Number.isFinite(value)
-    ){
-
-        throw new TypeError(
-            'smoothStepには有限な数値を指定してください。'
-        );
-
-    }
-
-
-    const t =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                value
-            )
-        );
-
-
-    return (
-        t *
-        t *
-        (
-            3 -
-            2 * t
-        )
-    );
-}
-
-
-/**
  * 院内写真の横位置を更新します。
- *
- * 写真の位置は、
- *
- * - 開始：左寄り
- * - 中間：中央
- * - 終了：右寄り
- *
- * とします。
  *
  * @returns {void}
  */
@@ -2649,6 +2557,7 @@ function updateClinicImage(){
 
     if(
         !clinicView ||
+        !clinicCamera ||
         !clinicImage
     ){
 
@@ -2657,45 +2566,39 @@ function updateClinicImage(){
     }
 
 
-    /*
-     * clinic-viewが画面のどこにあるかを取得します。
-     */
-
     const rect =
         clinicView.getBoundingClientRect();
 
 
     /*
-     * clinic-viewのスクロール区間全体。
+     * 写真区間のうち、
+     * sticky写真窓が移動できる距離を計算します。
      *
-     * 150vhの区間から、
-     * 画面そのものの高さを差し引きます。
+     * 160vh - 60vh = 100vh
      *
-     * なぜそうしているか：
-     * sectionの開始から終了までの間を
-     * 0〜1に正規化するためです。
+     * この100vhの間で写真を横移動させます。
      */
 
-    const scrollDistance =
+    const scrollRange =
         Math.max(
             1,
             clinicView.offsetHeight -
-            window.innerHeight
+            clinicCamera.offsetHeight
         );
 
 
     /*
-     * sectionが開始位置に来たときを0、
-     * sectionの終了位置を1とします。
+     * section上端が画面上端に来たところを0、
+     * sticky区間終了を1とします。
      */
 
     let progress =
         -rect.top /
-        scrollDistance;
+        scrollRange;
 
 
     /*
-     * 念のため0〜1に制限します。
+     * 0〜1に制限します。
      */
 
     progress =
@@ -2709,55 +2612,57 @@ function updateClinicImage(){
 
 
     /*
-     * 滑らかな補間。
+     * smoothstep。
+     *
+     * なぜそうしているか：
+     * 開始時と終了時だけ少し緩やかにし、
+     * 中央部分を滑らかに動かすためです。
      */
 
     const eased =
-        smoothStep(
-            progress
+        progress *
+        progress *
+        (
+            3 -
+            2 * progress
         );
 
 
     /*
-     * 横方向の移動。
+     * 横方向の移動量。
      *
      * 開始：
-     * -60%
+     * +15%
      *
-     * 中間：
-     * -50%
+     * 中央：
+     * 0%
      *
      * 終了：
-     * -40%
+     * -15%
      *
-     * 画像幅125〜130%に対して
-     * 動かしすぎないようにしています。
+     * 写真そのものを120%幅にしているため、
+     * 終端では左右に白い部分が見えることがあります。
      *
-     * なぜそうしているか：
-     * 「横スクロール」として分かる程度の動きは残しつつ、
-     * 激しくパンする映像のようにならないようにするためです。
+     * これは今回の意図した仕様です。
      */
 
     const x =
-        -60 +
-        eased * 20;
+        15 -
+        eased * 30;
 
 
     clinicImage.style.transform =
         `translate3d(
-            ${x}%,
+            calc(-50% + ${x}%),
             -50%,
             0
         )`;
+
 }
 
 
 /**
- * 次の描画フレームで写真を更新します。
- *
- * なぜそうしているか：
- * scrollイベントは非常に高頻度で発生するため、
- * 同一フレーム内の重複描画を防ぎます。
+ * requestAnimationFrameを使って更新します。
  *
  * @returns {void}
  */
@@ -2780,26 +2685,14 @@ function requestClinicUpdate(){
     requestAnimationFrame(
         () => {
 
-            try{
+            updateClinicImage();
 
-                updateClinicImage();
-
-            }catch(error){
-
-                console.error(
-                    '院内写真の更新に失敗しました。',
-                    error
-                );
-
-            }finally{
-
-                clinicFramePending =
-                    false;
-
-            }
+            clinicFramePending =
+                false;
 
         }
     );
+
 }
 
 
@@ -2807,9 +2700,8 @@ function requestClinicUpdate(){
  * passive:true。
  *
  * なぜそうしているか：
- * preventDefault()を使用しないため、
- * iPhone Safariのスクロール処理を
- * ブラウザに最適化させます。
+ * scrollイベント内でpreventDefault()を使わないため、
+ * ブラウザがスクロールを最適化できます。
  */
 
 window.addEventListener(
@@ -2825,18 +2717,41 @@ window.addEventListener(
  * 画面サイズ変更。
  *
  * なぜそうしているか：
- * iPhoneの縦横回転やSafariの
- * 表示領域変更に対応するためです。
+ * iPhoneの回転やSafariの表示領域変化で
+ * 写真位置がずれないようにします。
  */
 
 window.addEventListener(
     'resize',
-    requestClinicUpdate
+    updateClinicImage
 );
 
 
 /*
- * 初期状態。
+ * 画像読み込み後にも再計算します。
+ *
+ * なぜそうしているか：
+ * 画像の実寸が確定する前に計算すると、
+ * 初期位置がずれる可能性があるためです。
+ */
+
+if(
+    clinicImage
+){
+
+    clinicImage.addEventListener(
+        'load',
+        updateClinicImage,
+        {
+            once:true
+        }
+    );
+
+}
+
+
+/*
+ * 初期位置。
  */
 
 updateClinicImage();
@@ -2853,24 +2768,15 @@ updateClinicImage();
 /**
  * news.jsonを読み込みます。
  *
- * なぜそうしているか：
- * index.html本体を変更せず、
- * news.jsonだけを更新してお知らせを管理するためです。
+ * @returns {void}
+ *
+ * エラー処理：
+ * HTTPエラー、JSON解析エラー、
+ * 配列以外のデータ、不正項目を処理します。
  *
  * セキュリティ：
  * 外部データをinnerHTMLへ直接投入せず、
  * textContentを使用します。
- *
- * エラー処理：
- * - HTTPエラー
- * - JSON解析エラー
- * - 配列ではないJSON
- * - 不正な項目
- * を処理します。
- *
- * 計算量：
- * 時間 O(N)
- * 空間 O(N)
  */
 
 fetch(
@@ -2918,6 +2824,10 @@ fetch(
                 3
             );
 
+
+        /* ==================================================
+           上部プレビュー
+        ================================================== */
 
         const previewList =
             document.querySelector(
@@ -2988,6 +2898,11 @@ fetch(
                         );
 
 
+                    /*
+                     * javascript:などの危険なURLスキームを
+                     * 許可しません。
+                     */
+
                     if(
                         /^(?:[a-z][a-z0-9+.-]*:)/i.test(
                             target
@@ -3023,6 +2938,10 @@ fetch(
 
         }
 
+
+        /* ==================================================
+           下部詳細
+        ================================================== */
 
         const newsList =
             document.querySelector(
@@ -3184,8 +3103,8 @@ fetch(
     error => {
 
         /*
-         * お知らせの取得失敗だけで
-         * index.html全体を止めないためです。
+         * お知らせだけのエラーで、
+         * ページ全体を停止させないためです。
          */
 
         console.error(
@@ -3246,6 +3165,7 @@ if(
                 });
 
                 return;
+
             }
 
 
@@ -3283,10 +3203,10 @@ if(
              * smoothstep補間。
              *
              * @param {number} t
-             * 0〜1の進行率。
+             * 進行率0〜1
              *
              * @returns {number}
-             * 補間値。
+             * 補間後の値
              */
 
             function ease(t){
@@ -3307,7 +3227,7 @@ if(
              * スクロールアニメーション。
              *
              * @param {number} now
-             * requestAnimationFrameの時刻。
+             * requestAnimationFrameの時刻
              *
              * @returns {void}
              */
