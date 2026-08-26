@@ -1197,35 +1197,13 @@ footer{
 ================================================== */
 
 /*
- * 重要：
+ * 院内写真は100vhの長いスクロール領域にはしません。
  *
- * 以前の
- *
- *     height:100vh;
- *
- * と
- *
- *     offsetHeight - window.innerHeight
- *
- * の組み合わせでは、
- *
- *     100vh - 100vh = 0
- *
- * となり、写真を動かすための縦方向の
- * スクロール距離が存在しませんでした。
- *
- * そこで今回は、
- *
- *     clinic-view
- *
- * 自体に十分な高さを与え、
- * その内部のカメラをstickyにします。
- *
- * 「縦にスクロールする」
- *       ↓
- * 「写真だけが横に動く」
- *
- * という構造にしています。
+ * なぜそうしているか：
+ * 今回は「写真を長時間スクロールさせる」のではなく、
+ * 普通の高さの写真を見ながら、
+ * ページを少しスクロールすると
+ * 左右の視点が切り替わる程度にするためです。
  */
 
 .clinic-view{
@@ -1234,13 +1212,7 @@ footer{
 
     width:100%;
 
-    /*
-     * 200vhにすることで、
-     * 画面1枚分を表示したあと、
-     * さらに1画面分スクロールする間に
-     * 写真を横方向へ移動させます。
-     */
-    height:200vh;
+    height:40vh;
 
     margin:0 0 2rem;
 
@@ -1253,9 +1225,8 @@ footer{
 /*
  * カメラ窓。
  *
- * stickyにすることで、
- * clinic-viewのスクロール中は
- * 画面上部に固定されます。
+ * 写真エリアと同じ高さにします。
+ * これにより上下方向に余計な白い空間を作りません。
  */
 
 .clinic-camera{
@@ -1266,7 +1237,7 @@ footer{
 
     width:100%;
 
-    height:100vh;
+    height:40vh;
 
     overflow:hidden;
 
@@ -1281,14 +1252,13 @@ footer{
 
 
 /*
- * 写真。
+ * 院内写真。
  *
- * 元画像の縦横比を維持しながら、
- * 画面より十分に横方向へ大きくします。
+ * 元画像の縦横比を維持したまま、
+ * カメラ窓より十分に横方向へ余裕を持たせます。
  *
- * min-widthを使うことで、
- * 横移動したときに写真が画面から
- * 完全に消えてしまうことを防ぎます。
+ * ただし過剰に横長へ引き伸ばさないことで、
+ * 元画像の見え方をなるべく維持します。
  */
 
 .clinic-image{
@@ -1303,7 +1273,7 @@ footer{
 
     height:100%;
 
-    min-width:150%;
+    min-width:140%;
 
     max-width:none;
 
@@ -1318,10 +1288,6 @@ footer{
 
     opacity:.72;
 
-    /*
-     * transformのみを更新するため、
-     * iPhone等でも描画を軽くします。
-     */
     will-change:transform;
 
     user-select:none;
@@ -1331,20 +1297,17 @@ footer{
     -webkit-user-drag:none;
 
     -webkit-touch-callout:none;
-
-    pointer-events:none;
 }
 
 
 /*
- * 左右の柔らかな白フェード。
+ * 左右だけを柔らかくします。
  *
- * ここは消していません。
+ * なぜそうしているか：
+ * 写真の端を突然切ったように見せず、
+ * 白いページへ自然につながるようにするためです。
  *
- * 左端・右端に近づくほど白くなりますが、
- * 中央部分では写真をしっかり見せます。
- *
- * 上下方向にはフェードを設定しません。
+ * 上下方向にはフェードを入れません。
  */
 
 .clinic-camera::after{
@@ -1362,29 +1325,13 @@ footer{
     background:
         linear-gradient(
             to right,
-            rgba(255,255,255,.96) 0%,
-            rgba(255,255,255,.72) 2%,
-            rgba(255,255,255,.38) 6%,
-            rgba(255,255,255,.12) 12%,
-            transparent 20%,
-            transparent 80%,
-            rgba(255,255,255,.12) 88%,
-            rgba(255,255,255,.38) 94%,
-            rgba(255,255,255,.72) 98%,
-            rgba(255,255,255,.96) 100%
+            rgba(255,255,255,.95) 0%,
+            rgba(255,255,255,.45) 3%,
+            transparent 10%,
+            transparent 90%,
+            rgba(255,255,255,.45) 97%,
+            rgba(255,255,255,.95) 100%
         );
-}
-
-
-/* ==================================================
-   連絡先
-================================================== */
-
-.contact-label{
-
-    display:inline-block;
-
-    width:3.5em;
 }
 
 
@@ -1456,35 +1403,27 @@ footer{
 
 
     /*
-     * 縦長画面では横方向の移動量を
-     * 十分に確保するため、
-     * 写真をさらに横長にします。
-     */
-
-    .clinic-image{
-
-        min-width:170%;
-
-        height:100%;
-
-        object-fit:cover;
-    }
-
-
-    /*
-     * スマートフォンでは
-     * 横移動を少しゆっくり見せるため、
-     * 写真区間を長めに取ります。
+     * スマートフォンでは40vhを維持し、
+     * 縦長画面でも写真を大きくしすぎないようにします。
      */
 
     .clinic-view{
 
-        height:220vh;
+        height:40vh;
     }
 
     .clinic-camera{
 
-        height:100vh;
+        height:40vh;
+    }
+
+    .clinic-image{
+
+        min-width:150%;
+
+        height:100%;
+
+        object-fit:cover;
     }
 }
 
@@ -1501,19 +1440,19 @@ footer{
 
     .clinic-view{
 
-        height:200vh;
+        height:45vh;
     }
 
     .clinic-camera{
 
-        height:100vh;
+        height:45vh;
     }
 
     .clinic-image{
 
         height:100%;
 
-        min-width:150%;
+        min-width:140%;
 
         object-fit:cover;
     }
@@ -1773,6 +1712,12 @@ footer{
 
 <!-- ==================================================
      院内写真
+     
+     ごあいさつの直後。
+     
+     高さを40vhに抑え、
+     ページを少しスクロールしたときに
+     写真の視点が左から右へ移動します。
 ================================================== -->
 
 <section
@@ -2566,36 +2511,33 @@ Googleマップで見る
 <script>
 
 /**
- * 院内写真を縦スクロールに連動して横移動させます。
+ * 院内写真のスクロール演出。
  *
  * なぜそうしているか：
- * clinic-viewに十分な縦方向のスクロール領域を持たせ、
- * その間だけclinic-cameraを画面上部に固定します。
+ * 写真を100vhにわたって長く動かすのではなく、
+ * 40vh程度の短い写真エリア内で
+ * 左から右へ視点が移る程度にするためです。
  *
- * 写真自体はtransformだけを変更するため、
- * レイアウトを再計算させずに横方向へ移動できます。
+ * 入力：
+ *   windowのスクロール位置
+ *
+ * 出力：
+ *   院内写真のtransform
  *
  * エラー処理：
- * 必要なDOM要素が存在しない場合は処理を終了します。
+ *   対象要素が存在しない場合は処理を終了します。
  *
  * セキュリティ：
- * 外部入力を使用せず、固定されたDOM要素のみを操作します。
+ *   外部入力は使用せず、固定されたDOM要素のみ操作します。
  *
  * 計算量：
- * 時間 O(1)
- * 空間 O(1)
- *
- * @returns {void}
+ *   時間 O(1)
+ *   空間 O(1)
  */
 
 const clinicView =
     document.querySelector(
         '.clinic-view'
-    );
-
-const clinicCamera =
-    document.querySelector(
-        '.clinic-camera'
     );
 
 const clinicImage =
@@ -2608,7 +2550,12 @@ let clinicFramePending =
 
 
 /**
- * 院内写真の位置を更新します。
+ * 院内写真を現在のスクロール位置に合わせます。
+ *
+ * なぜそうしているか：
+ * 写真エリアが画面内へ入ってから出るまでを
+ * 0〜1として扱うことで、
+ * 短い写真でも左右へ滑らかに移動させるためです。
  *
  * @returns {void}
  */
@@ -2617,51 +2564,49 @@ function updateClinicImage(){
 
     if(
         !clinicView ||
-        !clinicCamera ||
         !clinicImage
     ){
-
         return;
-
     }
 
-
-    /*
-     * clinic-viewが画面上端から
-     * どれだけ進んだかを取得します。
-     */
 
     const rect =
         clinicView.getBoundingClientRect();
 
 
     /*
-     * 実際にsticky要素が固定されている
-     * スクロール区間を計算します。
+     * 写真エリアが画面下から入り、
+     * 画面上へ抜けるまでを移動範囲とします。
      *
-     * clinic-viewの高さから
-     * カメラの高さを引きます。
+     * これにより、40vhの写真でも
+     * 100vhを引く必要がありません。
      */
 
-    const travel =
-        Math.max(
-            1,
-            clinicView.offsetHeight -
-            clinicCamera.offsetHeight
-        );
+    const viewportHeight =
+        window.innerHeight;
 
+    const sectionHeight =
+        clinicView.offsetHeight;
 
-    /*
-     * section開始位置を0、
-     * section終了位置を1とします。
-     */
+    const totalDistance =
+        viewportHeight +
+        sectionHeight;
+
 
     let progress =
-        -rect.top / travel;
+        (
+            viewportHeight -
+            rect.top
+        ) /
+        totalDistance;
 
 
     /*
-     * 数値を0〜1に制限します。
+     * 進行率を0〜1に制限します。
+     *
+     * なぜそうしているか：
+     * 写真エリアの外側までスクロールした際に
+     * 写真が想定以上に移動しないようにするためです。
      */
 
     progress =
@@ -2678,7 +2623,8 @@ function updateClinicImage(){
      * smoothstep。
      *
      * なぜそうしているか：
-     * 横移動の開始・終了時に速度が急変しないためです。
+     * 移動開始と終了を滑らかにして、
+     * 急に写真が動く印象を避けるためです。
      */
 
     const eased =
@@ -2691,17 +2637,17 @@ function updateClinicImage(){
 
 
     /*
-     * 写真の横移動量。
+     * 横方向の移動量。
      *
-     * -22%から+22%まで動かします。
+     * -14% → +14%
      *
-     * 写真自体を150〜170%まで広げているため、
-     * 移動中も写真が窓の外へ抜けにくくなります。
+     * 今回は大きなパノラマ移動ではなく、
+     * 左右の視点が切り替わる程度に抑えます。
      */
 
     const x =
-        -22 +
-        eased * 44;
+        -14 +
+        eased * 28;
 
 
     clinicImage.style.transform =
@@ -2718,8 +2664,8 @@ function updateClinicImage(){
  * 次の描画フレームで写真を更新します。
  *
  * なぜそうしているか：
- * scrollイベントは非常に高頻度で発生するため、
- * 同一フレーム内でDOMを書き換える回数を制限します。
+ * iPhoneなどではscrollイベントが非常に高頻度で発生するため、
+ * 同じ描画フレーム内での重複更新を防ぎます。
  *
  * @returns {void}
  */
@@ -2729,9 +2675,7 @@ function requestClinicUpdate(){
     if(
         clinicFramePending
     ){
-
         return;
-
     }
 
 
@@ -2757,8 +2701,8 @@ function requestClinicUpdate(){
  * passive:true。
  *
  * なぜそうしているか：
- * preventDefault()を使わないスクロールイベントなので、
- * ブラウザにスクロール処理を最適化させます。
+ * スクロールイベント内でpreventDefault()を使用しないため、
+ * ブラウザのスクロール処理を妨げないようにします。
  */
 
 window.addEventListener(
@@ -2771,11 +2715,11 @@ window.addEventListener(
 
 
 /*
- * 画面サイズ変更。
+ * 画面サイズ変更時。
  *
  * なぜそうしているか：
- * iPhoneの縦横回転やSafariの表示領域変化後に
- * 写真位置を再計算するためです。
+ * iPhoneの回転やSafariの表示領域変化によって
+ * 写真位置がずれないようにします。
  */
 
 window.addEventListener(
@@ -2803,23 +2747,26 @@ updateClinicImage();
  * news.jsonを読み込みます。
  *
  * なぜそうしているか：
- * index.htmlを変更せず、
- * news.jsonだけでお知らせを更新できるためです。
+ * index.html本体を変更せず、
+ * news.jsonだけを更新してお知らせを管理するためです。
  *
  * セキュリティ：
  * 外部データをinnerHTMLへ直接投入せず、
  * textContentを使用します。
  *
- * これによりHTMLやJavaScriptが
- * お知らせデータに混入しても実行されません。
+ * これによりtitleやbodyに
+ * HTML/JavaScriptが混入しても実行されません。
  *
  * エラー処理：
- * HTTPエラー、JSON解析エラー、
- * 配列以外のJSON、不正な項目を処理します。
+ * - HTTPエラー
+ * - JSON解析エラー
+ * - 配列ではないJSON
+ * - 不正な項目
+ * を処理します。
  *
  * 計算量：
- * 時間 O(N)
- * 空間 O(N)
+ *   時間 O(N)
+ *   空間 O(N)
  */
 
 fetch(
@@ -2862,7 +2809,7 @@ fetch(
 
 
         /*
-         * 最新3件のみ取得します。
+         * 最新3件。
          */
 
         const latest =
@@ -2896,9 +2843,7 @@ fetch(
                         !item ||
                         typeof item !== 'object'
                     ){
-
                         return;
-
                     }
 
 
@@ -2938,19 +2883,17 @@ fetch(
                         );
 
 
+                    /*
+                     * javascript:などの危険なスキームを
+                     *リンク先として使用しないようにします。
+                     */
+
                     const target =
                         String(
                             item.link ??
                             '#'
                         );
 
-
-                    /*
-                     * javascript:などの危険なURLスキームを拒否します。
-                     *
-                     * http/https以外のスキームは
-                     * #へ置き換えます。
-                     */
 
                     if(
                         /^(?:[a-z][a-z0-9+.-]*:)/i.test(
@@ -2961,13 +2904,11 @@ fetch(
                         )
                     ){
 
-                        link.href =
-                            '#';
+                        link.href = '#';
 
                     }else{
 
-                        link.href =
-                            target;
+                        link.href = target;
 
                     }
 
@@ -3014,9 +2955,7 @@ fetch(
                         !item ||
                         typeof item !== 'object'
                     ){
-
                         return;
-
                     }
 
 
@@ -3072,13 +3011,11 @@ fetch(
                         )
                     ){
 
-                        link.href =
-                            '#';
+                        link.href = '#';
 
                     }else{
 
-                        link.href =
-                            target;
+                        link.href = target;
 
                     }
 
@@ -3119,7 +3056,7 @@ fetch(
 
 
             /*
-             * 過去のお知らせへのリンク。
+             * 過去のお知らせ。
              */
 
             const past =
@@ -3160,8 +3097,8 @@ fetch(
     error => {
 
         /*
-         * お知らせの取得に失敗しても、
-         * index.html本体はそのまま表示します。
+         * お知らせの読み込みに失敗しても、
+         * index.html全体を停止させないようにします。
          */
 
         console.error(
@@ -3185,11 +3122,12 @@ fetch(
  * 「詳細はこちら」からお知らせへ移動します。
  *
  * なぜそうしているか：
- * 同一リンクに複数のイベント処理を登録せず、
- * スクロール処理を一つにまとめるためです。
+ * 同じ処理を複数のscriptで登録すると、
+ * iPhoneなどでイベントが二重実行される可能性があるため、
+ * 一つの処理だけにします。
  *
  * エラー処理：
- * リンクまたは移動先が存在しない場合は終了します。
+ * 対象リンクまたは#newsがない場合は終了します。
  *
  * @returns {void}
  */
@@ -3218,8 +3156,7 @@ if(
 
 
             /*
-             * 動きを減らす設定がある場合は
-             * 即時移動します。
+             * アニメーションを減らす設定がある場合。
              */
 
             if(
@@ -3234,7 +3171,6 @@ if(
                 });
 
                 return;
-
             }
 
 
@@ -3254,12 +3190,6 @@ if(
                 startY;
 
 
-            /*
-             * 距離に応じてスクロール時間を設定します。
-             *
-             * 最短1.8秒、最長3秒に制限します。
-             */
-
             const duration =
                 Math.min(
                     3000,
@@ -3278,13 +3208,10 @@ if(
              * smoothstep補間。
              *
              * @param {number} t
-             * 進行率0〜1。
+             * 進行率 0〜1
              *
              * @returns {number}
-             * 補間後の進行率。
-             *
-             * @example
-             * ease(0.5);
+             * 補間後の値
              */
 
             function ease(t){
@@ -3305,7 +3232,7 @@ if(
              * スクロールアニメーション。
              *
              * @param {number} now
-             * requestAnimationFrameの時刻。
+             * requestAnimationFrameの時刻
              *
              * @returns {void}
              */
