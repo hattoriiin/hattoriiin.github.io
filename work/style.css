@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
-
 /* ==================================================
    基本
 ================================================== */
@@ -22,8 +21,6 @@ body{
 }
 
 /* 以下、現在のstyleの中身を全部 */
-
-<style>
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -1675,6 +1672,3 @@ h2{
     width:3.5em;
 
 }
-
-</style>
-
