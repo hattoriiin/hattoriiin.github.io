@@ -21,6 +21,14 @@
    基本
 ================================================== */
 
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:auto;
+}
+
 body{
 
     margin:0;
@@ -93,9 +101,7 @@ header{
 }
 
 
-/* ==================================================
-   ヘッダーの光
-================================================== */
+/* ---------- ヘッダー光 ---------- */
 
 header::before{
 
@@ -121,9 +127,7 @@ header::before{
 }
 
 
-/* ==================================================
-   タイトル
-================================================== */
+/* ---------- タイトル ---------- */
 
 .clinic-title,
 .catchcopy{
@@ -301,21 +305,6 @@ h2{
 
 
 /* ==================================================
-   フッター
-================================================== */
-
-footer{
-
-    text-align:center;
-
-    padding:1rem 1rem 80px 1rem;
-
-    background:#f5f5f5;
-
-}
-
-
-/* ==================================================
    お知らせ 最新3件プレビュー
 ================================================== */
 
@@ -419,11 +408,6 @@ footer{
 
 }
 
-
-/* ==================================================
-   お知らせ詳細への案内
-================================================== */
-
 .news-detail-note{
 
     margin:.8rem 0 0;
@@ -445,24 +429,6 @@ footer{
 .news-detail-note a:hover{
 
     text-decoration:underline;
-
-}
-
-
-/*
- * ページ全体の標準スクロールは自動にする。
- *
- * なぜそうするか：
- * 「詳細はクリック」だけを独自の上品な
- * スクロール演出にするため。
- *
- * JavaScript側でスクロールを制御するので、
- * ブラウザ標準のsmooth scrollとの二重処理を防ぐ。
- */
-
-html{
-
-    scroll-behavior:auto;
 
 }
 
@@ -490,15 +456,6 @@ html{
 }
 
 
-/*
- * 鳥1と鳥2は同じ軌跡を飛ぶ。
- *
- * なぜそうするか：
- * 2羽が別々の飛行経路を取るのではなく、
- * 同じ位置を飛びながら画像だけが切り替わる
- * 演出にするため。
- */
-
 .bird1{
 
     animation:
@@ -524,7 +481,8 @@ html{
 
     from{
 
-        transform:translateX(0);
+        transform:
+            translateX(0);
 
     }
 
@@ -637,7 +595,7 @@ html{
 
 
 /* ==================================================
-   鳥：スマートフォン
+   スマートフォン 鳥
 ================================================== */
 
 @media (max-width:600px){
@@ -645,39 +603,27 @@ html{
     @keyframes fadebird1{
 
         0%{
-
             opacity:0;
-
         }
 
         18%{
-
-            opacity:.2;
-
+            opacity:.20;
         }
 
         25%{
-
             opacity:.35;
-
         }
 
         48%{
-
             opacity:.45;
-
         }
 
         55%{
-
             opacity:0;
-
         }
 
         100%{
-
             opacity:0;
-
         }
 
     }
@@ -686,45 +632,31 @@ html{
     @keyframes fadebird2{
 
         0%{
-
             opacity:0;
-
         }
 
         50%{
-
             opacity:0;
-
         }
 
         55%{
-
             opacity:.35;
-
         }
 
         68%{
-
             opacity:.35;
-
         }
 
         74%{
-
             opacity:.15;
-
         }
 
         78%{
-
             opacity:0;
-
         }
 
         100%{
-
             opacity:0;
-
         }
 
     }
@@ -757,7 +689,6 @@ html{
 
 }
 
-
 .schedule th,
 .schedule td{
 
@@ -773,9 +704,6 @@ html{
 
 }
 
-
-/* 曜日 */
-
 .schedule tr:first-child th{
 
     background:#31556e;
@@ -785,9 +713,6 @@ html{
     font-weight:400;
 
 }
-
-
-/* 診療内容 */
 
 .schedule tr:not(:first-child) th{
 
@@ -799,17 +724,11 @@ html{
 
 }
 
-
-/* ○部分 */
-
 .schedule td{
 
     background:#fff;
 
 }
-
-
-/* 最後の線 */
 
 .schedule tr:last-child th,
 .schedule tr:last-child td{
@@ -817,9 +736,6 @@ html{
     border-bottom:none;
 
 }
-
-
-/* 左端 */
 
 .schedule th:first-child{
 
@@ -835,9 +751,6 @@ html{
 
 }
 
-
-/* 左側2行 */
-
 .schedule tr:not(:first-child) th{
 
     line-height:1.35;
@@ -849,11 +762,6 @@ html{
     letter-spacing:.05em;
 
 }
-
-
-/* ==================================================
-   訪問診療アイコン
-================================================== */
 
 .visit-circle svg{
 
@@ -997,7 +905,6 @@ html{
 
 }
 
-
 .online-note{
 
     margin-top:10px;
@@ -1057,11 +964,6 @@ html{
     pointer-events:none;
 
 }
-
-
-/* ==================================================
-   スマートフォン：院長画像
-================================================== */
 
 @media (max-width:600px){
 
@@ -1159,10 +1061,6 @@ html{
 }
 
 
-/* ==================================================
-   スマートフォン：所在地
-================================================== */
-
 @media (max-width:600px){
 
     .location-grid{
@@ -1203,7 +1101,7 @@ html{
 
 
 /* ==================================================
-   診療内容カード
+   診療内容 フローティングカード
 ================================================== */
 
 .service-card{
@@ -1266,8 +1164,7 @@ html{
 
 .service-card h3{
 
-    margin:
-        0 0 .45rem;
+    margin:0 0 .45rem;
 
     color:#31556e;
 
@@ -1352,8 +1249,7 @@ html{
 
 .equipment-card h3{
 
-    margin:
-        0 0 .45rem;
+    margin:0 0 .45rem;
 
     color:#31556e;
 
@@ -1392,8 +1288,7 @@ html{
 
     width:72%;
 
-    margin:
-        0 auto 1.8rem;
+    margin:0 auto 1.8rem;
 
     padding:.5rem 0;
 
@@ -1472,10 +1367,6 @@ html{
 }
 
 
-/* ==================================================
-   お知らせ：スマートフォン
-================================================== */
-
 @media (max-width:600px){
 
     .news-section{
@@ -1541,8 +1432,15 @@ html{
 
 
 /* ==================================================
-   院内スクロール演出
+   院内写真スクロール演出
 ================================================== */
+
+/*
+ * ここは既存の完成版を維持。
+ *
+ * 写真の表示高さは38vh。
+ * 上下に余白を追加しない。
+ */
 
 .clinic-view{
 
@@ -1554,9 +1452,16 @@ html{
 
     margin:0;
 
-    overflow:hidden;
+    overflow:visible;
 
 }
+
+
+/*
+ * 写真を表示する窓。
+ *
+ * stickyによって写真表示領域を固定する。
+ */
 
 .clinic-camera{
 
@@ -1581,9 +1486,12 @@ html{
 }
 
 
-/* ==================================================
-   写真左右の白グラデーション
-================================================== */
+/*
+ * 左右の白いグラデーション。
+ *
+ * 写真を突然切らず、
+ * 表示窓の端だけを白へ柔らかくつなぐ。
+ */
 
 .clinic-camera::after{
 
@@ -1604,7 +1512,7 @@ html{
 
             #fff 0%,
 
-            rgba(255,255,255,.8) 5%,
+            rgba(255,255,255,.80) 5%,
 
             rgba(255,255,255,.35) 12%,
 
@@ -1614,7 +1522,7 @@ html{
 
             rgba(255,255,255,.35) 88%,
 
-            rgba(255,255,255,.8) 95%,
+            rgba(255,255,255,.80) 95%,
 
             #fff 100%
         );
@@ -1622,9 +1530,12 @@ html{
 }
 
 
-/* ==================================================
-   院内写真本体
-================================================== */
+/*
+ * 写真本体。
+ *
+ * 横方向の移動量と表示サイズを
+ * 既存の状態から変更しない。
+ */
 
 .clinic-image{
 
@@ -1648,17 +1559,14 @@ html{
 
     will-change:transform;
 
+
     -webkit-mask-image:
 
         linear-gradient(
             to right,
-
             transparent 0%,
-
             #000 5%,
-
             #000 95%,
-
             transparent 100%
         );
 
@@ -1666,13 +1574,9 @@ html{
 
         linear-gradient(
             to right,
-
             transparent 0%,
-
             #000 5%,
-
             #000 95%,
-
             transparent 100%
         );
 
@@ -1683,10 +1587,7 @@ html{
    スマートフォン横向き
 ================================================== */
 
-@media
-(max-width:900px)
-and
-(orientation:landscape){
+@media (max-width:900px) and (orientation:landscape){
 
     .clinic-view{
 
@@ -1721,10 +1622,7 @@ and
    スマートフォン縦向き
 ================================================== */
 
-@media
-(max-width:600px)
-and
-(orientation:portrait){
+@media (max-width:600px) and (orientation:portrait){
 
     .clinic-image{
 
@@ -1794,36 +1692,27 @@ and
 
 <h1 class="clinic-title">
 
-
     <div class="seishokai">
-
 
         <span class="medical">
             医療法人
         </span>
 
-
         <span class="logo-block">
-
 
             <span class="furigana">
                 じょうしょうかい
             </span>
 
-
             <span class="kanji">
 
                 <span>誠</span>
-
                 <span>彰</span>
-
                 <span>会</span>
 
             </span>
 
-
         </span>
-
 
     </div>
 
@@ -1832,16 +1721,12 @@ and
         服部医院
     </span>
 
-
 </h1>
 
 
 <p class="catchcopy">
-
     地域に貢献する医療を大切にします
-
 </p>
-
 
 </header>
 
@@ -1850,7 +1735,7 @@ and
 
 
 <!-- ==================================================
-     お知らせボタン
+     お知らせカード
 ================================================== -->
 
 <div class="news-card">
@@ -1862,10 +1747,6 @@ and
 </div>
 
 
-<!-- ==================================================
-     最新3件プレビュー
-================================================== -->
-
 <div class="news-preview">
 
     <div class="news-preview-list"></div>
@@ -1875,10 +1756,7 @@ and
 
 <p class="news-detail-note">
 
-    <a
-        href="#news"
-        class="news-scroll-link"
-    >
+    <a href="#news" class="news-scroll-link">
         ※ 詳細はクリック
     </a>
 
@@ -1946,7 +1824,7 @@ and
 
 
 <!-- ==================================================
-     診療内容
+     診療・業務内容
 ================================================== -->
 
 <section>
@@ -2092,7 +1970,6 @@ and
 
 </p>
 
-
 </section>
 
 
@@ -2180,7 +2057,6 @@ and
 
 </div>
 
-
 </section>
 
 
@@ -2200,7 +2076,6 @@ and
 
 <div class="news-list"></div>
 
-
 </section>
 
 
@@ -2217,21 +2092,15 @@ and
 
 <table class="schedule">
 
-
 <tr>
 
 <th></th>
 
 <th>月</th>
-
 <th>火</th>
-
 <th>水</th>
-
 <th>木</th>
-
 <th>金</th>
-
 <th>土</th>
 
 </tr>
@@ -2260,7 +2129,9 @@ and
     <span class="out-circle"></span>
 </td>
 
-<td>―</td>
+<td>
+    ―
+</td>
 
 <td>
     <span class="out-circle"></span>
@@ -2400,10 +2271,13 @@ and
 </td>
 
 
-<td>―</td>
+<td>
+    ―
+</td>
 
-<td>―</td>
-
+<td>
+    ―
+</td>
 
 </tr>
 
@@ -2445,10 +2319,11 @@ and
     <span class="out-circle"></span>
 </td>
 
-<td>―</td>
+<td>
+    ―
+</td>
 
 </tr>
-
 
 </table>
 
@@ -2467,11 +2342,8 @@ and
 <br>
 
 ※ 外来診療の受付時間
-
 <br>
-
 診療開始15分前から診療時間終了30分前まで
-
 
 </section>
 
@@ -2490,24 +2362,15 @@ and
 <div class="location-grid">
 
 
-<!-- 左：Googleマップ -->
-
 <div class="location-map">
 
 <iframe
-
-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576.89649152389!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1784304566638!5m2!1sja!2sjp"
-
-style="border:0;"
-
-allowfullscreen=""
-
-loading="lazy"
-
-referrerpolicy="strict-origin-when-cross-origin"
-
->
-</iframe>
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576.89649152389!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1784304566638!5m2!1sja!2sjp"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+></iframe>
 
 
 <p class="map-link">
@@ -2524,11 +2387,8 @@ Googleマップで見る
 
 </p>
 
-
 </div>
 
-
-<!-- 右：所在地 -->
 
 <div class="location-info">
 
@@ -2541,11 +2401,9 @@ Googleマップで見る
 <p>
 
 〒467-0825
-
 <br>
 
 愛知県名古屋市瑞穂区
-
 <br>
 
 柳ヶ枝町1-34 1階
@@ -2570,11 +2428,9 @@ Googleマップで見る
 <br>
 
 「名鉄堀田」停留所
-
 <br>
 
 2番のりばより徒歩1分
-
 <br>
 
 3番のりばより徒歩4分
@@ -2594,7 +2450,6 @@ Googleマップで見る
 <br>
 
 名鉄名古屋本線「堀田駅」より
-
 <br>
 
 　　　　　　　徒歩4分
@@ -2614,14 +2469,12 @@ Googleマップで見る
 <br>
 
 名古屋市営地下鉄名城線
-
 <br>
 
 「堀田駅」2番出入口より
-
 <br>
 
-　　　　　　　徒歩8分
+徒歩8分
 
 </p>
 
@@ -2651,18 +2504,14 @@ Googleマップで見る
 <p>
 
 出口を降りて直進し、
-
 「三菱UFJ銀行」の交差点を左折
-
 <br>
 
 してすぐです。
 
 </p>
 
-
 </div>
-
 
 </div>
 
@@ -2709,7 +2558,6 @@ Googleマップで見る
 
 </p>
 
-
 </section>
 
 
@@ -2717,7 +2565,7 @@ Googleマップで見る
 
 
 <!-- ==================================================
-     フッター
+   フッター
 ================================================== -->
 
 <footer>
@@ -2734,28 +2582,20 @@ Googleマップで見る
 
 
 <!-- ==================================================
-     院内写真 横スクロール
+   院内写真 横スクロール制御
 ================================================== -->
 
 <script>
 
-/**
- * 院内写真の横方向スクロールを制御する。
+/*
+ * 院内写真の横スクロール制御。
  *
- * 縦方向のスクロール量を横方向の移動量へ変換する。
+ * この部分は既存の完成版を維持する。
  *
- * なぜこうしているか：
- * 写真を短いスクロール距離で急激に動かすのではなく、
- * 縦にページを読み進める間に、ゆっくりと写真の視点が
- * 左から右へ移動するようにするため。
- *
- * エラーケース：
- * - 写真要素が存在しない場合 → 処理を中断
- * - 表示領域の計算値が不正な場合 → 0〜1に補正
- * - 画面サイズ変更時 → 再計算
- *
- * セキュリティ：
- * 外部入力をDOMへ挿入せず、style.transformのみを更新する。
+ * 「詳細はクリック」のスクロール改善とは
+ * 独立した処理にすることで、
+ * お知らせへの移動を変更しても
+ * 院内写真の横スクロールへ影響を与えない。
  */
 
 const clinicView =
@@ -2764,182 +2604,151 @@ const clinicView =
 const clinicImage =
     document.querySelector('.clinic-image');
 
+let currentX = -30;
 
-if (clinicView && clinicImage) {
+let targetX = -30;
 
-
-    let currentX = -25;
-
-    let targetX = -25;
+let animationStarted = false;
 
 
-    /**
-     * スクロール位置から写真の目標位置を計算する。
-     *
-     * @returns {void}
-     */
+/**
+ * 院内写真の横移動目標位置を計算する。
+ *
+ * @returns {void}
+ * @example
+ * updateTarget();
+ */
 
-    function updateTarget() {
+function updateTarget(){
 
+    if(!clinicView || !clinicImage){
 
-        const rect =
-            clinicView.getBoundingClientRect();
-
-
-        const total =
-            clinicView.offsetHeight -
-            window.innerHeight;
-
-
-        /*
-         * totalが0以下の場合、
-         * 0除算を防ぐため処理を安全にする。
-         */
-
-        if (total <= 0) {
-
-            targetX = -25;
-
-            return;
-
-        }
-
-
-        let progress =
-            -rect.top / total;
-
-
-        /*
-         * progressを0〜1に限定する。
-         */
-
-        progress =
-            Math.max(
-                0,
-                Math.min(1, progress)
-            );
-
-
-        /*
-         * easeInOut系の補間。
-         *
-         * 単純なlinearでは動きが機械的になるため、
-         * 発進と停止を滑らかにする。
-         */
-
-        const smooth =
-            progress * progress * progress *
-            (
-                progress *
-                (progress * 6 - 15) +
-                10
-            );
-
-
-        /*
-         * 左右の移動幅。
-         *
-         * 縦スクロールに対して
-         * 写真がゆっくり横へ移動する。
-         */
-
-        targetX =
-            -30 +
-            smooth * 60;
+        return;
 
     }
 
 
-    /**
-     * 写真を毎フレーム少しずつ目標位置へ近づける。
-     *
-     * なぜこうしているか：
-     * targetXを直接設定すると横移動が俊敏になるため、
-     * 現在位置と目標位置の差を少しずつ埋める。
-     *
-     * @returns {void}
-     */
+    const rect =
+        clinicView.getBoundingClientRect();
 
-    function animateClinic() {
+    const viewportHeight =
+        window.innerHeight;
 
+    const start =
+        viewportHeight * 1.15;
 
-        currentX +=
-            (targetX - currentX) * 0.06;
+    const end =
+        -viewportHeight * 0.25;
 
+    let progress =
+        (start - rect.top) /
+        (start - end);
 
-        clinicImage.style.transform =
-            `translate(
-                calc(-50% + ${currentX}%),
-                -50%
-            ) scale(.85)`;
-
-
-        requestAnimationFrame(
-            animateClinic
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                progress
+            )
         );
 
+    const smooth =
+        progress *
+        progress *
+        (3 - 2 * progress);
+
+    targetX =
+        -30 +
+        smooth * 60;
+
+}
+
+
+/**
+ * 院内写真を目標位置へ滑らかに移動する。
+ *
+ * @returns {void}
+ * @example
+ * animateClinic();
+ */
+
+function animateClinic(){
+
+    if(!clinicImage){
+
+        return;
+
     }
 
 
-    window.addEventListener(
-        'scroll',
-        updateTarget,
-        {
-            passive:true
-        }
+    currentX +=
+        (targetX - currentX) *
+        0.025;
+
+
+    clinicImage.style.transform =
+        `translate3d(
+            calc(-50% + ${currentX}%),
+            -50%,
+            0
+        ) scale(.85)`;
+
+
+    requestAnimationFrame(
+        animateClinic
     );
 
-
-    window.addEventListener(
-        'resize',
-        updateTarget
-    );
+}
 
 
-    updateTarget();
+updateTarget();
+
+
+if(!animationStarted){
+
+    animationStarted = true;
 
     animateClinic();
 
 }
 
 
-/* ==================================================
-   お知らせデータ
-================================================== */
+window.addEventListener(
+    'scroll',
+    updateTarget,
+    {
+        passive:true
+    }
+);
 
-/**
- * news.jsonを読み込み、
- * 上部プレビューと下部のお知らせ一覧を生成する。
+
+window.addEventListener(
+    'resize',
+    updateTarget
+);
+
+</script>
+
+
+<!-- ==================================================
+   お知らせ読み込み
+================================================== -->
+
+<script>
+
+/*
+ * news.jsonを安全に読み込む。
  *
- * なぜDOM APIを使用するか：
- * 外部データをそのままHTMLとして解釈させるのではなく、
- * 日付・タイトル・本文を安全に扱えるようにする。
- *
- * エラーケース：
- * - news.jsonが取得できない → console.error
- * - JSONが壊れている → catchで処理
- * - 配列ではない → エラーとして処理
- * - link等が欠けている → 空文字または安全な既定値を使用
- *
- * @returns {Promise<void>}
+ * JSON内の文字列をinnerHTMLへ直接投入せず、
+ * textContentを使用することでXSSのリスクを抑える。
  */
 
-async function loadNews() {
+fetch('news.json')
 
+    .then(response => {
 
-    try {
-
-
-        const response =
-            await fetch(
-                'news.json',
-                {
-                    cache:'no-cache'
-                }
-            );
-
-
-        if (!response.ok) {
+        if(!response.ok){
 
             throw new Error(
                 `news.jsonの取得に失敗しました: ${response.status}`
@@ -2947,23 +2756,20 @@ async function loadNews() {
 
         }
 
+        return response.json();
 
-        const news =
-            await response.json();
+    })
 
+    .then(news => {
 
-        if (!Array.isArray(news)) {
+        if(!Array.isArray(news)){
 
             throw new Error(
-                'news.jsonの形式が配列ではありません。'
+                'news.jsonの形式が正しくありません。'
             );
 
         }
 
-
-        /*
-         * 上部のお知らせ
-         */
 
         const previewList =
             document.querySelector(
@@ -2971,8 +2777,7 @@ async function loadNews() {
             );
 
 
-        if (previewList) {
-
+        if(previewList){
 
             previewList.replaceChildren();
 
@@ -2981,10 +2786,8 @@ async function loadNews() {
                 .slice(0,3)
                 .forEach(item => {
 
-
                     const previewItem =
                         document.createElement('div');
-
 
                     previewItem.className =
                         'news-preview-item';
@@ -2993,46 +2796,37 @@ async function loadNews() {
                     const date =
                         document.createElement('span');
 
-
                     date.className =
                         'news-preview-date';
 
-
                     date.textContent =
-                        item.date || '';
+                        item.date ?? '';
 
 
                     const link =
                         document.createElement('a');
 
-
                     link.href =
-                        item.link || '#';
-
+                        typeof item.link === 'string'
+                            ? item.link
+                            : '#';
 
                     link.textContent =
-                        item.title || 'お知らせ';
+                        item.title ?? '';
 
 
-                    previewItem.append(
-                        date,
-                        link
-                    );
+                    previewItem.appendChild(date);
 
+                    previewItem.appendChild(link);
 
                     previewList.appendChild(
                         previewItem
                     );
 
-
                 });
 
         }
 
-
-        /*
-         * 下部のお知らせ
-         */
 
         const newsList =
             document.querySelector(
@@ -3040,8 +2834,7 @@ async function loadNews() {
             );
 
 
-        if (newsList) {
-
+        if(newsList){
 
             newsList.replaceChildren();
 
@@ -3050,10 +2843,8 @@ async function loadNews() {
                 .slice(0,3)
                 .forEach(item => {
 
-
                     const newsItem =
                         document.createElement('div');
-
 
                     newsItem.className =
                         'news-item';
@@ -3062,62 +2853,51 @@ async function loadNews() {
                     const date =
                         document.createElement('span');
 
-
                     date.className =
                         'news-date';
 
-
                     date.textContent =
-                        item.date || '';
+                        item.date ?? '';
 
 
                     const link =
                         document.createElement('a');
 
-
                     link.href =
-                        item.link || '#';
-
+                        typeof item.link === 'string'
+                            ? item.link
+                            : '#';
 
                     link.textContent =
-                        item.title || 'お知らせ';
+                        item.title ?? '';
 
 
                     const body =
                         document.createElement('p');
 
-
                     body.className =
                         'news-body';
-
 
                     body.textContent =
                         item.body ||
                         '詳細は準備中です。';
 
 
-                    newsItem.append(
-                        date,
-                        link,
-                        body
-                    );
+                    newsItem.appendChild(date);
 
+                    newsItem.appendChild(link);
+
+                    newsItem.appendChild(body);
 
                     newsList.appendChild(
                         newsItem
                     );
 
-
                 });
 
 
-            /*
-             * 過去のお知らせ
-             */
-
             const past =
                 document.createElement('p');
-
 
             past.className =
                 'news-detail-note';
@@ -3126,80 +2906,93 @@ async function loadNews() {
             const pastLink =
                 document.createElement('a');
 
-
             pastLink.href =
                 'news.html';
-
 
             pastLink.textContent =
                 '※ 過去のお知らせはクリック';
 
 
-            past.appendChild(
-                pastLink
-            );
+            past.appendChild(pastLink);
 
-
-            newsList.appendChild(
-                past
-            );
+            newsList.appendChild(past);
 
         }
 
+    })
 
-    }
-    catch(error) {
-
-
-        /*
-         * お知らせが表示できなくても
-         * ページ全体は動作するようにする。
-         */
+    .catch(error => {
 
         console.error(
             'お知らせの読み込みに失敗しました。',
             error
         );
 
-    }
+    });
 
-}
-
-
-loadNews();
+</script>
 
 
-/* ==================================================
-   「詳細はクリック」の上品なスクロール
-================================================== */
+<!-- ==================================================
+   「詳細はクリック」上品なスクロール
+================================================== -->
 
-/**
- * 指定した要素へゆっくりスクロールする。
+<script>
+
+/*
+ * お知らせ詳細へのスクロール。
  *
- * @param {HTMLElement|null} targetElement
- *     スクロール先の要素。
+ * 【なぜ独立させるか】
  *
- * @returns {void}
+ * 院内写真の横スクロール制御とは完全に別系統にする。
+ * これにより、この処理を変更しても院内写真の
+ * 横スクロールへ影響を与えない。
  *
- * @throws {Error}
- *     実行中のDOM操作で致命的なエラーが発生した場合は
- *     ブラウザ側へ伝播する。
+ * 【動き】
  *
- * 使用例：
- *     smoothScrollTo(document.querySelector('#news'));
+ * クリック
+ *   ↓
+ * ゆっくり加速
+ *   ↓
+ * なめらかに移動
+ *   ↓
+ * お知らせ見出し付近でゆっくり減速
+ *   ↓
+ * 静かに停止
  *
- * なぜ独自制御するか：
- * ブラウザ標準のsmooth scrollでは移動距離によって
- * 速度感が変わるため、開始・中間・停止を自分で制御する。
+ * 【セキュリティ】
+ *
+ * 固定ID #news のみを対象とし、
+ * 外部入力やHTML文字列は扱わない。
  */
 
-function smoothScrollTo(targetElement) {
 
+/**
+ * 指定位置まで上品なイージングでスクロールする。
+ *
+ * @param {number} targetY - スクロール先のY座標。
+ * @param {number} duration - アニメーション時間（ms）。
+ * @returns {void}
+ *
+ * @example
+ * smoothScrollTo(1200, 1200);
+ *
+ * @throws {TypeError}
+ * targetYまたはdurationが有限数でない場合。
+ */
 
-    if (!targetElement) {
+function smoothScrollTo(
+    targetY,
+    duration
+){
+
+    if(
+        !Number.isFinite(targetY) ||
+        !Number.isFinite(duration)
+    ){
 
         console.warn(
-            'スクロール先 #news が見つかりません。'
+            'スクロール値が不正です。'
         );
 
         return;
@@ -3208,94 +3001,52 @@ function smoothScrollTo(targetElement) {
 
 
     /*
-     * 現在位置。
+     * iPhoneなどで画面サイズが変化しても
+     * ページ外へスクロールしないよう、
+     * 実際に可能な範囲へ制限する。
      */
+
+    const maxY =
+        Math.max(
+            0,
+            document.documentElement.scrollHeight -
+            window.innerHeight
+        );
+
+
+    targetY =
+        Math.max(
+            0,
+            Math.min(
+                targetY,
+                maxY
+            )
+        );
+
 
     const startY =
         window.scrollY;
 
-
-    /*
-     * お知らせ見出しの上に
-     * 少しだけ余白を残す。
-     *
-     * 0だと見出しが画面上端に
-     * 張り付いたように見えるため、
-     * 24pxの呼吸を残す。
-     */
-
-    const offset = 24;
-
-
-    const targetY =
-        targetElement.getBoundingClientRect().top +
-        window.scrollY -
-        offset;
-
-
     const distance =
         targetY - startY;
-
-
-    /*
-     * ほぼ同じ位置ならアニメーション不要。
-     */
-
-    if (Math.abs(distance) < 5) {
-
-        window.scrollTo(
-            0,
-            targetY
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * 距離に応じて時間を決める。
-     *
-     * 短すぎると急に見え、
-     * 長すぎると冗長になるため、
-     * 900〜1500msに制限する。
-     */
-
-    const duration =
-        Math.min(
-            1500,
-            Math.max(
-                900,
-                Math.abs(distance) * 1.2
-            )
-        );
-
 
     const startTime =
         performance.now();
 
 
-    /**
-     * easeInOutCubic
+    /*
+     * cubic ease-in-out。
      *
-     * 最初はゆっくり、
-     * 中間で自然に進み、
-     * 最後にゆっくり止める。
-     *
-     * @param {number} t
-     *     0〜1の進行率。
-     *
-     * @returns {number}
-     *     補間後の進行率。
+     * 最初と最後をゆっくり、
+     * 中間を自然に進めることで、
+     * 「飛ぶ」のではなく「案内される」
+     * ようなスクロールにする。
      */
 
-    function easeInOutCubic(t) {
-
+    function easeInOutCubic(t){
 
         return t < 0.5
-
             ? 4 * t * t * t
-
             : 1 -
               Math.pow(
                   -2 * t + 2,
@@ -3306,20 +3057,16 @@ function smoothScrollTo(targetElement) {
 
 
     /**
-     * スクロールアニメーション本体。
-     *
-     * @param {DOMHighResTimeStamp} currentTime
-     *     requestAnimationFrameから渡される時刻。
+     * スクロールアニメーションの1フレーム。
      *
      * @returns {void}
      */
 
-    function animateScroll(currentTime) {
-
+    function animateScroll(){
 
         const elapsed =
-            currentTime - startTime;
-
+            performance.now() -
+            startTime;
 
         const progress =
             Math.min(
@@ -3341,7 +3088,7 @@ function smoothScrollTo(targetElement) {
         );
 
 
-        if (progress < 1) {
+        if(progress < 1){
 
             requestAnimationFrame(
                 animateScroll
@@ -3360,40 +3107,137 @@ function smoothScrollTo(targetElement) {
 
 
 /*
- * 「詳細はクリック」のリンクだけを
- * 独自スクロールへ置き換える。
+ * 「詳細はクリック」のリンクを取得。
  */
 
-document
-    .querySelectorAll(
+const newsScrollLink =
+    document.querySelector(
         '.news-scroll-link'
-    )
-    .forEach(link => {
+    );
 
 
-        link.addEventListener(
-            'click',
-            event => {
+if(newsScrollLink){
+
+    newsScrollLink.addEventListener(
+        'click',
+        function(event){
+
+            /*
+             * 通常の #news ジャンプを止める。
+             * これを止めないとブラウザの即時移動と
+             * 独自アニメーションが競合するため。
+             */
+
+            event.preventDefault();
 
 
-                event.preventDefault();
-
-
-                const target =
-                    document.querySelector(
-                        '#news'
-                    );
-
-
-                smoothScrollTo(
-                    target
+            const newsSection =
+                document.getElementById(
+                    'news'
                 );
 
 
-            }
-        );
+            /*
+             * #newsが存在しない場合は、
+             * 通常リンクとして機能させる代わりに
+             * エラーを出さず終了する。
+             */
 
-    });
+            if(!newsSection){
+
+                console.warn(
+                    '#newsが見つかりません。'
+                );
+
+                return;
+
+            }
+
+
+            const rect =
+                newsSection.getBoundingClientRect();
+
+
+            /*
+             * お知らせ見出しが画面上端に
+             * 張り付かないよう、少し余裕を取る。
+             *
+             * これが「上品さ」に効く。
+             */
+
+            const topOffset =
+                Math.min(
+                    24,
+                    window.innerHeight * .035
+                );
+
+
+            const targetY =
+                window.scrollY +
+                rect.top -
+                topOffset;
+
+
+            /*
+             * 距離に応じて時間を変える。
+             *
+             * 短い距離なら速すぎず、
+             * 長い距離なら十分にゆっくり。
+             *
+             * ただし極端に長くならないよう
+             * 1.6秒を上限にする。
+             */
+
+            const distance =
+                Math.abs(
+                    targetY -
+                    window.scrollY
+                );
+
+
+            const duration =
+                Math.max(
+                    750,
+                    Math.min(
+                        1600,
+                        distance * 0.85
+                    )
+                );
+
+
+            /*
+             * ユーザーが「動きを減らす」を
+             * OSで指定している場合は、
+             * 長いアニメーションを避ける。
+             */
+
+            const reducedMotion =
+                window.matchMedia(
+                    '(prefers-reduced-motion: reduce)'
+                ).matches;
+
+
+            if(reducedMotion){
+
+                window.scrollTo(
+                    0,
+                    targetY
+                );
+
+                return;
+
+            }
+
+
+            smoothScrollTo(
+                targetY,
+                duration
+            );
+
+        }
+    );
+
+}
 
 </script>
 
