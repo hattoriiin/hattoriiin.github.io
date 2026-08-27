@@ -9,30 +9,6 @@
 }
 
 html{
-    scroll-behavior:auto;
-}
-
-body{
-    margin:0;
-    font-family:sans-serif;
-    line-height:1.8;
-    color:#222;
-    background:#fff;
-}
-
-/* 以下、現在のstyleの中身を全部 */
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
-
-/* ==================================================
-   基本
-================================================== */
-
-*{
-    box-sizing:border-box;
-}
-
-html{
     /*
      * JavaScript側で詳細リンクの移動を制御するため、
      * CSSの標準smooth scrollは使用しない。
