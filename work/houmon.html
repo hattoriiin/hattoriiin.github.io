@@ -1,1 +1,186 @@
-work/houmon.html
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>訪問診療｜服部医院</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background-color: #ffffff;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px 0 16px;
+    }
+
+    .nav-back a {
+      color: #31556e;
+      text-decoration: none;
+      font-size: 14px;
+      margin-right: 15px;
+    }
+
+    h1 {
+      color: #20384d;
+      font-size: 24px;
+      border-bottom: 3px solid #31556e;
+      padding-bottom: 8px;
+    }
+
+    .content-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .content-box h2 {
+      color: #31556e;
+      font-size: 18px;
+      margin-top: 0;
+    }
+
+    /* === アニメーションエリア === */
+    .parallax-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      margin-top: 30px;
+      overflow: hidden;
+      background-color: #ffffff !important; /* 全体の背面を白に固定 */
+    }
+
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      will-change: transform;
+      transition: transform 0.1s ease-out;
+    }
+
+    /* 雲 */
+    .layer-clouds { 
+      background-image: url('images/cloud.move.PNG'); 
+      background-position: center top;
+      background-size: contain;
+      z-index: 1; 
+    }
+    
+    /* 街並み（Lineart.second.png に更新＆白背景処理） */
+    .layer-street { 
+      background-image: url('images/Lineart.second.png'); 
+      background-position: center bottom;
+      background-size: contain;
+      background-color: #ffffff; /* 画像の下に白を敷いて透過時の市松模様を遮断 */
+      mix-blend-mode: multiply;  /* 画像内の擬似市松模様（グレー柄）を白と白で中和 */
+      z-index: 2; 
+    }
+    
+    /* 鳥 */
+    .layer-bird { 
+      background-image: url('images/colorfulbird.PNG'); 
+      background-size: 90px auto;
+      background-position: center 25%;
+      z-index: 3; 
+    }
+
+    .sensor-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+      padding: 6px 12px;
+      background: rgba(49, 85, 110, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      font-size: 11px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <nav class="nav-back">
+      <a href="index.html">← 服部医院トップへ戻る</a>
+      <a href="index.html#schedule">← 診療時間へ戻る</a>
+    </nav>
+
+    <h1>訪問診療</h1>
+    <p>服部医院では、お一人で通院が困難な患者様のご自宅へ医師が定期的に訪問し、安心の医療をお届けします。</p>
+
+    <section class="content-box">
+      <h2>訪問診療の対象となる方</h2>
+      <ul>
+        <li>お一人での通院が困難な方（高齢・身体障害など）</li>
+        <li>ご自宅での継続的な医療処置や経過観察が必要な方</li>
+        <li>住み慣れたご自宅での療養をご希望の方</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="parallax-wrapper" id="parallaxArea">
+    <div class="parallax-layer layer-clouds" id="lClouds"></div>
+    <div class="parallax-layer layer-street" id="lStreet"></div>
+    <div class="parallax-layer layer-bird"   id="lBird"></div>
+    <button class="sensor-btn" id="sensorBtn">3D効果を有効化</button>
+  </div>
+
+  <div style="text-align: center; padding: 25px 0 40px 0;">
+    <a href="index.html" style="color: #31556e; text-decoration: none; font-weight: bold; background-color: #f0f4f8; padding: 10px 20px; border-radius: 20px; display: inline-block;">← 服部医院トップへ戻る</a>
+  </div>
+
+  <script>
+    const lClouds = document.getElementById('lClouds');
+    const lStreet = document.getElementById('lStreet');
+    const lBird   = document.getElementById('lBird');
+    const btn     = document.getElementById('sensorBtn');
+
+    const S_CLOUDS = 6;   
+    const S_STREET = 15;  
+    const S_BIRD   = 30;  
+
+    function applyMove(x, y) {
+      lClouds.style.transform = `translate3d(${x * S_CLOUDS}px, ${y * S_CLOUDS}px, 0)`;
+      lStreet.style.transform = `translate3d(${x * S_STREET}px, ${y * S_STREET}px, 0)`;
+      lBird.style.transform   = `translate3d(${x * S_BIRD}px, ${y * S_BIRD}px, 0)`;
+    }
+
+    function handleMotion(event) {
+      const x = Math.min(Math.max((event.gamma || 0) / 30, -1), 1);
+      const y = Math.min(Math.max(((event.beta || 0) - 45) / 30, -1), 1);
+      applyMove(x, y);
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      btn.style.display = 'block';
+      btn.addEventListener('click', () => {
+        DeviceOrientationEvent.requestPermission().then(res => {
+          if (res === 'granted') {
+            window.addEventListener('deviceorientation', handleMotion);
+            btn.style.display = 'none';
+          }
+        });
+      });
+    } else if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', handleMotion);
+    }
+  </script>
+
+</body>
+</html>
