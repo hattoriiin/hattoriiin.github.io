@@ -72,19 +72,11 @@
     }
 
 /* 雲 */
+/* 雲画像を一時的に外し、背景だけにする。
+   これで市松模様が画像由来かを確定する。 */
 .layer-clouds {
-  background-image: url('../images/cloud.move.PNG');
-  background-position: center top;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-  /*
-   * PNGの透明部分は背景の白をそのまま見せる。
-   * 市松模様をCSSで作らないため、画像の透明部分を
-   * 通常の白背景として表示する。
-   */
+  background-image: none;
   background-color: #ffffff;
-
   z-index: 1;
 }
     
