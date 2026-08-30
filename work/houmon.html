@@ -72,11 +72,20 @@
     }
 
 /* 雲 */
-.layer-clouds { 
-    background-image: url('../images/cloud.move.PNG'); 
-    background-position: center top;
-    background-size: contain;
-    z-index: 1; 
+.layer-clouds {
+  background-image: url('../images/cloud.move.PNG');
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  /*
+   * PNGの透明部分は背景の白をそのまま見せる。
+   * 市松模様をCSSで作らないため、画像の透明部分を
+   * 通常の白背景として表示する。
+   */
+  background-color: #ffffff;
+
+  z-index: 1;
 }
     
     /* 街並み（Lineart.second.png に更新＆白背景処理） */
