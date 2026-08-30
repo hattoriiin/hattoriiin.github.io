@@ -1,17 +1,114 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>オンライン診療｜服部医院</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>オンライン診療｜服部医院</title>
+    <title>オンライン診療のご案内</title>
+    <style>
+        /* 全体のスタイル調整 */
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* オンライン診療バナーのカード容器 */
+        .online-med-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        /* 見出し */
+        .online-med-card h2 {
+            font-size: 1.25rem;
+            color: #0076a8;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        /* 説明文 */
+        .online-med-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* メインボタン（melmoへのリンク） */
+        .btn-online-reserve {
+            display: block;
+            background-color: #1bb0a3; /* 清潔感のあるエメラルドグリーン */
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 16px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-online-reserve:hover {
+            background-color: #158c82;
+            transform: translateY(-1px);
+        }
+
+        /* 注意書き・事前準備のテキスト */
+        .note-text {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 16px;
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        /* アプリ手順ガイドへのサブリンク（必要に応じて） */
+        .sub-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #0076a8;
+            text-decoration: underline;
+        }
+        
+        .sub-link:hover {
+            color: #004b6e;
+        }
+    </style>
 </head>
-
 <body>
-
 <h1>オンライン診療</h1>
 
 <p>オンライン診療についての詳細をご案内します。</p>
+    <!-- オンライン診療案内エリア -->
+    <div class="online-med-card">
+        <h2>自宅からスマホで受診できます</h2>
+        <p>通院の手間なく、いつものお薬をご自宅まで。当院ではオンライン診療アプリ「melmo」を導入しています。</p>
+        
+        <!-- メインのクリックボタン -->
+        <a href="https://melmo-app.com/clinic/664ff9d2b042141536deadfc" class="btn-online-reserve" target="_blank" rel="noopener noreferrer">
+            オンライン診療を予約する（melmo）[span_0](start_span)[span_0](end_span)
+        </a>
+
+        <!-- 注意事項 -->
+        <p class="note-text">
+            ※ご受診には専用アプリ「melmo」のダウンロードが必要です。<br>
+            ※初診・再診の適用条件については医師の指示に従ってください。
+        </p>
+    </div>
+
+</body>
+</html>
+
 
 <p>
 <a href="index.html">← 服部医院トップへ戻る</a><br><br><br>
