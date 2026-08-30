@@ -70,7 +70,27 @@
       will-change: transform;
       transition: transform 0.1s ease-out;
     }
+/* ==================================================
+   青空
+================================================== */
 
+/*
+ * 訪問診療のアニメーションの背景。
+ * 上を青く、地面方向へ白くして、
+ * 白い雲が自然に見えるようにする。
+ */
+.layer-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #79c7f2 0%,
+    #a9dcf5 42%,
+    #e5f4fb 75%,
+    #ffffff 100%
+  );
+  z-index: 0;
+}
 /* 雲 */
 /* 雲画像の輪郭を確認するため、一時的に背景色を変える */
 .layer-clouds {
