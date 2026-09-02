@@ -6,9 +6,6 @@
     <title>服部医院 - 診療時間のご案内</title>
     
     <style>
-        /* ==========================================
-           1. CSS RESET & VARIABLES
-           ========================================== */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -16,7 +13,6 @@
         }
 
         :root {
-            /* ブランドカラー */
             --color-primary-navy: #1b2a47;
             --color-gold-accent: #c5a059;
             --color-text-main: #2c3e50;
@@ -25,14 +21,12 @@
             --color-card-bg: #ffffff;
             --color-border: #eef2f5;
 
-            /* 診療区分カラー */
-            --color-morning-start: #2e7d32;
-            --color-morning-end: #81c784;
-            --color-afternoon-start: #0277bd;
-            --color-afternoon-end: #4fc3f7;
+            /* 診療区分カラー（3区分） */
+            --color-morning: #2e7d32;      /* 午前外来 */
+            --color-visiting: #ed6c02;     /* 訪問診療 */
+            --color-afternoon: #0277bd;    /* 午後外来 */
 
-            /* フォントスタック（互換性の補強） */
-            --font-family-serif: "Bodoni 72", "Didot", "Georgia", "Shippori Mincho", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+            --font-family-serif: "Bodoni 72", "Didot", "Georgia", "Shippori Mincho", "Yu Mincho", "YuMincho", serif;
             --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
@@ -48,15 +42,12 @@
             line-height: 1.6;
         }
 
-        /* ==========================================
-           2. CARD CONTAINER
-           ========================================== */
         .clinic-time-card {
             background-color: var(--color-card-bg);
             width: 100%;
             max-width: 520px;
             border-radius: 24px;
-            box-shadow: 0 12px 40px rgba(27, 42, 71, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 12px 40px rgba(27, 42, 71, 0.08);
             padding: 40px 32px;
             display: flex;
             flex-direction: column;
@@ -76,12 +67,9 @@
             background: linear-gradient(90deg, #1b2a47, #c5a059, #1b2a47);
         }
 
-        /* ==========================================
-           3. HEADER SECTION
-           ========================================== */
         .card-header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
@@ -102,16 +90,12 @@
             letter-spacing: 0.08em;
         }
 
-        /* ==========================================
-           4. RING CLOCK SVG CONTAINER
-           ========================================== */
         .ring-clock-wrapper {
             width: 100%;
             max-width: 380px;
-            /* 画面はみ出し防止の微調整 */
             min-width: min(280px, 100%);
             aspect-ratio: 1 / 1;
-            margin: 0 auto 28px;
+            margin: 0 auto 20px;
             position: relative;
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.06));
         }
@@ -135,70 +119,56 @@
             fill: #7a8b9e;
         }
 
-        /* ==========================================
-           5. LEGEND SECTION
-           ========================================== */
+        /* 凡例 */
         .legend-container {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             width: 100%;
-            margin-bottom: 24px;
-            padding: 12px;
+            margin-bottom: 20px;
+            padding: 10px;
             background-color: #f8fafc;
             border-radius: 12px;
+            flex-wrap: wrap;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.875rem;
+            gap: 6px;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--color-text-main);
         }
 
         .legend-color {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
 
-        .legend-color.morning {
-            background: linear-gradient(135deg, var(--color-morning-start), var(--color-morning-end));
-        }
+        .legend-color.morning { background-color: var(--color-morning); }
+        .legend-color.visiting { background-color: var(--color-visiting); }
+        .legend-color.afternoon { background-color: var(--color-afternoon); }
 
-        .legend-color.afternoon {
-            background: linear-gradient(135deg, var(--color-afternoon-start), var(--color-afternoon-end));
-        }
-
-        .legend-color.closed {
-            background: #d1d5db;
-        }
-
-        /* ==========================================
-           6. DETAILS & FOOTER SECTION
-           ========================================== */
+        /* 詳細表 */
         .time-details {
             width: 100%;
             border-top: 1px dashed var(--color-border);
-            padding-top: 20px;
+            padding-top: 16px;
         }
 
         .detail-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            font-size: 0.95rem;
+            padding: 6px 0;
+            font-size: 0.9rem;
         }
 
         .detail-label {
             font-weight: 600;
             color: var(--color-primary-navy);
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .detail-value {
@@ -207,69 +177,29 @@
         }
 
         .time-notes {
-            margin-top: 16px;
-            font-size: 0.8rem;
+            margin-top: 12px;
+            font-size: 0.775rem;
             color: var(--color-text-sub);
             text-align: center;
             line-height: 1.5;
         }
 
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
         @media (max-width: 480px) {
-            .clinic-time-card {
-                padding: 32px 20px;
-                border-radius: 16px;
-            }
-
-            .card-title {
-                font-size: 1.5rem;
-            }
-
-            .legend-container {
-                gap: 10px;
-                padding: 10px 8px;
-            }
-
-            .legend-item {
-                font-size: 0.775rem;
-            }
-
-            .detail-row {
-                font-size: 0.875rem;
-            }
+            .clinic-time-card { padding: 28px 16px; }
+            .card-title { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
     <main class="clinic-time-card">
-        <!-- HEADER -->
         <header class="card-header">
             <p class="hospital-name">HATTORI CLINIC</p>
             <h1 class="card-title">服部医院 診療時間</h1>
         </header>
 
-        <!-- SCREEN READER ONLY TABLE -->
-        <section class="sr-only">
-            <h2>診療時間詳細（テキスト版）</h2>
-            <p>午前診療：9:00〜12:00（月・火・水・木・金・土）</p>
-            <p>午後診療：16:00〜19:00（月・火・木・金）</p>
-            <p>休診日：水曜午後・土曜午後・日曜・祝日</p>
-        </section>
-
         <!-- RING CLOCK VISUAL -->
-        <div class="ring-clock-wrapper" aria-hidden="true">
+        <div class="ring-clock-wrapper">
             <svg class="ring-clock-svg" viewBox="0 0 400 400">
                 <defs>
                     <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
@@ -283,25 +213,14 @@
                         <feComposite in2="SourceGraphic" in="noise" operator="in" />
                     </filter>
 
-                    <!-- グラデーション定義 -->
-                    <linearGradient id="morningGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#2e7d32" />
-                        <stop offset="100%" stop-color="#81c784" />
-                    </linearGradient>
-
-                    <linearGradient id="afternoonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#0277bd" />
-                        <stop offset="100%" stop-color="#4fc3f7" />
-                    </linearGradient>
-
-                    <!-- 和紙盤面の背景グラデーション -->
+                    <!-- 和紙盤面背景 -->
                     <radialGradient id="washiDiscGradient" cx="50%" cy="50%" r="50%">
                         <stop offset="0%" stop-color="#ffffff" />
                         <stop offset="70%" stop-color="#fcfbf9" />
                         <stop offset="100%" stop-color="#f4efeb" />
                     </radialGradient>
 
-                    <!-- 外枠ゴールド -->
+                    <!-- ゴールド外枠 -->
                     <linearGradient id="goldBorderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#d4af37" />
                         <stop offset="50%" stop-color="#fffdd0" />
@@ -313,21 +232,22 @@
                 <circle cx="200" cy="200" r="185" fill="url(#goldBorderGradient)" />
                 <circle cx="200" cy="200" r="182" fill="#ffffff" />
                 <circle cx="200" cy="200" r="180" fill="url(#washiDiscGradient)" filter="url(#dropShadow)" />
-                
-                <!-- 和紙テクスチャ重ね合わせ -->
                 <circle cx="200" cy="200" r="180" fill="#000000" filter="url(#washiNoise)" />
 
                 <!-- TIME RINGS (BACKGROUND) -->
-                <circle cx="200" cy="200" r="135" fill="none" stroke="#f0f2f5" stroke-width="28" />
+                <circle cx="200" cy="200" r="135" fill="none" stroke="#f0f2f5" stroke-width="26" />
 
                 <!-- TIME RINGS (ACTIVE HOURS) -->
-                <!-- 午前 (9:00 - 12:00) -->
-                <path d="M 200 65 A 135 135 0 0 1 335 200" fill="none" stroke="url(#morningGrad)" stroke-width="26" stroke-linecap="round" />
+                <!-- 午前外来 (9:00 - 12:00) -->
+                <path d="M 200 65 A 135 135 0 0 1 335 200" fill="none" stroke="var(--color-morning)" stroke-width="24" stroke-linecap="round" />
 
-                <!-- 午後 (16:00 - 19:00) -->
-                <path d="M 267.5 316.9 A 135 135 0 0 1 83.1 267.5" fill="none" stroke="url(#afternoonGrad)" stroke-width="26" stroke-linecap="round" />
+                <!-- 訪問診療 (13:30 - 16:30) -->
+                <path d="M 304.5 285.5 A 135 135 0 0 1 95.5 285.5" fill="none" stroke="var(--color-visiting)" stroke-width="24" stroke-linecap="round" />
 
-                <!-- DIAL MARKS -->
+                <!-- 午後外来 (17:30 - 19:30) -->
+                <path d="M 64.8 267.5 A 135 135 0 0 1 131.2 83.6" fill="none" stroke="var(--color-afternoon)" stroke-width="24" stroke-linecap="round" />
+
+                <!-- 目盛り -->
                 <g stroke="#c5a059" stroke-width="1.5" opacity="0.4">
                     <line x1="200" y1="28" x2="200" y2="34" />
                     <line x1="286" y1="51" x2="283" y2="56" />
@@ -343,7 +263,7 @@
                     <line x1="114" y1="51" x2="117" y2="56" />
                 </g>
 
-                <!-- NUMBERS: ARABIC -->
+                <!-- 数字：洋数字 -->
                 <g class="clock-num-en" font-size="20" text-anchor="middle" dominant-baseline="central">
                     <text x="200" y="48">12</text>
                     <text x="276" y="68">1</text>
@@ -359,7 +279,7 @@
                     <text x="124" y="68">11</text>
                 </g>
 
-                <!-- NUMBERS: KANJI -->
+                <!-- 数字：和数字 -->
                 <g class="clock-num-jp" font-size="11" text-anchor="middle" dominant-baseline="central">
                     <text x="200" y="82">十二</text>
                     <text x="259" y="98">一</text>
@@ -375,55 +295,76 @@
                     <text x="141" y="98">十一</text>
                 </g>
 
-                <!-- DECORATIVE HANDS -->
-                <g transform="rotate(0 200 200)">
-                    <line x1="200" y1="200" x2="200" y2="100" stroke="#1b2a47" stroke-width="3" stroke-linecap="round" />
-                    <line x1="200" y1="200" x2="125" y2="200" stroke="#1b2a47" stroke-width="4.5" stroke-linecap="round" />
+                <!-- 時計の針（JavaScriptでリアルタイム回転） -->
+                <g id="clockHands">
+                    <!-- 短針 -->
+                    <line id="hourHand" x1="200" y1="200" x2="200" y2="115" stroke="#1b2a47" stroke-width="4.5" stroke-linecap="round" />
+                    <!-- 長針 -->
+                    <line id="minuteHand" x1="200" y1="200" x2="200" y2="85" stroke="#1b2a47" stroke-width="3" stroke-linecap="round" />
+                    <!-- 秒針 -->
+                    <line id="secondHand" x1="200" y1="200" x2="200" y2="70" stroke="#c5a059" stroke-width="1.5" stroke-linecap="round" />
+                    <!-- 中心軸 -->
                     <circle cx="200" cy="200" r="7" fill="#c5a059" />
                     <circle cx="200" cy="200" r="3" fill="#ffffff" />
                 </g>
             </svg>
         </div>
 
-        <!-- LEGEND -->
+        <!-- 凡例 -->
         <div class="legend-container">
-            <div class="legend-item">
-                <span class="legend-color morning"></span>
-                <span>午前診療</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-color afternoon"></span>
-                <span>午後診療</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-color closed"></span>
-                <span>休診</span>
-            </div>
+            <div class="legend-item"><span class="legend-color morning"></span><span>午前外来 (9:00-12:00)</span></div>
+            <div class="legend-item"><span class="legend-color visiting"></span><span>訪問診療 (13:30-16:30)</span></div>
+            <div class="legend-item"><span class="legend-color afternoon"></span><span>午後外来 (17:30-19:30)</span></div>
         </div>
 
-        <!-- DETAILS -->
+        <!-- 詳細テキスト -->
         <footer class="time-details">
             <div class="detail-row">
-                <span class="detail-label">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    午前診療
-                </span>
+                <span class="detail-label">午前外来診（受付 8:45〜11:30）</span>
                 <span class="detail-value">9:00 〜 12:00</span>
             </div>
             <div class="detail-row">
-                <span class="detail-label">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    午後診療
-                </span>
-                <span class="detail-value">16:00 〜 19:00</span>
+                <span class="detail-label">訪問診療時間帯</span>
+                <span class="detail-value">13:30 〜 16:30</span>
             </div>
-            
+            <div class="detail-row">
+                <span class="detail-label">午後外来診（受付 17:15〜19:00）</span>
+                <span class="detail-value">17:30 〜 19:30</span>
+            </div>
             <p class="time-notes">
-                【休診日】水曜午後・土曜午後・日曜・祝日<br>
-                ※受付は診療終了時間の30分前までとなります。
+                ※日曜・祝日は休診となります。
             </p>
         </footer>
     </main>
 
+    <!-- リアルタイム時計更新スクリプト -->
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // 角度計算
+            const secondDeg = (seconds / 60) * 360;
+            const minuteDeg = ((minutes + seconds / 60) / 60) * 360;
+            const hourDeg = (((hours % 12) + minutes / 60) / 12) * 360;
+
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+            const secondHand = document.getElementById('secondHand');
+
+            if (hourHand && minuteHand && secondHand) {
+                hourHand.setAttribute('transform', `rotate(${hourDeg} 200 200)`);
+                minuteHand.setAttribute('transform', `rotate(${minuteDeg} 200 200)`);
+                secondHand.setAttribute('transform', `rotate(${secondDeg} 200 200)`);
+            }
+        }
+
+        // 毎秒更新
+        setInterval(updateClock, 1000);
+        updateClock();
+        <FollowUp label="この変更で正しく時計が動くか確認する" query="GitHub Pagesで時計の針がリアルタイムに動いているか確認する方法を教えてください。" />
+    </script>
 </body>
 </html>
