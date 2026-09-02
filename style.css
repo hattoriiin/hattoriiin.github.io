@@ -1192,3 +1192,77 @@ if (clockTrigger && clockOverlay) {
         e.preventDefault();
     });
 }
+
+/* ==================================================
+   時計モーダル・長押しボタン設定
+================================================== */
+
+.clock-trigger-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.clock-trigger-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    color: #31556e;
+    background: #eef5f8;
+    border: 1px dashed #4d7d98;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* タップ時の青い選択枠や長押しテキスト選択を無効化 */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* 長押し時の背景色 */
+.clock-trigger-btn:active {
+    background: #dceaf0;
+}
+
+/* オーバーレイ（浮き上がる画面）を最前面へ */
+.clock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647 !important;
+    background: rgba(15, 25, 35, 0.82); /* 背景の診療時間表をうっすら透けさせる設定 */
+    backdrop-filter: blur(2px);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+}
+
+/* 長押し中に時計を表示 */
+.clock-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.clock-modal {
+    position: relative;
+    z-index: 2147483647;
+    width: 85%;
+    max-width: 400px;
+    height: 50vh;
+    max-height: 350px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.clock-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
