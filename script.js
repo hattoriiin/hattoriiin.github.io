@@ -565,3 +565,50 @@ fetch('news.json')
         );
 
     });
+    
+    
+    /*
+ * ==================================================
+ * 時計モーダルの長押し制御
+ * ==================================================
+ */
+
+const clockTrigger = document.getElementById('clockTrigger');
+const clockOverlay = document.getElementById('clockOverlay');
+
+if (clockTrigger && clockOverlay) {
+    let pressTimer = null;
+
+    function openClock() {
+        clockOverlay.classList.add('is-active');
+    }
+
+    function closeClock() {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        clockOverlay.classList.remove('is-active');
+        // ボタンフォーカスを外して色残りを防ぐ
+        clockTrigger.blur();
+    }
+
+    // 長押し（0.2秒）で時計を表示
+    clockTrigger.addEventListener('touchstart', function(e) {
+        pressTimer = setTimeout(openClock, 200);
+    }, { passive: true });
+
+    clockTrigger.addEventListener('mousedown', function(e) {
+        pressTimer = setTimeout(openClock, 200);
+    });
+
+    // 指やマウスを離したら閉じる
+    window.addEventListener('touchend', closeClock);
+    window.addEventListener('mouseup', closeClock);
+    window.addEventListener('touchcancel', closeClock);
+
+    // 右クリックメニュー等で止まらないようにする
+    clockTrigger.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+}
