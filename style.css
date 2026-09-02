@@ -1211,24 +1211,23 @@ if (clockTrigger && clockOverlay) {
     border-radius: 8px;
     cursor: pointer;
     
-    /* タップ時の青い選択枠や長押しテキスト選択を無効化 */
+    /* ボタン自体の長押しテキスト選択・タップハイライトを防止 */
     user-select: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
 
-/* 長押し時の背景色 */
 .clock-trigger-btn:active {
     background: #dceaf0;
 }
 
-/* オーバーレイ（浮き上がる画面）を最前面へ */
+/* オーバーレイ（画面全体を覆う背景） */
 .clock-overlay {
     position: fixed;
     inset: 0;
     z-index: 2147483647 !important;
-    background: rgba(15, 25, 35, 0.82); /* 背景の診療時間表をうっすら透けさせる設定 */
+    background: rgba(15, 25, 35, 0.82); /* 診療時間表をうっすら透けさせる設定 */
     backdrop-filter: blur(2px);
     
     display: flex;
@@ -1238,31 +1237,51 @@ if (clockTrigger && clockOverlay) {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
+    
+    /* モーダル枠全体で文字選択やドラッグを禁止 */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
     pointer-events: none;
 }
 
-/* 長押し中に時計を表示 */
+/* 長押し中に表示 */
 .clock-overlay.is-active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
 }
 
+/* ポップアップ（枠）のサイズと高さ調整 */
 .clock-modal {
     position: relative;
     z-index: 2147483647;
-    width: 85%;
-    max-width: 400px;
-    height: 50vh;
-    max-height: 350px;
+    width: 90%;
+    max-width: 420px;
+    
+    /* 高さ切れを防ぐため高さを自動調整・画面の80%まで許容 */
+    height: auto;
+    max-height: 85vh;
+    aspect-ratio: 1 / 1; /* 正方形に近い時計デザインを収めやすくする */
+    
     background: #fff;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+    
+    /* 文字選択を禁止 */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 
+/* iframe（時計本体）の設定 */
 .clock-iframe {
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
+    
+    /* タップや長押しイベントを親要素にスムーズに伝える設定 */
+    pointer-events: none; 
 }
