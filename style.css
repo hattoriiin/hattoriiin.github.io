@@ -1137,3 +1137,58 @@ footer a:hover{
     height: 100%;
     border: none;
 }
+
+
+/*
+ * ==================================================
+ * 時計モーダルの長押し制御
+ * ==================================================
+ */
+
+const clockTrigger = document.getElementById('clockTrigger');
+const clockOverlay = document.getElementById('clockOverlay');
+
+if (clockTrigger && clockOverlay) {
+    let pressTimer = null;
+    const LONG_PRESS_MS = 250; // 長押し判定の時間（0.25秒）
+
+    // 時計を開く処理
+    function openClock() {
+        clockOverlay.classList.add('is-active');
+    }
+
+    // 時計を閉じろ処理
+    function closeClock() {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        clockOverlay.classList.remove('is-active');
+    }
+
+    // 長押し開始
+    function startPress(e) {
+        // コンテキストメニューなどの標準挙動を抑制
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+        }
+        
+        pressTimer = setTimeout(() => {
+            openClock();
+        }, LONG_PRESS_MS);
+    }
+
+    // マウス / タップイベントの登録
+    clockTrigger.addEventListener('mousedown', startPress);
+    clockTrigger.addEventListener('touchstart', startPress, { passive: false });
+
+    // 離したとき・キャンセルのときに閉じる
+    window.addEventListener('mouseup', closeClock);
+    window.addEventListener('touchend', closeClock);
+    window.addEventListener('touchcancel', closeClock);
+
+    // 右クリックメニューの誤作動防止
+    clockTrigger.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+}
