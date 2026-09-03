@@ -1337,7 +1337,7 @@ if (clockTrigger && clockOverlay) {
 }
 
 /* ==================================================
-   時計ポップアップ（完全円形・フチぼかし・横画面対応）
+   時計ポップアップ（完全円形・フチぼかし確定版）
 ================================================== */
 /* 1. オーバーレイ（全画面の暗い背景＆中央揃え） */
 .clock-overlay {
@@ -1346,8 +1346,8 @@ if (clockTrigger && clockOverlay) {
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(15, 25, 35, 0.5) !important; /* 透け感のある暗さ */
-    backdrop-filter: blur(2px) !important;        /* ほんのりぼかし */
+    background: rgba(15, 25, 35, 0.5) !important;
+    backdrop-filter: blur(2px) !important;
     -webkit-backdrop-filter: blur(2px) !important;
     display: flex !important;
     justify-content: center !important;
@@ -1355,26 +1355,29 @@ if (clockTrigger && clockOverlay) {
     z-index: 2147483647 !important;
 }
 
-/* 2. ポップアップ枠（完全円形＆フチぼかし処理） */
+/* 2. ポップアップ枠（ぼかしシャドウ＆丸形切り抜き） */
 .clock-modal {
     position: relative !important;
     
-    /* 縦画面：正方形サイズ */
     width: 85vw !important;
     height: 85vw !important;
     max-width: 400px !important;
     max-height: 400px !important;
     
-    background: transparent !important; /* 背景に溶け込ませるため透明 */
-    border-radius: 50% !important;      /* 完璧な丸 */
+    background: transparent !important;
+    border-radius: 50% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
     
-    /* ★ 外側に向けてふんわりぼかすグラデーションマスク */
-    -webkit-mask-image: radial-gradient(circle, #000 80%, transparent 100%) !important;
-    mask-image: radial-gradient(circle, #000 80%, transparent 100%) !important;
+    /* 確実に外側へぼかしを広げる設定 */
+    box-shadow: 0 0 25px 15px rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
     
-    /* 選択・長押しによる変色防止 */
+    /* 描画崩れ防止（Safari対策） */
+    -webkit-backface-visibility: hidden !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-touch-callout: none !important;
@@ -1383,7 +1386,6 @@ if (clockTrigger && clockOverlay) {
 /* 3. スマホ横画面（landscape）の最適化 */
 @media (orientation: landscape) {
     .clock-modal {
-        /* 横画面：画面の高さを基準にした正方形 */
         width: 85vh !important;
         height: 85vh !important;
         max-width: none !important;
@@ -1391,7 +1393,7 @@ if (clockTrigger && clockOverlay) {
     }
 }
 
-/* 4. iframe（時計本体）を枠いっぱいに広げる */
+/* 4. iframe（時計本体） */
 .clock-iframe {
     width: 100% !important;
     height: 100% !important;
