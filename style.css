@@ -1291,3 +1291,48 @@ if (clockTrigger && clockOverlay) {
     /* タップや長押しイベントを親要素にスムーズに伝える設定 */
     pointer-events: none; 
 }
+
+/* ==================================================
+   時計モーダル（強制正方形＆横画面対応）
+================================================== */
+.clock-modal {
+    position: relative;
+    z-index: 2147483647;
+    
+    /* 縦画面：画面幅に合わせて綺麗な正方形を作る */
+    width: 85vw !important;
+    height: 85vw !important;
+    max-width: 400px !important;
+    max-height: 400px !important;
+    
+    margin: auto;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.45);
+    
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* スマホ横画面（landscape）時の正方形最適化 */
+@media (orientation: landscape) {
+    .clock-modal {
+        /* 横画面：画面の高さを基準にして綺麗に拡大した正方形にする */
+        width: 85vh !important;
+        height: 85vh !important;
+        max-width: none !important;
+        max-height: none !important;
+    }
+}
+
+.clock-iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+}
+
