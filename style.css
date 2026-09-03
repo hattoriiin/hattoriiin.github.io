@@ -1228,7 +1228,7 @@ if (clockTrigger && clockOverlay) {
     inset: 0;
     z-index: 2147483647 !important;
     background: rgba(15, 25, 35, 0.82); /* 診療時間表をうっすら透けさせる設定 */
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1px);
     
     display: flex;
     align-items: center;
