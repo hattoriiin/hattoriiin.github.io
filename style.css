@@ -1345,7 +1345,7 @@ if (clockTrigger && clockOverlay) {
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(15, 25, 35, 0.5) !important;
+    background: rgba(15, 25, 35, 0.2) !important;
     backdrop-filter: blur(2px) !important;
     -webkit-backdrop-filter: blur(2px) !important;
     display: flex !important;
