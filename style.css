@@ -1337,9 +1337,8 @@ if (clockTrigger && clockOverlay) {
 }
 
 /* ==================================================
-   時計ポップアップ（完全円形・フチぼかし確定版）
+   時計ポップアップ（完全円形・フチ直接ぼかし確定版）
 ================================================== */
-/* 1. オーバーレイ（全画面の暗い背景＆中央揃え） */
 .clock-overlay {
     position: fixed !important;
     top: 0 !important;
@@ -1355,7 +1354,6 @@ if (clockTrigger && clockOverlay) {
     z-index: 2147483647 !important;
 }
 
-/* 2. ポップアップ枠（輪郭から直接溶け込む単一グラデーション） */
 .clock-modal {
     position: relative !important;
     
@@ -1366,24 +1364,13 @@ if (clockTrigger && clockOverlay) {
     
     background: transparent !important;
     border-radius: 50% !important;
-    overflow: hidden !important;
     box-sizing: border-box !important;
-    
-    /* 余分な影を削り、時計の輪郭（65%付近）から外側へ直接滑らかに透明化 */
-    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
-    mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
-    
-    /* Safariでの二重描画・ズレ防止 */
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
     
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-touch-callout: none !important;
 }
 
-
-/* 3. スマホ横画面（landscape）の最適化 */
 @media (orientation: landscape) {
     .clock-modal {
         width: 85vh !important;
@@ -1393,11 +1380,16 @@ if (clockTrigger && clockOverlay) {
     }
 }
 
-/* 4. iframe（時計本体） */
+/* ★ iframe本体に直接グラデーションマスクを適用 */
 .clock-iframe {
     width: 100% !important;
     height: 100% !important;
     border: none !important;
     display: block !important;
     pointer-events: none !important;
+    border-radius: 50% !important;
+    
+    /* 時計の文字盤の端（70%）から外側に向けて滑らかに透明化 */
+    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 70%, transparent 98%) !important;
+    mask-image: radial-gradient(circle at center, #000 0%, #000 70%, transparent 98%) !important;
 }
