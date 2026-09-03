@@ -1337,38 +1337,42 @@ if (clockTrigger && clockOverlay) {
 }
 
 /* ==================================================
-   時計ポップアップ（強制正方形＆サイズ最適化）
+   時計ポップアップ（完全円形・フチぼかし・横画面対応）
 ================================================== */
-/* 1. オーバーレイ（全画面の黒背景）を中央揃えに固定 */
+/* 1. オーバーレイ（全画面の暗い背景＆中央揃え） */
 .clock-overlay {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(255, 255, 255, 0.1) 
-    !important;
+    background: rgba(15, 25, 35, 0.5) !important; /* 透け感のある暗さ */
+    backdrop-filter: blur(2px) !important;        /* ほんのりぼかし */
+    -webkit-backdrop-filter: blur(2px) !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     z-index: 2147483647 !important;
 }
 
-/* 2. ポップアップ枠（モーダル）を確実に正方形（1:1）にする */
+/* 2. ポップアップ枠（完全円形＆フチぼかし処理） */
 .clock-modal {
     position: relative !important;
     
-    /* スマホ縦画面：画面幅の85%を使った正方形（最大400px） */
+    /* 縦画面：正方形サイズ */
     width: 85vw !important;
     height: 85vw !important;
     max-width: 400px !important;
     max-height: 400px !important;
     
-    background: #ffffff !important;
-    border-radius: 50% !important;
+    background: transparent !important; /* 背景に溶け込ませるため透明 */
+    border-radius: 50% !important;      /* 完璧な丸 */
     overflow: hidden !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
     box-sizing: border-box !important;
+    
+    /* ★ 外側に向けてふんわりぼかすグラデーションマスク */
+    -webkit-mask-image: radial-gradient(circle, #000 80%, transparent 100%) !important;
+    mask-image: radial-gradient(circle, #000 80%, transparent 100%) !important;
     
     /* 選択・長押しによる変色防止 */
     user-select: none !important;
@@ -1379,7 +1383,7 @@ if (clockTrigger && clockOverlay) {
 /* 3. スマホ横画面（landscape）の最適化 */
 @media (orientation: landscape) {
     .clock-modal {
-        /* 横画面：画面の高さの85%を使った正方形に自動切替 */
+        /* 横画面：画面の高さを基準にした正方形 */
         width: 85vh !important;
         height: 85vh !important;
         max-width: none !important;
