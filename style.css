@@ -1355,7 +1355,7 @@ if (clockTrigger && clockOverlay) {
     z-index: 2147483647 !important;
 }
 
-/* 2. ポップアップ枠（ぼかしシャドウ＆丸形切り抜き） */
+/* 2. ポップアップ枠（輪郭から直接溶け込む単一グラデーション） */
 .clock-modal {
     position: relative !important;
     
@@ -1369,19 +1369,19 @@ if (clockTrigger && clockOverlay) {
     overflow: hidden !important;
     box-sizing: border-box !important;
     
-    /* 確実に外側へぼかしを広げる設定 */
-    box-shadow: 0 0 25px 15px rgba(255, 255, 255, 0.4) !important;
-    backdrop-filter: blur(6px) !important;
-    -webkit-backdrop-filter: blur(6px) !important;
+    /* 余分な影を削り、時計の輪郭（65%付近）から外側へ直接滑らかに透明化 */
+    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
+    mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
     
-    /* 描画崩れ防止（Safari対策） */
-    -webkit-backface-visibility: hidden !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
+    /* Safariでの二重描画・ズレ防止 */
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
     
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-touch-callout: none !important;
 }
+
 
 /* 3. スマホ横画面（landscape）の最適化 */
 @media (orientation: landscape) {
