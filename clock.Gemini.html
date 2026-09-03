@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>服部医院 - 診療時間のご案内</title>
+    <title>服部医院 - 時計</title>
     <style>
         /* ==========================================
-           1. CSS RESET & CANVAS THEME
+           1. RESET & FULLSCREEN CANVAS
            ========================================== */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -17,89 +17,41 @@
         :root {
             --color-navy: #1b2a47;
             --color-gold: #c5a059;
-            --color-canvas-bg: #f5f2eb;
-            --color-card-bg: #ffffff;
-            --color-text-main: #2b2b2b;
-            --color-text-sub: #666666;
-
-            /* 診療区分カラー */
             --color-morning: #2e7d32;   /* 午前外来 */
             --color-visit: #ed6c02;     /* 訪問診療 */
             --color-afternoon: #0277bd; /* 午後外来 */
-
             --font-serif: "Bodoni 72", "Didot", "Georgia", serif;
-            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        body {
-            font-family: var(--font-sans);
-            background-color: #eae7e1;
-            color: var(--color-text-main);
+        /* 画面全体に隙間なく中央配置 */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            background: transparent !important;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* ==========================================
+           2. SPIRAL CLOCK WRAPPER (画面いっぱいに拡大)
+           ========================================== */
+        .clock-container {
+            width: 96%;
+            height: 96%;
+            max-width: 100vh; /* 画面の高さを超えない正方形 */
+            max-height: 100vw;
+            aspect-ratio: 1 / 1;
+            margin: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        /* ==========================================
-           2. CARD CONTAINER
-           ========================================== */
-        .clinic-card {
-            background-color: var(--color-card-bg);
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(27, 42, 71, 0.1);
-            padding: 36px 28px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .clinic-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--color-navy), var(--color-gold), var(--color-navy));
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .sub-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            color: var(--color-gold);
-            text-transform: uppercase;
-        }
-
-        .main-title {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            color: var(--color-navy);
-            margin-top: 4px;
-        }
-
-        /* ==========================================
-           3. SPIRAL CLOCK SVG WRAPPER
-           ========================================== */
-        .clock-container {
-            width: 100%;
-            max-width: 360px;
-            aspect-ratio: 1 / 1;
-            margin: 0 auto 20px;
-            position: relative;
         }
 
         .clock-svg {
@@ -114,226 +66,100 @@
             font-weight: 600;
             fill: var(--color-navy);
         }
-
-        /* 凡例 & 詳細 */
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f8fafc;
-            border-radius: 10px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.825rem;
-            font-weight: 600;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .dot.morning { background: var(--color-morning); }
-        .dot.visit { background: var(--color-visit); }
-        .dot.afternoon { background: var(--color-afternoon); }
-
-        .details {
-            width: 100%;
-            border-top: 1px dashed #e0e0e0;
-            padding-top: 16px;
-            font-size: 0.9rem;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-        }
-
-        .row-label { font-weight: 600; color: var(--color-navy); }
-        .row-val { font-weight: 700; }
-
-        .note {
-            margin-top: 12px;
-            font-size: 0.775rem;
-            color: var(--color-text-sub);
-            text-align: center;
-        }
-
-        @media (max-width: 480px) {
-            .clinic-card { padding: 24px 16px; }
-            .main-title { font-size: 1.5rem; }
-        }
-        
-/* 文字盤を中央に最大表示するためのスタイル */
-html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background: transparent !important;
-}
-
-.clock-area {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-        
     </style>
 </head>
 <body>
 
-    <main class="clinic-card">
-        <header class="header">
-            <p class="sub-title">Hattori Clinic</p>
-            <h1 class="main-title">診療時間のご案内</h1>
-        </header>
+    <!-- 余計なカード枠やテキストを廃し、時計コンテナのみ配置 -->
+    <div class="clock-container">
+        <svg class="clock-svg" viewBox="0 0 400 400">
+            <defs>
+                <!-- キャンバス地テクスチャ -->
+                <filter id="canvasTexture" x="0%" y="0%" width="100%" height="100%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
+                    <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.04 0" />
+                    <feComposite in2="SourceGraphic" in="noise" operator="in" />
+                </filter>
 
-        <!-- SPIRAL CLOCK SVG -->
-        <div class="clock-container">
-            <svg class="clock-svg" viewBox="0 0 400 400">
-                <defs>
-                    <!-- キャンバス地テクスチャ（Canvas Texture Filter） -->
-                    <filter id="canvasTexture" x="0%" y="0%" width="100%" height="100%">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
-                        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.04 0" />
-                        <feComposite in2="SourceGraphic" in="noise" operator="in" />
-                    </filter>
+                <!-- ドロップシャドウ -->
+                <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1b2a47" flood-opacity="0.12"/>
+                </filter>
 
-                    <!-- ドロップシャドウ -->
-                    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-                        <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1b2a47" flood-opacity="0.12"/>
-                    </filter>
+                <!-- ゴールド外枠グラデーション -->
+                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#d4af37" />
+                    <stop offset="50%" stop-color="#fffdd0" />
+                    <stop offset="100%" stop-color="#aa7c11" />
+                </linearGradient>
 
-                    <!-- ゴールド外枠グラデーション -->
-                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d4af37" />
-                        <stop offset="50%" stop-color="#fffdd0" />
-                        <stop offset="100%" stop-color="#aa7c11" />
-                    </linearGradient>
+                <!-- キャンバス盤面背景 -->
+                <radialGradient id="canvasBg" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="80%" stop-color="#f7f5f0" />
+                    <stop offset="100%" stop-color="#eae5db" />
+                </radialGradient>
+            </defs>
 
-                    <!-- キャンバス盤面背景 -->
-                    <radialGradient id="canvasBg" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#ffffff" />
-                        <stop offset="80%" stop-color="#f7f5f0" />
-                        <stop offset="100%" stop-color="#eae5db" />
-                    </radialGradient>
-                </defs>
+            <!-- 盤面ベース -->
+            <circle cx="200" cy="200" r="185" fill="url(#goldGradient)" />
+            <circle cx="200" cy="200" r="182" fill="#ffffff" />
+            <circle cx="200" cy="200" r="180" fill="url(#canvasBg)" filter="url(#shadow)" />
+            <circle cx="200" cy="200" r="180" fill="#000000" filter="url(#canvasTexture)" />
 
-                <!-- 盤面ベース -->
-                <circle cx="200" cy="200" r="185" fill="url(#goldGradient)" />
-                <circle cx="200" cy="200" r="182" fill="#ffffff" />
-                <circle cx="200" cy="200" r="180" fill="url(#canvasBg)" filter="url(#shadow)" />
-                <!-- キャンバス風ノイズ重層 -->
-                <circle cx="200" cy="200" r="180" fill="#000000" filter="url(#canvasTexture)" />
+            <!-- 螺旋（スパイラル）軌道ガイドライン -->
+            <circle cx="200" cy="200" r="142" fill="none" stroke="#e8e4dc" stroke-width="20" opacity="0.6"/>
+            <circle cx="200" cy="200" r="120" fill="none" stroke="#e8e4dc" stroke-width="20" opacity="0.6"/>
 
-                <!-- 螺旋（スパイラル）軌道ガイドライン -->
-                <circle cx="200" cy="200" r="142" fill="none" stroke="#e8e4dc" stroke-width="20" opacity="0.6"/>
-                <circle cx="200" cy="200" r="120" fill="none" stroke="#e8e4dc" stroke-width="20" opacity="0.6"/>
+            <!-- 診療時間帯アーク描画 -->
+            <path d="M 200 58 A 142 142 0 0 1 342 200" fill="none" stroke="var(--color-morning)" stroke-width="18" stroke-linecap="round" />
+            <path d="M 292.8 275.5 A 120 120 0 0 1 107.2 275.5" fill="none" stroke="var(--color-visit)" stroke-width="18" stroke-linecap="round" />
+            <path d="M 58 200 A 142 142 0 0 1 126.4 77.2" fill="none" stroke="var(--color-afternoon)" stroke-width="18" stroke-linecap="round" />
 
-                <!-- 螺旋（スパイラル）診療時間帯アーク描画 -->
-                <!-- 午前診 (9:00 - 12:00) : 外軌道 -->
-                <path d="M 200 58 A 142 142 0 0 1 342 200" fill="none" stroke="var(--color-morning)" stroke-width="18" stroke-linecap="round" />
+            <!-- 目盛り -->
+            <g stroke="var(--color-gold)" stroke-width="1.5" opacity="0.5">
+                <line x1="200" y1="25" x2="200" y2="33" />
+                <line x1="287.5" y1="48.4" x2="283.5" y2="55.3" />
+                <line x1="351.6" y1="112.5" x2="344.7" y2="116.5" />
+                <line x1="375" y1="200" x2="367" y2="200" />
+                <line x1="351.6" y1="287.5" x2="344.7" y2="283.5" />
+                <line x1="287.5" y1="351.6" x2="283.5" y2="344.7" />
+                <line x1="200" y1="375" x2="200" y2="367" />
+                <line x1="112.5" y1="351.6" x2="116.5" y2="344.7" />
+                <line x1="48.4" y1="287.5" x2="55.3" y2="283.5" />
+                <line x1="25" y1="200" x2="33" y2="200" />
+                <line x1="48.4" y1="112.5" x2="55.3" y2="116.5" />
+                <line x1="112.5" y1="48.4" x2="116.5" y2="55.3" />
+            </g>
 
-                <!-- 訪問診療 (13:30 - 16:30) : 内軌道へつながるスパイラル遷移 -->
-                <path d="M 292.8 275.5 A 120 120 0 0 1 107.2 275.5" fill="none" stroke="var(--color-visit)" stroke-width="18" stroke-linecap="round" />
+            <!-- 洋数字 -->
+            <g class="num-text" font-size="22" text-anchor="middle" dominant-baseline="central">
+                <text x="200" y="44">12</text>
+                <text x="278" y="65">1</text>
+                <text x="335" y="122">2</text>
+                <text x="356" y="200">3</text>
+                <text x="335" y="278">4</text>
+                <text x="278" y="335">5</text>
+                <text x="200" y="356">6</text>
+                <text x="122" y="335">7</text>
+                <text x="65" y="278">8</text>
+                <text x="44" y="200">9</text>
+                <text x="65" y="122">10</text>
+                <text x="122" y="65">11</text>
+            </g>
 
-                <!-- 午後診 (17:30 - 19:30) : 外軌道復帰スパイラル -->
-                <path d="M 58 200 A 142 142 0 0 1 126.4 77.2" fill="none" stroke="var(--color-afternoon)" stroke-width="18" stroke-linecap="round" />
+            <!-- リアルタイム時計針 -->
+            <g id="clockHands">
+                <line id="hourHand" x1="200" y1="200" x2="200" y2="110" stroke="var(--color-navy)" stroke-width="4.5" stroke-linecap="round" />
+                <line id="minuteHand" x1="200" y1="200" x2="200" y2="75" stroke="var(--color-navy)" stroke-width="3" stroke-linecap="round" />
+                <line id="secondHand" x1="200" y1="200" x2="200" y2="60" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="200" cy="200" r="6" fill="var(--color-gold)" />
+                <circle cx="200" cy="200" r="2.5" fill="#ffffff" />
+            </g>
+        </svg>
+    </div>
 
-                <!-- 目盛り -->
-                <g stroke="var(--color-gold)" stroke-width="1.5" opacity="0.5">
-                    <line x1="200" y1="25" x2="200" y2="33" />
-                    <line x1="287.5" y1="48.4" x2="283.5" y2="55.3" />
-                    <line x1="351.6" y1="112.5" x2="344.7" y2="116.5" />
-                    <line x1="375" y1="200" x2="367" y2="200" />
-                    <line x1="351.6" y1="287.5" x2="344.7" y2="283.5" />
-                    <line x1="287.5" y1="351.6" x2="283.5" y2="344.7" />
-                    <line x1="200" y1="375" x2="200" y2="367" />
-                    <line x1="112.5" y1="351.6" x2="116.5" y2="344.7" />
-                    <line x1="48.4" y1="287.5" x2="55.3" y2="283.5" />
-                    <line x1="25" y1="200" x2="33" y2="200" />
-                    <line x1="48.4" y1="112.5" x2="55.3" y2="116.5" />
-                    <line x1="112.5" y1="48.4" x2="116.5" y2="55.3" />
-                </g>
-
-                <!-- 洋数字（タイポグラフィ） -->
-                <g class="num-text" font-size="22" text-anchor="middle" dominant-baseline="central">
-                    <text x="200" y="44">12</text>
-                    <text x="278" y="65">1</text>
-                    <text x="335" y="122">2</text>
-                    <text x="356" y="200">3</text>
-                    <text x="335" y="278">4</text>
-                    <text x="278" y="335">5</text>
-                    <text x="200" y="356">6</text>
-                    <text x="122" y="335">7</text>
-                    <text x="65" y="278">8</text>
-
-                    <text x="44" y="200">9</text>
-                    <text x="65" y="122">10</text>
-                    <text x="122" y="65">11</text>
-                </g>
-
-                <!-- リアルタイム時計針 -->
-                <g id="clockHands">
-                    <!-- 短針 -->
-                    <line id="hourHand" x1="200" y1="200" x2="200" y2="110" stroke="var(--color-navy)" stroke-width="4.5" stroke-linecap="round" />
-                    <!-- 長針 -->
-                    <line id="minuteHand" x1="200" y1="200" x2="200" y2="75" stroke="var(--color-navy)" stroke-width="3" stroke-linecap="round" />
-                    <!-- 秒針 -->
-                    <line id="secondHand" x1="200" y1="200" x2="200" y2="60" stroke="var(--color-gold)" stroke-width="1.5" stroke-linecap="round" />
-                    <!-- センターキャップ -->
-                    <circle cx="200" cy="200" r="6" fill="var(--color-gold)" />
-                    <circle cx="200" cy="200" r="2.5" fill="#ffffff" />
-                </g>
-            </svg>
-        </div>
-
-        <!-- 凡例 -->
-        <div class="legend">
-            <div class="legend-item"><span class="dot morning"></span><span>午前外来 (9:00-12:00)</span></div>
-            <div class="legend-item"><span class="dot visit"></span><span>訪問診療 (13:30-16:30)</span></div>
-            <div class="legend-item"><span class="dot afternoon"></span><span>午後外来 (17:30-19:30)</span></div>
-        </div>
-
-        <!-- テキスト詳細 -->
-        <footer class="details">
-            <div class="row">
-                <span class="row-label">午前外来（受付 8:45〜11:30）</span>
-                <span class="row-val">9:00 〜 12:00</span>
-            </div>
-            <div class="row">
-                <span class="row-label">訪問診療時間帯</span>
-                <span class="row-val">13:30 〜 16:30</span>
-            </div>
-            <div class="row">
-                <span class="row-label">午後外来（受付 17:15〜19:00）</span>
-                <span class="row-val">17:30 〜 19:30</span>
-            </div>
-            <p class="note">※日曜・祝日は休診日となります。</p>
-        </footer>
-    </main>
-
-    <!-- リアルタイム駆動スクリプト（安全設計） -->
+    <!-- リアルタイム駆動スクリプト -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             function updateClock() {
