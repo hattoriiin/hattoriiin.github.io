@@ -1365,7 +1365,7 @@ if (clockTrigger && clockOverlay) {
     max-height: 400px !important;
     
     background: #ffffff !important;
-    border-radius: 20px !important;
+    border-radius: 50% !important;
     overflow: hidden !important;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
     box-sizing: border-box !important;
