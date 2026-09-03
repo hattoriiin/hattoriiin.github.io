@@ -15,15 +15,16 @@
 
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        
-        /* 時計の輪郭（65%）から外側に向けて滑らかに溶け込ませる */
-        -webkit-mask-image: radial-gradient(circle at center, #000 65%, transparent 100%);
-        mask-image: radial-gradient(circle at center, #000 65%, transparent 100%);
-    }
+body, 
+#clock, 
+.clock-container, 
+svg, 
+canvas {
+    /* 輪郭（65%）から外側に向けて直接溶け込ませる */
+    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
+    mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%) !important;
+}
+
 
     /* ここより下には、もともと書いてあったコードが続きます */
 
