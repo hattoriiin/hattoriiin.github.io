@@ -1346,7 +1346,7 @@ if (clockTrigger && clockOverlay) {
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(255, 255, 255, 0.4) 
+    background: rgba(255, 255, 255, 0.2) 
     !important;
     display: flex !important;
     justify-content: center !important;
