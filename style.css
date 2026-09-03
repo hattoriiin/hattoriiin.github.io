@@ -1256,13 +1256,12 @@ if (clockTrigger && clockOverlay) {
 .clock-modal {
     position: relative;
     z-index: 2147483647;
-    width: 90%;
-    max-width: 420px;
+    width: 88%;
+    max-width: 380px;
     
-    /* 高さ切れを防ぐため高さを自動調整・画面の80%まで許容 */
-    height: auto;
-    max-height: 85vh;
-    aspect-ratio: 1 / 1; /* 正方形に近い時計デザインを収めやすくする */
+    /* 固定アスペクト比を解除し、スマホの画面高さに合わせて縦長に自動フィット */
+    height: 70vh;
+    max-height: 520px;
     
     background: #fff;
     border-radius: 20px;
@@ -1282,6 +1281,13 @@ if (clockTrigger && clockOverlay) {
     border: none;
     display: block;
     
+    /* 内部のスクロールバーを隠し、はみ出さずに収める */
+    overflow: hidden;
+    
+    /* タップや長押しイベントを親要素にスムーズに伝える */
+    pointer-events: none; 
+}
+   
     /* タップや長押しイベントを親要素にスムーズに伝える設定 */
     pointer-events: none; 
 }
