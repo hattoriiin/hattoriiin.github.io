@@ -24,12 +24,10 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: radial-gradient(
-                ellipse at 50% 32%,
-                #ffffff 0%,
-                #f2f5f9 45%,
-                #e4eaf0 100%
-            );
+            background: radial-gradient(ellipse at 50% 32%,
+                    #ffffff 0%,
+                    #f2f5f9 45%,
+                    #e4eaf0 100%);
             color: #31556e;
             font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
         }
@@ -73,12 +71,7 @@
             aspect-ratio: 1 / 1;
             margin: 0 auto;
 
-            /* 時計全体を外側に向けて滑らかに透明化するグラデーションマスク */
-            -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%);
-            mask-image: radial-gradient(circle at center, #000 0%, #000 65%, transparent 100%);
-
-            filter: drop-shadow(0 10px 22px rgba(49, 85, 110, .14))
-                    drop-shadow(0 2px 5px rgba(49, 85, 110, .08));
+            filter: drop-shadow(0 10px 22px rgba(49, 85, 110, .14)) drop-shadow(0 2px 5px rgba(49, 85, 110, .08));
         }
 
         .time-ring svg {
@@ -168,8 +161,13 @@
             opacity: .32;
         }
 
-        .color-surround.green { fill: #70ad47; }
-        .color-surround.blue { fill: #3d8bdc; }
+        .color-surround.green {
+            fill: #70ad47;
+        }
+
+        .color-surround.blue {
+            fill: #3d8bdc;
+        }
 
         .band-texture {
             pointer-events: none;
@@ -240,9 +238,7 @@
             stroke: rgba(37, 65, 90, .55);
             stroke-width: .7px;
             paint-order: stroke fill;
-            filter: drop-shadow(0 3.5px 3px rgba(15, 30, 45, .5))
-                    drop-shadow(0 5px 6px rgba(15, 30, 45, .3))
-                    drop-shadow(0 -.5px .5px rgba(255, 255, 255, .65));
+            filter: drop-shadow(0 3.5px 3px rgba(15, 30, 45, .5)) drop-shadow(0 5px 6px rgba(15, 30, 45, .3)) drop-shadow(0 -.5px .5px rgba(255, 255, 255, .65));
         }
 
         /* ==================================================
@@ -255,8 +251,14 @@
             filter: drop-shadow(0 1px 1px rgba(49, 85, 110, .28));
         }
 
-        .clock-hand.hour { stroke-width: 5; }
-        .clock-hand.minute { stroke-width: 3; }
+        .clock-hand.hour {
+            stroke-width: 5;
+        }
+
+        .clock-hand.minute {
+            stroke-width: 3;
+        }
+
         .clock-hand.second {
             stroke: #31556e;
             stroke-width: 1;
@@ -280,24 +282,49 @@
            レスポンシブ設定
         ================================================== */
         @media (max-width: 600px) and (orientation: portrait) {
-            .page-main { padding: .7rem; }
-            .time-ring { width: min(94vw, 440px); min-width: min(280px, 100%); }
-            .clock-face .num { font-size: 25px; }
+            .page-main {
+                padding: .7rem;
+            }
+
+            .time-ring {
+                width: min(94vw, 440px);
+                min-width: min(280px, 100%);
+            }
+
+            .clock-face .num {
+                font-size: 25px;
+            }
         }
 
         @media (max-width: 380px) {
-            .page-main { padding: .5rem; }
-            .time-ring { min-width: min(260px, 100%); }
-            .clock-face .num { font-size: 23px; }
+            .page-main {
+                padding: .5rem;
+            }
+
+            .time-ring {
+                min-width: min(260px, 100%);
+            }
+
+            .clock-face .num {
+                font-size: 23px;
+            }
         }
 
         @media (orientation: landscape) and (max-height: 520px) {
-            .page-main { padding: .4rem; }
-            .time-ring { width: min(78vh, 400px); min-width: min(180px, 100%); }
+            .page-main {
+                padding: .4rem;
+            }
+
+            .time-ring {
+                width: min(78vh, 400px);
+                min-width: min(180px, 100%);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .clock-hand { transition: none; }
+            .clock-hand {
+                transition: none;
+            }
         }
     </style>
 </head>
@@ -324,8 +351,10 @@
 
                         <!-- 質感テクスチャフィルタ -->
                         <filter id="washiTexture" x="-5%" y="-5%" width="110%" height="110%">
-                            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.03" numOctaves="4" seed="6" result="fold" />
-                            <feDiffuseLighting in="fold" surfaceScale="1.8" diffuseConstant=".7" lighting-color="#ffffff" result="foldLight">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.03" numOctaves="4" seed="6"
+                                result="fold" />
+                            <feDiffuseLighting in="fold" surfaceScale="1.8" diffuseConstant=".7" lighting-color="#ffffff"
+                                result="foldLight">
                                 <feDistantLight azimuth="230" elevation="55" />
                             </feDiffuseLighting>
                             <feComposite in="foldLight" in2="SourceAlpha" operator="in" />
@@ -373,7 +402,7 @@
 
                     <image class="clock-disc-weave" x="20" y="20" width="360" height="360"
                         clip-path="url(#discImageClip)" preserveAspectRatio="xMidYMid slice"
-                        href="data:image/png;base64,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 merits=" />
+                        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4QAAAOECAAAAADcJaDnAAEAAElEQVR42pz9aZPkOLYlCB4SVFIJpdq++BKe+ebVyOuKfjEdPSky//9LicyHEYkp7/aqqM6RV/UyfDU1U9uUCiqhvMR8wMpNzaJcJCVDYSAIYsc9554b/VbwVIpSAADAPsSRiihMYe8Rb3gqRQmTpP/xzoOdpCiKABAAXuRJU4WZgsfi65sWAJCkBU8fffn9ojkgbBpvYwQ/wU01AeJAIcr63D62sgX5JKyzAjyVopwj0Sk7gAOYixKCowGAJHidziSmv9a3is9zwo9lJequP2amAr/+nvE8lZUQUudCWX/IZSVgE0qBE52l/gW/dZ+rPmf2XSk4z1NZJT/sczoP+zcCR3HSq6NNgxirN/sPVAkByVHMZ/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf/tdWf" />
                 </svg>
             </div>
         </section>
