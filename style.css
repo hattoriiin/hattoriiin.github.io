@@ -1393,3 +1393,12 @@ if (clockTrigger && clockOverlay) {
     -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
     mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
 }
+
+/* 動作確認用の極端なテスト設定 */
+body {
+    background-color: red !important;
+}
+
+.clock-modal {
+    border: 10px solid yellow !important;
+}
