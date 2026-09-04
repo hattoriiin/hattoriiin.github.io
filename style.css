@@ -1389,7 +1389,7 @@ if (clockTrigger && clockOverlay) {
     pointer-events: none !important;
     border-radius: 50% !important;
     
-    /* 時計の文字盤の端（70%）から外側に向けて滑らかに透明化 */
-    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 70%, transparent 98%) !important;
-    mask-image: radial-gradient(circle at center, #000 0%, #000 70%, transparent 98%) !important;
+    /* 50%〜90%の範囲でぼかすことで、四角い枠に届く前に綺麗に透明化 */
+    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
+    mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
 }
