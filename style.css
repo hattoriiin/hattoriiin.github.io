@@ -1538,45 +1538,58 @@ body {
     margin-top: 40px;
 }
 
-/* ==================================================
-   時計モーダル & 背景ぼかし（ご指示通りの見た目調整）
+/* /* ==================================================
+   時計モーダル & 背景ぼかし（完全統合版）
 ================================================== */
+
+/* スクロール時の余計なブレを防止 */
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* モーダル背景（青丸指示：後ろの診療時間表がハッキリ透ける透明感 ＆ 長押しスクロール時の隙間防止） */
 .clock-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
     width: 100vw;
-    height: 100vh;
-    height: -webkit-fill-available;
+    height: 100dvh; /* Dynamic Viewport Heightでスマホ下部のスクロール追従ズレを完全解消 */
     
-    /* 右画像（青囲み）のすりガラス感に合わせた濃度の背景 */
-    background: rgba(235, 243, 255, 0.55);
-    backdrop-filter: blur(12px) saturate(110%);
-    -webkit-backdrop-filter: blur(12px) saturate(110%);
+    /* 後ろの文字や表をくっきり見せる薄めの青みがかった透過白 */
+    background: rgba(235, 243, 255, 0.25);
+    backdrop-filter: blur(8px) saturate(105%);
+    -webkit-backdrop-filter: blur(8px) saturate(105%);
     
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    touch-action: none; /* 長押しスクロールによる画面ズレを防止 */
 }
 
-.clock-modal {
+/* 時計の枠・モーダル本体（四角い枠が出ないよう透明にし、影のみ付与） */
+.clock-modal,
+.clock-container,
+.clock-wrapper {
     position: relative;
     width: 85vw;
     height: 85vw;
     max-width: 400px;
     max-height: 400px;
     border-radius: 50%;
+    background: transparent !important;
+    border: none !important;
     user-select: none;
     -webkit-user-select: none;
-    filter: drop-shadow(0 12px 28px rgba(0, 40, 90, 0.18));
+    filter: drop-shadow(0 10px 24px rgba(0, 30, 80, 0.15));
 }
 
 @media (orientation: landscape) {
-    .clock-modal {
+    .clock-modal,
+    .clock-container,
+    .clock-wrapper {
         width: 85vh;
         height: 85vh;
         max-width: none;
@@ -1584,119 +1597,37 @@ body {
     }
 }
 
-.clock-iframe {
+/* 時計内部（赤丸指示：対角線135°グラデーション ＆ 周囲へ滑らかに消える透過マスク） */
+.clock-iframe,
+.clock,
+#clock,
+canvas#clock {
     width: 100%;
     height: 100%;
     border: none;
     display: block;
     pointer-events: none;
     border-radius: 50%;
-    
-    /* 
-       赤矢印エリア（中心〜60%）: 透け感を弱めて文字盤と青緑を白地でくっきり見せる
-       黒矢印エリア（60%〜100%）: 端4割で滑らかに透過しつつ、最外周で急カーブをかけて丸いレンズ感を強調
-    */
+    overflow: hidden;
+
+    /* 左上から右下への対角線グラデーション */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.1) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* 赤矢印・黒矢印指示：中心〜外周へ向けて対角線グラデーションと滑らかに馴染むマスク */
     -webkit-mask-image: radial-gradient(
         circle at center, 
         rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.98) 60%, 
-        rgba(0,0,0,0.45) 88%, 
+        rgba(0,0,0,0.95) 60%, 
+        rgba(0,0,0,0.35) 88%, 
         rgba(0,0,0,0) 100%
     );
     mask-image: radial-gradient(
         circle at center, 
         rgba(0,0,0,1) 0%, 
-        rgba(0,0,0,0.98) 60%, 
-        rgba(0,0,0,0.45) 88%, 
+        rgba(0,0,0,0.95) 60%, 
+        rgba(0,0,0,0.35) 88%, 
         rgba(0,0,0,0) 100%
     );
-}
-
-
-/* --- 修正追加コード --- */
-
-/* 1. 長押し・スクロール時に下がボケなくなる問題の修正 */
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh; /* スマホのスクロールズレを防止 */
-  /* 青丸の指示：後ろの診療時間表がハッキリ透ける透明度 */
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* 2. 赤丸の指示：時計の対角線グラデーションと外枠のぼかし */
-.clock-container, 
-#clock, 
-.clock {
-  /* 左上から右下への対角線グラデーション */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-}
-/* --- 四角い枠を消去し、綺麗な丸型透過に戻す修正 --- */
-
-/* 1. 時計の外枠（親要素）の四角い背景・影・ボーダーを完全に消す */
-.clock-container, 
-#clock-container,
-.clock-wrapper {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-/* 2. 時計本体のみを綺麗な正円にし、対角線グラデーションと透過を適用 */
-.clock, 
-#clock, 
-canvas#clock {
-  border-radius: 50% !important;
-  /* 対角線（左上から右下）のすりガラス風グラデーション */
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
-  overflow: hidden !important;
-}
-
-/* 3. 背景（ページ全体）の透過度を戻し、後ろの診療時間表をハッキリ透けさせる */
-body::before,
-.bg-overlay {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-}
-
-/* --- 透過感とスクロールの不具合のみを補正する上書きCSS --- */
-
-/* 1. 長押しスクロール時に下部がボケなくなる修正 */
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
-  /* 2. 背景の透過：後ろの診療時間表がハッキリ見える薄さ */
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* 3. 時計部分の対角線グラデーション（四角い枠を出さずに時計本体だけ適用） */
-.clock, #clock, canvas#clock {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
 }
