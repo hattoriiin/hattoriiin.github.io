@@ -1611,3 +1611,35 @@ body {
         rgba(0,0,0,0) 100%
     );
 }
+
+
+/* --- 修正追加コード --- */
+
+/* 1. 長押し・スクロール時に下がボケなくなる問題の修正 */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh; /* スマホのスクロールズレを防止 */
+  /* 青丸の指示：後ろの診療時間表がハッキリ透ける透明度 */
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 2. 赤丸の指示：時計の対角線グラデーションと外枠のぼかし */
+.clock-container, 
+#clock, 
+.clock {
+  /* 左上から右下への対角線グラデーション */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
