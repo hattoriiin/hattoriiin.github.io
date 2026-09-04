@@ -1673,3 +1673,30 @@ body::before,
   background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
+/* --- 透過感とスクロールの不具合のみを補正する上書きCSS --- */
+
+/* 1. 長押しスクロール時に下部がボケなくなる修正 */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  /* 2. 背景の透過：後ろの診療時間表がハッキリ見える薄さ */
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 3. 時計部分の対角線グラデーション（四角い枠を出さずに時計本体だけ適用） */
+.clock, #clock, canvas#clock {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
