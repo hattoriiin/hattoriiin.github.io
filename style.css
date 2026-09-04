@@ -1,5 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');/* モーダル背景：ぼかしをほぼ消し、透明度を限界まで上げて後ろをハッキリ見せる */
+.clock-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    
+    /* 1. 背景の白さを極限まで薄く（0.05） */
+    background: rgba(255, 255, 255, 0.05) !important;
+    
+    /* 2. ぼかし（blur）を12px/8pxから「2px」まで大幅に小さくして文字をクッキリ見せる */
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    touch-action: none;
+}
 
 /* ==================================================
    基本
@@ -1548,13 +1568,30 @@ html, body {
     overflow-x: hidden;
 }
 
-/* モーダル背景（青丸指示：後ろの診療時間表がハッキリ透ける透明感 ＆ 長押しスクロール時の隙間防止） */
+
+/* モーダル背景：ぼかしをほぼ消し、透明度を限界まで上げて後ろをハッキリ見せる */
 .clock-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100dvh; /* Dynamic Viewport Heightでスマホ下部のスクロール追従ズレを完全解消 */
+    height: 100dvh;
+    
+    /* 1. 背景の白さを極限まで薄く（0.05） */
+    background: rgba(255, 255, 255, 0.05) !important;
+    
+    /* 2. ぼかし（blur）を12px/8pxから「2px」まで大幅に小さくして文字をクッキリ見せる */
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    touch-action: none;
+}
+
     
     /* 後ろの文字や表をくっきり見せる薄めの青みがかった透過白 */
     background: rgba(235, 243, 255, 0.25);
