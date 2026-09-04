@@ -1336,8 +1336,210 @@ if (clockTrigger && clockOverlay) {
     pointer-events: none;
 }
 
+@charset "UTF-8";
+
 /* ==================================================
-   時計ポップアップ（完全円形・フチ直接ぼかし確定版）
+   全体設定＆全画面横グラデーション
+================================================== */
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+    
+    /* 淡いブルー〜白〜淡いブルーの美しい横グラデーション */
+    background: linear-gradient(to right, #e8f3fe, #ffffff 50%, #e8f3fe) !important;
+    background-attachment: fixed !important;
+}
+
+/* 共通コンテナ */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==================================================
+   ヘッダー
+================================================== */
+.site-header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    text-decoration: none;
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-main {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.logo-sub {
+    font-size: 0.75rem;
+    color: #7f8c8d;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover {
+    color: #3498db;
+}
+
+/* ==================================================
+   メインビジュアル (Hero)
+================================================== */
+.hero {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-family: 'Kiwi Maru', serif;
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* ボタン装飾 */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+    background-color: #f5f5f5;
+}
+
+/* ==================================================
+   お知らせエリア
+================================================== */
+.news-section {
+    padding: 40px 0;
+}
+
+.news-section h3 {
+    font-size: 1.3rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.news-list {
+    list-style: none;
+}
+
+.news-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.news-list .date {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.news-list .category {
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.news-list a {
+    color: #333;
+    text-decoration: none;
+}
+
+.news-list a:hover {
+    text-decoration: underline;
+}
+
+/* ==================================================
+   フッター
+================================================== */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 0.85rem;
+    margin-top: 40px;
+}
+
+/* ==================================================
+   時計ポップアップ（全画面・決定版）
 ================================================== */
 .clock-overlay {
     position: fixed !important;
@@ -1345,7 +1547,7 @@ if (clockTrigger && clockOverlay) {
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(15, 25, 35, 0.2) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
     backdrop-filter: blur(2px) !important;
     -webkit-backdrop-filter: blur(2px) !important;
     display: flex !important;
@@ -1356,16 +1558,13 @@ if (clockTrigger && clockOverlay) {
 
 .clock-modal {
     position: relative !important;
-    
     width: 85vw !important;
     height: 85vw !important;
     max-width: 400px !important;
     max-height: 400px !important;
-    
     background: transparent !important;
     border-radius: 50% !important;
     box-sizing: border-box !important;
-    
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-touch-callout: none !important;
@@ -1380,7 +1579,6 @@ if (clockTrigger && clockOverlay) {
     }
 }
 
-/* ★ iframe本体に直接グラデーションマスクを適用 */
 .clock-iframe {
     width: 100% !important;
     height: 100% !important;
@@ -1389,16 +1587,7 @@ if (clockTrigger && clockOverlay) {
     pointer-events: none !important;
     border-radius: 50% !important;
     
-    /* 50%〜90%の範囲でぼかすことで、四角い枠に届く前に綺麗に透明化 */
-    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
-    mask-image: radial-gradient(circle at center, #000 0%, #000 50%, transparent 90%) !important;
-}
-
-/* 動作確認用の極端なテスト設定 */
-body {
-    background-color: red !important;
-}
-
-.clock-modal {
-    border: 10px solid yellow !important;
+    /* 40%〜80%の範囲で円形に透過ぼかし */
+    -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 40%, transparent 80%) !important;
+    mask-image: radial-gradient(circle at center, #000 0%, #000 40%, transparent 80%) !important;
 }
