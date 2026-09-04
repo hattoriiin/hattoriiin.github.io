@@ -1643,3 +1643,33 @@ body::before {
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
 }
+/* --- 四角い枠を消去し、綺麗な丸型透過に戻す修正 --- */
+
+/* 1. 時計の外枠（親要素）の四角い背景・影・ボーダーを完全に消す */
+.clock-container, 
+#clock-container,
+.clock-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 2. 時計本体のみを綺麗な正円にし、対角線グラデーションと透過を適用 */
+.clock, 
+#clock, 
+canvas#clock {
+  border-radius: 50% !important;
+  /* 対角線（左上から右下）のすりガラス風グラデーション */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  overflow: hidden !important;
+}
+
+/* 3. 背景（ページ全体）の透過度を戻し、後ろの診療時間表をハッキリ透けさせる */
+body::before,
+.bg-overlay {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
