@@ -1099,3 +1099,29 @@ footer a:hover{
 .news-body{
     margin-top:.6rem;
 }
+
+/* ==================================================
+   診療時間表（index.html）を doctors.html に同期
+================================================== */
+.schedule tr:not(:first-child) th {
+    font-size: 1.0rem !important;
+    font-weight: 400 !important;
+    line-height: 1.35 !important;
+    letter-spacing: .05em !important;
+}
+.schedule th span {
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+}
+
+.schedule {
+    table-layout: fixed !important;
+}
+.schedule th:first-child,
+.schedule td:first-child {
+    width: 35% !important;
+}
+.schedule th:not(:first-child),
+.schedule td:not(:first-child) {
+    width: 10.83% !important;
+}
