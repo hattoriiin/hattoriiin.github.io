@@ -427,8 +427,10 @@ header::before{
 
 .schedule th span{
     display:inline-block;
-    margin-top:4px;
+    margin-top:2px;
+    line-height:1.3;
 }
+
 
 .schedule tr:not(:first-child) th{
     line-height:1.35;
