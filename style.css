@@ -543,6 +543,43 @@ header::before{
     margin-bottom:
         env(safe-area-inset-bottom);
 }
+/* ==================================================
+   医師紹介ボタン（長押し/タップで浮き上がる）
+================================================== */
+
+.doctors-note {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.doctors-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    
+    background: #ffffff;
+    color: #31556e;
+    
+    font-size: .95rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: .05em;
+    
+    border: 1.5px solid #31556e;
+    border-radius: 25px;
+    
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    
+    transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+    
+    -webkit-tap-highlight-color: transparent;
+}
+
+.doctors-btn:hover,
+.doctors-btn:active {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(49,85,110,.22);
+    background-color: #f7fafc;
+}
 
 .online-note{
     margin-top:10px;
