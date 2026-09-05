@@ -1125,3 +1125,15 @@ footer a:hover{
 .schedule td:not(:first-child) {
     width: 10.83% !important;
 }
+
+/* ==================================================
+   doctors.html の「担当医表」見出しを index.html の「診療時間」に同期
+================================================== */
+.doctor-schedule h2,
+#doctor-schedule h2 {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 1.5rem !important;
+}
