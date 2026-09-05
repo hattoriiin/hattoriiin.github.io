@@ -58,32 +58,28 @@ h1{
     border-bottom: 2px solid #ddd;
 }
 
-/* ==================================================
-   診療時間表（全体構造＆列幅固定）
-================================================== */
-
+/* 表全体の幅を固定（index.htmlの幅と揃える） */
 .schedule{
-    width:100%;
-    table-layout:fixed;
-    border-collapse:separate;
-    border-spacing:0;
-    margin-top:1.2rem;
-    overflow:hidden;
-    border-radius:10px;
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.08);
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1.2rem;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
-/* 左端（時間帯列）の幅固定 */
+/* 左端（時間帯列）の幅を厳密に固定 */
 .schedule th:first-child,
 .schedule td:first-child{
-    width:120px;
+    width: 120px !important;
 }
 
-/* 月〜土の6列を均等配置 */
+/* 月〜土の各列の幅も厳密に固定 */
 .schedule th:not(:first-child),
 .schedule td:not(:first-child){
-    width:calc((100% - 120px) / 6);
+    width: 45px !important; /* または index.html で指定している曜日列のpx幅 */
 }
 
 /* ==================================================
