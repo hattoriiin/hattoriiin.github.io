@@ -69,7 +69,6 @@ h1{
 /* ==================================================
    診療時間表（列幅固定＆サイズ同期）
 ================================================== */
-
 .schedule{
     width:100% !important;
     table-layout:fixed !important;
@@ -82,17 +81,16 @@ h1{
         0 2px 8px rgba(0,0,0,.08);
 }
 
-/* 左端（時間帯列）の幅を30%に固定 */
 .schedule th:first-child,
 .schedule td:first-child{
-    width:30% !important;
+    width:35% !important;
 }
 
-/* 月〜土の6列を残りの70%で均等分割（11.66%ずつ） */
 .schedule th:not(:first-child),
 .schedule td:not(:first-child){
-    width:11.66% !important;
+    width:10.83% !important;
 }
+
 
 /* ==================================================
    th / td（フォント＆太さの同期）
@@ -117,7 +115,7 @@ h1{
 /* 左側の診療内容ヘッダー */
 .schedule tr:not(:first-child) th{
     background:#f2f7f9;
-    font-weight:700 !important; /* 太字を同期 */
+    font-weight:400 !important;
     white-space:nowrap;
     line-height:1.35;
     padding-top:.55rem;
