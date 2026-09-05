@@ -114,18 +114,29 @@ h1{
    ★ index.html と同じ
 ================================================== */
 
-.schedule th,
-.schedule td{
+.schedule{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:separate;
+    border-spacing:0;
+    margin-top:1.2rem;
+    overflow:hidden;
+    border-radius:10px;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
+}
 
-    border-bottom:1px solid #ddd;
+/* ★ 左端（時間帯列）の幅を広めに確保 */
+.schedule th:first-child,
+.schedule td:first-child{
+    width:120px;
+}
 
-    padding:.25rem .35rem;
-
-    text-align:center;
-
-    font-size:1.0rem;
-
-    line-height:1.15;
+/* ★ 月〜土の6列を均等配置 */
+.schedule th:not(:first-child),
+.schedule td:not(:first-child){
+    width:calc((100% - 120px) / 6);
+}
 
 }
 
