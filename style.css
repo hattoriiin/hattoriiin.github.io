@@ -35,6 +35,8 @@ section{
 h2{
     border-bottom:2px solid #ddd;
     padding-bottom:.5rem;
+    font-size:1.8rem;
+    font-weight:700;
 }
 
 
@@ -374,12 +376,12 @@ header::before{
 
 
 /* ==================================================
-   診療時間表
+   診療時間表・担当医表（共通化統合）
 ================================================== */
 
 .schedule{
     width:100%;
-    table-layout:auto;
+    table-layout:fixed;
     border-collapse:separate;
     border-spacing:0;
 
@@ -398,6 +400,7 @@ header::before{
     text-align:center;
     font-size:1rem;
     line-height:1.15;
+    vertical-align:middle;
 }
 
 .schedule tr:first-child th{
@@ -410,6 +413,10 @@ header::before{
     background:#f2f7f9;
     font-weight:400;
     white-space:nowrap;
+    line-height:1.35;
+    padding-top:.55rem;
+    padding-bottom:.55rem;
+    letter-spacing:.05em;
 }
 
 .schedule td{
@@ -421,21 +428,24 @@ header::before{
     border-bottom:none;
 }
 
-.schedule th:first-child{
-    width:120px;
+.schedule th:first-child,
+.schedule td:first-child{
+    width:35%;
 }
 
 .schedule th span{
     display:inline-block;
     margin-top:4px;
+    font-size:0.85rem;
     line-height:1.15;
 }
 
-.schedule tr:not(:first-child) th{
-    line-height:1.35;
-    padding-top:.55rem;
-    padding-bottom:.55rem;
-    letter-spacing:.05em;
+.schedule th a{
+    color:inherit;
+    text-decoration:none;
+    padding:0;
+    margin:0;
+    display:inline;
 }
 
 .visit-circle svg{
@@ -544,8 +554,10 @@ header::before{
     margin-bottom:
         env(safe-area-inset-bottom);
 }
+
+
 /* ==================================================
-   医師紹介ボタン（長押し/タップで浮き上がる）
+   医師紹介ボタン
 ================================================== */
 
 .doctors-note {
@@ -1069,15 +1081,6 @@ header::before{
    フッター
 ================================================== */
 
-/*
- * フッターの縦位置は変更しない。
- *
- * marginやpaddingを追加せず、
- * 元の固定電話ボタンとの位置関係を変えない。
- *
- * 文字だけ中央揃えにする。
- */
-
 footer{
     text-align:center;
 }
@@ -1098,19 +1101,4 @@ footer a:hover{
 
 .news-body{
     margin-top:.6rem;
-}
-
-/* 診療時間表・担当医表の幅固定とリンクズレの修正 */
-.schedule {
-    table-layout: fixed !important;
-}
-.schedule th:first-child,
-.schedule td:first-child {
-    width: 35% !important;
-}
-.schedule th a {
-    color: inherit !important;
-    text-decoration: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
 }
