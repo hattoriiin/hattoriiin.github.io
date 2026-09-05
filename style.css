@@ -1100,20 +1100,7 @@ footer a:hover{
     margin-top:.6rem;
 }
 
-/* ==================================================
-   診療時間表（index.html）を doctors.html に同期
-================================================== */
-.schedule tr:not(:first-child) th {
-    font-size: 1.0rem !important;
-    font-weight: 400 !important;
-    line-height: 1.35 !important;
-    letter-spacing: .05em !important;
-}
-.schedule th span {
-    font-size: 0.85rem !important;
-    font-weight: 400 !important;
-}
-
+/* 診療時間表・担当医表の幅固定とリンクズレの修正 */
 .schedule {
     table-layout: fixed !important;
 }
@@ -1121,19 +1108,9 @@ footer a:hover{
 .schedule td:first-child {
     width: 35% !important;
 }
-.schedule th:not(:first-child),
-.schedule td:not(:first-child) {
-    width: 10.83% !important;
-}
-
-/* ==================================================
-   doctors.html の「担当医表」見出しを index.html の「診療時間」に同期
-================================================== */
-.doctor-schedule h2,
-#doctor-schedule h2 {
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
-    letter-spacing: 0.05em !important;
-    margin-bottom: 1.5rem !important;
+.schedule th a {
+    color: inherit !important;
+    text-decoration: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
