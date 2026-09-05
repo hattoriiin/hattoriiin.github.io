@@ -213,8 +213,6 @@ h1{
 
 <!-- ==================================================
      診療時間・担当医表
-
-     ★ index.html の表構造をそのまま使用
 ================================================== -->
 
 <table class="schedule">
@@ -295,11 +293,6 @@ h1{
 
 <!-- ==================================================
      訪問診療
-
-     行は必ず残す
-
-     金・土が空欄でも
-     ― として表示
 ================================================== -->
 
 <tr>
@@ -406,205 +399,59 @@ h1{
 
 <script>
 
-/* ==================================================
-   doctors.json を読み込む
-================================================== */
-
 fetch("doctors.json")
 
 .then(response => {
 
     if(!response.ok){
-
-        throw new Error(
-            "doctors.json を読み込めませんでした"
-        );
-
+        throw new Error("doctors.json を読み込めませんでした");
     }
 
     return response.json();
 
 })
 
-
 .then(doctors => {
-
-
-    /* ==================================================
-       医師名を表示する関数
-    ================================================== */
 
     function createDoctorName(name){
 
-
-        /* ----------------------------------------------
-           空欄なら ―
-        ---------------------------------------------- */
-
-        if(
-            !name ||
-            !String(name).trim()
-        ){
-
-            return `
-                <span class="doctor-empty">
-                    ―
-                </span>
-            `;
-
+        if(!name || !String(name).trim()){
+            return `<span class="doctor-empty">―</span>`;
         }
 
-
-        /* ----------------------------------------------
-           「先生」を削除
-
-           村田先生 → 村田
-           糠谷先生 → 糠谷
-        ---------------------------------------------- */
-
-        let cleanName =
-            String(name)
-            .replace(/先生$/,"")
-            .trim();
-
-
-        /* ----------------------------------------------
-           長い氏名だけ縮小
-
-           表の幅そのものは変更しない
-        ---------------------------------------------- */
-
-        let className =
-            "doctor-name";
-
+        let cleanName = String(name).replace(/先生$/,"").trim();
+        let className = "doctor-name";
 
         if(cleanName.length >= 6){
-
-            className +=
-                " very-long";
-
+            className += " very-long";
+        } else if(cleanName.length >= 4){
+            className += " long";
         }
 
-        else if(cleanName.length >= 4){
+        const chars = [...cleanName].map(char => {
+            return `<span class="doctor-char">${char}</span>`;
+        }).join("");
 
-            className +=
-                " long";
-
-        }
-
-
-        /* ----------------------------------------------
-           1文字ずつ縦方向へ
-
-           院長
-           ↓
-           院
-           長
-
-           村田
-           ↓
-           村
-           田
-        ---------------------------------------------- */
-
-        const chars =
-            [...cleanName]
-            .map(char => {
-
-                return `
-                    <span class="doctor-char">
-                        ${char}
-                    </span>
-                `;
-
-            })
-            .join("");
-
-
-        return `
-            <span class="${className}">
-                ${chars}
-            </span>
-        `;
-
+        return `<span class="${className}">${chars}</span>`;
     }
 
+    document.querySelectorAll(".schedule td[data-time]").forEach(cell => {
+        const day = cell.dataset.day;
+        const time = cell.dataset.time;
+        const name = doctors?.[day]?.[time] || "";
+        cell.innerHTML = createDoctorName(name);
+    });
 
-    /* ==================================================
-       午前・午後
-    ================================================== */
-
-    document
-        .querySelectorAll(
-            ".schedule td[data-time]"
-        )
-        .forEach(cell => {
-
-
-            const day =
-                cell.dataset.day;
-
-
-            const time =
-                cell.dataset.time;
-
-
-            const name =
-                doctors?.[day]?.[time] || "";
-
-
-            cell.innerHTML =
-                createDoctorName(name);
-
-        });
-
-
-    /* ==================================================
-       訪問診療
-
-       ★ 重要
-
-       doctors.json の
-
-       月 → 訪問
-       火 → 訪問
-       水 → 訪問
-       木 → 訪問
-       金 → 訪問
-       土 → 訪問
-
-       を曜日ごとに読み込む
-    ================================================== */
-
-    document
-        .querySelectorAll(
-            ".schedule td[data-visit]"
-        )
-        .forEach(cell => {
-
-
-            const day =
-                cell.dataset.day;
-
-
-            const visitDoctor =
-                doctors?.[day]?.["訪問"] || "";
-
-
-            cell.innerHTML =
-                createDoctorName(
-                    visitDoctor
-                );
-
-        });
+    document.querySelectorAll(".schedule td[data-visit]").forEach(cell => {
+        const day = cell.dataset.day;
+        const visitDoctor = doctors?.[day]?.["訪問"] || "";
+        cell.innerHTML = createDoctorName(visitDoctor);
+    });
 
 })
 
-
 .catch(error => {
-
     console.error(error);
-
 });
 
 </script>
