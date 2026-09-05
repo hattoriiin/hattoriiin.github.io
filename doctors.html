@@ -12,6 +12,7 @@
 
 <title>服部医院｜担当医表</title>
 
+
 <style>
 
 /* ==================================================
@@ -39,11 +40,17 @@ body{
 ================================================== */
 
 main{
+
     max-width:900px;
+
     margin:auto;
+
     padding:1.5rem;
+
     background:#fff;
+
 }
+
 
 /* ==================================================
    見出し
@@ -58,67 +65,106 @@ h1{
     border-bottom: 2px solid #ddd;
 }
 
+
 /* ==================================================
-   診療時間表（画面幅に完全に収める設定）
+   診療時間表
 ================================================== */
+
 .schedule{
+
     width:100%;
+
     table-layout:fixed;
+
     border-collapse:separate;
+
     border-spacing:0;
+
     margin-top:1.2rem;
+
     overflow:hidden;
+
     border-radius:10px;
+
     box-shadow:
         0 2px 8px rgba(0,0,0,.08);
+
 }
 
+/* 左端（時間帯列）の幅を固定 */
 .schedule th:first-child,
 .schedule td:first-child{
+
     width:120px;
+
 }
 
+/* 月〜土の6列を均等配置 */
 .schedule th:not(:first-child),
 .schedule td:not(:first-child){
+
     width:calc((100% - 120px) / 6);
+
 }
 
+
 /* ==================================================
-   th / td（基本セル設定）
+   th / td
 ================================================== */
 
 .schedule th,
 .schedule td{
+
     border-bottom:1px solid #ddd;
+
     padding:.25rem .35rem;
+
     text-align:center;
+
     font-size:1.0rem;
+
     line-height:1.15;
+
 }
+
 
 /* ==================================================
    曜日
 ================================================== */
 
 .schedule tr:first-child th{
+
     background:#31556e;
+
     color:#fff;
+
     font-weight:400;
+
 }
+
 
 /* ==================================================
    左側の診療内容
 ================================================== */
 
 .schedule tr:not(:first-child) th{
+
     background:#f2f7f9;
+
     font-weight:400;
+
     white-space:nowrap;
+
     line-height:1.35;
+
     padding-top:.55rem;
+
     padding-bottom:.55rem;
+
     letter-spacing:.05em;
+
 }
+
 
 /* ==================================================
    最後の線
@@ -126,66 +172,123 @@ h1{
 
 .schedule tr:last-child th,
 .schedule tr:last-child td{
+
     border-bottom:none;
+
 }
+
 
 /* ==================================================
    左端の span
 ================================================== */
 
 .schedule th span{
+
     display:inline-block;
+
     margin-top:4px;
+
 }
+
 
 /* ==================================================
    担当医名
 ================================================== */
 
 .doctor-name{
+
     display:inline-flex;
+
     flex-direction:column;
+
     align-items:center;
+
     justify-content:center;
+
     white-space:nowrap;
+
     font-size:1.0rem;
+
     font-weight:400;
+
     line-height:1.0;
+
 }
 
-.doctor-char{
-    display:block;
-}
-
-.doctor-empty{
-    display:inline-block;
-    font-size:1.0rem;
-    line-height:1.15;
-    color:#777;
-}
-
-.doctor-name.long{
-    font-size:.85rem;
-}
-
-.doctor-name.very-long{
-    font-size:.72rem;
-}
 
 /* ==================================================
-   レスポンシブ
+   医師名 1文字
+================================================== */
+
+.doctor-char{
+
+    display:block;
+
+}
+
+
+/* ==================================================
+   担当医なし
+================================================== */
+
+.doctor-empty{
+
+    display:inline-block;
+
+    font-size:1.0rem;
+
+    line-height:1.15;
+
+    color:#777;
+
+}
+
+
+/* ==================================================
+   長い氏名
+================================================== */
+
+.doctor-name.long{
+
+    font-size:.85rem;
+
+}
+
+
+.doctor-name.very-long{
+
+    font-size:.72rem;
+
+}
+
+
+/* ==================================================
+   スマートフォン
 ================================================== */
 
 @media (max-width:600px){
+
     main{
+
         padding:1.5rem;
+
     }
+
 }
 
+
+/* ==================================================
+   スマートフォン横向き
+================================================== */
+
 @media (max-width:900px) and (orientation:landscape){
+
     main{
+
         padding:1.5rem;
+
     }
+
 }
 
 </style>
@@ -396,59 +499,161 @@ h1{
 
 <script>
 
+/* ==================================================
+   doctors.json を読み込む
+================================================== */
+
 fetch("doctors.json")
 
 .then(response => {
 
     if(!response.ok){
-        throw new Error("doctors.json を読み込めませんでした");
+
+        throw new Error(
+            "doctors.json を読み込めませんでした"
+        );
+
     }
 
     return response.json();
 
 })
 
+
 .then(doctors => {
+
+
+    /* ==================================================
+       医師名を表示する関数
+    ================================================== */
 
     function createDoctorName(name){
 
-        if(!name || !String(name).trim()){
-            return `<span class="doctor-empty">―</span>`;
+
+        if(
+            !name ||
+            !String(name).trim()
+        ){
+
+            return `
+                <span class="doctor-empty">
+                    ―
+                </span>
+            `;
+
         }
 
-        let cleanName = String(name).replace(/先生$/,"").trim();
-        let className = "doctor-name";
+
+        let cleanName =
+            String(name)
+            .replace(/先生$/,"")
+            .trim();
+
+
+        let className =
+            "doctor-name";
+
 
         if(cleanName.length >= 6){
-            className += " very-long";
-        } else if(cleanName.length >= 4){
-            className += " long";
+
+            className +=
+                " very-long";
+
         }
 
-        const chars = [...cleanName].map(char => {
-            return `<span class="doctor-char">${char}</span>`;
-        }).join("");
+        else if(cleanName.length >= 4){
 
-        return `<span class="${className}">${chars}</span>`;
+            className +=
+                " long";
+
+        }
+
+
+        const chars =
+            [...cleanName]
+            .map(char => {
+
+                return `
+                    <span class="doctor-char">
+                        ${char}
+                    </span>
+                `;
+
+            })
+            .join("");
+
+
+        return `
+            <span class="${className}">
+                ${chars}
+            </span>
+        `;
+
     }
 
-    document.querySelectorAll(".schedule td[data-time]").forEach(cell => {
-        const day = cell.dataset.day;
-        const time = cell.dataset.time;
-        const name = doctors?.[day]?.[time] || "";
-        cell.innerHTML = createDoctorName(name);
-    });
 
-    document.querySelectorAll(".schedule td[data-visit]").forEach(cell => {
-        const day = cell.dataset.day;
-        const visitDoctor = doctors?.[day]?.["訪問"] || "";
-        cell.innerHTML = createDoctorName(visitDoctor);
-    });
+    /* ==================================================
+       午前・午後
+    ================================================== */
+
+    document
+        .querySelectorAll(
+            ".schedule td[data-time]"
+        )
+        .forEach(cell => {
+
+
+            const day =
+                cell.dataset.day;
+
+
+            const time =
+                cell.dataset.time;
+
+
+            const name =
+                doctors?.[day]?.[time] || "";
+
+
+            cell.innerHTML =
+                createDoctorName(name);
+
+        });
+
+
+    /* ==================================================
+       訪問診療
+    ================================================== */
+
+    document
+        .querySelectorAll(
+            ".schedule td[data-visit]"
+        )
+        .forEach(cell => {
+
+
+            const day =
+                cell.dataset.day;
+
+
+            const visitDoctor =
+                doctors?.[day]?.["訪問"] || "";
+
+
+            cell.innerHTML =
+                createDoctorName(
+                    visitDoctor
+                );
+
+        });
 
 })
 
+
 .catch(error => {
+
     console.error(error);
+
 });
 
 </script>
