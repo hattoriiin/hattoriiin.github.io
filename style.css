@@ -1111,3 +1111,32 @@ footer a:hover{
     opacity: 1;
 }
 
+/* 担当医表を重ねる親要素の位置を固定 */
+#schedule-container {
+    position: relative;
+}
+
+/* 通常の診療時間表 */
+.schedule {
+    position: relative;
+    z-index: 1;
+}
+
+/* 長押しで出る担当医表（普段は完全に隠す） */
+#doctors-overlay-table.table-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+/* 長押し中：少し透けた状態（80%＝0.8）でふんわり浮かび上がる */
+#doctors-overlay-table.table-overlay.is-active {
+    opacity: 0.8; 
+    pointer-events: auto;
+}
