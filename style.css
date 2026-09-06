@@ -1167,8 +1167,7 @@ footer a:hover{
     /* 初期状態は透明（非表示） */
     opacity: 0;
     visibility: hidden;
-    transform: translateY(6px);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    transition: opacity 0.15s ease, visibility 0.15s;
     pointer-events: none;
 }
 
@@ -1176,8 +1175,8 @@ footer a:hover{
 .schedule.table-overlay.is-active {
     opacity: 1 !important;
     visibility: visible !important;
-    transform: translateY(0);
 }
+
 
 /* ボタン装飾 */
 .toggle-btn-wrapper {
