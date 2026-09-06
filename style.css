@@ -1094,3 +1094,20 @@ footer a:hover{
 .news-body{
     margin-top:.6rem;
 }
+
+/* 担当医表のポップアップ（オーバーレイ）のスタイル */
+#doctors-overlay-table.table-overlay {
+    display: none; /* 普段は隠す */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute; /* 必要に応じて位置調整 */
+    background: #fff;
+    z-index: 999;
+}
+
+/* 長押しされて .is-active がついたときに見せる */
+#doctors-overlay-table.table-overlay.is-active {
+    display: table !important;
+    opacity: 1;
+}
+
