@@ -1096,44 +1096,73 @@ footer a:hover{
 }
 
 
-
 /* ==================================================
-   担当医表のオーバーレイ設定（完成版）
+   診療時間表・担当医表（引き締まった美しいデザイン）
 ================================================== */
 
-/* すでにHTMLにある .schedule-overlay-container を基準にする */
-.schedule-overlay-container {
-    position: relative;
+.schedule {
     width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(40,80,80,.08);
+    margin-bottom: 1.5rem;
+    table-layout: fixed; /* 列幅を固定して綺麗に割り振る */
 }
 
-/* 通常の診療時間表（ベース） */
-.schedule-overlay-container table.table-schedule-base {
-    position: relative;
-    z-index: 1;
+/* 1列目（診療時間名・時間）にしっかり幅を持たせる */
+.schedule th:first-child,
+.schedule td:first-child {
+    width: 36%;
+    padding-left: 12px;
+    padding-right: 4px;
+    text-align: left;
 }
 
-/* 長押しで浮かび上がる担当医表（オーバーレイ） */
-.schedule-overlay-container table.table-schedule-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 2;
-    background: #fff !important; /* 透けたときに見やすくなるよう背景を白に */
-    opacity: 0;                  /* 普段は完全に隠す */
-    pointer-events: none;        /* 隠れている時はタッチを無効化 */
-    transition: opacity 0.3s ease; /* ふんわり変化させる */
+/* 2〜7列目（月〜土の曜日列）を均等に割る */
+.schedule th:not(:first-child),
+.schedule td:not(:first-child) {
+    width: 10.6%;
+    text-align: center;
 }
 
-/* 担当医表のセルやヘッダーも背景白を適用（透過を防ぐため） */
-.schedule-overlay-container table.table-schedule-overlay th,
-.schedule-overlay-container table.table-schedule-overlay td {
-    background: #fff !important;
+/* 曜日の行（ヘッダー）にトップと同じ美しいグラデーションを入れる */
+.schedule tr:first-child th {
+    background: linear-gradient(
+        135deg,
+        #20384d 0%,
+        #31556e 35%,
+        #4d7d98 70%,
+        #78b8c4 100%
+    );
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    border-bottom: none;
 }
 
-/* 長押し中（is-activeが付いたとき）：少し透けた状態（80%＝0.8）でふんわり浮かび上がる */
-.schedule-overlay-container table.table-schedule-overlay.is-active {
-    opacity: 0.8;
-    pointer-events: auto;
+/* セルの基本スタイル */
+.schedule th,
+.schedule td {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    vertical-align: middle;
+    font-size: 0.85rem;
+}
+
+/* 診療時間行の左側の文字を少し小さくしてスッキリさせる */
+.schedule td:first-child {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+/* 担当医の名前などのフォント調整（画像5のような詰まった感じ） */
+.schedule td:not(:first-child) {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #222;
 }
