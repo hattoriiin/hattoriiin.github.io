@@ -1095,48 +1095,45 @@ footer a:hover{
     margin-top:.6rem;
 }
 
-/* 担当医表のポップアップ（オーバーレイ）のスタイル */
-#doctors-overlay-table.table-overlay {
-    display: none; /* 普段は隠す */
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    position: absolute; /* 必要に応じて位置調整 */
-    background: #fff;
-    z-index: 999;
-}
 
-/* 長押しされて .is-active がついたときに見せる */
-#doctors-overlay-table.table-overlay.is-active {
-    display: table !important;
-    opacity: 1;
-}
 
-/* 担当医表を重ねる親要素の位置を固定 */
-#schedule-container {
+/* ==================================================
+   担当医表のオーバーレイ設定（完成版）
+================================================== */
+
+/* すでにHTMLにある .schedule-overlay-container を基準にする */
+.schedule-overlay-container {
     position: relative;
+    width: 100%;
 }
 
-/* 通常の診療時間表 */
-.schedule {
+/* 通常の診療時間表（ベース） */
+.schedule-overlay-container table.table-schedule-base {
     position: relative;
     z-index: 1;
 }
 
-/* 長押しで出る担当医表（普段は完全に隠す） */
-#doctors-overlay-table.table-overlay {
+/* 長押しで浮かび上がる担当医表（オーバーレイ） */
+.schedule-overlay-container table.table-schedule-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    background: #fff;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
     z-index: 2;
+    background: #fff !important; /* 透けたときに見やすくなるよう背景を白に */
+    opacity: 0;                  /* 普段は完全に隠す */
+    pointer-events: none;        /* 隠れている時はタッチを無効化 */
+    transition: opacity 0.3s ease; /* ふんわり変化させる */
 }
 
-/* 長押し中：少し透けた状態（80%＝0.8）でふんわり浮かび上がる */
-#doctors-overlay-table.table-overlay.is-active {
-    opacity: 0.8; 
+/* 担当医表のセルやヘッダーも背景白を適用（透過を防ぐため） */
+.schedule-overlay-container table.table-schedule-overlay th,
+.schedule-overlay-container table.table-schedule-overlay td {
+    background: #fff !important;
+}
+
+/* 長押し中（is-activeが付いたとき）：少し透けた状態（80%＝0.8）でふんわり浮かび上がる */
+.schedule-overlay-container table.table-schedule-overlay.is-active {
+    opacity: 0.8;
     pointer-events: auto;
 }
