@@ -1142,3 +1142,64 @@ footer a:hover{
 .news-body{
     margin-top:.6rem;
 }
+
+/* 親コンテナ（これがないと重ね合わせが効かず縦に並んでしまいます） */
+.schedule-container {
+    position: relative;
+    width: 100%;
+}
+
+.schedule.table-base {
+    position: relative;
+    z-index: 1;
+}
+
+/* 読み込んだ担当医表を真上に重ねる設定 */
+.schedule.table-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 10;
+    background: #ffffff !important;
+    
+    /* 初期状態は透明（非表示） */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    pointer-events: none;
+}
+
+/* 長押し時に浮き上がる処理 */
+.schedule.table-overlay.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0);
+}
+
+/* ボタン装飾 */
+.toggle-btn-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#toggle-doctors-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #31556e;
+    background-color: #f2f7f9;
+    border: 2px solid #31556e;
+    border-radius: 25px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+#toggle-doctors-btn.active {
+    background-color: #31556e;
+    color: #ffffff;
+}
