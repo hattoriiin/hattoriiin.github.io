@@ -66,30 +66,68 @@ h1{
 }
 
 
-/* ==================================================
-   診療時間表（列幅固定＆サイズ同期）
-================================================== */
+/* 診療時間表（列幅固定＆サイズ同期） */
 .schedule{
     width:100% !important;
     table-layout:fixed !important;
-    border-collapse:separate;
-    border-spacing:0;
-    margin-top:1.2rem;
+    border-collapse:collapse !important; /* separateからcollapseに変更してズレを防止 */
+    border-spacing:0 !important;
+    margin:0 !important;
     overflow:hidden;
-    border-radius:10px;
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.08);
+    border-radius:12px;
 }
 
 .schedule th:first-child,
 .schedule td:first-child{
-    width:35% !important;
+    width:36% !important;
+    padding-left: 12px;
+    padding-right: 4px;
+    text-align: left;
 }
 
 .schedule th:not(:first-child),
 .schedule td:not(:first-child){
-    width:10.83% !important;
+    width:10.6% !important;
+    text-align: center;
 }
+
+.schedule th,
+.schedule td{
+    border-bottom:1px solid #ddd;
+    padding:6px 0 !important; /* ベース表と完全に同じパディングに統一 */
+    vertical-align:middle;
+    box-sizing:border-box !important;
+}
+
+/* 行の高さをベース表と完全に一致させる */
+.schedule tr:first-child {
+    height: 42px !important;
+}
+.schedule tr:not(:first-child) {
+    height: 68px !important;
+}
+
+/* 曜日（月〜土）ヘッダー：ベース表と同じ薄めのベタ塗りに合わせる場合 */
+.schedule tr:first-child th{
+    background:#5a849c !important;
+    color:#fff;
+    font-weight:500 !important;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    border-bottom: none;
+}
+
+/* 左側の診療内容ヘッダー */
+.schedule tr:not(:first-child) th{
+    background:#f2f7f9 !important;
+    font-weight:400 !important;
+    white-space:nowrap;
+    font-size: 0.78rem;
+    line-height:1.4;
+    padding-top:0;
+    padding-bottom:0;
+}
+
 
 
 /* ==================================================
