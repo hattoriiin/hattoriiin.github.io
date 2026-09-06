@@ -565,3 +565,74 @@ fetch('news.json')
         );
 
     });
+    
+    
+    // doctors.html (表の骨組み) と doctors.json (データ) を同時に取得
+Promise.all([
+  fetch("doctors.html").then(res => res.text()),
+  fetch("doctors.json").then(res => res.json())
+])
+.then(([htmlText, doctors]) => {
+  const container = document.getElementById("schedule-container");
+  
+  // 1. doctors.html のHTMLをコンテナに注入
+  container.insertAdjacentHTML("beforeend", htmlText);
+
+  // 2. 名前整形用関数
+  function createDoctorName(name) {
+    if (!name || !String(name).trim()) return `<span class="doctor-empty">―</span>`;
+    let cleanName = String(name).replace(/先生$/, "").trim();
+    let className = "doctor-name";
+    if (cleanName.length >= 6) className += " very-long";
+    else if (cleanName.length >= 4) className += " long";
+
+    const chars = [...cleanName].map(char => `<span class="doctor-char">${char}</span>`).join("");
+    return `<span class="${className}">${chars}</span>`;
+  }
+
+  // 3. 読み込んだ表に医師名を注入
+  document.querySelectorAll("#doctors-overlay-table td[data-time]").forEach(cell => {
+    const day = cell.dataset.day;
+    const time = cell.dataset.time;
+    cell.innerHTML = createDoctorName(doctors?.[day]?.[time] || "");
+  });
+
+  document.querySelectorAll("#doctors-overlay-table td[data-visit]").forEach(cell => {
+    const day = cell.dataset.day;
+    cell.innerHTML = createDoctorName(doctors?.[day]?.["訪問"] || "");
+  });
+
+  // 4. 長押しイベントの設定
+  setupToggleEvents();
+})
+.catch(err => console.error("データ読み込みエラー:", err));
+
+function setupToggleEvents() {
+  const btn = document.getElementById("toggle-doctors-btn");
+  const overlayTable = document.getElementById("doctors-overlay-table");
+
+  if (!btn || !overlayTable) return;
+
+  function showOverlay() {
+    overlayTable.classList.add("is-active");
+    btn.classList.add("active");
+  }
+
+  function hideOverlay() {
+    overlayTable.classList.remove("is-active");
+    btn.classList.remove("active");
+  }
+
+  // PC（マウス操作）
+  btn.addEventListener("mousedown", showOverlay);
+  btn.addEventListener("mouseup", hideOverlay);
+  btn.addEventListener("mouseleave", hideOverlay);
+
+  // スマホ（タッチ操作）
+  btn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    showOverlay();
+  });
+  btn.addEventListener("touchend", hideOverlay);
+  btn.addEventListener("touchcancel", hideOverlay);
+}
