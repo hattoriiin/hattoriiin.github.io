@@ -376,45 +376,93 @@ header::before{
 
 
 /* ==================================================
-   診療時間表・担当医表（修正版）
+   2テーブル同期・完全オーバーレイコンテナ制御
 ================================================== */
 
-.schedule{
-    width:100%;
-    table-layout:fixed;
-    border-collapse:separate;
-    border-spacing:0;
-
-    margin-top:1.2rem;
-    overflow:hidden;
-    border-radius:10px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.08);
+.schedule-overlay-container {
+    position: relative;
+    width: 100%;
+    margin-top: 1.2rem;
 }
+
+/* 2枚のテーブル共通：物理サイズの完全固定 */
+.schedule-overlay-container table.schedule {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Baseテーブル（診療時間・マーク用） */
+.schedule-overlay-container table.table-schedule-base {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* Overlayテーブル（担当医用：真上に同期配置） */
+.schedule-overlay-container table.table-schedule-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent !important;
+    pointer-events: none;
+}
+
+.schedule-overlay-container table.table-schedule-overlay th,
+.schedule-overlay-container table.table-schedule-overlay td {
+    background: transparent !important;
+}
+
+
+/* ==================================================
+   診療時間表・担当医表（装飾・セル規定）
+================================================== */
 
 .schedule th,
 .schedule td{
     border-bottom:1px solid #ddd;
-    padding:.5rem .25rem;
+    padding:0 !important;
     text-align:center;
     font-size:.85rem;
     line-height:1.4;
     vertical-align:middle;
+    box-sizing:border-box !important;
+}
+
+/* 各列の幅（絶対同期制御） */
+.schedule-overlay-container table :is(th, td):first-child {
+    width: 38% !important;
+}
+
+.schedule-overlay-container table :is(th, td):not(:first-child) {
+    width: 10.33% !important;
+}
+
+/* 各行の高さ（縦ピッチ絶対同期） */
+.schedule-overlay-container table tr:first-child {
+    height: 40px !important;
+}
+
+.schedule-overlay-container table tr:not(:first-child) {
+    height: 68px !important;
 }
 
 .schedule tr:first-child th{
     background:#31556e;
     color:#fff;
     font-weight:400;
-    padding:.4rem 0;
 }
 
 .schedule tr:not(:first-child) th{
     background:#f2f7f9;
     font-weight:400;
     line-height:1.35;
-    padding:.6rem .2rem;
     letter-spacing:0;
 }
 
@@ -425,11 +473,6 @@ header::before{
 .schedule tr:last-child th,
 .schedule tr:last-child td{
     border-bottom:none;
-}
-
-.schedule th:first-child,
-.schedule td:first-child{
-    width:38%;
 }
 
 .schedule th span{
