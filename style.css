@@ -1234,3 +1234,106 @@ table.schedule tr:not(:first-child) th,
 table.schedule tr:not(:first-child) td {
     height: 60px !important;
 }
+/* ==================================================
+   診療時間表 崩れ・縮み・位置ズレ完全強制上書き
+================================================== */
+
+/* 親枠を画面幅いっぱいに指定 */
+div.schedule-container,
+div.schedule-overlay-container {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 1.5rem 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* テーブル本体を100%で全幅展開 */
+table.schedule {
+    display: table !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 下地と重なりテーブルの完全同期 */
+table.schedule.table-base {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+table.schedule.table-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 10 !important;
+    background: #ffffff !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.15s ease !important;
+}
+
+table.schedule.table-overlay.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 行とセルの配置・幅の絶対指定 */
+table.schedule tr {
+    display: table-row !important;
+    width: 100% !important;
+}
+
+table.schedule th,
+table.schedule td {
+    display: table-cell !important;
+    border-bottom: 1px solid #ddd !important;
+    padding: 4px 0 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    box-sizing: border-box !important;
+    white-space: normal !important; /* 改行を許可して縮みを防止 */
+}
+
+/* 列の比率（左側: 34% / 曜日6個: 各11% = 合計100%） */
+table.schedule th:first-child,
+table.schedule td:first-child {
+    width: 34% !important;
+}
+
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+    width: 11% !important;
+}
+
+/* 高さの完全固定（表が重ね合わさった時のズレを防止） */
+table.schedule tr:first-child,
+table.schedule tr:first-child th {
+    height: 40px !important;
+    background: #31556e !important;
+    color: #ffffff !important;
+}
+
+table.schedule tr:not(:first-child) {
+    height: 60px !important;
+}
+
+table.schedule tr:not(:first-child) th {
+    background: #f2f7f9 !important;
+}
+
+table.schedule td {
+    background: #ffffff !important;
+}
