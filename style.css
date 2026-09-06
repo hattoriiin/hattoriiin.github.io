@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
 /* ==================================================
-   基本設定・レスポンシブ基盤
+   基本
 ================================================== */
 
 * {
@@ -23,10 +23,9 @@ body {
 }
 
 main {
-    width: 100%;
     max-width: 900px;
-    margin: 0 auto;
-    padding: 1rem;
+    margin: auto;
+    padding: 1.5rem;
     background: #fff;
 }
 
@@ -38,8 +37,6 @@ section {
 h2 {
     border-bottom: 2px solid #ddd;
     padding-bottom: .5rem;
-    font-size: 1.4rem;
-    font-weight: 700;
 }
 
 
@@ -49,22 +46,48 @@ h2 {
 
 header {
     background:
-        radial-gradient(circle at 90% 15%, rgba(255,255,255,.08), transparent 30%),
-        radial-gradient(circle at 15% 85%, rgba(120,200,220,.08), transparent 45%),
-        linear-gradient(135deg, #20384d 0%, #31556e 35%, #4d7d98 70%, #78b8c4 100%);
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(255,255,255,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(120,200,220,.08),
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        );
+
     color: #fff;
-    padding: 1.2rem 1rem;
+    padding: .8rem 1rem;
     text-align: center;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 1px rgba(255,255,255,.20), inset 0 -25px 40px rgba(0,0,0,.08);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.20),
+        inset 0 -25px 40px rgba(0,0,0,.08);
 }
 
 header::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 85% 12%, rgba(255,255,255,.18) 0%, rgba(255,255,255,.08) 18%, transparent 55%);
+
+    background:
+        radial-gradient(
+            circle at 85% 12%,
+            rgba(255,255,255,.18) 0%,
+            rgba(255,255,255,.08) 18%,
+            transparent 55%
+        );
+
     pointer-events: none;
     z-index: 0;
 }
@@ -77,24 +100,33 @@ header::before {
 
 .clinic-title {
     margin: 0;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .clinic-name {
     display: block;
     margin-top: .45em;
-    font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
-    font-size: 1.3em;
+
+    font-family:
+        "M PLUS Rounded 1c",
+        "Noto Sans JP",
+        sans-serif;
+
+    font-size: 1.5em;
     font-weight: 400;
-    letter-spacing: .2em;
-    text-shadow: 0 2px 6px rgba(0,0,0,.22);
+    letter-spacing: .35em;
+
+    text-shadow:
+        0 2px 6px rgba(0,0,0,.22);
 }
 
 .catchcopy {
     margin-top: 10px;
     margin-bottom: 0;
-    font-size: .85em;
-    text-shadow: 0 1px 4px rgba(0,0,0,.18);
+    font-size: .95em;
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,.18);
 }
 
 
@@ -107,8 +139,13 @@ header::before {
     justify-content: center;
     align-items: flex-end;
     gap: .4em;
+
     font-size: .55em;
-    font-family: "Noto Sans JP", sans-serif;
+
+    font-family:
+        "Noto Sans JP",
+        sans-serif;
+
     font-weight: 400;
 }
 
@@ -131,7 +168,7 @@ header::before {
 
 .kanji {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3,1fr);
     gap: .45em;
     text-align: center;
 }
@@ -142,27 +179,216 @@ header::before {
 
 
 /* ==================================================
-   診療時間表（完全レスポンシブ・重ね合わせ対応）
+   お知らせカード
+================================================== */
+
+.news-card {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.news-card a {
+    display: inline-block;
+    padding: .8rem 2.5rem;
+
+    background: #31556e;
+    color: #fff;
+
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+
+/* ==================================================
+   お知らせ 最新3件プレビュー
+================================================== */
+
+.news-preview {
+    position: relative;
+    width: 88%;
+    margin: 1rem auto .5rem;
+    padding: 1rem 1.2rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,245,.62),
+            rgba(255,252,220,.28)
+        );
+
+    border: 1px solid rgba(210,200,120,.14);
+    border-radius: 14px;
+
+    box-shadow:
+        0 6px 18px rgba(80,90,70,.06);
+}
+
+.news-preview::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+
+    border: 2px solid transparent;
+
+    border-image:
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 70%,
+            #78b8c4 100%
+        ) 1;
+
+    pointer-events: none;
+}
+
+.news-preview-item {
+    padding: .55rem 0;
+    border-bottom: 1px solid rgba(49,85,110,.14);
+}
+
+.news-preview-item:last-child {
+    border-bottom: none;
+}
+
+.news-preview-date {
+    display: inline-block;
+    margin-right: .8rem;
+
+    color: #8a875f;
+    font-size: .75rem;
+    letter-spacing: .06em;
+}
+
+.news-preview-item a {
+    color: #31556e;
+    text-decoration: none;
+    font-size: .92rem;
+}
+
+.news-preview-item a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==================================================
+   詳細リンク
+================================================== */
+
+.news-detail-note {
+    margin: .8rem 0 0;
+    text-align: center;
+    font-size: .75rem;
+}
+
+.news-detail-note a {
+    color: #4d7d98;
+    text-decoration: none;
+    display: inline-block;
+    padding: .15rem .4rem;
+}
+
+.news-detail-note a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==================================================
+   鳥アニメーション
+================================================== */
+
+.bird {
+    position: absolute;
+    top: 10px;
+    right: -120px;
+    width: 80px;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.bird1 {
+    animation:
+        flybird 25s linear infinite,
+        fadebird1 25s linear infinite;
+}
+
+.bird2 {
+    animation:
+        flybird 25s linear infinite,
+        fadebird2 25s linear infinite;
+}
+
+@keyframes flybird {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-100vw - 220px));
+    }
+}
+
+@keyframes fadebird1 {
+    0% { opacity: 0; }
+    15% { opacity: .20; }
+    20% { opacity: .35; }
+    42% { opacity: .45; }
+    54% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes fadebird2 {
+    0% { opacity: 0; }
+    44% { opacity: 0; }
+    54% { opacity: .35; }
+    60% { opacity: .35; }
+    66% { opacity: .15; }
+    70% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    @keyframes fadebird1 {
+        0% { opacity: 0; }
+        18% { opacity: .20; }
+        25% { opacity: .35; }
+        48% { opacity: .45; }
+        55% { opacity: 0; }
+        100% { opacity: 0; }
+    }
+
+    @keyframes fadebird2 {
+        0% { opacity: 0; }
+        50% { opacity: 0; }
+        55% { opacity: .35; }
+        68% { opacity: .35; }
+        74% { opacity: .15; }
+        78% { opacity: 0; }
+        100% { opacity: 0; }
+    }
+}
+
+
+/* ==================================================
+   診療時間表（完全対応・丸印表示保証）
 ================================================== */
 
 .schedule-container {
     position: relative !important;
     width: 100% !important;
-    max-width: 100% !important;
     margin: 1.2rem 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    overflow-x: auto;
 }
 
-table.schedule {
+.schedule {
     width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
     table-layout: fixed !important;
-    border-collapse: collapse !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin-top: 1.2rem;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
 table.schedule.table-base {
@@ -189,72 +415,76 @@ table.schedule.table-overlay.is-active {
     visibility: visible !important;
 }
 
-table.schedule tr {
-    width: 100% !important;
-}
-
-table.schedule th,
-table.schedule td {
-    border-bottom: 1px solid #ddd !important;
+.schedule th,
+.schedule td {
+    border-bottom: 1px solid #ddd;
     padding: 6px 2px !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-    font-size: 0.75rem !important;
-    line-height: 1.2 !important;
-    box-sizing: border-box !important;
-    word-break: break-all !important;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    line-height: 1.2;
 }
 
-/* 列の配分（左側項目名: 34% / 曜日6列: 各11%） */
-table.schedule th:first-child,
-table.schedule td:first-child {
+.schedule th:first-child,
+.schedule td:first-child {
     width: 34% !important;
-    font-size: 0.7rem !important;
 }
 
-table.schedule th:not(:first-child),
-table.schedule td:not(:first-child) {
+.schedule th:not(:first-child),
+.schedule td:not(:first-child) {
     width: 11% !important;
 }
 
-/* 高さの指定 */
-table.schedule tr:first-child,
-table.schedule tr:first-child th {
-    height: 36px !important;
-    background: #31556e !important;
-    color: #ffffff !important;
+.schedule tr:first-child th {
+    background: #31556e;
+    color: #fff;
+    font-weight: 400;
+    height: 38px;
 }
 
-table.schedule tr:not(:first-child) {
-    height: 52px !important;
+.schedule tr:not(:first-child) th {
+    background: #f2f7f9;
+    font-weight: 400;
+    line-height: 1.35;
+    padding-top: .55rem;
+    padding-bottom: .55rem;
+    letter-spacing: .05em;
+    height: 54px;
 }
 
-table.schedule tr:not(:first-child) th {
-    background: #f2f7f9 !important;
+.schedule td {
+    background: #fff;
+    height: 54px;
 }
 
-table.schedule td {
-    background: #ffffff !important;
+.schedule tr:last-child th,
+.schedule tr:last-child td {
+    border-bottom: none;
 }
 
-/* 丸印・アイコンのスタイル */
+/* 外来用青丸 */
 .out-circle {
     display: inline-block;
+    position: relative;
     width: 18px;
     height: 18px;
     border-radius: 50%;
     background: linear-gradient(145deg, #8fc7ff 0%, #3d8bdc 45%, #1769aa 100%);
+    box-shadow: inset 0 2px 3px rgba(255,255,255,.65), 0 1px 2px rgba(0,0,0,.18);
     vertical-align: middle;
 }
 
+/* 訪問診療用緑アイコン丸 */
 .visit-circle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     width: 18px;
     height: 18px;
     border-radius: 50%;
     background: linear-gradient(145deg, #b7e88a 0%, #70ad47 45%, #4f8a2f 100%);
+    box-shadow: inset 0 2px 3px rgba(255,255,255,.65), 0 1px 2px rgba(0,0,0,.18);
     vertical-align: middle;
 }
 
@@ -266,8 +496,379 @@ table.schedule td {
 
 
 /* ==================================================
-   ボタン・カード・レイアウトパーツ
+   固定電話ボタン
 ================================================== */
+
+.fixed-call {
+    position: fixed !important;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 2147483647 !important;
+    display: block;
+    padding: 14px;
+    text-align: center;
+    border-radius: 14px;
+    background: rgba(49,85,110,.94);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    margin-bottom: env(safe-area-inset-bottom);
+}
+
+.online-note {
+    margin-top: 10px;
+    text-align: left;
+    font-size: .85rem;
+}
+
+.online-note a {
+    color: #4d7d98;
+    text-decoration: none;
+}
+
+
+/* ==================================================
+   画像保護
+================================================== */
+
+.protected-image {
+    float: left;
+    width: 180px;
+    margin: 0 20px 10px 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.protected-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .protected-image {
+        width: 120px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+    }
+}
+
+
+/* ==================================================
+   所在地・アクセス
+================================================== */
+
+.location-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.location-map iframe {
+    display: block;
+    width: 100%;
+    height: 260px;
+    border-radius: 10px;
+}
+
+.map-link {
+    margin-top: .6rem;
+    text-align: center;
+    font-size: .8rem;
+}
+
+.map-link a {
+    color: #4d7d98;
+    text-decoration: none;
+}
+
+.location-info h3 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    padding-bottom: .3rem;
+    border-bottom: 1px solid #ddd;
+    color: #31556e;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.location-info p {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+}
+
+.access-note {
+    font-size: .85rem;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .location-grid {
+        grid-template-columns: 100%;
+        gap: 1rem;
+    }
+
+    .location-map iframe {
+        height: 200px;
+    }
+
+    .location-info h3 {
+        font-size: 1rem;
+    }
+
+    .location-info p {
+        font-size: .92rem;
+        line-height: 1.55;
+    }
+
+    .map-link {
+        font-size: .75rem;
+    }
+}
+
+
+/* ==================================================
+   診療内容 フローティングカード
+================================================== */
+
+.service-card {
+    position: relative;
+    margin: 1rem 0;
+    padding: 1.1rem 1.1rem;
+    background: linear-gradient(135deg, rgba(245,250,250,.95), rgba(235,247,244,.92));
+    border: 1px solid rgba(110,170,160,.18);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(40,80,80,.08);
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    background: linear-gradient(to bottom, rgba(120,184,196,.12), rgba(120,184,196,.45), rgba(120,184,196,.12));
+    border-radius: 0 5px 5px 0;
+}
+
+.service-card h3 {
+    margin: 0 0 .45rem;
+    color: #31556e;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.service-card p {
+    margin: 0;
+    font-size: .92rem;
+    line-height: 1.75;
+}
+
+
+/* ==================================================
+   検査機器カード
+================================================== */
+
+.equipment-card {
+    position: relative;
+    margin: 1rem 0;
+    padding: 1.1rem 1.1rem;
+    background: linear-gradient(135deg, rgba(242,248,252,.96), rgba(228,241,248,.94));
+    border: 1px solid rgba(90,145,175,.20);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(45,85,110,.08);
+}
+
+.equipment-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 7px;
+    background: linear-gradient(to bottom, rgba(90,160,190,.12), rgba(90,160,190,.55), rgba(90,160,190,.12));
+    border-radius: 0 5px 5px 0;
+}
+
+.equipment-card h3 {
+    margin: 0 0 .45rem;
+    color: #31556e;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+}
+
+.equipment-card p {
+    margin: 0;
+    font-size: .92rem;
+    line-height: 1.75;
+}
+
+
+/* ==================================================
+   お知らせ
+================================================== */
+
+.news-section {
+    width: 88%;
+    margin: 3rem auto;
+}
+
+.news-section h2 {
+    width: 72%;
+    margin: 0 auto 1.8rem;
+    padding: .5rem 0;
+    text-align: center;
+    border-top: 1px solid rgba(49,85,110,.45);
+    border-bottom: 1px solid rgba(49,85,110,.45);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: .16em;
+}
+
+.news-list {
+    width: 88%;
+    margin: 0 auto;
+}
+
+.news-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(49,85,110,.18);
+}
+
+.news-item:first-child {
+    border-top: 1px solid rgba(49,85,110,.18);
+}
+
+.news-date {
+    display: block;
+    margin-bottom: .25rem;
+    color: #777;
+    font-size: .78rem;
+    letter-spacing: .08em;
+}
+
+.news-item a {
+    color: #31556e;
+    text-decoration: none;
+    font-size: .95rem;
+}
+
+.news-item a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==================================================
+   院内写真スクロール演出
+================================================== */
+
+.clinic-view {
+    position: relative;
+    width: 100%;
+    height: 38vh;
+    margin: 0;
+    overflow: visible;
+}
+
+.clinic-camera {
+    position: sticky;
+    top: 31vh;
+    width: 100%;
+    height: 38vh;
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(40,80,80,.08);
+    background: #fff;
+}
+
+.clinic-camera::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+        to right,
+        #fff 0%,
+        rgba(255,255,255,.80) 5%,
+        rgba(255,255,255,.35) 12%,
+        transparent 20%,
+        transparent 80%,
+        rgba(255,255,255,.35) 88%,
+        rgba(255,255,255,.80) 95%,
+        #fff 100%
+    );
+}
+
+.clinic-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: none;
+    transform: translate3d(-50%,-50%,0) scale(.85);
+    will-change: transform;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .clinic-view { height: 100vh; }
+    .clinic-camera { height: 100vh; top: 0; }
+    .clinic-image { width: auto; height: 120%; min-width: 100%; object-fit: cover; }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+    .clinic-image { width: auto; height: 100%; min-width: 140%; object-fit: cover; }
+}
+
+
+/* ==================================================
+   連絡先・フッター・ボタン調整
+================================================== */
+
+.contact-label {
+    display: inline-block;
+    width: 3.5em;
+}
+
+.contact-phone {
+    color: #555;
+    text-decoration: none;
+}
+
+footer {
+    text-align: center;
+    padding-bottom: 5rem;
+}
+
+footer a {
+    color: #4d7d98;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
 
 .toggle-btn-wrapper {
     text-align: center;
@@ -285,8 +886,7 @@ table.schedule td {
     cursor: pointer;
 }
 
-.doctors-note,
-.online-note {
+.doctors-note {
     text-align: center;
     font-size: 0.85rem;
     margin: 0.8rem 0;
@@ -301,51 +901,4 @@ table.schedule td {
     border: 1.5px solid #31556e;
     border-radius: 25px;
     text-decoration: none;
-}
-
-.protected-image {
-    width: 100%;
-    max-width: 180px;
-    margin: 0 auto 10px;
-}
-
-.protected-image img {
-    width: 100%;
-    height: auto;
-}
-
-.location-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.location-map iframe {
-    width: 100%;
-    height: 200px;
-    border-radius: 10px;
-    border: 0;
-}
-
-.fixed-call {
-    position: fixed !important;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    z-index: 2147483647 !important;
-    display: block;
-    padding: 12px;
-    text-align: center;
-    border-radius: 14px;
-    background: rgba(49,85,110,.94);
-    color: #fff;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    box-shadow: 0 6px 20px rgba(0,0,0,.18);
-}
-
-footer {
-    text-align: center;
-    padding: 1rem 0 4rem;
 }
