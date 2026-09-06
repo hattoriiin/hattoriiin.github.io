@@ -2,12 +2,6 @@
  * ==================================================
  * 院内写真 横スクロール制御
  * ==================================================
- *
- * 院内写真を縦スクロール位置に応じて
- * 左右へ滑らかに移動させる。
- *
- * 外部入力は使用しないため、
- * HTMLへ未検証データを挿入する処理はない。
  */
 
 const clinicView =
@@ -22,18 +16,11 @@ let targetX = -30;
 
 /**
  * 院内写真の横移動目標位置を計算する。
- *
- * @returns {void}
- * @example
- * updateTarget();
  */
-
 function updateTarget(){
 
     if(!clinicView || !clinicImage){
-
         return;
-
     }
 
     const rect =
@@ -61,12 +48,6 @@ function updateTarget(){
             )
         );
 
-    /*
-     * smoothstepを使用することで、
-     * 移動開始と終了を急激にせず、
-     * 自然な動きにする。
-     */
-
     const smooth =
         progress *
         progress *
@@ -80,16 +61,11 @@ function updateTarget(){
 
 /**
  * 院内写真を目標位置へ滑らかに移動する。
- *
- * @returns {void}
  */
-
 function animateClinic(){
 
     if(!clinicImage){
-
         return;
-
     }
 
     currentX +=
@@ -135,30 +111,16 @@ window.addEventListener(
  * ==================================================
  */
 
-
-/**
- * 指定した要素まで滑らかにスクロールする。
- *
- * @param {HTMLElement} target - 移動先
- * @param {number} duration - 移動時間（ミリ秒）
- * @returns {void}
- * @example
- * smoothScrollTo(document.querySelector('#news'), 1800);
- */
-
 function smoothScrollTo(
     target,
     duration = 1800
 ){
 
     if(!target){
-
         console.warn(
             'スクロール先の要素が見つかりません。'
         );
-
         return;
-
     }
 
     const startY =
@@ -181,29 +143,15 @@ function smoothScrollTo(
         targetY - startY;
 
     if(Math.abs(distance) < 2){
-
         return;
-
     }
 
     let startTime = null;
 
-
-    /**
-     * easeInOutCubic。
-     *
-     * @param {number} t - 0〜1
-     * @returns {number} 0〜1
-     */
-
     function easeInOutCubic(t){
-
         if(t < 0.5){
-
             return 4 * t * t * t;
-
         }
-
         return 1 -
             Math.pow(
                 -2 * t + 2,
@@ -211,20 +159,9 @@ function smoothScrollTo(
             ) / 2;
     }
 
-
-    /**
-     * スクロールアニメーションを1フレーム進める。
-     *
-     * @param {number} timestamp - ブラウザ時刻
-     * @returns {void}
-     */
-
     function step(timestamp){
-
         if(startTime === null){
-
             startTime = timestamp;
-
         }
 
         const elapsed =
@@ -251,19 +188,15 @@ function smoothScrollTo(
         );
 
         if(progress < 1){
-
             requestAnimationFrame(
                 step
             );
-
         }
         else{
-
             window.scrollTo(
                 0,
                 targetY
             );
-
         }
     }
 
@@ -284,32 +217,22 @@ if(newsDetailLink){
     newsDetailLink.addEventListener(
         'click',
         function(event){
-
-            /*
-             * 標準アンカー移動を止め、
-             * 独自のスクロール処理だけを実行する。
-             */
-
             event.preventDefault();
 
             const target =
                 document.getElementById('news');
 
             if(!target){
-
                 console.warn(
                     '#news が見つかりません。'
                 );
-
                 return;
-
             }
 
             smoothScrollTo(
                 target,
                 1800
             );
-
         }
     );
 }
@@ -319,53 +242,30 @@ if(newsDetailLink){
  * ==================================================
  * お知らせ読み込み
  * ==================================================
- *
- * 本番index.htmlはルートにあるため、
- * news.jsonも同じルートにある前提で
- * 'news.json' を使用する。
- *
- * JSONの文字列はinnerHTMLへ入れず、
- * textContentでDOMへ追加することでXSSを防ぐ。
  */
 
 fetch('news.json')
 
     .then(response => {
-
         if(!response.ok){
-
             throw new Error(
                 `news.jsonの取得に失敗しました: ${response.status}`
             );
-
         }
-
         return response.json();
-
     })
 
     .then(news => {
 
         if(!Array.isArray(news)){
-
             throw new Error(
                 'news.jsonの形式が正しくありません。'
             );
-
         }
 
-
-        /*
-         * URLとして使用できる相対リンクのみ許可する。
-         * javascript: などの危険なスキームを拒否する。
-         */
-
         function getSafeLink(value){
-
             if(typeof value !== 'string'){
-
                 return '#';
-
             }
 
             const trimmed =
@@ -375,9 +275,7 @@ fetch('news.json')
                 /^(https?:\/\/|\/|\.\/|\.\.\/|[a-zA-Z0-9_-])/i
                     .test(trimmed)
             ){
-
                 return trimmed;
-
             }
 
             return '#';
@@ -393,9 +291,7 @@ fetch('news.json')
                 '.news-preview-list'
             );
 
-
         if(previewList){
-
             previewList.replaceChildren();
 
             news
@@ -408,7 +304,6 @@ fetch('news.json')
                     previewItem.className =
                         'news-preview-item';
 
-
                     const date =
                         document.createElement('span');
 
@@ -419,7 +314,6 @@ fetch('news.json')
                         typeof item.date === 'string'
                             ? item.date
                             : '';
-
 
                     const link =
                         document.createElement('a');
@@ -432,17 +326,12 @@ fetch('news.json')
                             ? item.title
                             : '';
 
-
                     previewItem.appendChild(date);
-
                     previewItem.appendChild(link);
-
                     previewList.appendChild(
                         previewItem
                     );
-
                 });
-
         }
 
 
@@ -455,11 +344,8 @@ fetch('news.json')
                 '.news-list'
             );
 
-
         if(newsList){
-
             newsList.replaceChildren();
-
 
             news
                 .slice(0,3)
@@ -470,7 +356,6 @@ fetch('news.json')
 
                     newsItem.className =
                         'news-item';
-
 
                     const date =
                         document.createElement('span');
@@ -483,7 +368,6 @@ fetch('news.json')
                             ? item.date
                             : '';
 
-
                     const link =
                         document.createElement('a');
 
@@ -494,7 +378,6 @@ fetch('news.json')
                         typeof item.title === 'string'
                             ? item.title
                             : '';
-
 
                     const body =
                         document.createElement('p');
@@ -508,15 +391,11 @@ fetch('news.json')
                             ? item.body
                             : '詳細は準備中です。';
 
-
                     newsItem.appendChild(date);
-
                     newsItem.appendChild(link);
-
                     newsItem.appendChild(body);
 
                     newsList.appendChild(newsItem);
-
                 });
 
 
@@ -530,7 +409,6 @@ fetch('news.json')
             past.className =
                 'news-detail-note';
 
-
             const pastLink =
                 document.createElement('a');
 
@@ -540,38 +418,22 @@ fetch('news.json')
             pastLink.textContent =
                 '※ 過去のお知らせはクリック';
 
-
             past.appendChild(pastLink);
-
             newsList.appendChild(past);
-
         }
-
     })
 
-
-    /*
-     * JSONが存在しない、
-     * JSONが壊れている、
-     * 通信に失敗した場合でも、
-     * ページ全体を壊さない。
-     */
-
     .catch(error => {
-
         console.error(
             'お知らせの読み込みに失敗しました。',
             error
         );
-
     });
-    
-    
 
+
+/*
  * ==================================================
  * 担当医表（doctors.html / doctors.json）の読み込み＆重ね合わせ制御
-
-    // doctors.html (表の骨組み) と doctors.json (データ) を同時に取得から上書き
  * ==================================================
  */
 
@@ -583,7 +445,6 @@ Promise.all([
   const container = document.getElementById("schedule-container");
   if (!container) return;
 
-  // 1. doctors.html から不要なタグ(h1やmain)を除外して table だけを抽出・生成
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlText, "text/html");
   const overlayTable = doc.querySelector("table") || doc.querySelector("#doctors-overlay-table");
@@ -593,20 +454,16 @@ Promise.all([
     return;
   }
 
-  // IDと必要クラスを確実に付与して重ね合わせ用のスタイルを適応
   overlayTable.id = "doctors-overlay-table";
   overlayTable.classList.add("schedule", "table-overlay");
 
-  // 既に挿入済みの場合は重複防止のため削除
   const existingTable = document.getElementById("doctors-overlay-table");
   if (existingTable) {
     existingTable.remove();
   }
 
-  // コンテナ内に重ね合わせ用テーブルとして直接追加
   container.appendChild(overlayTable);
 
-  // 2. 名前整形用関数
   function createDoctorName(name) {
     if (!name || !String(name).trim()) return `<span class="doctor-empty">―</span>`;
     let cleanName = String(name).replace(/先生$/, "").trim();
@@ -618,7 +475,6 @@ Promise.all([
     return `<span class="${className}">${chars}</span>`;
   }
 
-  // 3. 読み込んだ表に医師名を安全に注入
   overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
     const day = cell.dataset.day;
     const time = cell.dataset.time;
@@ -630,7 +486,6 @@ Promise.all([
     cell.innerHTML = createDoctorName(doctors?.[day]?.["訪問"] || "");
   });
 
-  // 4. 長押し・タップイベントの設定
   setupToggleEvents();
 })
 .catch(err => console.error("担当医表データ読み込みエラー:", err));
@@ -652,12 +507,10 @@ function setupToggleEvents() {
     btn.classList.remove("active");
   }
 
-  // PC（マウス操作）
   btn.addEventListener("mousedown", showOverlay);
   btn.addEventListener("mouseup", hideOverlay);
   btn.addEventListener("mouseleave", hideOverlay);
 
-  // スマホ（タッチ操作・長押し時のメニュー表示を防止しスムーズに表示）
   btn.addEventListener("touchstart", showOverlay, { passive: false });
   btn.addEventListener("touchend", hideOverlay);
   btn.addEventListener("touchcancel", hideOverlay);
