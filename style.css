@@ -1097,7 +1097,7 @@ footer a:hover{
 
 
 /* ==================================================
-   診療時間表・担当医表（引き締まったオーバーレイ構造）
+   診療時間表・担当医表（オーバーレイ・完全対応版）
 ================================================== */
 
 .schedule-overlay-container {
@@ -1126,8 +1126,9 @@ footer a:hover{
     z-index: 1;
 }
 
-/* オーバーレイテーブル（担当医表：普段は完全に隠す） */
-.schedule-overlay-container table.table-schedule-overlay {
+/* オーバーレイテーブル（担当医表：JSで挿入されるもの。普段は完全に隠す） */
+.schedule-overlay-container table.table-overlay,
+.schedule-overlay-container table#doctors-overlay-table {
     position: absolute;
     top: 0;
     left: 0;
@@ -1135,32 +1136,35 @@ footer a:hover{
     z-index: 2;
     background: #fff !important;
     opacity: 0;
-    visibility: hidden;           /* 完全に非表示にする */
+    visibility: hidden;           /* 普段は完全に消しておく */
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
 
-/* 担当医表が表示されたとき（is-activeが付いたとき） */
-.schedule-overlay-container table.table-schedule-overlay.is-active {
+/* ボタンを押している間（.is-activeが付いたとき）にふんわり浮かび上がる */
+.schedule-overlay-container table.table-overlay.is-active,
+.schedule-overlay-container table#doctors-overlay-table.is-active {
     opacity: 0.8;                 /* ご希望の80%透過 */
     visibility: visible;
     pointer-events: auto;
 }
 
-/* 担当医表のセル背景を白に固定（透過時に下の文字と混ざるのを防ぐ） */
-.schedule-overlay-container table.table-schedule-overlay th,
-.schedule-overlay-container table.table-schedule-overlay td {
+/* 担当医表のセル背景を白に固定 */
+.schedule-overlay-container table.table-overlay th,
+.schedule-overlay-container table.table-overlay td,
+.schedule-overlay-container table#doctors-overlay-table th,
+.schedule-overlay-container table#doctors-overlay-table td {
     background: #fff !important;
 }
 
 /* セルの基本レイアウト（列幅の配分） */
 .schedule th,
-.schedule td{
-    border-bottom:1px solid #eee;
-    padding:6px 0 !important;
-    text-align:center;
-    vertical-align:middle;
-    box-sizing:border-box !important;
+.schedule td {
+    border-bottom: 1px solid #eee;
+    padding: 6px 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box !important;
 }
 
 /* 1列目（診療時間名・時間）にしっかり幅を持たせる */
@@ -1179,9 +1183,9 @@ footer a:hover{
     text-align: center;
 }
 
-/* 曜日の行（ヘッダー）：トップに近い色で、もっと薄めの綺麗なベタ塗り */
+/* 曜日の行（ヘッダー）：トップに近い薄めの綺麗なベタ塗り */
 .schedule tr:first-child th {
-    background: #5a849c !important; /* トップの雰囲気に合わせた薄めのすっきりしたベタ塗りカラー */
+    background: #5a849c !important;
     color: #fff;
     font-weight: 500;
     padding: 10px 0;
@@ -1211,3 +1215,4 @@ footer a:hover{
 .schedule tr:not(:first-child) {
     height: 68px !important;
 }
+
