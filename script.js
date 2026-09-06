@@ -567,16 +567,44 @@ fetch('news.json')
     });
     
     
-    // doctors.html (表の骨組み) と doctors.json (データ) を同時に取得
+
+ * ==================================================
+ * 担当医表（doctors.html / doctors.json）の読み込み＆重ね合わせ制御
+
+    // doctors.html (表の骨組み) と doctors.json (データ) を同時に取得から上書き
+ * ==================================================
+ */
+
 Promise.all([
   fetch("doctors.html").then(res => res.text()),
   fetch("doctors.json").then(res => res.json())
 ])
 .then(([htmlText, doctors]) => {
   const container = document.getElementById("schedule-container");
-  
-  // 1. doctors.html のHTMLをコンテナに注入
-  container.insertAdjacentHTML("beforeend", htmlText);
+  if (!container) return;
+
+  // 1. doctors.html から不要なタグ(h1やmain)を除外して table だけを抽出・生成
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, "text/html");
+  const overlayTable = doc.querySelector("table") || doc.querySelector("#doctors-overlay-table");
+
+  if (!overlayTable) {
+    console.error("doctors.html 内に <table> が見つかりません。");
+    return;
+  }
+
+  // IDと必要クラスを確実に付与して重ね合わせ用のスタイルを適応
+  overlayTable.id = "doctors-overlay-table";
+  overlayTable.classList.add("schedule", "table-overlay");
+
+  // 既に挿入済みの場合は重複防止のため削除
+  const existingTable = document.getElementById("doctors-overlay-table");
+  if (existingTable) {
+    existingTable.remove();
+  }
+
+  // コンテナ内に重ね合わせ用テーブルとして直接追加
+  container.appendChild(overlayTable);
 
   // 2. 名前整形用関数
   function createDoctorName(name) {
@@ -590,22 +618,22 @@ Promise.all([
     return `<span class="${className}">${chars}</span>`;
   }
 
-  // 3. 読み込んだ表に医師名を注入
-  document.querySelectorAll("#doctors-overlay-table td[data-time]").forEach(cell => {
+  // 3. 読み込んだ表に医師名を安全に注入
+  overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
     const day = cell.dataset.day;
     const time = cell.dataset.time;
     cell.innerHTML = createDoctorName(doctors?.[day]?.[time] || "");
   });
 
-  document.querySelectorAll("#doctors-overlay-table td[data-visit]").forEach(cell => {
+  overlayTable.querySelectorAll("td[data-visit]").forEach(cell => {
     const day = cell.dataset.day;
     cell.innerHTML = createDoctorName(doctors?.[day]?.["訪問"] || "");
   });
 
-  // 4. 長押しイベントの設定
+  // 4. 長押し・タップイベントの設定
   setupToggleEvents();
 })
-.catch(err => console.error("データ読み込みエラー:", err));
+.catch(err => console.error("担当医表データ読み込みエラー:", err));
 
 function setupToggleEvents() {
   const btn = document.getElementById("toggle-doctors-btn");
@@ -613,12 +641,13 @@ function setupToggleEvents() {
 
   if (!btn || !overlayTable) return;
 
-  function showOverlay() {
+  function showOverlay(e) {
+    if (e) e.preventDefault();
     overlayTable.classList.add("is-active");
     btn.classList.add("active");
   }
 
-  function hideOverlay() {
+  function hideOverlay(e) {
     overlayTable.classList.remove("is-active");
     btn.classList.remove("active");
   }
@@ -628,11 +657,8 @@ function setupToggleEvents() {
   btn.addEventListener("mouseup", hideOverlay);
   btn.addEventListener("mouseleave", hideOverlay);
 
-  // スマホ（タッチ操作）
-  btn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    showOverlay();
-  });
+  // スマホ（タッチ操作・長押し時のメニュー表示を防止しスムーズに表示）
+  btn.addEventListener("touchstart", showOverlay, { passive: false });
   btn.addEventListener("touchend", hideOverlay);
   btn.addEventListener("touchcancel", hideOverlay);
 }
