@@ -1097,18 +1097,70 @@ footer a:hover{
 
 
 /* ==================================================
-   診療時間表・担当医表（引き締まった美しいデザイン）
+   診療時間表・担当医表（引き締まったオーバーレイ構造）
 ================================================== */
 
-.schedule {
+.schedule-overlay-container {
+    position: relative;
     width: 100%;
-    border-collapse: collapse;
-    background: #fff;
+    margin-top: 1.2rem;
+}
+
+/* 2枚のテーブル共通の基本設定 */
+.schedule-overlay-container table.schedule {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 14px rgba(40,80,80,.08);
-    margin-bottom: 1.5rem;
-    table-layout: fixed; /* 列幅を固定して綺麗に割り振る */
+    background: #fff;
+}
+
+/* ベーステーブル（通常の診療時間表） */
+.schedule-overlay-container table.table-schedule-base {
+    position: relative;
+    z-index: 1;
+}
+
+/* オーバーレイテーブル（担当医表：普段は完全に隠す） */
+.schedule-overlay-container table.table-schedule-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background: #fff !important;
+    opacity: 0;
+    visibility: hidden;           /* 完全に非表示にする */
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* 担当医表が表示されたとき（is-activeが付いたとき） */
+.schedule-overlay-container table.table-schedule-overlay.is-active {
+    opacity: 0.8;                 /* ご希望の80%透過 */
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* 担当医表のセル背景を白に固定（透過時に下の文字と混ざるのを防ぐ） */
+.schedule-overlay-container table.table-schedule-overlay th,
+.schedule-overlay-container table.table-schedule-overlay td {
+    background: #fff !important;
+}
+
+/* セルの基本レイアウト（列幅の配分） */
+.schedule th,
+.schedule td{
+    border-bottom:1px solid #eee;
+    padding:6px 0 !important;
+    text-align:center;
+    vertical-align:middle;
+    box-sizing:border-box !important;
 }
 
 /* 1列目（診療時間名・時間）にしっかり幅を持たせる */
@@ -1127,42 +1179,35 @@ footer a:hover{
     text-align: center;
 }
 
-/* 曜日の行（ヘッダー）にトップと同じ美しいグラデーションを入れる */
+/* 曜日の行（ヘッダー）：トップに近い色で、もっと薄めの綺麗なベタ塗り */
 .schedule tr:first-child th {
-    background: linear-gradient(
-        135deg,
-        #20384d 0%,
-        #31556e 35%,
-        #4d7d98 70%,
-        #78b8c4 100%
-    );
+    background: #5a849c !important; /* トップの雰囲気に合わせた薄めのすっきりしたベタ塗りカラー */
     color: #fff;
     font-weight: 500;
     padding: 10px 0;
-    font-size: 0.95rem;
-    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
     border-bottom: none;
 }
 
-/* セルの基本スタイル */
-.schedule th,
-.schedule td {
-    border-bottom: 1px solid #eee;
-    padding: 8px 0;
-    vertical-align: middle;
-    font-size: 0.85rem;
-}
-
-/* 診療時間行の左側の文字を少し小さくしてスッキリさせる */
+/* 診療時間行の左側の文字サイズを小さめにしてスッキリさせる */
 .schedule td:first-child {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     line-height: 1.4;
     color: #333;
 }
 
-/* 担当医の名前などのフォント調整（画像5のような詰まった感じ） */
+/* データ行のフォント調整 */
 .schedule td:not(:first-child) {
     font-size: 0.82rem;
     font-weight: 500;
     color: #222;
+}
+
+/* 各行の高さを完全に固定してズレを防止 */
+.schedule tr:first-child {
+    height: 42px !important;
+}
+.schedule tr:not(:first-child) {
+    height: 68px !important;
 }
