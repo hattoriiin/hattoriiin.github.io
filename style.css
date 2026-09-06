@@ -1301,3 +1301,27 @@ footer a:hover{
     align-items: center;
     justify-content: center;
 }
+
+/* 表全体の余白・枠線をリセットして固定 */
+.schedule {
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 1行目（紺色の曜日ヘッダー）の高さを完全固定 */
+.schedule tr:first-child th {
+    height: 40px !important;
+    padding: 0 !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+}
+
+/* 2行目以降（診療時間の各セル）の高さも完全固定 */
+.schedule td,
+.schedule tr:not(:first-child) th {
+    height: 52px !important;
+    padding: 0 !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+}
