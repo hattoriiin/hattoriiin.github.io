@@ -106,7 +106,7 @@
 
 <div class="news-card">
 
-    <a href="news.html">
+    <a href="#news" class="smooth-scroll-link">
         お知らせ
     </a>
 
@@ -122,7 +122,7 @@
 
 <p class="news-detail-note">
 
-    <a href="#news">
+    <a href="#news" class="smooth-scroll-link">
         ※ 詳細はクリック
     </a>
 
@@ -228,7 +228,7 @@
 
 <br><br>
 
-感染症予防対策のため、空間的・時間D的・動線的な隔離を行わさせていただいております。
+感染症予防対策のため、空間的・時間的・動線的な隔離を行わさせていただいております。
 
 <br><br>
 
@@ -444,10 +444,6 @@
 
 </section>
 
-
-<!-- ==================================================
-     診療時間・担当医表
-================================================== -->
 
 <!-- ==================================================
      診療時間・担当医表
@@ -825,18 +821,27 @@ Googleマップで見る
 
 
 <!-- ==================================================
-     JavaScript（doctors.jsonの読み込み ＆ ボタン制御）
-================================================== -->
-<!-- ==================================================
-     JavaScript（doctors.html & doctors.json の読み込み ＆ ボタン制御）
-================================================== -->
-<!-- ==================================================
      JavaScript（お知らせ・院内写真・担当医表まとめ）
 ================================================== -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. お知らせ一覧・プレビューの読み込み処理
+    // 0. お知らせへのフワッとしたスムーズスクロール設定
+    document.querySelectorAll('a.smooth-scroll-link').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // 1. お知らせ一覧・プレビューの読み込み処理（最新3件をプレビュー＆詳細へリンク）
     const newsListContainer = document.querySelector('.news-list');
     const newsPreviewList = document.querySelector('.news-preview-list');
 
@@ -852,17 +857,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     newsPreviewList.innerHTML = previews.map(item => `
                         <div class="news-preview-item">
                             <span class="news-preview-date">${item.date}</span>
-                            <a href="news-detail.html?id=${item.id}">${item.title}</a>
+                            <a href="news.html">${item.title}</a>
                         </div>
                     `).join('');
                 }
 
-                // 一覧（全件）
+                // 一覧（全件セクション用）
                 if (newsListContainer) {
                     newsListContainer.innerHTML = newsData.map(item => `
                         <div class="news-item">
                             <span class="news-date">${item.date}</span>
-                            <a href="news-detail.html?id=${item.id}">${item.title}</a>
+                            <a href="news.html">${item.title}</a>
                         </div>
                     `).join('');
                 }
@@ -880,14 +885,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const rect = camera.getBoundingClientRect();
             const viewHeight = window.innerHeight;
 
-            // カメラが画面内にあるときだけ計算
             if (rect.top <= viewHeight && rect.bottom >= 0) {
                 const progress = (viewHeight - rect.top) / (viewHeight + rect.height);
                 const clamped = Math.max(0, Math.min(1, progress));
                 
-                // スクロール量に応じて横方向と拡大率を変化させる
-                const translateX = -50 + (clamped - 0.5) * 30; // 横移動
-                const scale = 0.85 + clamped * 0.15; // 拡大・縮小
+                const translateX = -50 + (clamped - 0.5) * 30;
+                const scale = 0.85 + clamped * 0.15;
 
                 image.style.transform = `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
             }
@@ -895,7 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // 3. 担当医表の自動生成 ＆ ボタン切り替え処理
+    // 3. 担当医表の自動生成 ＆ ボタン長押し・タップ切り替え処理
     Promise.all([
         fetch("doctors.html").then(res => res.text()),
         fetch("doctors.json").then(res => res.json())
@@ -944,7 +947,6 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(err => console.error("担当医表データ読み込みエラー:", err));
 
-    // ボタンを押している間の切り替え処理
     function setupToggleEvents() {
         const btn = document.getElementById("toggle-doctors-btn");
         const container = document.getElementById("schedule-container");
