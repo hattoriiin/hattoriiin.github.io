@@ -1212,3 +1212,26 @@ table.schedule td:not(:first-child) {
     text-align: center !important;
     padding: 6px 0 !important;
 }
+/* 診療時間テーブル全体の幅設定 */
+table.schedule {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse;
+}
+
+/* 左1列（午前診療・訪問・午後診療のラベル列）：幅をしっかり広げて読みやすくする */
+table.schedule th:first-child,
+table.schedule td:first-child {
+    width: 34% !important; /* 左側の幅を広げる */
+    white-space: normal;   /* 必要に応じて折り返しを許可 */
+    text-align: left;      /* ラベルは左寄せで読みやすく */
+    padding: 8px 6px !important;
+}
+
+/* 月〜土の曜日列：間隔を縮めて均等に配置する */
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+    width: 11% !important; /* 残りの幅を6等分して均等にする */
+    text-align: center !important;
+    padding: 8px 0 !important;
+}
