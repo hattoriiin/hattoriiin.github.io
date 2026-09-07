@@ -409,7 +409,7 @@ header::before{
 }
 
 /* オーバーレイテーブル（担当医用：Grid上で真上に重ねる） */
-.schedule-overlay-container table.table-schedule-overlay {
+.schedule-overlay-container table.table-overlay {
     z-index: 2;
     background: transparent !important;
     opacity: 0;
@@ -418,20 +418,20 @@ header::before{
 }
 
 /* アクティブ時に手前へ表示し、タッチ操作を有効化 */
-.schedule-overlay-container table.table-schedule-overlay.is-active {
+.schedule-overlay-container table.table-overlay.is-active {
     opacity: 1 !important;
     pointer-events: auto !important;
 }
 
 /* オーバーレイ側の「一番上の曜日行（th）」と「左端の列（td:first-child）」は透明にして下のベース表を見せる */
-.schedule-overlay-container table.table-schedule-overlay tr:first-child th,
-.schedule-overlay-container table.table-schedule-overlay td:first-child {
+.schedule-overlay-container table.table-overlay tr:first-child th,
+.schedule-overlay-container table.table-overlay td:first-child {
     background-color: transparent !important;
     color: transparent !important;
 }
 
 /* 先生の名前が入るデータセル（tdの2列目以降）だけ白背景にして下のマークを隠す */
-.schedule-overlay-container table.table-schedule-overlay td:not(:first-child) {
+.schedule-overlay-container table.table-overlay td:not(:first-child) {
     background-color: #ffffff !important;
 }
 
