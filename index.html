@@ -827,88 +827,88 @@ Googleマップで見る
 <!-- ==================================================
      JavaScript（doctors.jsonの読み込み ＆ ボタン制御）
 ================================================== -->
+<!-- ==================================================
+     JavaScript（doctors.html & doctors.json の読み込み ＆ ボタン制御）
+================================================== -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. doctors.json を読み込んで縦書きの担当医表に反映する処理
-    fetch("doctors.json")
-        .then(response => {
-            if(!response.ok){
-                throw new Error("doctors.json を読み込めませんでした");
-            }
-            return response.json();
-        })
-        .then(doctors => {
+    // 1. doctors.html と doctors.json を読み込んで担当医表を自動生成・埋め込む
+    Promise.all([
+        fetch("doctors.html").then(res => res.text()),
+        fetch("doctors.json").then(res => res.json())
+    ])
+    .then(([htmlText, doctors]) => {
+        const container = document.getElementById("schedule-container");
+        if (!container) return;
 
-            function createDoctorName(name){
-                if(!name || !String(name).trim()){
-                    return `<span class="doctor-empty">―</span>`;
-                }
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, "text/html");
+        const overlayTable = doc.querySelector("table");
 
-                let cleanName = String(name).replace(/先生$/,"").trim();
-                let className = "doctor-name";
+        if (!overlayTable) {
+            console.error("doctors.html 内に <table> が見つかりません。");
+            return;
+        }
 
-                if(cleanName.length >= 6){
-                    className += " very-long";
-                } else if(cleanName.length >= 4){
-                    className += " long";
-                }
+        overlayTable.id = "doctors-overlay-table";
+        overlayTable.classList.add("schedule", "table-overlay");
 
-                const chars = [...cleanName].map(char => {
-                    return `<span class="doctor-char">${char}</span>`;
-                }).join("");
+        container.appendChild(overlayTable);
 
-                return `<span class="${className}">${chars}</span>`;
-            }
+        function createDoctorName(name) {
+            if (!name || !String(name).trim()) return `<span class="doctor-empty">―</span>`;
+            let cleanName = String(name).replace(/先生$/, "").trim();
+            let className = "doctor-name";
+            if (cleanName.length >= 6) className += " very-long";
+            else if (cleanName.length >= 4) className += " long";
 
-            // オーバーレイ用テーブル（#doctors-overlay-table）内のセルを対象にする
-            const overlayTable = document.getElementById('doctors-overlay-table');
-            if (!overlayTable) return;
+            const chars = [...cleanName].map(char => `<span class="doctor-char">${char}</span>`).join("");
+            return `<span class="${className}">${chars}</span>`;
+        }
 
-            overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
-                const day = cell.dataset.day;
-                const time = cell.dataset.time;
-                const name = doctors?.[day]?.[time] || "";
-                cell.innerHTML = createDoctorName(name);
-            });
-
-            overlayTable.querySelectorAll("td[data-visit]").forEach(cell => {
-                const day = cell.dataset.day;
-                const visitDoctor = doctors?.[day]?.["訪問"] || "";
-                cell.innerHTML = createDoctorName(visitDoctor);
-            });
-
-        })
-        .catch(error => {
-            console.error(error);
+        overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
+            const day = cell.dataset.day;
+            const time = cell.dataset.time;
+            cell.innerHTML = createDoctorName(doctors?.[day]?.[time] || "");
         });
 
+        overlayTable.querySelectorAll("td[data-visit]").forEach(cell => {
+            const day = cell.dataset.day;
+            cell.innerHTML = createDoctorName(doctors?.[day]?.["訪問"] || "");
+        });
 
-    // 2. ボタンを押している間だけオーバーレイを表示する処理
-    const btn = document.getElementById('toggle-doctors-btn');
-    const targetOverlay = document.getElementById('doctors-overlay-table');
+        setupToggleEvents();
+    })
+    .catch(err => console.error("担当医表データ読み込みエラー:", err));
 
-    if (!btn || !targetOverlay) return;
+    // 2. ボタンを押している間（または長押し中）だけ表を切り替える処理
+    function setupToggleEvents() {
+        const btn = document.getElementById("toggle-doctors-btn");
+        const container = document.getElementById("schedule-container");
 
-    function showOverlay(e) {
-        e.preventDefault();
-        targetOverlay.classList.add('is-active');
+        if (!btn || !container) return;
+
+        function showOverlay(e) {
+            if (e) e.preventDefault();
+            container.classList.add("is-active");
+            btn.classList.add("active");
+        }
+
+        function hideOverlay(e) {
+            container.classList.remove("is-active");
+            btn.classList.remove("active");
+        }
+
+        btn.addEventListener("mousedown", showOverlay);
+        btn.addEventListener("mouseup", hideOverlay);
+        btn.addEventListener("mouseleave", hideOverlay);
+
+        btn.addEventListener("touchstart", showOverlay, { passive: false });
+        btn.addEventListener("touchend", hideOverlay);
+        btn.addEventListener("touchcancel", hideOverlay);
     }
 
-    function hideOverlay(e) {
-        e.preventDefault();
-        targetOverlay.classList.remove('is-active');
-    }
-
-    // タッチ操作（スマホ）
-    btn.addEventListener('touchstart', showOverlay, { passive: false });
-    btn.addEventListener('touchend', hideOverlay);
-    btn.addEventListener('touchcancel', hideOverlay);
-
-    // マウス操作（パソコン）
-    btn.addEventListener('mousedown', showOverlay);
-    btn.addEventListener('mouseup', hideOverlay);
-    btn.addEventListener('mouseleave', hideOverlay);
 });
 </script>
 
