@@ -449,14 +449,17 @@
      診療時間・担当医表
 ================================================== -->
 
+<!-- ==================================================
+     診療時間・担当医表
+================================================== -->
+
 <section id="schedule">
 
 <h2>
     診療時間
 </h2>
 
-
-<!-- 担当医表の重ね合わせ用コンテナ -->
+<!-- 担当医表の切り替え用コンテナ -->
 <div class="schedule-overlay-container" id="schedule-container">
 
     <!-- ① ベースの診療時間表 -->
@@ -567,52 +570,11 @@
         </tr>
     </table>
 
-    <!-- ② 縦書き担当医表（オーバーレイ用：JSONからデータを読み込んで1文字ずつ縦に並びます） -->
-    <table id="doctors-overlay-table" class="schedule table-overlay">
-        <tr>
-            <th></th>
-            <th>月</th>
-            <th>火</th>
-            <th>水</th>
-            <th>木</th>
-            <th>金</th>
-            <th>土</th>
-        </tr>
-        <tr>
-            <th>🏥　午前診療<br><span>09:00〜12:00</span></th>
-            <td data-day="月" data-time="午前"></td>
-            <td data-day="火" data-time="午前"></td>
-            <td data-day="水" data-time="午前"></td>
-            <td data-day="木" data-time="午前"></td>
-            <td data-day="金" data-time="午前"></td>
-            <td data-day="土" data-time="午前"></td>
-        </tr>
-        <tr>
-            <th>🏠　<a href="houmon.html">訪問診療</a><br><span>13:30〜16:30</span></th>
-            <td data-day="月" data-visit></td>
-            <td data-day="火" data-visit></td>
-            <td data-day="水" data-visit></td>
-            <td data-day="木" data-visit></td>
-            <td data-day="金" data-visit></td>
-            <td data-day="土" data-visit></td>
-        </tr>
-        <tr>
-            <th>🏥　午後診療<br><span>17:30〜19:30</span></th>
-            <td data-day="月" data-time="午後"></td>
-            <td data-day="火" data-time="午後"></td>
-            <td data-day="水" data-time="午後"></td>
-            <td data-day="木" data-time="午後"></td>
-            <td data-day="金" data-time="午後"></td>
-            <td data-day="土" data-time="午後"></td>
-        </tr>
-    </table>
-
 </div>
 
 <p class="doctors-note">
 <button type="button" id="toggle-doctors-btn">担当医はこちら</button>
 </p>
-
 
 <p class="online-note">
 <a href="online.html">
@@ -623,6 +585,7 @@
 診療開始15分前から診療時間終了30分前まで
 
 </section>
+
 
 
 <!-- ==================================================
