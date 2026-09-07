@@ -1126,93 +1126,62 @@ footer a:hover{
     z-index: 1;
 }
 
-/* オーバーレイテーブル（担当医表：JSで挿入されるもの。普段は完全に隠す） */
-.schedule-overlay-container table.table-overlay,
-.schedule-overlay-container table#doctors-overlay-table {
+/* ==================================================
+   診療時間表・担当医表（オーバーレイ＆縦書き設定）
+================================================== */
+
+/* ① 表を重ねるための親コンテナ */
+.schedule-overlay-container {
+    position: relative;
+}
+
+/* ② ベースの表の上にピッタリ重ねる設定 */
+#doctors-overlay-table.table-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2;
-    background: #fff !important;
+    height: 100%;
+    background-color: #ffffff; /* 重ねたときに下の文字が透けないように白背景にする場合 */
     opacity: 0;
-    visibility: hidden;           /* 普段は完全に消しておく */
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 2;
 }
 
-/* ボタンを押している間（.is-activeが付いたとき）にふんわり浮かび上がる */
-.schedule-overlay-container table.table-overlay.is-active,
-.schedule-overlay-container table#doctors-overlay-table.is-active {
-    opacity: 0.8;                 /* ご希望の80%透過 */
-    visibility: visible;
+/* ボタンを押している間（.is-activeがついたとき）に表示する */
+#doctors-overlay-table.table-overlay.is-active {
+    opacity: 1;
     pointer-events: auto;
 }
 
-/* 担当医表のセル背景を白に固定 */
-.schedule-overlay-container table.table-overlay th,
-.schedule-overlay-container table.table-overlay td,
-.schedule-overlay-container table#doctors-overlay-table th,
-.schedule-overlay-container table#doctors-overlay-table td {
-    background: #fff !important;
+/* ③ 先生の名前を1文字ずつ縦に並べる設定 */
+.doctor-name {
+    display: flex;
+    flex-direction: column; /* 上から下に縦並びにする */
+    align-items: center;    /* 中央揃え */
+    justify-content: center;
+    line-height: 1.1;       /* 行間（文字同士の間隔を詰める） */
+    margin: 0 auto;
 }
 
-/* セルの基本レイアウト（列幅の配分） */
-.schedule th,
-.schedule td {
-    border-bottom: 1px solid #eee;
-    padding: 6px 0 !important;
-    text-align: center;
-    vertical-align: middle;
-    box-sizing: border-box !important;
+/* 1文字ごとのブロック */
+.doctor-char {
+    display: inline-block;
 }
 
-/* 1列目（診療時間名・時間）にしっかり幅を持たせる */
-.schedule th:first-child,
-.schedule td:first-child {
-    width: 36%;
-    padding-left: 12px;
-    padding-right: 4px;
-    text-align: left;
+/* 名前が少し長い場合の文字サイズ調整 */
+.doctor-name.long {
+    font-size: 0.85em;
 }
 
-/* 2〜7列目（月〜土の曜日列）を均等に割る */
-.schedule th:not(:first-child),
-.schedule td:not(:first-child) {
-    width: 10.6%;
+/* 名前がかなり長い場合の文字サイズ調整 */
+.doctor-name.very-long {
+    font-size: 0.75em;
+}
+
+/* 担当医がいない場合の「―」表示 */
+.doctor-empty {
+    display: block;
     text-align: center;
 }
-
-/* 曜日の行（ヘッダー）：トップに近い薄めの綺麗なベタ塗り */
-.schedule tr:first-child th {
-    background: #5a849c !important;
-    color: #fff;
-    font-weight: 500;
-    padding: 10px 0;
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-    border-bottom: none;
-}
-
-/* 診療時間行の左側の文字サイズを小さめにしてスッキリさせる */
-.schedule td:first-child {
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: #333;
-}
-
-/* データ行のフォント調整 */
-.schedule td:not(:first-child) {
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: #222;
-}
-
-/* 各行の高さを完全に固定してズレを防止 */
-.schedule tr:first-child {
-    height: 42px !important;
-}
-.schedule tr:not(:first-child) {
-    height: 68px !important;
-}
-
