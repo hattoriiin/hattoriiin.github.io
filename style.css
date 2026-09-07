@@ -1189,43 +1189,41 @@ footer a:hover{
    診療時間表・担当医表のレイアウト修正
 ================================================== */
 
-/* 表全体のレイアウトを崩れないように固定・調整 */
-.schedule {
-    width: 100%;
-    table-layout: fixed; /* 列幅を均等・固定にして文字のはみ出しを防ぐ */
-}
+/* ==================================================
+   担当医表オーバーレイ：表示・非表示の完全修正
+================================================== */
 
-/* 左側の見出し列（午前診療などのセル）の幅を十分に確保する */
-.schedule th:first-child,
-.schedule td:first-child {
-    width: 32%; /* 必要に応じて調整してください */
-    word-break: break-all;
-}
-
-/* ① 表を重ねるための親コンテナ */
-.schedule-overlay-container {
-    position: relative;
-    overflow: hidden;
-}
-
-/* ② ベースの表の上にピッタリ重ねる設定（初期状態は完全に隠す） */
+/* ① オーバーレイ表全体の基本設定 */
 #doctors-overlay-table.table-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #ffffff; /* 白背景で下の青い丸を完全に隠す */
+    background-color: #ffffff; /* 白背景にして下の表を完全に隠す */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease-in-out;
     z-index: 2;
 }
 
-/* ボタンを押している間（またはアクティブ時）に表示する */
+/* ボタンを押したときだけ表示 */
 #doctors-overlay-table.table-overlay.is-active {
     opacity: 1;
     pointer-events: auto;
+}
+
+/* ② オーバーレイ側の「一番上の曜日行」と「左端の列（診療時間名）」は、自前のものを使わず非表示にする */
+#doctors-overlay-table.table-overlay tr:first-child,
+#doctors-overlay-table.table-overlay th:first-child,
+#doctors-overlay-table.table-overlay td:first-child {
+    display: none; 
+}
+
+/* ※ただし、データが入るセル（td）だけはきちんと表示させる */
+#doctors-overlay-table.table-overlay td {
+    display: table-cell;
+    background-color: #ffffff;
 }
 
 /* ③ 先生の名前を1文字ずつ縦に綺麗に並べる設定 */
@@ -1253,17 +1251,4 @@ footer a:hover{
     display: block;
     text-align: center;
 }
-/* ==================================================
-   曜日行（ヘッダー）の背景色を統一する調整
-================================================== */
 
-/* ベース表の曜日ヘッダーの背景色を固定する */
-.schedule th {
-    background-color: #6b7c96; /* お好みの背景色（今の青っぽい色など）に調整してください */
-    color: #ffffff;
-}
-
-/* オーバーレイ表側の曜日ヘッダーは完全に透明にして、下のベース表の曜日を綺麗に見せる */
-#doctors-overlay-table.table-overlay th {
-    background-color: transparent !important;
-}
