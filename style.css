@@ -376,7 +376,7 @@ header::before{
 
 
 /* ==================================================
-   診療時間表・担当医表（オーバーレイ・完全対応版）
+   診療時間表・担当医表（オーバーレイ・完全修正版）
 ================================================== */
 
 .schedule-overlay-container {
@@ -405,32 +405,32 @@ header::before{
     z-index: 1;
 }
 
-/* オーバーレイテーブル（担当医用：真上に同期配置） */
+/* オーバーレイテーブル（担当医用：絶対配置で完全同位置に重ねる） */
 .schedule-overlay-container table.table-schedule-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    background: transparent !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 10 !important;
+    background: #fff !important;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease-in-out;
 }
 
-/* ボタンを押している間（.is-activeがついたとき）に表示する */
+/* アクティブ時に手前へ完全に表示し、タッチ操作（長押し等）も有効化 */
 .schedule-overlay-container table.table-schedule-overlay.is-active {
-    opacity: 1;
-    pointer-events: auto;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
-/* オーバーレイ側の「一番上の曜日行（th）」と「左端の列（td:first-child）」は透明にして下のベース表をそのまま見せる */
+/* オーバーレイ側の「一番上の曜日行（th）」と「左端の列（td:first-child）」は透明にして下のベース表を透けさせる */
 .schedule-overlay-container table.table-schedule-overlay tr:first-child th,
 .schedule-overlay-container table.table-schedule-overlay td:first-child {
     background-color: transparent !important;
     color: transparent !important;
 }
 
-/* 先生の名前が入るデータセル（tdの2列目以降）だけ白背景にして下の青い丸を隠す */
+/* 先生の名前が入るデータセル（tdの2列目以降）だけ白背景にして下のマークを隠す */
 .schedule-overlay-container table.table-schedule-overlay td:not(:first-child) {
     background-color: #ffffff !important;
 }
@@ -451,7 +451,7 @@ header::before{
     box-sizing:border-box !important;
 }
 
-/* 各行の高さを完全に固定して行間のズレを防止 */
+/* 各行の高さを完全に固定して上下のズレを完全に防止 */
 .schedule tr:first-child {
     height: 42px !important;
 }
