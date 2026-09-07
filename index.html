@@ -228,7 +228,7 @@
 
 <br><br>
 
-感染症予防対策のため、空間的・時間的・動線的な隔離を行わさせていただいております。
+感染症予防対策のため、空間的・時間D的・動線的な隔離を行わさせていただいております。
 
 <br><br>
 
@@ -459,157 +459,157 @@
 <!-- 担当医表の重ね合わせ用コンテナ -->
 <div class="schedule-overlay-container" id="schedule-container">
 
-<table class="schedule table-schedule-base">
+    <!-- ① ベースの診療時間表 -->
+    <table class="schedule table-schedule-base">
+        <tr>
+            <th></th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+        </tr>
+        <tr>
+            <th>
+                🏥 午前診療
+                <br>
+                <span>09:00〜12:00</span>
+            </th>
+            <td data-day="月" data-time="午前">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="火" data-time="午前">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="水" data-time="午前">
+                ―
+            </td>
+            <td data-day="木" data-time="午前">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="金" data-time="午前">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="土" data-time="午前">
+                <span class="out-circle"></span>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                🏠 <a href="houmon.html">訪問診療</a>
+                <br>
+                <span>13:30〜16:30</span>
+            </th>
+            <td data-day="月" data-visit="true">
+                <span class="visit-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                </span>
+            </td>
+            <td data-day="火" data-visit="true">
+                <span class="visit-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                </span>
+            </td>
+            <td data-day="水" data-visit="true">
+                <span class="visit-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                </span>
+            </td>
+            <td data-day="木" data-visit="true">
+                <span class="visit-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
+                        <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
+                    </svg>
+                </span>
+            </td>
+            <td data-day="金" data-visit="true">
+                ―
+            </td>
+            <td data-day="土" data-visit="true">
+                ―
+            </td>
+        </tr>
+        <tr>
+            <th>
+                🏥 午後診療
+                <br>
+                <span>17:30〜19:30</span>
+            </th>
+            <td data-day="月" data-time="午後">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="火" data-time="午後">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="水" data-time="午後">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="木" data-time="午後">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="金" data-time="午後">
+                <span class="out-circle"></span>
+            </td>
+            <td data-day="土" data-time="午後">
+                ―
+            </td>
+        </tr>
+    </table>
 
-<tr>
-
-<th></th>
-<th>月</th>
-<th>火</th>
-<th>水</th>
-<th>木</th>
-<th>金</th>
-<th>土</th>
-
-</tr>
-
-
-<tr>
-
-<th>
-
-🏥 午前診療
-<br>
-<span>09:00〜12:00</span>
-
-</th>
-
-<td data-day="月" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="火" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="水" data-time="午前">
-    ―
-</td>
-
-<td data-day="木" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="金" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="土" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-</tr>
-
-
-<tr>
-
-<th>
-
-🏠 <a href="houmon.html">訪問診療</a>
-<br>
-<span>13:30〜16:30</span>
-
-</th>
-
-<td data-day="月" data-visit="true">
-    <span class="visit-circle">
-        <svg viewBox="0 0 24 24">
-            <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
-        </svg>
-    </span>
-</td>
-
-<td data-day="火" data-visit="true">
-    <span class="visit-circle">
-        <svg viewBox="0 0 24 24">
-            <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
-        </svg>
-    </span>
-</td>
-
-<td data-day="水" data-visit="true">
-    <span class="visit-circle">
-        <svg viewBox="0 0 24 24">
-            <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
-        </svg>
-    </span>
-</td>
-
-<td data-day="木" data-visit="true">
-    <span class="visit-circle">
-        <svg viewBox="0 0 24 24">
-            <path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/>
-        </svg>
-    </span>
-</td>
-
-<td data-day="金" data-visit="true">
-    ―
-</td>
-
-<td data-day="土" data-visit="true">
-    ―
-</td>
-
-</tr>
-
-
-<tr>
-
-<th>
-
-🏥 午後診療
-<br>
-<span>17:30〜19:30</span>
-
-</th>
-
-<td data-day="月" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="火" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="水" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="木" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="金" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="土" data-time="午後">
-    ―
-</td>
-
-</tr>
-
-</table>
+    <!-- ② 縦書き担当医表（オーバーレイ用：JSONからデータを読み込んで1文字ずつ縦に並びます） -->
+    <table id="doctors-overlay-table" class="schedule table-overlay">
+        <tr>
+            <th></th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+        </tr>
+        <tr>
+            <th>🏥　午前診療<br><span>09:00〜12:00</span></th>
+            <td data-day="月" data-time="午前"></td>
+            <td data-day="火" data-time="午前"></td>
+            <td data-day="水" data-time="午前"></td>
+            <td data-day="木" data-time="午前"></td>
+            <td data-day="金" data-time="午前"></td>
+            <td data-day="土" data-time="午前"></td>
+        </tr>
+        <tr>
+            <th>🏠　<a href="houmon.html">訪問診療</a><br><span>13:30〜16:30</span></th>
+            <td data-day="月" data-visit></td>
+            <td data-day="火" data-visit></td>
+            <td data-day="水" data-visit></td>
+            <td data-day="木" data-visit></td>
+            <td data-day="金" data-visit></td>
+            <td data-day="土" data-visit></td>
+        </tr>
+        <tr>
+            <th>🏥　午後診療<br><span>17:30〜19:30</span></th>
+            <td data-day="月" data-time="午後"></td>
+            <td data-day="火" data-time="午後"></td>
+            <td data-day="水" data-time="午後"></td>
+            <td data-day="木" data-time="午後"></td>
+            <td data-day="金" data-time="午後"></td>
+            <td data-day="土" data-time="午後"></td>
+        </tr>
+    </table>
 
 </div>
 
 <p class="doctors-note">
-<!-- 変更前（aタグになっていたから、変更後：buttonタグにする -->
 <button type="button" id="toggle-doctors-btn">担当医はこちら</button>
 </p>
 
@@ -861,7 +861,93 @@ Googleマップで見る
 </footer>
 
 
-<script src="script.js"></script>
+<!-- ==================================================
+     JavaScript（doctors.jsonの読み込み ＆ ボタン制御）
+================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 1. doctors.json を読み込んで縦書きの担当医表に反映する処理
+    fetch("doctors.json")
+        .then(response => {
+            if(!response.ok){
+                throw new Error("doctors.json を読み込めませんでした");
+            }
+            return response.json();
+        })
+        .then(doctors => {
+
+            function createDoctorName(name){
+                if(!name || !String(name).trim()){
+                    return `<span class="doctor-empty">―</span>`;
+                }
+
+                let cleanName = String(name).replace(/先生$/,"").trim();
+                let className = "doctor-name";
+
+                if(cleanName.length >= 6){
+                    className += " very-long";
+                } else if(cleanName.length >= 4){
+                    className += " long";
+                }
+
+                const chars = [...cleanName].map(char => {
+                    return `<span class="doctor-char">${char}</span>`;
+                }).join("");
+
+                return `<span class="${className}">${chars}</span>`;
+            }
+
+            // オーバーレイ用テーブル（#doctors-overlay-table）内のセルを対象にする
+            const overlayTable = document.getElementById('doctors-overlay-table');
+            if (!overlayTable) return;
+
+            overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
+                const day = cell.dataset.day;
+                const time = cell.dataset.time;
+                const name = doctors?.[day]?.[time] || "";
+                cell.innerHTML = createDoctorName(name);
+            });
+
+            overlayTable.querySelectorAll("td[data-visit]").forEach(cell => {
+                const day = cell.dataset.day;
+                const visitDoctor = doctors?.[day]?.["訪問"] || "";
+                cell.innerHTML = createDoctorName(visitDoctor);
+            });
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+
+    // 2. ボタンを押している間だけオーバーレイを表示する処理
+    const btn = document.getElementById('toggle-doctors-btn');
+    const targetOverlay = document.getElementById('doctors-overlay-table');
+
+    if (!btn || !targetOverlay) return;
+
+    function showOverlay(e) {
+        e.preventDefault();
+        targetOverlay.classList.add('is-active');
+    }
+
+    function hideOverlay(e) {
+        e.preventDefault();
+        targetOverlay.classList.remove('is-active');
+    }
+
+    // タッチ操作（スマホ）
+    btn.addEventListener('touchstart', showOverlay, { passive: false });
+    btn.addEventListener('touchend', hideOverlay);
+    btn.addEventListener('touchcancel', hideOverlay);
+
+    // マウス操作（パソコン）
+    btn.addEventListener('mousedown', showOverlay);
+    btn.addEventListener('mouseup', hideOverlay);
+    btn.addEventListener('mouseleave', hideOverlay);
+});
+</script>
 
 </body>
 
