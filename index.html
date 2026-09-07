@@ -830,10 +830,72 @@ Googleマップで見る
 <!-- ==================================================
      JavaScript（doctors.html & doctors.json の読み込み ＆ ボタン制御）
 ================================================== -->
+<!-- ==================================================
+     JavaScript（お知らせ・院内写真・担当医表まとめ）
+================================================== -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. doctors.html と doctors.json を読み込んで担当医表を自動生成・埋め込む
+    // 1. お知らせ一覧・プレビューの読み込み処理
+    const newsListContainer = document.querySelector('.news-list');
+    const newsPreviewList = document.querySelector('.news-preview-list');
+
+    if (newsListContainer || newsPreviewList) {
+        fetch('news.json')
+            .then(res => res.json())
+            .then(newsData => {
+                if (!Array.isArray(newsData)) return;
+
+                // プレビュー（最新3件）
+                if (newsPreviewList) {
+                    const previews = newsData.slice(0, 3);
+                    newsPreviewList.innerHTML = previews.map(item => `
+                        <div class="news-preview-item">
+                            <span class="news-preview-date">${item.date}</span>
+                            <a href="news-detail.html?id=${item.id}">${item.title}</a>
+                        </div>
+                    `).join('');
+                }
+
+                // 一覧（全件）
+                if (newsListContainer) {
+                    newsListContainer.innerHTML = newsData.map(item => `
+                        <div class="news-item">
+                            <span class="news-date">${item.date}</span>
+                            <a href="news-detail.html?id=${item.id}">${item.title}</a>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(err => console.error("お知らせ読み込みエラー:", err));
+    }
+
+
+    // 2. 院内写真の横スクロール（スクロール連動アニメーション）処理
+    const camera = document.querySelector('.clinic-camera');
+    const image = document.querySelector('.clinic-image');
+
+    if (camera && image) {
+        window.addEventListener('scroll', function() {
+            const rect = camera.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+
+            // カメラが画面内にあるときだけ計算
+            if (rect.top <= viewHeight && rect.bottom >= 0) {
+                const progress = (viewHeight - rect.top) / (viewHeight + rect.height);
+                const clamped = Math.max(0, Math.min(1, progress));
+                
+                // スクロール量に応じて横方向と拡大率を変化させる
+                const translateX = -50 + (clamped - 0.5) * 30; // 横移動
+                const scale = 0.85 + clamped * 0.15; // 拡大・縮小
+
+                image.style.transform = `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
+            }
+        });
+    }
+
+
+    // 3. 担当医表の自動生成 ＆ ボタン切り替え処理
     Promise.all([
         fetch("doctors.html").then(res => res.text()),
         fetch("doctors.json").then(res => res.json())
@@ -882,7 +944,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(err => console.error("担当医表データ読み込みエラー:", err));
 
-    // 2. ボタンを押している間（または長押し中）だけ表を切り替える処理
+    // ボタンを押している間の切り替え処理
     function setupToggleEvents() {
         const btn = document.getElementById("toggle-doctors-btn");
         const container = document.getElementById("schedule-container");
