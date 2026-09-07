@@ -1253,3 +1253,17 @@ footer a:hover{
     display: block;
     text-align: center;
 }
+/* ==================================================
+   曜日行（ヘッダー）の背景色を統一する調整
+================================================== */
+
+/* ベース表の曜日ヘッダーの背景色を固定する */
+.schedule th {
+    background-color: #6b7c96; /* お好みの背景色（今の青っぽい色など）に調整してください */
+    color: #ffffff;
+}
+
+/* オーバーレイ表側の曜日ヘッダーは完全に透明にして、下のベース表の曜日を綺麗に見せる */
+#doctors-overlay-table.table-overlay th {
+    background-color: transparent !important;
+}
