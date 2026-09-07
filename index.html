@@ -101,7 +101,7 @@
 
 
 <!-- ==================================================
-     お知らせカード（ご提示いただいた元の構造・リンクを完全に維持）
+     お知らせカード
 ================================================== -->
 
 <div class="news-card">
@@ -427,7 +427,7 @@
 
 
 <!-- ==================================================
-     お知らせ（下部セクション）
+     お知らせ（下部セクション ＆ 過去のお知らせリンク）
 ================================================== -->
 
 <section
@@ -443,6 +443,15 @@
 <div class="news-list"></div>
 
 </section>
+
+
+<p class="news-detail-note">
+
+    <a href="news.html" class="news-archive-link">
+        ※ 過去のお知らせ一覧はこちら
+    </a>
+
+</p>
 
 
 <!-- ==================================================
@@ -826,7 +835,7 @@ Googleマップで見る
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // スムーズスクロール（「※ 詳細はクリック」の #news リンク等にも対応）
+    // スムーズスクロール
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
