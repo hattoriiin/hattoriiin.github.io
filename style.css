@@ -376,21 +376,16 @@ header::before{
 
 
 /* ==================================================
-   診療時間表・担当医表（CSS Gridによる確実な完全重ね合わせ版）
+   診療時間表・担当医表（完全入れ替え方式）
 ================================================== */
 
 .schedule-overlay-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
     width: 100%;
     margin-top: 1.2rem;
 }
 
-/* 2枚のテーブルを同じGridセルに完全に重ねる */
+/* 共通のテーブル基本設定 */
 .schedule-overlay-container table.schedule {
-    grid-column: 1;
-    grid-row: 1;
     width: 100% !important;
     table-layout: fixed !important;
     border-collapse: collapse !important;
@@ -403,36 +398,22 @@ header::before{
     background: #fff;
 }
 
-/* ベーステーブル（通常の診療時間表） */
+/* 1. 通常時はベース表を表示し、担当医表は完全に隠す */
 .schedule-overlay-container table.table-schedule-base {
-    z-index: 1;
+    display: table !important;
 }
 
-/* オーバーレイテーブル（担当医用：Grid上で真上に重ねる） */
 .schedule-overlay-container table.table-overlay {
-    z-index: 2;
-    background: transparent !important;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
+    display: none !important;
 }
 
-/* アクティブ時に手前へ表示し、タッチ操作を有効化 */
+/* 2. 「担当医はこちら」が押されて .is-active がついたとき：担当医表を表示し、ベース表を隠す */
 .schedule-overlay-container table.table-overlay.is-active {
-    opacity: 1 !important;
-    pointer-events: auto !important;
+    display: table !important;
 }
 
-/* オーバーレイ側の「一番上の曜日行（th）」と「左端の列（td:first-child）」は透明にして下のベース表を見せる */
-.schedule-overlay-container table.table-overlay tr:first-child th,
-.schedule-overlay-container table.table-overlay td:first-child {
-    background-color: transparent !important;
-    color: transparent !important;
-}
-
-/* 先生の名前が入るデータセル（tdの2列目以降）だけ白背景にして下のマークを隠す */
-.schedule-overlay-container table.table-overlay td:not(:first-child) {
-    background-color: #ffffff !important;
+.schedule-overlay-container:has(table.table-overlay.is-active) table.table-schedule-base {
+    display: none !important;
 }
 
 
