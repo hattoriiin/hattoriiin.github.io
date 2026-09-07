@@ -1235,3 +1235,11 @@ table.schedule td:not(:first-child) {
     text-align: center !important;
     padding: 8px 0 !important;
 }
+/* 診療時間テーブルの曜日ヘッダー行の背景色を元に戻す */
+table.schedule tr:first-child th {
+    background-color: #f2f2f2; /* 元のデザインに合わせた背景色を指定してください（例: 薄いグレーや指定のカラー） */
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px 0;
+}
