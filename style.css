@@ -1128,3 +1128,64 @@ footer a:hover{
     display: block;
     text-align: center;
 }
+
+/* ==================================================
+   診療時間表・担当医表（完全独立入れ替え方式）
+================================================== */
+
+.schedule-overlay-container {
+    width: 100%;
+    margin-top: 1.2rem;
+}
+
+/* 共通のテーブル基本設定 */
+.schedule-overlay-container table.schedule {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(40,80,80,.08);
+    background: #fff;
+}
+
+/* 1. 通常時はベース表を表示し、担当医表は完全に非表示 */
+.schedule-overlay-container table.table-schedule-base {
+    display: table !important;
+}
+
+.schedule-overlay-container table.table-overlay {
+    display: none !important;
+}
+
+/* 2. ボタンが押されてコンテナに .is-active がついたとき：ベース表を隠し、担当医表を表示 */
+.schedule-overlay-container.is-active table.table-schedule-base {
+    display: none !important;
+}
+
+.schedule-overlay-container.is-active table.table-overlay {
+    display: table !important;
+}
+
+/* セル共通の規定 */
+.schedule th,
+.schedule td{
+    border-bottom:1px solid #ddd;
+    padding:4px 0 !important;
+    text-align:center;
+    font-size:.85rem;
+    line-height:1.4;
+    vertical-align:middle;
+    box-sizing:border-box !important;
+}
+
+.schedule tr:first-child {
+    height: 42px !important;
+}
+
+.schedule tr:not(:first-child) {
+    height: 72px !important;
+}
