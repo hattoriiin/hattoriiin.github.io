@@ -376,15 +376,16 @@ header::before{
 
 
 /* ==================================================
-   診療時間表・担当医表（完全入れ替え方式）
+   診療時間表・担当医表（完全検証済み・安全入れ替え方式）
 ================================================== */
 
+/* 1. 大元のコンテナ設定 */
 .schedule-overlay-container {
     width: 100%;
     margin-top: 1.2rem;
 }
 
-/* 共通のテーブル基本設定 */
+/* 2. 両方のテーブル共通の基本デザイン */
 .schedule-overlay-container table.schedule {
     width: 100% !important;
     table-layout: fixed !important;
@@ -398,7 +399,7 @@ header::before{
     background: #fff;
 }
 
-/* 1. 通常時はベース表を表示し、担当医表は完全に隠す */
+/* 3. 【通常時】ベース表を表示し、担当医表は完全に非表示にする */
 .schedule-overlay-container table.table-schedule-base {
     display: table !important;
 }
@@ -407,21 +408,21 @@ header::before{
     display: none !important;
 }
 
-/* 2. 「担当医はこちら」が押されて .is-active がついたとき：担当医表を表示し、ベース表を隠す */
-.schedule-overlay-container table.table-overlay.is-active {
-    display: table !important;
-}
-
-.schedule-overlay-container:has(table.table-overlay.is-active) table.table-schedule-base {
+/* 4. 【切り替え時】コンテナに .is-active がついたとき：ベース表を隠し、担当医表を表示する */
+.schedule-overlay-container.is-active table.table-schedule-base {
     display: none !important;
 }
 
-/* 担当医表が表示されたとき、その中の曜日や左端の項目もしっかり表示させる */
-.schedule-overlay-container table.table-overlay.is-active th,
-.schedule-overlay-container table.table-overlay.is-active td {
-    color: inherit !important;
+.schedule-overlay-container.is-active table.table-overlay {
+    display: table !important;
 }
 
+/* 5. 担当医表側の文字や曜日が確実に表示されるための保険設定 */
+.schedule-overlay-container.is-active table.table-overlay th,
+.schedule-overlay-container.is-active table.table-overlay td {
+    background-color: #fff !important;
+    color: inherit !important;
+}
 
 /* ==================================================
    診療時間表・担当医表（装飾・セル規定）
