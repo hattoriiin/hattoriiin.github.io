@@ -416,6 +416,12 @@ header::before{
     display: none !important;
 }
 
+/* 担当医表が表示されたとき、その中の曜日や左端の項目もしっかり表示させる */
+.schedule-overlay-container table.table-overlay.is-active th,
+.schedule-overlay-container table.table-overlay.is-active td {
+    color: inherit !important;
+}
+
 
 /* ==================================================
    診療時間表・担当医表（装飾・セル規定）
