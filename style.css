@@ -1189,3 +1189,26 @@ footer a:hover{
 .schedule tr:not(:first-child) {
     height: 72px !important;
 }
+/* 診療時間テーブル全体の幅をしっかり100%にする */
+table.schedule {
+    width: 100% !important;
+    table-layout: fixed !important; /* 各列の幅を均等に固定し、崩れを防ぐ */
+    border-collapse: collapse;
+}
+
+/* 左端の時間・診療形態が入る列（1列目）の幅を確保 */
+table.schedule th:first-child,
+table.schedule td:first-child {
+    width: 26% !important;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 6px 2px !important;
+}
+
+/* 月〜土の曜日列の幅を均等に割り振る */
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+    width: 12% !important;
+    text-align: center !important;
+    padding: 6px 0 !important;
+}
