@@ -122,8 +122,8 @@
 
 <p class="news-detail-note">
 
-    <a href="#news" class="smooth-scroll-link">
-        ※ 詳細はクリック
+    <a href="news.html" class="news-archive-link">
+        ※ 過去のお知らせ一覧はこちら
     </a>
 
 </p>
@@ -821,12 +821,12 @@ Googleマップで見る
 
 
 <!-- ==================================================
-     JavaScript（お知らせ・院内写真・担当医表まとめ）
+     JavaScript
 ================================================== -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 0. お知らせへのフワッとしたスムーズスクロール設定
+    // スムーズスクロール
     document.querySelectorAll('a.smooth-scroll-link').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -841,7 +841,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 1. お知らせ一覧・プレビューの読み込み処理（最新3件をプレビュー＆詳細へリンク）
+    // お知らせ（プレビュー3件 ＆ 詳細表示セクション3件）
     const newsListContainer = document.querySelector('.news-list');
     const newsPreviewList = document.querySelector('.news-preview-list');
 
@@ -862,12 +862,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     `).join('');
                 }
 
-                // 一覧（全件セクション用）
+                // 一覧セクション（最新3件、詳細内容をすべて表示）
                 if (newsListContainer) {
-                    newsListContainer.innerHTML = newsData.map(item => `
+                    const listItems = newsData.slice(0, 3);
+                    newsListContainer.innerHTML = listItems.map(item => `
                         <div class="news-item">
                             <span class="news-date">${item.date}</span>
                             <a href="news.html">${item.title}</a>
+                            ${item.body ? `<p class="news-body">${item.body}</p>` : ''}
                         </div>
                     `).join('');
                 }
@@ -875,8 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(err => console.error("お知らせ読み込みエラー:", err));
     }
 
-
-    // 2. 院内写真の横スクロール（スクロール連動アニメーション）処理
+    // 院内写真の横スクロール
     const camera = document.querySelector('.clinic-camera');
     const image = document.querySelector('.clinic-image');
 
@@ -897,8 +898,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-    // 3. 担当医表の自動生成 ＆ ボタン長押し・タップ切り替え処理
+    // 担当医表の自動生成 ＆ 切り替え処理
     Promise.all([
         fetch("doctors.html").then(res => res.text()),
         fetch("doctors.json").then(res => res.json())
@@ -911,10 +911,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const doc = parser.parseFromString(htmlText, "text/html");
         const overlayTable = doc.querySelector("table");
 
-        if (!overlayTable) {
-            console.error("doctors.html 内に <table> が見つかりません。");
-            return;
-        }
+        if (!overlayTable) return;
 
         overlayTable.id = "doctors-overlay-table";
         overlayTable.classList.add("schedule", "table-overlay");
