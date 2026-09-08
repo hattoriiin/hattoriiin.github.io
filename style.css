@@ -25,6 +25,7 @@ main{
     max-width:900px;
     margin:auto;
     padding:1.5rem;
+    padding-bottom:130px; /* 固定電話ボタンとコンテンツの重なりを確実に防止する余白 */
     background:#fff;
 }
 
@@ -376,17 +377,16 @@ header::before{
 
 
 /* ==================================================
-   診療時間表・担当医表（完全検証済み・安全入れ替え方式）
+   診療時間表・担当医表（完全制御レイアウト）
 ================================================== */
 
-/* 1. 大元のコンテナ設定 */
 .schedule-overlay-container {
     width: 100%;
     margin-top: 1.2rem;
 }
 
-/* 2. 両方のテーブル共通の基本デザイン */
-.schedule-overlay-container table.schedule {
+/* テーブル全体の設定：幅100%、列幅固定（fixed）、角丸＆シャドウ */
+table.schedule {
     width: 100% !important;
     table-layout: fixed !important;
     border-collapse: collapse !important;
@@ -399,7 +399,50 @@ header::before{
     background: #fff;
 }
 
-/* 3. 【通常時】ベース表を表示し、担当医表は完全に非表示にする */
+/* 1列目（午前診療・訪問・午後診療のラベル列）：幅を広く取って読みやすく */
+table.schedule th:first-child,
+table.schedule td:first-child {
+    width: 34% !important;
+    text-align: left !important;
+    white-space: normal;
+    padding: 8px 6px !important;
+}
+
+/* 2列目以降（月〜土の曜日列）：幅をギュッと縮めて均等に配置 */
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+    width: 11% !important;
+    text-align: center !important;
+    padding: 8px 0 !important;
+}
+
+/* 曜日ヘッダー行（1行目）の配色：ご希望の落ち着いた紺色デザイン */
+table.schedule tr:first-child th {
+    background-color: #31556e !important;
+    color: #fff !important;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* セル共通の基本規定・高さ固定 */
+.schedule th,
+.schedule td{
+    border-bottom:1px solid #ddd;
+    font-size:.85rem;
+    line-height:1.4;
+    vertical-align:middle;
+    box-sizing:border-box !important;
+}
+
+.schedule tr:first-child {
+    height: 42px !important;
+}
+
+.schedule tr:not(:first-child) {
+    height: 72px !important;
+}
+
+/* 表の切り替え制御（ベース表 ⇔ 担当医表） */
 .schedule-overlay-container table.table-schedule-base {
     display: table !important;
 }
@@ -408,7 +451,6 @@ header::before{
     display: none !important;
 }
 
-/* 4. 【切り替え時】コンテナに .is-active がついたとき：ベース表を隠し、担当医表を表示する */
 .schedule-overlay-container.is-active table.table-schedule-base {
     display: none !important;
 }
@@ -417,35 +459,16 @@ header::before{
     display: table !important;
 }
 
-/* 5. 担当医表側の文字や曜日が確実に表示されるための保険設定 */
 .schedule-overlay-container.is-active table.table-overlay th,
 .schedule-overlay-container.is-active table.table-overlay td {
     background-color: #fff !important;
     color: inherit !important;
 }
 
-/* ==================================================
-   診療時間表・担当医表（装飾・セル規定）
-================================================== */
-
-.schedule th,
-.schedule td{
-    border-bottom:1px solid #ddd;
-    padding:4px 0 !important;
-    text-align:center;
-    font-size:.85rem;
-    line-height:1.4;
-    vertical-align:middle;
-    box-sizing:border-box !important;
-}
-
-/* 各行の高さを完全に固定して上下のズレを完全に防止 */
-.schedule tr:first-child {
-    height: 42px !important;
-}
-
-.schedule tr:not(:first-child) {
-    height: 72px !important;
+/* 曜日ヘッダー部分の背景色は上書きされないよう維持 */
+.schedule-overlay-container.is-active table.table-overlay tr:first-child th {
+    background-color: #31556e !important;
+    color: #fff !important;
 }
 
 
@@ -598,6 +621,10 @@ header::before{
 .online-note a{
     color:#4d7d98;
     text-decoration:none;
+}
+
+.reception-note {
+    margin-bottom: 20px;
 }
 
 
@@ -1127,119 +1154,4 @@ footer a:hover{
 .doctor-empty {
     display: block;
     text-align: center;
-}
-
-/* ==================================================
-   診療時間表・担当医表（完全独立入れ替え方式）
-================================================== */
-
-.schedule-overlay-container {
-    width: 100%;
-    margin-top: 1.2rem;
-}
-
-/* 共通のテーブル基本設定 */
-.schedule-overlay-container table.schedule {
-    width: 100% !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 14px rgba(40,80,80,.08);
-    background: #fff;
-}
-
-/* 1. 通常時はベース表を表示し、担当医表は完全に非表示 */
-.schedule-overlay-container table.table-schedule-base {
-    display: table !important;
-}
-
-.schedule-overlay-container table.table-overlay {
-    display: none !important;
-}
-
-/* 2. ボタンが押されてコンテナに .is-active がついたとき：ベース表を隠し、担当医表を表示 */
-.schedule-overlay-container.is-active table.table-schedule-base {
-    display: none !important;
-}
-
-.schedule-overlay-container.is-active table.table-overlay {
-    display: table !important;
-}
-
-/* セル共通の規定 */
-.schedule th,
-.schedule td{
-    border-bottom:1px solid #ddd;
-    padding:4px 0 !important;
-    text-align:center;
-    font-size:.85rem;
-    line-height:1.4;
-    vertical-align:middle;
-    box-sizing:border-box !important;
-}
-
-.schedule tr:first-child {
-    height: 42px !important;
-}
-
-.schedule tr:not(:first-child) {
-    height: 72px !important;
-}
-/* 診療時間テーブル全体の幅をしっかり100%にする */
-table.schedule {
-    width: 100% !important;
-    table-layout: fixed !important; /* 各列の幅を均等に固定し、崩れを防ぐ */
-    border-collapse: collapse;
-}
-
-/* 左端の時間・診療形態が入る列（1列目）の幅を確保 */
-table.schedule th:first-child,
-table.schedule td:first-child {
-    width: 26% !important;
-    white-space: nowrap;
-    font-size: 0.9rem;
-    padding: 6px 2px !important;
-}
-
-/* 月〜土の曜日列の幅を均等に割り振る */
-table.schedule th:not(:first-child),
-table.schedule td:not(:first-child) {
-    width: 12% !important;
-    text-align: center !important;
-    padding: 6px 0 !important;
-}
-/* 診療時間テーブル全体の幅設定 */
-table.schedule {
-    width: 100% !important;
-    table-layout: fixed !important;
-    border-collapse: collapse;
-}
-
-/* 左1列（午前診療・訪問・午後診療のラベル列）：幅をしっかり広げて読みやすくする */
-table.schedule th:first-child,
-table.schedule td:first-child {
-    width: 34% !important; /* 左側の幅を広げる */
-    white-space: normal;   /* 必要に応じて折り返しを許可 */
-    text-align: left;      /* ラベルは左寄せで読みやすく */
-    padding: 8px 6px !important;
-}
-
-/* 月〜土の曜日列：間隔を縮めて均等に配置する */
-table.schedule th:not(:first-child),
-table.schedule td:not(:first-child) {
-    width: 11% !important; /* 残りの幅を6等分して均等にする */
-    text-align: center !important;
-    padding: 8px 0 !important;
-}
-/* 診療時間テーブルの曜日ヘッダー行の背景色を元に戻す */
-table.schedule tr:first-child th {
-    background-color: #f2f2f2; /* 元のデザインに合わせた背景色を指定してください（例: 薄いグレーや指定のカラー） */
-    color: #333;
-    font-weight: bold;
-    text-align: center;
-    padding: 8px 0;
 }
