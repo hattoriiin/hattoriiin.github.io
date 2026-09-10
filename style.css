@@ -1155,3 +1155,79 @@ footer a:hover{
     display: block;
     text-align: center;
 }
+
+/* ==================================================
+     診療時間時計のモーダル＆ボタン用スタイル
+================================================== */
+
+/* セクション最後尾のボタン配置エリア */
+.schedule-clock-area {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 長押しボタンの見た目 */
+.clock-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.clock-btn.active,
+.clock-btn:active {
+    background-color: #e2e8f0;
+}
+
+/* 時計を表示するモーダル（背景オーバーレイ） */
+.clock-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* 非表示時は下の表の操作を邪魔しない */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 長押しされて表示中の状態 */
+.clock-modal.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ★時計を収める「丸い」背景ボックス */
+.clock-modal-content {
+    width: 280px;
+    height: 280px;
+    background: #fff;
+    border-radius: 50%; /* これで完全に丸くなります */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.clock-modal.is-active .clock-modal-content {
+    transform: scale(1);
+}
+
+/* 内部に埋め込むiframe */
+.clock-modal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
