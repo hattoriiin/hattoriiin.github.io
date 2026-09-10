@@ -515,3 +515,37 @@ function setupToggleEvents() {
   btn.addEventListener("touchend", hideOverlay);
   btn.addEventListener("touchcancel", hideOverlay);
 }
+
+/*
+ * ==================================================
+ * 診療時間時計（clock.claude.html）の長押し表示・非表示制御
+ * ==================================================
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('clockBtn');
+    const modal = document.getElementById('clockModal');
+
+    if (!btn || !modal) return;
+
+    function showClock(e) {
+        if (e) e.preventDefault();
+        modal.classList.add('is-active');
+        btn.classList.add('active');
+    }
+
+    function hideClock() {
+        modal.classList.remove('is-active');
+        btn.classList.remove('active');
+    }
+
+    // パソコン用（マウス操作）
+    btn.addEventListener("mousedown", showClock);
+    window.addEventListener("mouseup", hideClock);
+    btn.addEventListener("mouseleave", hideClock);
+
+    // スマホ・タブレット用（タッチ操作）
+    btn.addEventListener("touchstart", showClock, { passive: false });
+    window.addEventListener("touchend", hideClock);
+    window.addEventListener("touchcancel", hideClock);
+});
+
