@@ -521,7 +521,7 @@ function setupToggleEvents() {
  * 診療時間時計（clock.claude.html）の長押し表示・非表示制御
  * ==================================================
  */
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
     const btn = document.getElementById('clockBtn');
     const modal = document.getElementById('clockModal');
 
@@ -547,5 +547,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener("touchstart", showClock, { passive: false });
     window.addEventListener("touchend", hideClock);
     window.addEventListener("touchcancel", hideClock);
-});
+})();
+
 
