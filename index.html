@@ -581,6 +581,11 @@
 <button type="button" id="toggle-doctors-btn">担当医はこちら</button>
 </p>
 
+<!-- ★ ここに長押し用の時計ボタンを追加しました -->
+<div class="schedule-clock-area">
+    <button type="button" id="clockBtn" class="clock-btn">診療時間時計（長押し）</button>
+</div>
+
 <p class="online-note">
 <a href="online.html">
     ※ オンライン診療</a>は予約制となります
@@ -590,14 +595,6 @@
 ※ 外来診療の受付時間<br>
 診療開始15分前から診療時間終了30分前まで
 </p>
-
-<!-- ▼ セクションの最後に置く「長押しボタン」と「時計のモーダル」 ▼ -->
-<div class="schedule-clock-area">
-    <button type="button" id="clockBtn" class="clock-btn">｛長押しで診療時間時計🕐表示｝</button>
-</div>
-
-
-
 
 </section>
 
@@ -989,6 +986,35 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener("touchstart", showOverlay, { passive: false });
         btn.addEventListener("touchend", hideOverlay);
         btn.addEventListener("touchcancel", hideOverlay);
+    }
+
+    // ★ 診療時間時計（clock.claude.html）の長押し表示・非表示制御
+    const clockBtn = document.getElementById('clockBtn');
+    const clockModal = document.getElementById('clockModal');
+
+    if (clockBtn && clockModal) {
+        function showClock(e) {
+            if (e) e.preventDefault();
+            clockModal.classList.add('is-active');
+            clockBtn.classList.add('active');
+        }
+
+        function hideClock(e) {
+            if (e) e.preventDefault();
+            clockModal.classList.remove('is-active');
+            clockBtn.classList.remove('active');
+        }
+
+        clockBtn.addEventListener("mousedown", showClock);
+        window.addEventListener("mouseup", hideClock);
+        clockBtn.addEventListener("mouseleave", hideClock);
+
+        clockBtn.addEventListener("touchstart", function(e) {
+            showClock(e);
+        }, { passive: false });
+
+        window.addEventListener("touchend", hideClock);
+        window.addEventListener("touchcancel", hideClock);
     }
 
 });
