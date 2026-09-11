@@ -1156,15 +1156,13 @@ footer a:hover{
     text-align: center;
 }
 
-/* ★時計を収める四角い背景ボックス（約80%の透過） */
+/* ★時計を収める四角い背景ボックス */
 .clock-modal-content {
-    width: 320px;
-    height: 360px;
-    background: rgba(255, 255, 255, 0.8) !important; /* 白を80%の不透明度（20%透過）にする */
+    width: 280px;
+    height: 280px;
+    background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    isolation: isolate;
     
     margin: auto; 
     transform: scale(0.95);
