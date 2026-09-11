@@ -41,31 +41,7 @@
     background-color: #e2e6ea;
     border-color: #adb5bd;
 }
-.clock-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-}
-.clock-modal.is-active {
-    display: flex;
-}
-.clock-modal-content {
-    width: 90%;
-    max-width: 400px;
-    height: 80%;
-    max-height: 500px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
+/* iframeを丸いコンテナ内に綺麗に収める設定 */
 .clock-modal-content iframe {
     width: 100%;
     height: 100%;
@@ -1047,8 +1023,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const clockModal = document.getElementById('clockModal');
 
     if (clockBtn && clockModal) {
-        let pressTimer = null;
-
         function showClock(e) {
             if (e) e.preventDefault();
             clockModal.classList.add('is-active');
@@ -1061,21 +1035,17 @@ document.addEventListener('DOMContentLoaded', function() {
             clockBtn.classList.remove('active');
         }
 
-        // スマホの長押し（タッチ開始から少し長めに押す、またはシンプルに長押し判定）
         clockBtn.addEventListener("touchstart", function(e) {
-            // すぐ開くのではなく、長押し感を持たせるか、あるいは即座に開く挙動にするか
             showClock(e);
         }, { passive: false });
 
         clockBtn.addEventListener("touchend", hideClock);
         clockBtn.addEventListener("touchcancel", hideClock);
 
-        // PC用のマウス操作対応
         clockBtn.addEventListener("mousedown", showClock);
         window.addEventListener("mouseup", hideClock);
         clockBtn.addEventListener("mouseleave", hideClock);
         
-        // モーダル背景クリックでも閉じられるようにする親切設計
         clockModal.addEventListener("click", function(e) {
             if (e.target === clockModal) {
                 hideClock();
@@ -1086,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- 診療時間時計用モーダル -->
+<!-- 診療時間時計用モーダル（style.css側の定義を利用） -->
 <div id="clockModal" class="clock-modal">
     <div class="clock-modal-content">
         <iframe src="https://hattoriiin.github.io/clock.claude.html" title="診療時間時計"></iframe>
