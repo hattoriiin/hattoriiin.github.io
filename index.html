@@ -581,11 +581,6 @@
 <button type="button" id="toggle-doctors-btn">担当医はこちら</button>
 </p>
 
-<!-- 診療時間時計の起動ボタン（担当医ボタンと同じテイストで配置） -->
-<p class="doctors-note">
-<button type="button" id="clockBtn" class="doctors-note button clock-btn" style="background-color: #f8f9fa; border: 1px solid #ccc; color: #333; padding: 8px 16px; border-radius: 4px; cursor: pointer;">診療時間時計（長押し）</button>
-</p>
-
 <p class="online-note">
 <a href="online.html">
     ※ オンライン診療</a>は予約制となります
@@ -988,44 +983,8 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener("touchcancel", hideOverlay);
     }
 
-    // 診療時間時計（clock.claude.html）の長押し表示・非表示制御
-    const clockBtn = document.getElementById('clockBtn');
-    const clockModal = document.getElementById('clockModal');
-
-    if (clockBtn && clockModal) {
-        function showClock(e) {
-            if (e) e.preventDefault();
-            clockModal.classList.add('is-active');
-            clockBtn.classList.add('active');
-        }
-
-        function hideClock(e) {
-            if (e) e.preventDefault();
-            clockModal.classList.remove('is-active');
-            clockBtn.classList.remove('active');
-        }
-
-        clockBtn.addEventListener("mousedown", showClock);
-        window.addEventListener("mouseup", hideClock);
-        clockBtn.addEventListener("mouseleave", hideClock);
-
-        clockBtn.addEventListener("touchstart", function(e) {
-            showClock(e);
-        }, { passive: false });
-
-        window.addEventListener("touchend", hideClock);
-        window.addEventListener("touchcancel", hideClock);
-    }
-
 });
 </script>
-
-<!-- 診療時間時計用モーダルオーバーレイ -->
-<div id="clockModal" class="clock-modal">
-    <div class="clock-modal-content">
-        <iframe src="https://hattoriiin.github.io/clock.claude.html" title="診療時間時計"></iframe>
-    </div>
-</div>
 
 </body>
 
