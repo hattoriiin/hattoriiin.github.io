@@ -581,10 +581,10 @@
 <button type="button" id="toggle-doctors-btn">担当医はこちら</button>
 </p>
 
-<!-- ★ ここに長押し用の時計ボタンを追加しました -->
-<div class="schedule-clock-area">
-    <button type="button" id="clockBtn" class="clock-btn">診療時間時計（長押し）</button>
-</div>
+<!-- 診療時間時計の起動ボタン（担当医ボタンと同じテイストで配置） -->
+<p class="doctors-note">
+<button type="button" id="clockBtn" class="doctors-note button clock-btn" style="background-color: #f8f9fa; border: 1px solid #ccc; color: #333; padding: 8px 16px; border-radius: 4px; cursor: pointer;">診療時間時計（長押し）</button>
+</p>
 
 <p class="online-note">
 <a href="online.html">
@@ -988,7 +988,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener("touchcancel", hideOverlay);
     }
 
-    // ★ 診療時間時計（clock.claude.html）の長押し表示・非表示制御
+    // 診療時間時計（clock.claude.html）の長押し表示・非表示制御
     const clockBtn = document.getElementById('clockBtn');
     const clockModal = document.getElementById('clockModal');
 
@@ -1020,6 +1020,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- 診療時間時計用モーダルオーバーレイ -->
 <div id="clockModal" class="clock-modal">
     <div class="clock-modal-content">
         <iframe src="https://hattoriiin.github.io/clock.claude.html" title="診療時間時計"></iframe>
