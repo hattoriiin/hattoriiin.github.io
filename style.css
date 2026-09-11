@@ -1156,7 +1156,9 @@ footer a:hover{
     text-align: center;
 }
 
-/* 時計を表示するモーダル（背景オーバーレイ） */
+/* ==================================================
+   時計モーダル全体（背景の黒い幕・中央配置・非表示の制御）
+================================================== */
 .clock-modal {
     position: fixed;
     top: 0;
@@ -1176,7 +1178,7 @@ footer a:hover{
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* 長押しされて表示中の状態 */
+/* 長押しなどでモーダルが開いたときの状態 */
 .clock-modal.is-active {
     display: flex;
     opacity: 1;
@@ -1184,10 +1186,14 @@ footer a:hover{
     pointer-events: auto;
 }
 
-/* ★時計を収める四角い背景ボックス（約80%の透過） */
+/* ==================================================
+   時計を収める背景ボックス（スマホのサイズに合わせて自動調整）
+================================================== */
 .clock-modal-content {
-    width: 280px;
-    height: 280px;
+    width: 85%;          /* 画面の横幅に対して85%のサイズにする */
+    max-width: 320px;    /* 大きくなりすぎないよう最大でも320pxに制限 */
+    height: auto;        /* 高さは中身に合わせて自動調整 */
+    min-height: 320px;   /* 最低限の高さを確保 */
     background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -1198,6 +1204,7 @@ footer a:hover{
     transition: transform 0.3s ease;
 }
 
+/* モーダルが開いたときのボックスの拡大アニメーション */
 .clock-modal.is-active .clock-modal-content {
     transform: scale(1);
 }
