@@ -1163,9 +1163,8 @@ footer a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.75); /* 背景をより濃くして後ろの文字を完全に遮蔽する */
     
-    /* 以下を追加・修正して、完全に画面の中央に固定する */
     display: none;
     justify-content: center;
     align-items: center;
@@ -1179,7 +1178,7 @@ footer a:hover{
 
 /* 長押しされて表示中の状態 */
 .clock-modal.is-active {
-    display: flex; /* 開くときだけflexにする */
+    display: flex;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -1194,7 +1193,6 @@ footer a:hover{
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     
-    /* ズレを防ぐためマージンをリセットし、中央配置を安定させる */
     margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
