@@ -517,8 +517,9 @@ function setupToggleEvents() {
 }
 
 /*
+/*
  * ==================================================
- * 診療時間時計（clock.claude.html）の長押し表示・非表示制御
+ * 診療時間時計（動作テスト用：タップで開閉）
  * ==================================================
  */
 (function() {
@@ -527,26 +528,9 @@ function setupToggleEvents() {
 
     if (!btn || !modal) return;
 
-    function showClock(e) {
-        if (e) e.preventDefault();
-        modal.classList.add('is-active');
-        btn.classList.add('active');
-    }
-
-    function hideClock() {
-        modal.classList.remove('is-active');
-        btn.classList.remove('active');
-    }
-
-    // パソコン用（マウス操作）
-    btn.addEventListener("mousedown", showClock);
-    window.addEventListener("mouseup", hideClock);
-    btn.addEventListener("mouseleave", hideClock);
-
-    // スマホ・タブレット用（タッチ操作）
-    btn.addEventListener("touchstart", showClock, { passive: false });
-    window.addEventListener("touchend", hideClock);
-    window.addEventListener("touchcancel", hideClock);
-})();
-
-
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        modal.classList.toggle('is-active');
+        btn.classList.toggle('active');
+    });
+});
