@@ -519,18 +519,42 @@ function setupToggleEvents() {
 /*
 /*
  * ==================================================
- * 診療時間時計（動作テスト用：タップで開閉）
+ * 診療時間時計モーダルの開閉制御
  * ==================================================
  */
-(function() {
-    const btn = document.getElementById('clockBtn');
-    const modal = document.getElementById('clockModal');
+const clockBtn = document.getElementById('clockBtn');
+const clockModal = document.getElementById('clockModal');
 
-    if (!btn || !modal) return;
+if (clockBtn && clockModal) {
+    function showClock(e) {
+        if (e) e.preventDefault();
+        clockModal.classList.add('is-active');
+        clockBtn.classList.add('active');
+    }
 
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        modal.classList.toggle('is-active');
-        btn.classList.toggle('active');
+    function hideClock(e) {
+        if (e) e.preventDefault();
+        clockModal.classList.remove('is-active');
+        clockBtn.classList.remove('active');
+    }
+
+    // スマホのタッチ操作
+    clockBtn.addEventListener("touchstart", function(e) {
+        showClock(e);
+    }, { passive: false });
+
+    clockBtn.addEventListener("touchend", hideClock);
+    clockBtn.addEventListener("touchcancel", hideClock);
+
+    // PCのマウス操作
+    clockBtn.addEventListener("mousedown", showClock);
+    window.addEventListener("mouseup", hideClock);
+    clockBtn.addEventListener("mouseleave", hideClock);
+    
+    // モーダル背景クリックで閉じる
+    clockModal.addEventListener("click", function(e) {
+        if (e.target === clockModal) {
+            hideClock();
+        }
     });
-});
+}
