@@ -1155,7 +1155,7 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（背景をほぼ透明に）
+   時計を表示するモーダル（背景オーバーレイ）
 ================================================== */
 .clock-modal {
     position: fixed;
@@ -1163,7 +1163,7 @@ footer a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.05) !important; /* 周囲の暗さをほぼ無くし、薄っすら見える程度にする */
+    background-color: transparent !important; /* 周囲は完全に透明（またはごく薄い膜） */
     
     display: none;
     justify-content: center;
@@ -1185,22 +1185,22 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める正方形の白いカード（透過率80〜85%、大きく表示）
+   時計を収める正方形の白いカード（95%サイズ、透過率85%、細いグレー枠線）
 ================================================== */
 .clock-modal-content {
-    /* 縦横のサイズを限界まで拡大（画面の95%） */
+    /* 縦横どちらの画面でも95%サイズ（スマホ横画面の縦幅95%にも対応） */
     width: min(95vw, 95vh);
     height: min(95vw, 95vh);
     max-width: none;
     max-height: none;
     
-    background: rgba(255, 255, 255, 0.82) !important; /* 透過率約82%（診療時間が薄っすら見える） */
+    background: rgba(255, 255, 255, 0.85) !important; /* ご指定の透過率85%（裏の表が薄っすら見える） */
     border: 1px solid rgba(0, 0, 0, 0.15); /* クリアな白を引き立てる細いグレーの枠線 */
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     
     position: relative;
-    overflow: hidden; /* はみ出た部分を切り取る */
+    overflow: hidden; /* はみ出た部分を確実にカット */
     margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
@@ -1211,13 +1211,14 @@ footer a:hover{
     transform: scale(1);
 }
 
-/* iframeを縦長に拡大し、上の余分なタイトル文字（外来診療・受付時間）がカードの外（上方向）に飛び出て隠れるように位置を調整 */
+/* iframeを大きく拡大し、上部のタイトル文字エリアがカードの枠外へ確実にはみ出るように配置 */
 .clock-modal-content iframe {
     position: absolute;
-    top: -15%; /* 上の文字を上に押し出して隠す */
-    left: 0;
-    width: 100%;
-    height: 130%; /* 高さを広げて時計本体を中央に収める */
+    top: -22%; /* 上に大きく押し出してタイトル文字を見えなくする */
+    left: -10%;
+    width: 120%; /* 左右も少し広げて余白を調整 */
+    height: 140%; /* 高さを広げて時計本体を中央に大きく表示 */
     border: none;
     display: block;
 }
+
