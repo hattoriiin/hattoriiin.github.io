@@ -1208,29 +1208,28 @@ footer a:hover{
     transform: scale(1) !important;
 }
 
-/* ★ここがポイント：カードの上部を覆い隠すカバー（上の文字と二重線を完全に消す） */
+/* ★改善：「ここ不用」の文字と二重線を完全に隠すための白いカバー（高さをしっかり確保） */
 .clock-modal-content::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 18%; /* 上から18%の高さまでをカバーで隠す */
-    background: #ffffff !important; /* 完全に文字を隠すための白（または rgba(255,255,255,0.95)） */
+    height: 24%; /* 上から24%のエリアをしっかり白で隠す */
+    background: rgba(255, 255, 255, 0.95) !important; /* カードと馴染む白 */
     z-index: 5;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 }
 
-/* 中の時計（iframe） */
+/* ★改善：中の時計（iframe）を少し下に下げて、時計全体がカードの中心に大きく収まるように調整 */
 .clock-modal-content iframe {
     position: absolute !important;
-    top: 0 !important;
+    top: 5% !important;   /* 少し下げることで、隠し帯の下に時計が綺麗に収まるようにする */
     left: 0 !important;
     width: 100% !important;
-    height: 100% !important;
+    height: 105% !important;
     border: none !important;
     display: block !important;
     z-index: 1;
 }
-
