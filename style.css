@@ -1155,7 +1155,7 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（外側の背景を「白」にする）
+   時計を表示するモーダル（外側の背景を白にする）
 ================================================== */
 .clock-modal {
     position: fixed !important;
@@ -1163,7 +1163,7 @@ footer a:hover{
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(255, 255, 255, 0.88) !important; /* 外側の背景を白の半透明に */
+    background-color: rgba(255, 255, 255, 0.9) !important;
     
     display: none;
     justify-content: center;
@@ -1192,8 +1192,8 @@ footer a:hover{
     max-width: 520px;
     max-height: 520px;
     
-    background: rgba(255, 255, 255, 0.85) !important; /* カード自体は85%の透過白 */
-    border: 1px solid rgba(0, 0, 0, 0.15) !important; /* 細いグレーの枠線 */
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
     border-radius: 16px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     
@@ -1208,28 +1208,15 @@ footer a:hover{
     transform: scale(1) !important;
 }
 
-/* ★改善：「ここ不用」の文字と二重線を完全に隠すための白いカバー（高さをしっかり確保） */
-.clock-modal-content::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 24%; /* 上から24%のエリアをしっかり白で隠す */
-    background: rgba(255, 255, 255, 0.95) !important; /* カードと馴染む白 */
-    z-index: 5;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
-
-/* ★改善：中の時計（iframe）を少し下に下げて、時計全体がカードの中心に大きく収まるように調整 */
+/* 上の不要なタイトル文字を隠しつつ、時計が上下左右どこも切れないように全体を調整 */
 .clock-modal-content iframe {
     position: absolute !important;
-    top: 5% !important;   /* 少し下げることで、隠し帯の下に時計が綺麗に収まるようにする */
+    top: -15% !important;  /* 上の文字を上に追い出す */
     left: 0 !important;
     width: 100% !important;
-    height: 105% !important;
+    height: 120% !important; /* 高さを確保して下側が切れないようにする */
     border: none !important;
     display: block !important;
-    z-index: 1;
+    transform: scale(0.88);  /* 全体を少し縮小させて、時計全体がカード内にすっぽり収まるようにする */
+    transform-origin: center center;
 }
