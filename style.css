@@ -1155,20 +1155,20 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（背景オーバーレイ）
+   時計を表示するモーダル（外側の背景を「白」にする）
 ================================================== */
 .clock-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparent !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(255, 255, 255, 0.88) !important; /* 外側の背景を白の半透明に */
     
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 2147483647;
+    z-index: 2147483647 !important;
     
     opacity: 0;
     visibility: hidden;
@@ -1177,44 +1177,60 @@ footer a:hover{
 }
 
 .clock-modal.is-active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 }
 
 /* ==================================================
    時計を収める正方形の白いカード（95%サイズ、透過率85%、細いグレー枠線）
 ================================================== */
 .clock-modal-content {
-    width: min(95vw, 95vh);
-    height: min(95vw, 95vh);
-    max-width: none;
-    max-height: none;
+    width: min(95vw, 95vh) !important;
+    height: min(95vw, 95vh) !important;
+    max-width: 520px;
+    max-height: 520px;
     
-    background: rgba(255, 255, 255, 0.85) !important; /* ご指定の透過率85%（裏の表が薄っすら見える） */
-    border: 1px solid rgba(0, 0, 0, 0.15); /* 細いグレーの枠線 */
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.85) !important; /* カード自体は85%の透過白 */
+    border: 1px solid rgba(0, 0, 0, 0.15) !important; /* 細いグレーの枠線 */
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     
-    position: relative;
-    overflow: hidden; /* はみ出た部分を綺麗にカット */
-    margin: auto; 
+    position: relative !important;
+    overflow: hidden !important;
+    margin: auto !important; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
 }
 
 .clock-modal.is-active .clock-modal-content {
-    transform: scale(1);
+    transform: scale(1) !important;
 }
 
-/* iframeの位置と大きさを調整：上の文字だけを隠し、時計本体はカードの中央に収める */
-.clock-modal-content iframe {
+/* ★ここがポイント：カードの上部を覆い隠すカバー（上の文字と二重線を完全に消す） */
+.clock-modal-content::before {
+    content: "";
     position: absolute;
-    top: -8%;   /* 上の文字だけが少し隠れる絶妙な位置に調整 */
+    top: 0;
     left: 0;
     width: 100%;
-    height: 112%; /* 大きすぎず小さすぎない丁度いい高さに */
-    border: none;
-    display: block;
+    height: 18%; /* 上から18%の高さまでをカバーで隠す */
+    background: #ffffff !important; /* 完全に文字を隠すための白（または rgba(255,255,255,0.95)） */
+    z-index: 5;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
+
+/* 中の時計（iframe） */
+.clock-modal-content iframe {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    display: block !important;
+    z-index: 1;
+}
+
