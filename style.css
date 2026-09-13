@@ -1155,7 +1155,7 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（背景オーバーレイ）
+   時計を表示するモーダル（背景をほぼ透明に）
 ================================================== */
 .clock-modal {
     position: fixed;
@@ -1163,7 +1163,7 @@ footer a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: transparent !important; /* 周囲の暗さをなくす */
+    background-color: rgba(0, 0, 0, 0.05) !important; /* 周囲の暗さをほぼ無くし、薄っすら見える程度にする */
     
     display: none;
     justify-content: center;
@@ -1185,35 +1185,39 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める正方形の白いカード（大きく、透過率80〜85%＋細いグレー枠線）
+   時計を収める正方形の白いカード（透過率80〜85%、大きく表示）
 ================================================== */
 .clock-modal-content {
-    /* 縦横どちらの画面でも、画面の縦・横幅の95%を上限にして限界まで大きくする */
+    /* 縦横のサイズを限界まで拡大（画面の95%） */
     width: min(95vw, 95vh);
     height: min(95vw, 95vh);
     max-width: none;
     max-height: none;
     
-    background: rgba(255, 255, 255, 0.82) !important; /* 透過率80〜85%（約82%） */
-    border: 1px solid rgba(0, 0, 0, 0.15); /* 薄いグレーの細い枠線 */
+    background: rgba(255, 255, 255, 0.82) !important; /* 透過率約82%（診療時間が薄っすら見える） */
+    border: 1px solid rgba(0, 0, 0, 0.15); /* クリアな白を引き立てる細いグレーの枠線 */
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    overflow: hidden; /* 白いカードからはみ出た部分（上の文字列や二重線など）を非表示にする */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     
+    position: relative;
+    overflow: hidden; /* はみ出た部分を切り取る */
     margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
 }
 
-/* モーダルが開いたときのボックスの拡大アニメーション */
+/* モーダルが開いたときの拡大アニメーション */
 .clock-modal.is-active .clock-modal-content {
     transform: scale(1);
 }
 
+/* iframeを縦長に拡大し、上の余分なタイトル文字（外来診療・受付時間）がカードの外（上方向）に飛び出て隠れるように位置を調整 */
 .clock-modal-content iframe {
+    position: absolute;
+    top: -15%; /* 上の文字を上に押し出して隠す */
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 130%; /* 高さを広げて時計本体を中央に収める */
     border: none;
     display: block;
 }
-
