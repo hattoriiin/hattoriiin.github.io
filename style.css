@@ -1155,20 +1155,45 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（外側の背景を白にする）
+   時計を起動するボタンのスタイル
+================================================== */
+.clock-trigger-wrap {
+    text-align: center;
+    margin: 20px 0;
+}
+.clock-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+.clock-btn.active {
+    background-color: #e2e6ea;
+    border-color: #adb5bd;
+}
+
+/* ==================================================
+   時計を表示するモーダル（背景オーバーレイ）
 ================================================== */
 .clock-modal {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background-color: rgba(255, 255, 255, 0.95) !important; /* 外側は明るい白の背景 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 背景をしっかり暗くして後ろの文字が透けないようにする */
+    background-color: rgba(0, 0, 0, 0.85);
     
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 2147483647 !important;
+    z-index: 2147483647;
     
     opacity: 0;
     visibility: hidden;
@@ -1176,60 +1201,42 @@ footer a:hover{
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+/* 長押しされて表示中の状態 */
 .clock-modal.is-active {
-    display: flex !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 /* ==================================================
-   時計を収める正方形の白いカード（95%サイズ、透過率85%、細いグレー枠線）
+   時計を収める四角い背景ボックス
 ================================================== */
 .clock-modal-content {
-    width: min(95vw, 95vh) !important;
-    height: min(95vw, 95vh) !important;
-    max-width: 520px;
-    max-height: 520px;
+    width: 320px;
+    height: 320px;
+    background: #ffffff !important;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
     
-    background: rgba(255, 255, 255, 0.85) !important; /* カード自体は透過率85%の白 */
-    border: 1px solid rgba(0, 0, 0, 0.15) !important; /* 細いグレーの枠線 */
-    border-radius: 16px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
-    position: relative !important;
-    overflow: hidden !important;
-    margin: auto !important; 
+    margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
 }
 
 .clock-modal.is-active .clock-modal-content {
-    transform: scale(1) !important;
+    transform: scale(1);
 }
 
-/* 上部の不要なタイトル文字を完全に隠すための不透明な白いカバー */
-.clock-modal-content::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 22%; /* 上部を覆う高さ */
-    background: #ffffff !important; /* 完全な不透明の白で文字を完全に隠す */
-    z-index: 10;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
-
-/* 中の時計（iframe）：上下が切れないように位置とサイズを最適化 */
 .clock-modal-content iframe {
-    position: absolute !important;
-    top: -5% !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 110% !important;
-    border: none !important;
-    display: block !important;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
 }
+
