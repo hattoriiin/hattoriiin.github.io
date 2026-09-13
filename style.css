@@ -1163,7 +1163,7 @@ footer a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* 周囲の暗さをすっきりと調整 */
+    background-color: transparent !important; /* 周囲の暗さをなくす */
     
     display: none;
     justify-content: center;
@@ -1185,20 +1185,20 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める四角い背景ボックス（大きく、透過率85%＋細いグレー枠線）
+   時計を収める正方形の白いカード（大きく、透過率80〜85%＋細いグレー枠線）
 ================================================== */
 .clock-modal-content {
-    /* 縦横どちらの画面でも画面いっぱいに大きく（スマホの横画面でも縦幅からはみ出さないサイズ） */
-    width: min(92vw, 92vh);
-    height: min(92vw, 92vh);
-    max-width: 520px;
-    max-height: 520px;
+    /* 縦横どちらの画面でも、画面の縦・横幅の95%を上限にして限界まで大きくする */
+    width: min(95vw, 95vh);
+    height: min(95vw, 95vh);
+    max-width: none;
+    max-height: none;
     
-    background: rgba(255, 255, 255, 0.85) !important; /* 透過率85% */
-    border: 1px solid rgba(0, 0, 0, 0.12); /* 薄いグレーの細い枠線でクリアに */
+    background: rgba(255, 255, 255, 0.82) !important; /* 透過率80〜85%（約82%） */
+    border: 1px solid rgba(0, 0, 0, 0.15); /* 薄いグレーの細い枠線 */
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* 白いカードからはみ出た部分（上の文字列や二重線など）を非表示にする */
     
     margin: auto; 
     transform: scale(0.95);
