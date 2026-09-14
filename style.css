@@ -1214,12 +1214,12 @@ footer a:hover{
    時計を収める背景ボックス（スマホ画面の幅いっぱいに近くまで、思い切り大きくする）
 ================================================== */
 .clock-modal-content {
-    width: 90vw;            /* 画面の幅の90%という巨大なサイズに設定 */
+    width: 96vw;            /* 画面の幅の96%という巨大なサイズに設定 */
     max-width: 420px;       /* 最大でも420pxまでしっかり広げる */
     height: 520px;          /* 高度も十分に持たせて下の注意書きまでゆったり入れる */
     max-height: 85vh;
     
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 24px !important;                 /* 綺麗な大きめの角丸 */
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);     /* 迫力のある立体的な影 */
     
