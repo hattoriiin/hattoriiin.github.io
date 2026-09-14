@@ -1208,7 +1208,7 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める四角い背景ボックス
+   時計を収める四角い背景ボックス（320px固定）
 ================================================== */
 .clock-modal-content {
     width: 320px;
@@ -1219,7 +1219,7 @@ footer a:hover{
     border-radius: 16px;
     
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* はみ出た上下の不要な文字を完全にカット */
     margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
@@ -1230,14 +1230,15 @@ footer a:hover{
 }
 
 /* ==================================================
-   iframeの配置と位置調整
+   iframeの配置とピタリと合わせる調整
 ================================================== */
 .clock-modal-content iframe {
     position: absolute;
-    top: -50px;
+    /* 時計の円盤の中心が320pxボックスの真ん中に来る正確なオフセット */
+    top: -95px; 
     left: 0;
     width: 100%;
-    height: 420px;
+    height: 480px; 
     border: none;
     background: transparent;
     z-index: 1;
