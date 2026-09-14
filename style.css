@@ -1179,11 +1179,40 @@ footer a:hover{
 }
 
 /* ==================================================
+   時計を表示するモーダル（背景オーバーレイ）
+================================================== */
+.clock-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 80%程度の背面透過 */
+    
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2147483647;
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.clock-modal.is-active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ==================================================
    時計を収める四角い背景ボックス
 ================================================== */
 .clock-modal-content {
-    width: 400px; /* 十分な大きさを確保 */
-    height: 400px;
+    width: 360px;
+    height: 360px;
     max-width: 90vw;
     max-height: 90vh;
     background: #ffffff;
@@ -1191,7 +1220,7 @@ footer a:hover{
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     
     position: relative;
-    /* overflow: hidden; は今回は不要です。transformで収めるため */
+    overflow: hidden; /* はみ出た部分をここで綺麗に切り取る */
     margin: auto; 
     transform: scale(0.95);
     transition: transform 0.3s ease;
@@ -1202,24 +1231,20 @@ footer a:hover{
 }
 
 /* ==================================================
-   iframeの配置と縮小調整（transformで綺麗に収める）
+   iframeの配置と中央クロップ調整
 ================================================== */
 .clock-modal-content iframe {
     position: absolute;
-    /* コンテナの左上に配置 */
-    top: 0;
-    left: 0;
+    /* ボックスの中央に基準を置き、位置とサイズを安定させる */
+    top: 50%;
+    left: 50%;
     width: 100%;
-    /* iframeの中身自体は元のサイズ（例：600px相当）のまま保持させる必要がある */
-    height: 100%; 
+    height: 100%;
     border: none;
     background: #ffffff;
     z-index: 1;
     
-    /* 【重要】transform-originを中央にし、全体を縮小して収める */
+    /* 中央を起点にして、余計な上下の文字が見切れるように調整 */
+    transform: translate(-50%, -50%) scale(0.85);
     transform-origin: center center;
-    /* コンテナのサイズに合わせてiframe全体を縮小。 */
-    /* 例えば、中のコンテンツが高さ600pxで、コンテナが400pxなら 400/600 = 0.666... */
-    /* コンテンツの実際の高さに合わせて、このスケール値を調整する必要があります。 */
-    transform: scale(0.6); /* 仮の値です。中のコンテンツの高さに合わせて調整してください。 */
 }
