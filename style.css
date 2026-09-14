@@ -1179,35 +1179,6 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（背面透過 80%）
-================================================== */
-.clock-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2147483647;
-    
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.clock-modal.is-active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-/* ==================================================
    時計を収める四角い背景ボックス（背景の透過度80%を維持）
 ================================================== */
 .clock-modal-content {
