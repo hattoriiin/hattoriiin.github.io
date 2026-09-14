@@ -1179,7 +1179,7 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を表示するモーダル（背景オーバーレイ）
+   時計を表示するモーダル（背面透過 80%程度）
 ================================================== */
 .clock-modal {
     position: fixed;
@@ -1187,7 +1187,7 @@ footer a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.8); /* 背面が80%程度透ける設定 */
     
     display: none;
     justify-content: center;
@@ -1208,16 +1208,15 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める四角い背景ボックス（サイズを十分に確保）
+   時計を収めるコンテナボックス
 ================================================== */
 .clock-modal-content {
-    width: 480px;
-    height: 480px;
-    max-width: 92vw;
-    max-height: 92vh;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    width: 400px;
+    height: 400px;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: transparent; /* 背景は透過させるため透明に */
+    border-radius: 16px;
     
     position: relative;
     overflow: hidden;
@@ -1231,15 +1230,15 @@ footer a:hover{
 }
 
 /* ==================================================
-   iframeのレイアウト調整（元ファイルを触らず、親のCSSで制御）
+   iframeの表示設定（余計なオフセットを排除）
 ================================================== */
 .clock-modal-content iframe {
     position: absolute;
-    top: -120px; /* 上部の不要なタイトルや余白を完全に上へ見切らせて隠す */
+    top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% + 180px); /* 上下に逃がした分を補い、下部の余計なテキストを外に押し出す */
+    height: 100%;
     border: none;
-    background: #ffffff;
+    background: transparent;
     z-index: 1;
 }
