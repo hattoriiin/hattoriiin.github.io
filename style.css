@@ -1179,13 +1179,13 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める四角い背景ボックス（サイズを大きく拡大）
+   時計を収める四角い背景ボックス（大きく拡大）
 ================================================== */
 .clock-modal-content {
-    width: 400px; /* 横幅を拡大 */
-    height: 440px; /* 高さを拡大して注意書きまで余裕で収める */
-    max-width: 96vw;
-    max-height: 96vh;
+    width: 360px;
+    height: 360px;
+    max-width: 90vw;
+    max-height: 90vh;
     background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -1205,8 +1205,12 @@ footer a:hover{
    iframeの配置
 ================================================== */
 .clock-modal-content iframe {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 360px;
+    height: 360px;
     border: none;
     background: transparent;
+    transform: translate(-50%, -50%);
 }
