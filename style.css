@@ -1208,16 +1208,16 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める四角い背景ボックス
+   時計を収める四角い背景ボックス（サイズを十分に確保）
 ================================================== */
 .clock-modal-content {
-    width: 360px;
-    height: 360px;
-    max-width: 90vw;
-    max-height: 85vh;
+    width: 480px;
+    height: 480px;
+    max-width: 92vw;
+    max-height: 92vh;
     background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     
     position: relative;
     overflow: hidden;
@@ -1230,13 +1230,15 @@ footer a:hover{
     transform: scale(1);
 }
 
-/* iframeの位置調整（!importantを排除し、構造上のオーバーレイと位置で綺麗に収める） */
+/* ==================================================
+   iframeのレイアウト調整（元ファイルを触らず、親のCSSで制御）
+================================================== */
 .clock-modal-content iframe {
     position: absolute;
-    top: -55px;
+    top: -120px; /* 上部の不要なタイトルや余白を完全に上へ見切らせて隠す */
     left: 0;
     width: 100%;
-    height: calc(100% + 55px);
+    height: calc(100% + 180px); /* 上下に逃がした分を補い、下部の余計なテキストを外に押し出す */
     border: none;
     background: #ffffff;
     z-index: 1;
