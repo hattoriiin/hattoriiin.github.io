@@ -1211,21 +1211,23 @@ footer a:hover{
 }
 
 /* ==================================================
-   時計を収める背景ボックス（四角い枠をなくし、円やコンテンツを直接大きく魅せる）
+   時計を収めるモーダルコンテンツ（白い箱・枠・背景を完全に排除）
 ================================================== */
 .clock-modal-content {
-    width: 340px;
-    height: 340px;
-    max-width: 90vw;
+    width: 90vw;
+    max-width: 400px;
+    height: auto;
     max-height: 90vh;
-    background: transparent !important; /* 四角い背景を完全に透明にする */
-    border-radius: 0;
-    box-shadow: none;
+    
+    background: transparent !important; /* 白い背景を完全に透明にする */
+    border-radius: 0 !important;       /* 角丸をなくす */
+    box-shadow: none !important;        /* 影をなくす */
     
     position: relative;
-    overflow: visible; /* はみ出しを隠さず、大きくダイナミックに見せる */
+    overflow: visible !important;
     margin: auto; 
-    transform: scale(0.9);
+    
+    transform: scale(0.95);
     transition: transform 0.3s ease;
 }
 
@@ -1234,15 +1236,12 @@ footer a:hover{
 }
 
 /* ==================================================
-   iframeの配置（枠いっぱいに大きく、かつ円が主役になるように配置）
+   iframe（時計とテキスト全体を大きくゆったり表示）
 ================================================== */
 .clock-modal-content iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 380px;
-    height: 380px;
+    width: 100%;
+    height: 440px; /* 十分な高さを確保して文字までしっかり表示 */
     border: none;
     background: transparent;
-    transform: translate(-50%, -50%);
+    display: block;
 }
