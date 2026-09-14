@@ -1184,8 +1184,8 @@ footer a:hover{
 .clock-modal-content {
     width: 400px; /* 横幅を拡大 */
     height: 440px; /* 高さを拡大して注意書きまで余裕で収める */
-    max-width: 90vw;
-    max-height: 90vh;
+    max-width: 96vw;
+    max-height: 96vh;
     background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
