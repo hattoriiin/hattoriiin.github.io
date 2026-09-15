@@ -1134,36 +1134,11 @@ if (clockBtn && clockModal) {
                 title.style.display = 'none';
             }
 
-/* 時計周囲の余白をなくす */
-const pageMain = doc.querySelector('.page-main');
-if (pageMain) {
-    pageMain.style.padding = '0';
-}
-
-            /* 時計を囲む領域を最大化 */
-            const clockArea = doc.querySelector('.clock-area');
-            if (clockArea) {
-                clockArea.style.width = '100%';
-                clockArea.style.maxWidth = 'none';
-            }
-
-/* 時計そのものを大きくする */
+/* 時計本体は元の clock.claude.html の配置をそのまま使用 */
 const timeRing = doc.querySelector('.time-ring');
 if (timeRing) {
-    timeRing.style.width = 'min(88vw, 78vh, 760px)';
-    timeRing.style.minWidth = '0';
-    timeRing.style.maxWidth = 'none';
-
-    /* iframe内の画面中央に時計を配置 */
-    timeRing.style.position = 'absolute';
-    timeRing.style.left = '50%';
-    timeRing.style.top = '50%';
-    timeRing.style.transform = 'translate(-50%, -50%)';
-
-    /* 時計部分は85%の不透明度 */
     timeRing.style.opacity = '0.85';
 }
-
             /* iframe内の背景を透明にする */
             doc.documentElement.style.background = 'transparent';
             doc.body.style.background = 'transparent';
