@@ -1113,12 +1113,19 @@ if (clockBtn && clockModal) {
                 title.style.display = 'none';
             }
 
-            /* 時計周囲の余白をなくす */
-            const pageMain = doc.querySelector('.page-main');
-            if (pageMain) {
-                pageMain.style.padding = '0';
-            }
+/* 時計周囲の余白をなくす */
+const pageMain = doc.querySelector('.page-main');
+if (pageMain) {
+    pageMain.style.width = '100%';
+    pageMain.style.height = '100%';
+    pageMain.style.minHeight = '100%';
 
+    pageMain.style.padding = '0';
+
+    pageMain.style.display = 'flex';
+    pageMain.style.alignItems = 'center';
+    pageMain.style.justifyContent = 'center';
+}
             /* 時計を囲む領域を最大化 */
             const clockArea = doc.querySelector('.clock-area');
             if (clockArea) {
