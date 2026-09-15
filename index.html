@@ -1147,16 +1147,22 @@ if (pageMain) {
                 clockArea.style.maxWidth = 'none';
             }
 
-            /* 時計そのものを大きくする */
-            const timeRing = doc.querySelector('.time-ring');
-            if (timeRing) {
-                timeRing.style.width = 'min(88vw, 78vh, 760px)';
-                timeRing.style.minWidth = '0';
-                timeRing.style.maxWidth = 'none';
+/* 時計そのものを大きくする */
+const timeRing = doc.querySelector('.time-ring');
+if (timeRing) {
+    timeRing.style.width = 'min(88vw, 78vh, 760px)';
+    timeRing.style.minWidth = '0';
+    timeRing.style.maxWidth = 'none';
 
-                /* 時計部分は85%の不透明度 */
-                timeRing.style.opacity = '0.85';
-            }
+    /* iframe内の画面中央に時計を配置 */
+    timeRing.style.position = 'fixed';
+    timeRing.style.left = '50%';
+    timeRing.style.top = '50%';
+    timeRing.style.transform = 'translate(-50%, -50%)';
+
+    /* 時計部分は85%の不透明度 */
+    timeRing.style.opacity = '0.85';
+}
 
             /* iframe内の背景を透明にする */
             doc.documentElement.style.background = 'transparent';
