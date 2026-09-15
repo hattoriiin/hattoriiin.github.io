@@ -518,9 +518,9 @@ function setupToggleEvents() {
 
 
 /*
-==================================================
+ * ==================================================
  * 診療時間時計モーダルの開閉制御
-==================================================
+ * ==================================================
  */
 const clockBtn = document.getElementById('clockBtn');
 const clockModal = document.getElementById('clockModal');
