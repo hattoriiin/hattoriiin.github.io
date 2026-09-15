@@ -1099,42 +1099,110 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener("touchcancel", hideOverlay);
     }
 
-    // 診療時間時計モーダルの長押し制御
-    const clockBtn = document.getElementById('clockBtn');
-    const clockModal = document.getElementById('clockModal');
+const clockBtn = document.getElementById('clockBtn');
+const clockModal = document.getElementById('clockModal');
+const clockFrame = clockModal
+    ? clockModal.querySelector('iframe')
+    : null;
 
-    if (clockBtn && clockModal) {
-        function showClock(e) {
-            if (e) e.preventDefault();
-            clockModal.classList.add('is-active');
-            clockBtn.classList.add('active');
-        }
+if (clockBtn && clockModal) {
 
-        function hideClock(e) {
-            if (e) e.preventDefault();
-            clockModal.classList.remove('is-active');
-            clockBtn.classList.remove('active');
-        }
+    function adjustClock() {
+        if (!clockFrame) return;
 
-        clockBtn.addEventListener("touchstart", function(e) {
-            showClock(e);
-        }, { passive: false });
+        try {
+            const doc = clockFrame.contentDocument;
+            if (!doc) return;
 
-        clockBtn.addEventListener("touchend", hideClock);
-        clockBtn.addEventListener("touchcancel", hideClock);
-
-        clockBtn.addEventListener("mousedown", showClock);
-        window.addEventListener("mouseup", hideClock);
-        clockBtn.addEventListener("mouseleave", hideClock);
-        
-        clockModal.addEventListener("click", function(e) {
-            if (e.target === clockModal) {
-                hideClock();
+            /* 「外来診療・受付時間」と上下の線を非表示 */
+            const title = doc.querySelector('.clock-title');
+            if (title) {
+                title.style.display = 'none';
             }
-        });
+
+            /* 時計周囲の余白をなくす */
+            const pageMain = doc.querySelector('.page-main');
+            if (pageMain) {
+                pageMain.style.padding = '0';
+            }
+
+            /* 時計を囲む領域を最大化 */
+            const clockArea = doc.querySelector('.clock-area');
+            if (clockArea) {
+                clockArea.style.width = '100%';
+                clockArea.style.maxWidth = 'none';
+            }
+
+            /* 時計そのものを大きくする */
+            const timeRing = doc.querySelector('.time-ring');
+            if (timeRing) {
+                timeRing.style.width = 'min(88vw, 78vh, 760px)';
+                timeRing.style.minWidth = '0';
+                timeRing.style.maxWidth = 'none';
+
+                /* 時計部分は85%の不透明度 */
+                timeRing.style.opacity = '0.85';
+            }
+
+            /* iframe内の背景を透明にする */
+            doc.documentElement.style.background = 'transparent';
+            doc.body.style.background = 'transparent';
+            doc.body.style.margin = '0';
+
+        } catch (error) {
+            console.log('時計表示の調整に失敗しました:', error);
+        }
     }
 
-});
+
+    /* 時計を表示 */
+    function showClock(e) {
+        if (e) e.preventDefault();
+
+        clockModal.classList.add('is-active');
+        clockBtn.classList.add('active');
+
+        adjustClock();
+    }
+
+
+    /* 時計を閉じる */
+    function hideClock(e) {
+        if (e) e.preventDefault();
+
+        clockModal.classList.remove('is-active');
+        clockBtn.classList.remove('active');
+    }
+
+
+    /* clock.claude.html の読み込みが終わったら調整 */
+    if (clockFrame) {
+        clockFrame.addEventListener('load', adjustClock);
+    }
+
+
+    /* iPhone：押している間だけ表示 */
+    clockBtn.addEventListener('touchstart', function(e) {
+        showClock(e);
+    }, { passive: false });
+
+    clockBtn.addEventListener('touchend', hideClock);
+    clockBtn.addEventListener('touchcancel', hideClock);
+
+
+    /* PC：押している間だけ表示 */
+    clockBtn.addEventListener('mousedown', showClock);
+    window.addEventListener('mouseup', hideClock);
+    clockBtn.addEventListener('mouseleave', hideClock);
+
+
+    /* 時計の外側をタップしたら閉じる */
+    clockModal.addEventListener('click', function(e) {
+        if (e.target === clockModal) {
+            hideClock();
+        }
+    });
+}
 </script>
 
 <!-- 診療時間時計用モーダル（style.css側の定義を利用） -->
