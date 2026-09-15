@@ -516,7 +516,7 @@ function setupToggleEvents() {
   btn.addEventListener("touchcancel", hideOverlay);
 }
 
-/*
+
 /*
  * ==================================================
  * 診療時間時計モーダルの開閉制御
