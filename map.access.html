@@ -1,84 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja">
+<div class="location-map">
 
-<head>
+    <!--
+        服部医院を中心に、堀田周辺を適度な範囲で表示。
+        z=15：
+        ・服部医院
+        ・みふれ
+        ・名鉄堀田駅
+        ・地下鉄堀田駅
+        ・名古屋高速 堀田出口
+        が確認できる範囲を想定。
+    -->
+    <iframe
+        src="https://www.google.com/maps?q=35.1212,136.9220&z=15&output=embed"
+        title="服部医院周辺アクセスマップ"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
 
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>服部医院｜周辺アクセスマップ</title>
-
-<style>
-
-/* 地図以外の余白を作らず、親要素いっぱいに表示する */
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: transparent;
-}
-
-/* 地図表示領域 */
-.map-wrap {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-/* Googleマップを全面表示 */
-.map-inner {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.map-inner iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="map-wrap">
-
-    <div class="map-inner">
-
-        <!--
-            服部医院を中心に、堀田周辺を広く表示。
-            z=14 にすることで、
-            ・服部医院
-            ・みふれ
-            ・名鉄堀田駅
-            ・地下鉄堀田駅
-            ・名古屋高速 堀田出口
-            が同じ周辺地図に入る範囲を確保する。
-        -->
-        <iframe
-            src="https://www.google.com/maps?q=35.1212,136.9220&z=14&output=embed"
-            title="服部医院周辺アクセスマップ"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-
-    </div>
+    <p class="map-link">
+        <a
+            href="https://www.google.com/maps/@35.1212,136.9220,15z"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Googleマップで見る
+        </a>
+    </p>
 
 </div>
-
-</body>
-
-</html>
