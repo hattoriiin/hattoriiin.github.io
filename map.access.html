@@ -7,6 +7,7 @@
     content="width=device-width, initial-scale=1.0"
 >
 <title>服部医院｜周辺アクセスマップ</title>
+
 <style>
 html,
 body {
@@ -16,18 +17,21 @@ body {
     overflow: hidden;
     background: transparent;
 }
+
 .map-wrap {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
+
 .map-inner {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
 }
+
 /* Googleマップ */
 .map-inner iframe {
     display: block;
@@ -35,6 +39,7 @@ body {
     height: 100%;
     border: 0;
 }
+
 /*
     服部医院の位置を示すピン。
     Googleマップ自体はAPIキーなしで表示し、
@@ -59,6 +64,7 @@ body {
     z-index: 10;
     pointer-events: none;
 }
+
 .clinic-pin::after {
     content: "";
     position: absolute;
@@ -74,16 +80,30 @@ body {
 }
 </style>
 </head>
+
 <body>
+
 <div class="map-wrap">
+
     <div class="map-inner">
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6526.993105457574!2d136.9190587!3d35.1192802!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1789868073950!5m2!1sja!2sjp" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+        <iframe
+            src="https://www.google.com/maps/@?api=1&map_action=map&center=35.1190%2C136.9218&zoom=15&basemap=roadmap"
+            title="服部医院周辺アクセスマップ"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+
         <!-- 服部医院 -->
         <div
             class="clinic-pin"
             aria-label="服部医院">
         </div>
+
     </div>
+
 </div>
+
 </body>
 </html>
