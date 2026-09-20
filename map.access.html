@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
 >
+
 <title>服部医院｜周辺アクセスマップ</title>
 
 <style>
+
+/*
+    Googleマップを画面いっぱいに表示する。
+    外側に余白や黒帯が出ないようにする。
+*/
+
 html,
 body {
     margin: 0;
@@ -32,7 +42,6 @@ body {
     height: 100%;
 }
 
-/* Googleマップ */
 .map-inner iframe {
     display: block;
     width: 100%;
@@ -40,45 +49,8 @@ body {
     border: 0;
 }
 
-/*
-    服部医院の位置を示すピン。
-    Googleマップ自体はAPIキーなしで表示し、
-    地図の中心を南側へずらして
-    地下鉄堀田駅まで表示する。
-    ピンは地図上の服部医院位置に重ねる。
-*/
-.clinic-pin {
-    position: absolute;
-    left: 50%;
-    top: 27%;
-    transform: translate(-50%, -100%);
-    width: 28px;
-    height: 28px;
-    background: #d93025;
-    border: 3px solid #ffffff;
-    border-radius: 50% 50% 50% 0;
-    transform-origin: 50% 100%;
-    rotate: -45deg;
-    box-shadow:
-        0 2px 5px rgba(0, 0, 0, 0.35);
-    z-index: 10;
-    pointer-events: none;
-}
-
-.clinic-pin::after {
-    content: "";
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    left: 50%;
-    top: 50%;
-    transform:
-        translate(-50%, -50%)
-        rotate(45deg);
-    background: #ffffff;
-    border-radius: 50%;
-}
 </style>
+
 </head>
 
 <body>
@@ -87,23 +59,34 @@ body {
 
     <div class="map-inner">
 
+        <!--
+            index.html と同じ中心・同じ縮尺。
+
+            服部医院：
+            35.1212, 136.9220 付近
+
+            中心：
+            35.1208, 136.9200
+
+            z=15
+
+            これにより、
+            服部医院を右寄りに置きながら、
+            名鉄堀田駅・地下鉄堀田駅・みふれ・
+            堀田周辺の道路を確認できる範囲にする。
+        -->
         <iframe
-            src="https://www.google.com/maps/@?api=1&map_action=map&center=35.1190%2C136.9218&zoom=15&basemap=roadmap"
+            src="https://www.google.com/maps?q=35.1208,136.9200&z=15&output=embed"
             title="服部医院周辺アクセスマップ"
             allowfullscreen=""
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin">
         </iframe>
 
-        <!-- 服部医院 -->
-        <div
-            class="clinic-pin"
-            aria-label="服部医院">
-        </div>
-
     </div>
 
 </div>
 
 </body>
+
 </html>
