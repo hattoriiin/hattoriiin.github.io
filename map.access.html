@@ -28,10 +28,19 @@ body {
     width: 100%;
     height: 100%;
 }
+/*
+    Googleマップ本体
+    服部医院の位置を画面上側に置き、
+    南側の地下鉄堀田駅まで見せるため、
+    iframe自体を少し南側へずらして表示します。
+*/
 .map-inner iframe {
     display: block;
+    position: absolute;
     width: 100%;
-    height: 100%;
+    height: 125%;
+    left: 0;
+    top: -12%;
     border: 0;
 }
 </style>
@@ -40,7 +49,7 @@ body {
 <div class="map-wrap">
     <div class="map-inner">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1153.79298304778!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1784304566638!5m2!1sja!2sjp"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576.89649152389!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp!4v1784304566638!5m2!1sja!2sjp"
             title="服部医院周辺アクセスマップ"
             allowfullscreen=""
             loading="lazy"
