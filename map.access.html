@@ -31,9 +31,10 @@ body {
 }
 
 /*
-    Google Maps本体
+    Google Maps 本体
 
-    iframe自体は画面いっぱいの大きさを維持する。
+    iframe自体は画面全体を占める。
+    大きさを縮めたり、移動させたりしない。
 */
 .map-inner {
     position: absolute;
@@ -43,10 +44,22 @@ body {
 
     width: 100%;
     height: 100%;
-
-    overflow: hidden;
 }
 
+/*
+    Google Maps iframe
+
+    中央の四角い部分だけを表示する。
+    clip-pathではなくCSS Maskを使用する。
+
+    表示窓：
+        左   7%
+        上  15%
+        右   7%
+        下   8%
+
+    iframeそのものは100%のまま。
+*/
 .map-inner iframe {
     display: block;
 
@@ -58,16 +71,23 @@ body {
     pointer-events: auto;
 
     /*
-        Google Mapsの表示範囲だけを切り抜く。
+        中央の白い部分だけを表示するSVGマスク。
 
-        上：20%
-        左：10%
-        右：10%
-        下：10%
-
-        → 中央の80% × 70%を表示
+        黒   = 非表示
+        白   = 表示
     */
-    clip-path: inset(20% 10% 10% 10%);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Crect x='7' y='15' width='86' height='77' fill='white'/%3E%3C/svg%3E");
+
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Crect x='7' y='15' width='86' height='77' fill='white'/%3E%3C/svg%3E");
+
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
 }
 
 </style>
