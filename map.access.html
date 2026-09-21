@@ -20,7 +20,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: transparent;
+    background: white;
 }
 
 .map-wrap {
@@ -31,39 +31,20 @@ body {
 }
 
 /*
-    表示する四角い窓
-*/
-.map-window {
-    position: absolute;
+    Google Maps本体
 
-    top: 20%;
-    left: 10%;
-
-    width: 80%;
-    height: 70%;
-
-    overflow: hidden;
-
-    /*
-        Google Maps のタッチ操作を
-        この領域で受ける
-    */
-    touch-action: none;
-}
-
-/*
-    地図本体
+    iframe自体は画面いっぱいの大きさを維持する。
 */
 .map-inner {
     position: absolute;
 
-    top: -21.5%;
-    left: -12.5%;
+    top: 0;
+    left: 0;
 
-    width: 125%;
-    height: 143%;
+    width: 100%;
+    height: 100%;
 
-    transform: none;
+    overflow: hidden;
 }
 
 .map-inner iframe {
@@ -74,10 +55,19 @@ body {
 
     border: 0;
 
-    /*
-        iframeへの操作を許可
-    */
     pointer-events: auto;
+
+    /*
+        Google Mapsの表示範囲だけを切り抜く。
+
+        上：20%
+        左：10%
+        右：10%
+        下：10%
+
+        → 中央の80% × 70%を表示
+    */
+    clip-path: inset(20% 10% 10% 10%);
 }
 
 </style>
@@ -88,19 +78,15 @@ body {
 
 <div class="map-wrap">
 
-    <div class="map-window">
+    <div class="map-inner">
 
-        <div class="map-inner">
-
-            <iframe
-                src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-                title="服部医院周辺アクセスマップ"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin">
-            </iframe>
-
-        </div>
+        <iframe
+            src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
+            title="服部医院周辺アクセスマップ"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
 
     </div>
 
