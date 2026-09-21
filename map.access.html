@@ -1,130 +1,119 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name=“viewport”
-content=“width=device-width, initial-scale=1.0”
+    <title>服部医院｜周辺アクセスマップ</title>
 
-<title>服部医院｜周辺アクセスマップ</title>
-<style>
-html,
-body {
-    margin: 0;
-    width: 100%;
-    min-height: 100%;
-    background: transparent;
-}
-body {
-    overflow-x: hidden;
-}
-.map-wrap {
-    position: relative;
-    width: 100%;
-    height: clamp(320px, 60vw, 560px);
-    min-height: 320px;
-    max-height: 560px;
-    overflow: hidden;
-}
-.map-inner {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-.map-inner iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-.map-fallback {
-    margin: 0;
-    padding: 0.75rem 1rem;
-    background: #f7f7f7;
-    color: #333;
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
-.map-fallback a {
-    color: #0645ad;
-    text-decoration: underline;
-}
-.map-fallback a:focus-visible,
-.map-inner iframe:focus-visible {
-    outline: 3px solid #005fcc;
-    outline-offset: 3px;
-}
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-@media (max-width: 600px) {
-    .map-wrap {
-        height: 70vw;
-        min-height: 300px;
-        max-height: 460px;
-    }
-}
-@media (min-width: 1200px) {
-    .map-wrap {
-        height: 520px;
-    }
-}
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-    }
-}
-</style>
+    <style>
+        :root {
+            color-scheme: light;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-width: 100%;
+            min-height: 100%;
+            background: transparent;
+        }
+
+        body {
+            overflow-x: hidden;
+            color: #222;
+            font-family: sans-serif;
+            line-height: 1.6;
+        }
+
+        main {
+            width: 100%;
+        }
+
+        .map-wrap {
+            width: 100%;
+            height: clamp(300px, 70vw, 460px);
+            overflow: hidden;
+        }
+
+        .map-wrap iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .map-fallback {
+            margin: 0;
+            padding: 0.75rem 1rem;
+            background: #f7f7f7;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .map-fallback a {
+            color: #0645ad;
+            text-decoration: underline;
+            text-underline-offset: 0.15em;
+        }
+
+        .map-fallback a:focus-visible {
+            outline: 3px solid #005fcc;
+            outline-offset: 3px;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
 </head>
+
 <body>
-<main>
-<h1 class="visually-hidden">服部医院周辺アクセスマップ</h1>
-<p id="map-description" class="visually-hidden">
-    服部医院周辺の地図です。地図内では、キーボードのTabキーで操作可能な項目へ移動できます。
-    地図を操作できない場合は、下の「Googleマップで開く」リンクをご利用ください。
-</p>
-<div
-    class="map-wrap"
-    role="region"
-    aria-labelledby="map-title"
-    aria-describedby="map-description">
-    <h2 id="map-title" class="visually-hidden">
-        服部医院周辺アクセスマップ
-    </h2>
-    <div class="map-inner">
-        <iframe
-            src="https://www.google.com/maps?q=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA+%E8%AA%A0%E5%BD%B0%E4%BC%9A+%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2&z=14&output=embed"
-            title="服部医院周辺の地図。地図を操作するには、Tabキーで地図内の操作項目へ移動してください。"
+    <main>
+        <h1 class="visually-hidden">服部医院周辺アクセスマップ</h1>
+
+        <section
+            class="map-wrap"
+            aria-labelledby="map-title"
             aria-describedby="map-description"
-            tabindex="0"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-    </div>
-</div>
-<p class="map-fallback">
-    地図を操作できない場合は、
-    <a
-        href="https://www.google.com/maps/search/?api=1&query=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA+%E8%AA%A0%E5%BD%B0%E4%BC%9A+%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2"
-        target="_blank"
-        rel="noopener noreferrer">
-        Googleマップで服部医院の場所を開く
-    </a>
-    ことができます。
-</p>
-</main>
+        >
+            <h2 id="map-title" class="visually-hidden">
+                服部医院周辺アクセスマップ
+            </h2>
+
+            <p id="map-description" class="visually-hidden">
+                服部医院周辺の地図です。地図を操作できない場合は、下のGoogleマップへのリンクをご利用ください。
+            </p>
+
+            <iframe
+                src="https://www.google.com/maps?q=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA+%E8%AA%A0%E5%BD%B0%E4%BC%9A+%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2&z=14&output=embed"
+                title="服部医院周辺の地図"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+        </section>
+
+        <p class="map-fallback">
+            地図を操作できない場合は、
+            <a
+                href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA+%E8%AA%A0%E5%BD%B0%E4%BC%9A+%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Googleマップで服部医院の場所を開く
+            </a>
+            ことができます。
+        </p>
+    </main>
 </body>
 </html>
