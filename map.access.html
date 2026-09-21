@@ -1,211 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; frame-src https://www.google.com; img-src 'self' data: https://*.google.com https://*.googleusercontent.com; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; object-src 'none'; form-action 'none'; frame-ancestors 'self'; upgrade-insecure-requests">
-    <title>服部医院｜周辺アクセスマップ</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>服部医院｜周辺アクセスマップ</title>
 <style>
-    :root {
-        color-scheme: light;
-        --map-bg: #f7f7f7;
-        --map-text: #222;
-        --map-link: #0645ad;
-        --map-height: clamp(280px, 55vh, 560px);
-        --map-font: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-            "Hiragino Sans", "Yu Gothic", "YuGothic", Meiryo, sans-serif;
-    }
-    html,
-    body {
-        width: 100%;
-        min-height: 100%;
-        margin: 0;
-        background: transparent;
-    }
-    body {
-        overflow-x: hidden;
-    }
-    .map-wrap {
-        position: relative;
-        z-index: 0;
-        isolation: isolate;
-        width: 100%;
-        height: var(--map-height);
-        min-height: 180px;
-        overflow: hidden;
-        background: var(--map-bg);
-    }
-    .map-frame,
-    .map-fallback {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-    }
-    .map-frame {
-        display: block;
-        border: 0;
-        background: var(--map-bg);
-        touch-action: auto;
-    }
-    .map-fallback {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: auto;
-        padding: max(1rem, env(safe-area-inset-top))
-            max(1rem, env(safe-area-inset-right))
-            max(1rem, env(safe-area-inset-bottom))
-            max(1rem, env(safe-area-inset-left));
-        color: var(--map-text);
-        font: clamp(0.875rem, 2.5vw, 1rem) / 1.7 var(--map-font);
-        overflow-wrap: anywhere;
-        background: var(--map-bg);
-    }
-    [hidden] {
-        display: none !important;
-    }
-    .map-fallback h2 {
-        margin: 0 0 clamp(0.5rem, 2vw, 0.75rem);
-        font-size: clamp(1.05rem, 4vw, 1.35rem);
-        line-height: 1.4;
-    }
-    .map-fallback p {
-        margin: 0 0 clamp(0.75rem, 3vw, 1rem);
-    }
-    .map-fallback p:last-child {
-        margin-bottom: 0;
-    }
-    .map-fallback a {
-        color: var(--map-link);
-        text-decoration: underline;
-        text-underline-offset: 0.15em;
-    }
-    .map-fallback a:focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: 3px;
-    }
-    @media (max-width: 480px) {
-        :root {
-            --map-height: clamp(240px, 62vh, 440px);
-        }
-        .map-wrap {
-            min-height: 160px;
-        }
-        .map-fallback {
-            justify-content: flex-start;
-        }
-    }
-    @media (min-width: 768px) {
-        :root {
-            --map-height: clamp(360px, 60vh, 640px);
-        }
-    }
-    @media (min-width: 1200px) {
-        :root {
-            --map-height: min(640px, 70vh);
-        }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        * {
-            scroll-behavior: auto !important;
-        }
-    }
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
 </style>
 </head>
 <body>
-    <div class="map-wrap">
-        <iframe
-            class="map-frame"
-            title="服部医院周辺アクセスマップ"
-            loading="eager"
-            referrerpolicy="strict-origin-when-cross-origin"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-            aria-describedby="map-fallback"
-            aria-busy="true">
-        </iframe>
-    <div class="map-fallback" id="map-fallback" hidden>
-        <h2>服部医院へのアクセス</h2>
-        <p class="map-fallback-message"></p>
-        <p>
-            <a
-                class="map-link"
-                target="_blank"
-                rel="noopener noreferrer">
-                Googleマップで服部医院を開く
-            </a>
-        </p>
-    </div>
-    <noscript>
-        <div class="map-fallback">
-            <h2>服部医院へのアクセス</h2>
-            <p>地図を表示するにはJavaScriptが必要です。地図を利用できない場合は、以下のリンクからGoogleマップで場所をご確認ください。</p>
-            <p>
-                <a
-                    class="map-link"
-                    href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA+%E8%AA%A0%E5%BD%B0%E4%BC%9A+%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2"
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    Googleマップで服部医院を開く
-                </a>
-            </p>
-        </div>
-    </noscript>
-</div>
-<script>
-    (() => {
-        "use strict";
-        const query = "医療法人 誠彰会 服部医院";
-        const origin = "https://www.google.com";
-        const timeout = 10000;
-        const wrap = document.querySelector(".map-wrap");
-        const frame = wrap?.querySelector(".map-frame");
-        const fallback = wrap?.querySelector(".map-fallback");
-        const message = fallback?.querySelector(".map-fallback-message");
-        const link = fallback?.querySelector(".map-link");
-        if (!wrap || !frame || !fallback || !message || !link) return;
-        const createUrl = (path, params) => {
-            const url = new URL(path, origin);
-            url.search = new URLSearchParams(params);
-            return url.href;
-        };
-        link.href = createUrl("/maps/search/", {
-            api: "1",
-            query
-        });
-        frame.src = createUrl("/maps", {
-            q: query,
-            z: "14",
-            output: "embed"
-        });
-        let timer;
-        const showFallback = (text) => {
-            if (frame.dataset.state === "done") return;
-            clearTimeout(timer);
-            frame.dataset.state = "fallback";
-            frame.hidden = true;
-            fallback.hidden = false;
-            frame.setAttribute("aria-busy", "false");
-            frame.setAttribute("aria-hidden", "true");
-            fallback.setAttribute("aria-hidden", "false");
-            message.textContent = text;
-        };
-        frame.addEventListener("load", () => {
-            clearTimeout(timer);
-            frame.dataset.state = "done";
-            frame.setAttribute("aria-busy", "false");
-            frame.setAttribute("aria-hidden", "false");
-            fallback.setAttribute("aria-hidden", "true");
-        }, { once: true });
-        frame.addEventListener("error", () => {
-            showFallback("地図の読み込み中にエラーが発生しました。以下のリンクからGoogleマップで場所をご確認ください。");
-        }, { once: true });
-        timer = setTimeout(() => {
-            showFallback("地図の読み込みに時間がかかっています。以下のリンクからGoogleマップで場所をご確認ください。");
-        }, timeout);
-    })();
-</script>
+<iframe
+    src="https://www.google.com/maps?q=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA%E8%AA%A0%E5%BD%B0%E4%BC%9A%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2&ll=35.000000,135.000000&z=16&output=embed"
+    title="服部医院の位置と周辺アクセスマップ"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin">
+</iframe>
 </body>
 </html>
