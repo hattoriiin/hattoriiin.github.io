@@ -23,9 +23,6 @@ body {
     background: transparent;
 }
 
-/*
-    画面全体を保持する土台
-*/
 .map-wrap {
     position: relative;
     width: 100%;
@@ -34,10 +31,7 @@ body {
 }
 
 /*
-    実際に見せる「表示窓」
-
-    map-wrap 自体は縮めない。
-    そのため、これまでの地図表示・操作領域を壊さない。
+    表示する四角い窓
 */
 .map-window {
     position: absolute;
@@ -49,14 +43,16 @@ body {
     height: 70%;
 
     overflow: hidden;
+
+    /*
+        Google Maps のタッチ操作を
+        この領域で受ける
+    */
+    touch-action: none;
 }
 
 /*
-    Googleマップ本体
-
-    表示窓より少し大きくしている。
-    これにより、表示窓の中には
-    地図だけが切り取られて見える。
+    地図本体
 */
 .map-inner {
     position: absolute;
@@ -77,6 +73,11 @@ body {
     height: 100%;
 
     border: 0;
+
+    /*
+        iframeへの操作を許可
+    */
+    pointer-events: auto;
 }
 
 </style>
