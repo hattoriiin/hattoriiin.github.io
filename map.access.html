@@ -1,87 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta
-name=“viewport”
-content=“width=device-width, initial-scale=1.0, viewport-fit=cover”
 
-<title>服部医院｜◎マップ</title>
+    name="viewport"
+
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+
+>
+
+<title>服部医院｜周辺アクセスマップ</title>
+
 <style>
-:root {
-    --map-height: clamp(320px, 70vh, 720px);
-}
+
 html,
+
 body {
+
     margin: 0;
+
     width: 100%;
-    min-height: 100%;
-    background: transparent;
-}
-body {
-    overflow-x: hidden;
-}
-.map-wrap {
-    position: relative;
-    width: 100%;
-    height: var(--map-height);
-    min-height: 320px;
+
+    height: 100%;
+
     overflow: hidden;
-    background: #e9e9e9;
+
+    background: transparent;
+
 }
-.map-inner {
+
+.map-wrap {
+
     position: relative;
+
     width: 100%;
+
     height: 100%;
+
+    overflow: hidden;
+
 }
+
+.map-inner {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+}
+
 .map-inner iframe {
+
     display: block;
+
     width: 100%;
+
     height: 100%;
+
     border: 0;
+
 }
-@media (max-width: 767px) {
-    :root {
-        --map-height: clamp(300px, 62vh, 560px);
-    }
-    .map-wrap {
-        min-height: 300px;
-    }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-    :root {
-        --map-height: clamp(360px, 68vh, 640px);
-    }
-    .map-wrap {
-        min-height: 360px;
-    }
-}
-@media (min-width: 1024px) {
-    .map-wrap {
-        max-height: 720px;
-    }
-}
-@media (orientation: landscape) and (max-height: 600px) {
-    :root {
-        --map-height: 80vh;
-    }
-    .map-wrap {
-        min-height: 260px;
-    }
-}
+
 </style>
+
 </head>
+
 <body>
+
 <div class="map-wrap">
-<div class="map-inner">
-    <iframe
-        src="https://www.google.com/maps?q=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA%20%E8%AA%A0%E5%BD%B0%E4%BC%9A%20%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2&z=14&output=embed"
-        title="服部医院:所在地&周辺map"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+
+    <div class="map-inner">
+
+        <iframe
+
+            src="https://www.google.com/maps?q=%E5%8C%BB%E7%99%82%E6%B3%95%E4%BA%BA%20%E8%AA%A0%E5%BD%B0%E4%BC%9A%20%E6%9C%8D%E9%83%A8%E5%8C%BB%E9%99%A2&z=16&output=embed"
+
+            title="服部医院の所在地と周辺アクセスマップ"
+
+            allowfullscreen=""
+
+            loading="lazy"
+
+            referrerpolicy="no-referrer-when-downgrade">
+
+        </iframe>
+
+    </div>
+
 </div>
-</div>
+
 </body>
+
 </html>
