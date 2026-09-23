@@ -85,6 +85,38 @@
 
 </div>
 
+<script>
+const camera = document.querySelector('.clinic-camera');
+const image = document.querySelector('.clinic-image');
+
+window.addEventListener('scroll', function() {
+
+    if (!camera || !image) return;
+
+    const rect = camera.getBoundingClientRect();
+    const viewHeight = window.innerHeight;
+
+    if (rect.top <= viewHeight && rect.bottom >= 0) {
+
+        const progress =
+            (viewHeight - rect.top) /
+            (viewHeight + rect.height);
+
+        const clamped =
+            Math.max(0, Math.min(1, progress));
+
+        const translateX =
+            -50 + (clamped - 0.5) * 30;
+
+        const scale =
+            0.85 + clamped * 0.15;
+
+        image.style.transform =
+            `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
+    }
+
+});
+</script>
 
 </body>
 
