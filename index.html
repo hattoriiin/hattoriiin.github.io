@@ -1531,7 +1531,7 @@ if (timeRing) {
     /* iPhone：押している間だけ表示 */
     clockBtn.addEventListener('touchstart', function(e) {
     showClock(e);
-}, { passive: true });
+}, { passive: false });
 
     clockBtn.addEventListener('touchend', hideClock);
     clockBtn.addEventListener('touchcancel', hideClock);
