@@ -728,7 +728,6 @@
     title="服部医院周辺アクセスマップ"
     allow="fullscreen"
     loading="lazy"
-    style="touch-action: auto;"
 ></iframe>
     </div>
 
@@ -1380,6 +1379,10 @@ if (timeRing) {
     });
 }
 });
+
+/* iPhone・Safari：地図iframeのタッチ操作を確認するため */
+document.addEventListener("touchstart", function () {}, { passive: true });
+
 </script>
 
 </body>
