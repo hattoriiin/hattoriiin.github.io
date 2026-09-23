@@ -20,7 +20,7 @@
 <style>
 
 /* ==================================================
-   本番と同じ診療時間時計
+   時計
 ================================================== */
 
 .clock-trigger-wrap {
@@ -46,7 +46,6 @@
     border-color: #adb5bd;
 }
 
-
 .clock-modal {
     position: fixed;
     inset: 0;
@@ -60,6 +59,7 @@
     align-items: center;
 
     z-index: 2147483647;
+
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -76,7 +76,6 @@
     pointer-events: auto;
 }
 
-
 .clock-modal-content {
     width: 100vw;
     height: 100vh;
@@ -87,7 +86,6 @@
     background: rgba(235, 247, 250, 0.85);
 
     border-radius: 0;
-
     box-shadow: none;
 
     position: relative;
@@ -97,7 +95,6 @@
 
     transform: scale(1);
 }
-
 
 .clock-modal-content iframe {
     position: absolute;
@@ -154,20 +151,250 @@
 
 
 <!-- ==================================================
-     時計ボタン
+     担当医表
 ================================================== -->
 
-<div class="clock-trigger-wrap">
+<section id="schedule">
 
-    <button
-        type="button"
-        id="clockBtn"
-        class="clock-btn"
+    <h2>
+        診療時間
+    </h2>
+
+
+    <div
+        class="schedule-overlay-container"
+        id="schedule-container"
     >
-        診療時間時計（長押し）
-    </button>
 
-</div>
+        <!-- 本番と同じベース診療時間表 -->
+
+        <table class="schedule table-schedule-base">
+
+            <tr>
+
+                <th></th>
+
+                <th>月</th>
+                <th>火</th>
+                <th>水</th>
+                <th>木</th>
+                <th>金</th>
+                <th>土</th>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    🏥 午前診療
+                    <br>
+                    <span>09:00〜12:00</span>
+                </th>
+
+
+                <td
+                    data-day="月"
+                    data-time="午前"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="火"
+                    data-time="午前"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="水"
+                    data-time="午前"
+                >
+                    ―
+                </td>
+
+
+                <td
+                    data-day="木"
+                    data-time="午前"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="金"
+                    data-time="午前"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="土"
+                    data-time="午前"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    🏠
+                    <a href="houmon.html">
+                        訪問診療
+                    </a>
+                    <br>
+                    <span>13:30〜16:30</span>
+                </th>
+
+
+                <td
+                    data-day="月"
+                    data-visit="true"
+                >
+                    <span class="visit-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="火"
+                    data-visit="true"
+                >
+                    <span class="visit-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="水"
+                    data-visit="true"
+                >
+                    <span class="visit-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="木"
+                    data-visit="true"
+                >
+                    <span class="visit-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="金"
+                    data-visit="true"
+                >
+                    ―
+                </td>
+
+
+                <td
+                    data-day="土"
+                    data-visit="true"
+                >
+                    ―
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    🏥 午後診療
+                    <br>
+                    <span>17:30〜19:30</span>
+                </th>
+
+
+                <td
+                    data-day="月"
+                    data-time="午後"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="火"
+                    data-time="午後"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="水"
+                    data-time="午後"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="木"
+                    data-time="午後"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="金"
+                    data-time="午後"
+                >
+                    <span class="out-circle"></span>
+                </td>
+
+
+                <td
+                    data-day="土"
+                    data-time="午後"
+                >
+                    ―
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <p class="doctors-note">
+
+        <button
+            type="button"
+            id="toggle-doctors-btn"
+        >
+            担当医はこちら
+        </button>
+
+    </p>
+
+
+    <!-- 時計ボタン -->
+
+    <div class="clock-trigger-wrap">
+
+        <button
+            type="button"
+            id="clockBtn"
+            class="clock-btn"
+        >
+            診療時間時計（長押し）
+        </button>
+
+    </div>
+
+</section>
 
 
 <!-- ==================================================
@@ -306,63 +533,355 @@ if (camera && image) {
 
 
 /* ==================================================
+   担当医表
+   本番 index.html と同じ動的生成
+================================================== */
+
+Promise.all([
+
+    fetch("doctors.html")
+        .then(res => res.text()),
+
+    fetch("doctors.json")
+        .then(res => res.json())
+
+])
+
+.then(([htmlText, doctors]) => {
+
+    const container =
+        document.getElementById(
+            "schedule-container"
+        );
+
+    if (!container) return;
+
+
+    const parser =
+        new DOMParser();
+
+
+    const doc =
+        parser.parseFromString(
+            htmlText,
+            "text/html"
+        );
+
+
+    const overlayTable =
+        doc.querySelector("table");
+
+
+    if (!overlayTable) return;
+
+
+    overlayTable.id =
+        "doctors-overlay-table";
+
+
+    overlayTable.classList.add(
+        "schedule",
+        "table-overlay"
+    );
+
+
+    container.appendChild(
+        overlayTable
+    );
+
+
+    function createDoctorName(name) {
+
+        if (
+            !name ||
+            !String(name).trim()
+        ) {
+
+            return `
+                <span class="doctor-empty">
+                    ―
+                </span>
+            `;
+
+        }
+
+
+        let cleanName =
+            String(name)
+                .replace(/先生$/, "")
+                .trim();
+
+
+        let className =
+            "doctor-name";
+
+
+        if (cleanName.length >= 6) {
+
+            className +=
+                " very-long";
+
+        }
+
+        else if (cleanName.length >= 4) {
+
+            className +=
+                " long";
+
+        }
+
+
+        const chars =
+            [...cleanName]
+                .map(
+                    char =>
+                        `<span class="doctor-char">${char}</span>`
+                )
+                .join("");
+
+
+        return `
+            <span class="${className}">
+                ${chars}
+            </span>
+        `;
+
+    }
+
+
+    overlayTable
+        .querySelectorAll(
+            "td[data-time]"
+        )
+        .forEach(cell => {
+
+            const day =
+                cell.dataset.day;
+
+            const time =
+                cell.dataset.time;
+
+
+            cell.innerHTML =
+                createDoctorName(
+                    doctors?.[day]?.[time] || ""
+                );
+
+        });
+
+
+    overlayTable
+        .querySelectorAll(
+            "td[data-visit]"
+        )
+        .forEach(cell => {
+
+            const day =
+                cell.dataset.day;
+
+
+            cell.innerHTML =
+                createDoctorName(
+                    doctors?.[day]?.["訪問"] || ""
+                );
+
+        });
+
+
+    setupToggleEvents();
+
+})
+
+.catch(err => {
+
+    console.error(
+        "担当医表データ読み込みエラー:",
+        err
+    );
+
+});
+
+
+/* ==================================================
+   担当医表の表示・非表示
+================================================== */
+
+function setupToggleEvents() {
+
+    const btn =
+        document.getElementById(
+            "toggle-doctors-btn"
+        );
+
+
+    const container =
+        document.getElementById(
+            "schedule-container"
+        );
+
+
+    if (
+        !btn ||
+        !container
+    ) {
+        return;
+    }
+
+
+    function showOverlay(e) {
+
+        if (e) {
+            e.preventDefault();
+        }
+
+
+        container.classList.add(
+            "is-active"
+        );
+
+
+        btn.classList.add(
+            "active"
+        );
+
+    }
+
+
+    function hideOverlay(e) {
+
+        container.classList.remove(
+            "is-active"
+        );
+
+
+        btn.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    /* PC */
+
+    btn.addEventListener(
+        "mousedown",
+        showOverlay
+    );
+
+
+    btn.addEventListener(
+        "mouseup",
+        hideOverlay
+    );
+
+
+    btn.addEventListener(
+        "mouseleave",
+        hideOverlay
+    );
+
+
+    /* iPhone */
+
+    btn.addEventListener(
+        "touchstart",
+        showOverlay
+    );
+
+
+    btn.addEventListener(
+        "touchend",
+        hideOverlay
+    );
+
+
+    btn.addEventListener(
+        "touchcancel",
+        hideOverlay
+    );
+
+}
+
+
+/* ==================================================
    時計
 ================================================== */
 
 const clockBtn =
-    document.getElementById('clockBtn');
+    document.getElementById(
+        'clockBtn'
+    );
+
 
 const clockModal =
-    document.getElementById('clockModal');
+    document.getElementById(
+        'clockModal'
+    );
+
 
 const clockFrame =
     clockModal
-        ? clockModal.querySelector('iframe')
+        ? clockModal.querySelector(
+            'iframe'
+        )
         : null;
 
 
-if (clockBtn && clockModal) {
+if (
+    clockBtn &&
+    clockModal
+) {
 
 
     function adjustClock() {
 
         if (!clockFrame) return;
 
+
         try {
 
             const doc =
                 clockFrame.contentDocument;
 
+
             if (!doc) return;
 
 
-            /* 「外来診療・受付時間」を非表示 */
-
             const title =
-                doc.querySelector('.clock-title');
+                doc.querySelector(
+                    '.clock-title'
+                );
+
 
             if (title) {
-                title.style.display = 'none';
+
+                title.style.display =
+                    'none';
+
             }
 
-
-            /* 時計本体 */
 
             const timeRing =
-                doc.querySelector('.time-ring');
+                doc.querySelector(
+                    '.time-ring'
+                );
+
 
             if (timeRing) {
-                timeRing.style.opacity = '0.85';
+
+                timeRing.style.opacity =
+                    '0.85';
+
             }
 
-
-            /* iframe内背景 */
 
             doc.documentElement.style.background =
                 'transparent';
 
+
             doc.body.style.background =
                 'transparent';
+
 
             doc.body.style.margin =
                 '0';
@@ -383,11 +902,20 @@ if (clockBtn && clockModal) {
 
     function showClock(e) {
 
-        if (e) e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
 
-        clockModal.classList.add('is-active');
 
-        clockBtn.classList.add('active');
+        clockModal.classList.add(
+            'is-active'
+        );
+
+
+        clockBtn.classList.add(
+            'active'
+        );
+
 
         adjustClock();
 
@@ -396,11 +924,19 @@ if (clockBtn && clockModal) {
 
     function hideClock(e) {
 
-        if (e) e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
 
-        clockModal.classList.remove('is-active');
 
-        clockBtn.classList.remove('active');
+        clockModal.classList.remove(
+            'is-active'
+        );
+
+
+        clockBtn.classList.remove(
+            'active'
+        );
 
     }
 
@@ -415,14 +951,16 @@ if (clockBtn && clockModal) {
     }
 
 
-    /* iPhone */
-
     clockBtn.addEventListener(
         'touchstart',
         function(e) {
+
             showClock(e);
+
         },
-        { passive: false }
+        {
+            passive: false
+        }
     );
 
 
@@ -437,8 +975,6 @@ if (clockBtn && clockModal) {
         hideClock
     );
 
-
-    /* PC */
 
     clockBtn.addEventListener(
         'mousedown',
@@ -458,14 +994,16 @@ if (clockBtn && clockModal) {
     );
 
 
-    /* 時計の外側をタップしたら閉じる */
-
     clockModal.addEventListener(
         'click',
         function(e) {
 
-            if (e.target === clockModal) {
+            if (
+                e.target === clockModal
+            ) {
+
                 hideClock();
+
             }
 
         }
