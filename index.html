@@ -1460,7 +1460,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener("mouseup", hideOverlay);
         btn.addEventListener("mouseleave", hideOverlay);
 
-        btn.addEventListener("touchstart", showOverlay, { passive: false });
+        btn.addEventListener("touchstart", showOverlay);
         btn.addEventListener("touchend", hideOverlay);
         btn.addEventListener("touchcancel", hideOverlay);
     }
