@@ -12,30 +12,341 @@
 
 <title>地図テスト</title>
 
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+<style>
+
+/* ==================================================
+   地図
+================================================== */
+
+.location-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.location-map {
+    min-width: 0;
+}
+
+.access-map-frame {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border-radius: 12px;
+}
+
+.access-map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 12px;
+
+    /*
+       地図操作をiframe自身に渡す
+    */
+    touch-action: auto;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.location-map iframe {
+    display: block;
+}
+
+.map-link {
+    margin-top: .6rem;
+    text-align: center;
+    font-size: .8rem;
+}
+
+
+/* ==================================================
+   固定電話
+================================================== */
+
+.fixed-call {
+    position: fixed;
+    z-index: 2147483647;
+}
+
+
+/* ==================================================
+   院内写真
+================================================== */
+
+.clinic-view {
+    width: 100%;
+}
+
+.clinic-camera {
+    position: relative;
+    width: 100%;
+}
+
+.clinic-image {
+    display: block;
+    width: 100%;
+}
+
+
+/* ==================================================
+   スマートフォン
+================================================== */
+
+@media (max-width: 600px) {
+
+    .location-grid {
+        grid-template-columns: 55% 45%;
+        gap: .7rem;
+    }
+
+    .access-map-frame {
+        height: 180px;
+    }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-<div
-    style="
-        width: 100%;
-        height: 420px;
-    "
+<main>
+
+
+<!-- ==================================================
+     固定電話
+================================================== -->
+
+<a
+    href="tel:052-881-0876"
+    class="fixed-call"
 >
+    ☎ 電話する　052-881-0876
+</a>
 
-    <iframe
-        src="map.access3.html"
-        title="服部医院周辺アクセスマップ"
-        style="
-            width: 100%;
-            height: 100%;
-            border: 0;
-        "
-    ></iframe>
 
-</div>
+<!-- ==================================================
+     院内写真
+================================================== -->
+
+<section class="clinic-view">
+
+    <div class="clinic-camera">
+
+        <img
+            src="images/gairai.uketuke.jpg"
+            alt="服部医院 院内"
+            class="clinic-image"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     所在地・アクセス ①
+================================================== -->
+
+<section class="location-section">
+
+    <h2>
+        所在地・アクセス
+    </h2>
+
+
+    <div class="location-grid">
+
+
+        <div class="location-map">
+
+            <div class="access-map-frame">
+
+                <iframe
+                    src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
+                    title="服部医院周辺アクセスマップ"
+                    allowfullscreen
+                    loading="eager"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     所在地・アクセス ②
+================================================== -->
+
+<section class="location-section">
+
+    <h2>
+        所在地・アクセス・2
+    </h2>
+
+
+    <div class="location-grid">
+
+
+        <div class="location-map">
+
+            <div class="access-map-frame">
+
+                <iframe
+                    src="map.access2.html"
+                    title="服部医院周辺アクセスマップ"
+                    loading="eager"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     所在地・アクセス ③
+================================================== -->
+
+<section class="location-section">
+
+    <h2>
+        所在地・アクセス・3
+    </h2>
+
+
+    <div class="location-grid">
+
+
+        <div class="location-map">
+
+            <div class="access-map-frame">
+
+                <iframe
+                    src="map.access3.html"
+                    title="服部医院周辺アクセスマップ"
+                    loading="eager"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
 
 
 </body>
