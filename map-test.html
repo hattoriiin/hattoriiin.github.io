@@ -46,6 +46,7 @@
     border-color: #adb5bd;
 }
 
+
 .clock-modal {
     position: fixed;
     inset: 0;
@@ -69,12 +70,14 @@
         visibility 0.25s ease;
 }
 
+
 .clock-modal.is-active {
     display: flex;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
 }
+
 
 .clock-modal-content {
     width: 100vw;
@@ -96,6 +99,7 @@
     transform: scale(1);
 }
 
+
 .clock-modal-content iframe {
     position: absolute;
 
@@ -109,6 +113,23 @@
     background: transparent;
 
     transform: translate(-50%, -50%);
+}
+
+
+/* ==================================================
+   担当医表テスト
+================================================== */
+
+.schedule-test {
+    margin: 20px 0;
+}
+
+.schedule-overlay-container {
+    position: relative;
+}
+
+.doctors-note {
+    text-align: center;
 }
 
 </style>
@@ -151,7 +172,7 @@
 
 
 <!-- ==================================================
-     担当医表
+     診療時間・担当医表
 ================================================== -->
 
 <section id="schedule">
@@ -165,8 +186,6 @@
         class="schedule-overlay-container"
         id="schedule-container"
     >
-
-        <!-- 本番と同じベース診療時間表 -->
 
         <table class="schedule table-schedule-base">
 
@@ -192,51 +211,27 @@
                     <span>09:00〜12:00</span>
                 </th>
 
-
-                <td
-                    data-day="月"
-                    data-time="午前"
-                >
+                <td data-day="月" data-time="午前">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="火"
-                    data-time="午前"
-                >
+                <td data-day="火" data-time="午前">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="水"
-                    data-time="午前"
-                >
+                <td data-day="水" data-time="午前">
                     ―
                 </td>
 
-
-                <td
-                    data-day="木"
-                    data-time="午前"
-                >
+                <td data-day="木" data-time="午前">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="金"
-                    data-time="午前"
-                >
+                <td data-day="金" data-time="午前">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="土"
-                    data-time="午前"
-                >
+                <td data-day="土" data-time="午前">
                     <span class="out-circle"></span>
                 </td>
 
@@ -254,51 +249,27 @@
                     <span>13:30〜16:30</span>
                 </th>
 
-
-                <td
-                    data-day="月"
-                    data-visit="true"
-                >
+                <td data-day="月" data-visit="true">
                     <span class="visit-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="火"
-                    data-visit="true"
-                >
+                <td data-day="火" data-visit="true">
                     <span class="visit-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="水"
-                    data-visit="true"
-                >
+                <td data-day="水" data-visit="true">
                     <span class="visit-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="木"
-                    data-visit="true"
-                >
+                <td data-day="木" data-visit="true">
                     <span class="visit-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="金"
-                    data-visit="true"
-                >
+                <td data-day="金" data-visit="true">
                     ―
                 </td>
 
-
-                <td
-                    data-day="土"
-                    data-visit="true"
-                >
+                <td data-day="土" data-visit="true">
                     ―
                 </td>
 
@@ -313,51 +284,27 @@
                     <span>17:30〜19:30</span>
                 </th>
 
-
-                <td
-                    data-day="月"
-                    data-time="午後"
-                >
+                <td data-day="月" data-time="午後">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="火"
-                    data-time="午後"
-                >
+                <td data-day="火" data-time="午後">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="水"
-                    data-time="午後"
-                >
+                <td data-day="水" data-time="午後">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="木"
-                    data-time="午後"
-                >
+                <td data-day="木" data-time="午後">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="金"
-                    data-time="午後"
-                >
+                <td data-day="金" data-time="午後">
                     <span class="out-circle"></span>
                 </td>
 
-
-                <td
-                    data-day="土"
-                    data-time="午後"
-                >
+                <td data-day="土" data-time="午後">
                     ―
                 </td>
 
@@ -380,7 +327,23 @@
     </p>
 
 
-    <!-- 時計ボタン -->
+    <p class="online-note">
+
+        <a href="online.html">
+            ※ オンライン診療
+        </a>
+        は予約制となります
+
+    </p>
+
+
+    <p class="reception-note">
+
+        ※ 外来診療の受付時間<br>
+        診療開始15分前から診療時間終了30分前まで
+
+    </p>
+
 
     <div class="clock-trigger-wrap">
 
@@ -398,56 +361,196 @@
 
 
 <!-- ==================================================
-     地図
+     ⭐ 所在地・アクセス ①
+     本番と同じ独立 section
 ================================================== -->
 
-<div class="location-grid">
+<section class="location-section">
 
-    <div class="location-map">
-
-
-        <!-- 地図1：本番と同じ直接Google Maps -->
-
-        <div class="access-map-frame">
-
-            <iframe
-                src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-                title="直接Googleマップ"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-            ></iframe>
-
-        </div>
+    <h2>
+        所在地・アクセス
+    </h2>
 
 
-        <!-- 地図2 -->
-
-        <div class="access-map-frame">
-
-            <iframe
-                src="map.access2.html"
-                title="地図2"
-            ></iframe>
-
-        </div>
+    <div class="location-grid">
 
 
-        <!-- 地図3 -->
+        <div class="location-map">
 
-        <div class="access-map-frame">
+            <div class="access-map-frame">
 
-            <iframe
-                src="map.access3.html"
-                title="地図3"
-            ></iframe>
+                <iframe
+                    src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
+                    title="服部医院周辺アクセスマップ"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
 
         </div>
 
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
 
     </div>
 
-</div>
+</section>
+
+
+<!-- ==================================================
+     ⭐ 所在地・アクセス ②
+     本番と同じ独立 section
+================================================== -->
+
+<section class="location-section">
+
+    <h2>
+        所在地・アクセス・2
+    </h2>
+
+
+    <div class="location-grid">
+
+
+        <div class="location-map">
+
+            <div class="access-map-frame">
+
+                <iframe
+                    src="map.access2.html"
+                    title="服部医院周辺アクセスマップ"
+                    loading="lazy"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     ⭐ 所在地・アクセス ③
+     本番と同じ独立 section
+================================================== -->
+
+<section class="location-section">
+
+    <h2>
+        所在地・アクセス・3
+    </h2>
+
+
+    <div class="location-grid">
+
+
+        <div class="location-map">
+
+            <div class="access-map-frame">
+
+                <iframe
+                    src="map.access3.html"
+                    title="服部医院周辺アクセスマップ"
+                ></iframe>
+
+            </div>
+
+
+            <p class="map-link">
+
+                <a
+                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Googleマップで見る
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div class="location-info">
+
+            <h3>
+                所在地
+            </h3>
+
+            <p>
+                〒467-0825
+                <br>
+                愛知県名古屋市瑞穂区
+                <br>
+                柳ヶ枝町1-34 1階
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 
 <!-- ==================================================
@@ -479,7 +582,7 @@
 
 
 /* ==================================================
-   院内写真の横スクロール
+   院内写真スクロール
 ================================================== */
 
 const camera =
@@ -491,220 +594,139 @@ const image =
 
 if (camera && image) {
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener(
+        'scroll',
+        function() {
 
-        const rect =
-            camera.getBoundingClientRect();
+            const rect =
+                camera.getBoundingClientRect();
 
-        const viewHeight =
-            window.innerHeight;
+            const viewHeight =
+                window.innerHeight;
 
-        if (
-            rect.top <= viewHeight &&
-            rect.bottom >= 0
-        ) {
 
-            const progress =
-                (viewHeight - rect.top) /
-                (viewHeight + rect.height);
+            if (
+                rect.top <= viewHeight &&
+                rect.bottom >= 0
+            ) {
 
-            const clamped =
-                Math.max(
-                    0,
-                    Math.min(1, progress)
-                );
+                const progress =
+                    (viewHeight - rect.top) /
+                    (viewHeight + rect.height);
 
-            const translateX =
-                -50 +
-                (clamped - 0.5) * 30;
 
-            const scale =
-                0.85 +
-                clamped * 0.15;
+                const clamped =
+                    Math.max(
+                        0,
+                        Math.min(
+                            1,
+                            progress
+                        )
+                    );
 
-            image.style.transform =
-                `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
+
+                const translateX =
+                    -50 +
+                    (clamped - 0.5) * 30;
+
+
+                const scale =
+                    0.85 +
+                    clamped * 0.15;
+
+
+                image.style.transform =
+                    `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
+
+            }
 
         }
-
-    });
+    );
 
 }
 
 
 /* ==================================================
    担当医表
-   本番 index.html と同じ動的生成
 ================================================== */
 
 Promise.all([
 
     fetch("doctors.html")
-        .then(res => res.text()),
+        .then(
+            res => res.text()
+        ),
 
     fetch("doctors.json")
-        .then(res => res.json())
+        .then(
+            res => res.json()
+        )
 
 ])
 
-.then(([htmlText, doctors]) => {
+.then(
+    ([htmlText, doctors]) => {
 
-    const container =
-        document.getElementById(
-            "schedule-container"
+        const container =
+            document.getElementById(
+                "schedule-container"
+            );
+
+
+        if (!container) return;
+
+
+        const parser =
+            new DOMParser();
+
+
+        const doc =
+            parser.parseFromString(
+                htmlText,
+                "text/html"
+            );
+
+
+        const overlayTable =
+            doc.querySelector(
+                "table"
+            );
+
+
+        if (!overlayTable) return;
+
+
+        overlayTable.id =
+            "doctors-overlay-table";
+
+
+        overlayTable.classList.add(
+            "schedule",
+            "table-overlay"
         );
 
-    if (!container) return;
 
-
-    const parser =
-        new DOMParser();
-
-
-    const doc =
-        parser.parseFromString(
-            htmlText,
-            "text/html"
+        container.appendChild(
+            overlayTable
         );
 
 
-    const overlayTable =
-        doc.querySelector("table");
-
-
-    if (!overlayTable) return;
-
-
-    overlayTable.id =
-        "doctors-overlay-table";
-
-
-    overlayTable.classList.add(
-        "schedule",
-        "table-overlay"
-    );
-
-
-    container.appendChild(
-        overlayTable
-    );
-
-
-    function createDoctorName(name) {
-
-        if (
-            !name ||
-            !String(name).trim()
-        ) {
-
-            return `
-                <span class="doctor-empty">
-                    ―
-                </span>
-            `;
-
-        }
-
-
-        let cleanName =
-            String(name)
-                .replace(/先生$/, "")
-                .trim();
-
-
-        let className =
-            "doctor-name";
-
-
-        if (cleanName.length >= 6) {
-
-            className +=
-                " very-long";
-
-        }
-
-        else if (cleanName.length >= 4) {
-
-            className +=
-                " long";
-
-        }
-
-
-        const chars =
-            [...cleanName]
-                .map(
-                    char =>
-                        `<span class="doctor-char">${char}</span>`
-                )
-                .join("");
-
-
-        return `
-            <span class="${className}">
-                ${chars}
-            </span>
-        `;
+        setupToggleEvents();
 
     }
+)
 
+.catch(
+    err => {
 
-    overlayTable
-        .querySelectorAll(
-            "td[data-time]"
-        )
-        .forEach(cell => {
+        console.error(
+            "担当医表データ読み込みエラー:",
+            err
+        );
 
-            const day =
-                cell.dataset.day;
+    }
+);
 
-            const time =
-                cell.dataset.time;
-
-
-            cell.innerHTML =
-                createDoctorName(
-                    doctors?.[day]?.[time] || ""
-                );
-
-        });
-
-
-    overlayTable
-        .querySelectorAll(
-            "td[data-visit]"
-        )
-        .forEach(cell => {
-
-            const day =
-                cell.dataset.day;
-
-
-            cell.innerHTML =
-                createDoctorName(
-                    doctors?.[day]?.["訪問"] || ""
-                );
-
-        });
-
-
-    setupToggleEvents();
-
-})
-
-.catch(err => {
-
-    console.error(
-        "担当医表データ読み込みエラー:",
-        err
-    );
-
-});
-
-
-/* ==================================================
-   担当医表の表示・非表示
-================================================== */
 
 function setupToggleEvents() {
 
@@ -747,7 +769,7 @@ function setupToggleEvents() {
     }
 
 
-    function hideOverlay(e) {
+    function hideOverlay() {
 
         container.classList.remove(
             "is-active"
@@ -760,8 +782,6 @@ function setupToggleEvents() {
 
     }
 
-
-    /* PC */
 
     btn.addEventListener(
         "mousedown",
@@ -780,8 +800,6 @@ function setupToggleEvents() {
         hideOverlay
     );
 
-
-    /* iPhone */
 
     btn.addEventListener(
         "touchstart",
@@ -878,10 +896,8 @@ if (
             doc.documentElement.style.background =
                 'transparent';
 
-
             doc.body.style.background =
                 'transparent';
-
 
             doc.body.style.margin =
                 '0';
