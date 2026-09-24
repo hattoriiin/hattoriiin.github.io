@@ -54,7 +54,6 @@
     height: 100%;
 
     background: rgba(30, 40, 45, 0.10);
-
     display: none;
     justify-content: center;
     align-items: center;
@@ -87,7 +86,6 @@
     max-height: none;
 
     background: rgba(235, 247, 250, 0.85);
-
     border-radius: 0;
     box-shadow: none;
 
@@ -214,27 +212,45 @@
                     <span>09:00〜12:00</span>
                 </th>
 
-                <td data-day="月" data-time="午前">
+                <td
+                    data-day="月"
+                    data-time="午前"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="火" data-time="午前">
+                <td
+                    data-day="火"
+                    data-time="午前"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="水" data-time="午前">
+                <td
+                    data-day="水"
+                    data-time="午前"
+                >
                     ―
                 </td>
 
-                <td data-day="木" data-time="午前">
+                <td
+                    data-day="木"
+                    data-time="午前"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="金" data-time="午前">
+                <td
+                    data-day="金"
+                    data-time="午前"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="土" data-time="午前">
+                <td
+                    data-day="土"
+                    data-time="午前"
+                >
                     <span class="out-circle"></span>
                 </td>
 
@@ -252,27 +268,45 @@
                     <span>13:30〜16:30</span>
                 </th>
 
-                <td data-day="月" data-visit="true">
+                <td
+                    data-day="月"
+                    data-visit="true"
+                >
                     <span class="visit-circle"></span>
                 </td>
 
-                <td data-day="火" data-visit="true">
+                <td
+                    data-day="火"
+                    data-visit="true"
+                >
                     <span class="visit-circle"></span>
                 </td>
 
-                <td data-day="水" data-visit="true">
+                <td
+                    data-day="水"
+                    data-visit="true"
+                >
                     <span class="visit-circle"></span>
                 </td>
 
-                <td data-day="木" data-visit="true">
+                <td
+                    data-day="木"
+                    data-visit="true"
+                >
                     <span class="visit-circle"></span>
                 </td>
 
-                <td data-day="金" data-visit="true">
+                <td
+                    data-day="金"
+                    data-visit="true"
+                >
                     ―
                 </td>
 
-                <td data-day="土" data-visit="true">
+                <td
+                    data-day="土"
+                    data-visit="true"
+                >
                     ―
                 </td>
 
@@ -287,27 +321,45 @@
                     <span>17:30〜19:30</span>
                 </th>
 
-                <td data-day="月" data-time="午後">
+                <td
+                    data-day="月"
+                    data-time="午後"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="火" data-time="午後">
+                <td
+                    data-day="火"
+                    data-time="午後"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="水" data-time="午後">
+                <td
+                    data-day="水"
+                    data-time="午後"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="木" data-time="午後">
+                <td
+                    data-day="木"
+                    data-time="午後"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="金" data-time="午後">
+                <td
+                    data-day="金"
+                    data-time="午後"
+                >
                     <span class="out-circle"></span>
                 </td>
 
-                <td data-day="土" data-time="午後">
+                <td
+                    data-day="土"
+                    data-time="午後"
+                >
                     ―
                 </td>
 
@@ -951,6 +1003,10 @@ function setupToggleEvents() {
     }
 
 
+    /* ==================================================
+       PC
+    ================================================== */
+
     btn.addEventListener(
         "mousedown",
         showOverlay
@@ -965,24 +1021,6 @@ function setupToggleEvents() {
 
     btn.addEventListener(
         "mouseleave",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchstart",
-        showOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchend",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchcancel",
         hideOverlay
     );
 
@@ -1064,8 +1102,10 @@ if (
             doc.documentElement.style.background =
                 'transparent';
 
+
             doc.body.style.background =
                 'transparent';
+
 
             doc.body.style.margin =
                 '0';
@@ -1087,7 +1127,9 @@ if (
     function showClock(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
 
 
@@ -1109,7 +1151,9 @@ if (
     function hideClock(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
 
 
