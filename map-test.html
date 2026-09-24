@@ -140,6 +140,9 @@
 <body>
 
 
+<main>
+
+
 <!-- ==================================================
      固定電話
 ================================================== -->
@@ -361,8 +364,7 @@
 
 
 <!-- ==================================================
-     ⭐ 所在地・アクセス ①
-     本番と同じ独立 section
+     所在地・アクセス ①
 ================================================== -->
 
 <section class="location-section">
@@ -427,8 +429,7 @@
 
 
 <!-- ==================================================
-     ⭐ 所在地・アクセス ②
-     本番と同じ独立 section
+     所在地・アクセス ②
 ================================================== -->
 
 <section class="location-section">
@@ -491,8 +492,7 @@
 
 
 <!-- ==================================================
-     ⭐ 所在地・アクセス ③
-     本番と同じ独立 section
+     所在地・アクセス ③
 ================================================== -->
 
 <section class="location-section">
@@ -654,12 +654,36 @@ Promise.all([
 
     fetch("doctors.html")
         .then(
-            res => res.text()
+            response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "doctors.html を読み込めませんでした"
+                    );
+
+                }
+
+                return response.text();
+
+            }
         ),
 
     fetch("doctors.json")
         .then(
-            res => res.json()
+            response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "doctors.json を読み込めませんでした"
+                    );
+
+                }
+
+                return response.json();
+
+            }
         )
 
 ])
@@ -673,7 +697,9 @@ Promise.all([
             );
 
 
-        if (!container) return;
+        if (!container) {
+            return;
+        }
 
 
         const parser =
@@ -693,7 +719,15 @@ Promise.all([
             );
 
 
-        if (!overlayTable) return;
+        if (!overlayTable) {
+
+            console.error(
+                "doctors.html 内に table がありません"
+            );
+
+            return;
+
+        }
 
 
         overlayTable.id =
@@ -706,6 +740,136 @@ Promise.all([
         );
 
 
+        /* ==================================================
+           医師名を入れる
+        ================================================== */
+
+        function createDoctorName(name) {
+
+            if (
+                !name ||
+                !String(name).trim()
+            ) {
+
+                return `
+                    <span class="doctor-empty">
+                        ―
+                    </span>
+                `;
+
+            }
+
+
+            const cleanName =
+                String(name)
+                    .replace(/先生$/, "")
+                    .trim();
+
+
+            let className =
+                "doctor-name";
+
+
+            if (cleanName.length >= 6) {
+
+                className +=
+                    " very-long";
+
+            }
+
+            else if (cleanName.length >= 4) {
+
+                className +=
+                    " long";
+
+            }
+
+
+            const chars =
+                [...cleanName]
+                    .map(
+                        char => `
+                            <span class="doctor-char">
+                                ${char}
+                            </span>
+                        `
+                    )
+                    .join("");
+
+
+            return `
+                <span class="${className}">
+                    ${chars}
+                </span>
+            `;
+
+        }
+
+
+        /* ==================================================
+           午前・午後
+        ================================================== */
+
+        overlayTable
+            .querySelectorAll(
+                "td[data-time]"
+            )
+            .forEach(
+                cell => {
+
+                    const day =
+                        cell.dataset.day;
+
+
+                    const time =
+                        cell.dataset.time;
+
+
+                    const name =
+                        doctors?.[day]?.[time] || "";
+
+
+                    cell.innerHTML =
+                        createDoctorName(
+                            name
+                        );
+
+                }
+            );
+
+
+        /* ==================================================
+           訪問診療
+        ================================================== */
+
+        overlayTable
+            .querySelectorAll(
+                "td[data-visit]"
+            )
+            .forEach(
+                cell => {
+
+                    const day =
+                        cell.dataset.day;
+
+
+                    const visitDoctor =
+                        doctors?.[day]?.["訪問"] || "";
+
+
+                    cell.innerHTML =
+                        createDoctorName(
+                            visitDoctor
+                        );
+
+                }
+            );
+
+
+        /* ==================================================
+           表を追加
+        ================================================== */
+
         container.appendChild(
             overlayTable
         );
@@ -717,11 +881,11 @@ Promise.all([
 )
 
 .catch(
-    err => {
+    error => {
 
         console.error(
-            "担当医表データ読み込みエラー:",
-            err
+            "担当医表の読み込みエラー:",
+            error
         );
 
     }
@@ -746,14 +910,18 @@ function setupToggleEvents() {
         !btn ||
         !container
     ) {
+
         return;
+
     }
 
 
     function showOverlay(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
 
 
@@ -1029,6 +1197,9 @@ if (
 
 
 </script>
+
+
+</main>
 
 
 </body>
