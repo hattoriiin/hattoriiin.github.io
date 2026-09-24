@@ -650,343 +650,17 @@ if (camera && image) {
    担当医表
 ================================================== */
 
-Promise.all([
-
-    fetch("doctors.html")
-        .then(
-            response => {
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "doctors.html を読み込めませんでした"
-                    );
-
-                }
-
-                return response.text();
-
-            }
-        ),
-
-    fetch("doctors.json")
-        .then(
-            response => {
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "doctors.json を読み込めませんでした"
-                    );
-
-                }
-
-                return response.json();
-
-            }
-        )
-
-])
-
-.then(
-    ([htmlText, doctors]) => {
-
-        const container =
-            document.getElementById(
-                "schedule-container"
-            );
-
-
-        if (!container) {
-            return;
-        }
-
-
-        const parser =
-            new DOMParser();
-
-
-        const doc =
-            parser.parseFromString(
-                htmlText,
-                "text/html"
-            );
-
-
-        const overlayTable =
-            doc.querySelector(
-                "table"
-            );
-
-
-        if (!overlayTable) {
-
-            console.error(
-                "doctors.html 内に table がありません"
-            );
-
-            return;
-
-        }
-
-
-        overlayTable.id =
-            "doctors-overlay-table";
-
-
-        overlayTable.classList.add(
-            "schedule",
-            "table-overlay"
-        );
-
-
-        /* ==================================================
-           医師名を入れる
-        ================================================== */
-
-        function createDoctorName(name) {
-
-            if (
-                !name ||
-                !String(name).trim()
-            ) {
-
-                return `
-                    <span class="doctor-empty">
-                        ―
-                    </span>
-                `;
-
-            }
-
-
-            const cleanName =
-                String(name)
-                    .replace(/先生$/, "")
-                    .trim();
-
-
-            let className =
-                "doctor-name";
-
-
-            if (cleanName.length >= 6) {
-
-                className +=
-                    " very-long";
-
-            }
-
-            else if (cleanName.length >= 4) {
-
-                className +=
-                    " long";
-
-            }
-
-
-            const chars =
-                [...cleanName]
-                    .map(
-                        char => `
-                            <span class="doctor-char">
-                                ${char}
-                            </span>
-                        `
-                    )
-                    .join("");
-
-
-            return `
-                <span class="${className}">
-                    ${chars}
-                </span>
-            `;
-
-        }
-
-
-        /* ==================================================
-           午前・午後
-        ================================================== */
-
-        overlayTable
-            .querySelectorAll(
-                "td[data-time]"
-            )
-            .forEach(
-                cell => {
-
-                    const day =
-                        cell.dataset.day;
-
-
-                    const time =
-                        cell.dataset.time;
-
-
-                    const name =
-                        doctors?.[day]?.[time] || "";
-
-
-                    cell.innerHTML =
-                        createDoctorName(
-                            name
-                        );
-
-                }
-            );
-
-
-        /* ==================================================
-           訪問診療
-        ================================================== */
-
-        overlayTable
-            .querySelectorAll(
-                "td[data-visit]"
-            )
-            .forEach(
-                cell => {
-
-                    const day =
-                        cell.dataset.day;
-
-
-                    const visitDoctor =
-                        doctors?.[day]?.["訪問"] || "";
-
-
-                    cell.innerHTML =
-                        createDoctorName(
-                            visitDoctor
-                        );
-
-                }
-            );
-
-
-        /* ==================================================
-           表を追加
-        ================================================== */
-
-        container.appendChild(
-            overlayTable
-        );
-
-
-        setupToggleEvents();
-
-    }
-)
-
-.catch(
-    error => {
-
-        console.error(
-            "担当医表の読み込みエラー:",
-            error
-        );
-
-    }
-);
-
-
-function setupToggleEvents() {
-
-    const btn =
-        document.getElementById(
-            "toggle-doctors-btn"
-        );
-
-
-    const container =
-        document.getElementById(
-            "schedule-container"
-        );
-
-
-    if (
-        !btn ||
-        !container
-    ) {
-
-        return;
-
-    }
-
-
-    function showOverlay(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        container.classList.add(
-            "is-active"
-        );
-
-
-        btn.classList.add(
-            "active"
-        );
-
-    }
-
-
-    function hideOverlay() {
-
-        container.classList.remove(
-            "is-active"
-        );
-
-
-        btn.classList.remove(
-            "active"
-        );
-
-    }
-
-
-    btn.addEventListener(
-        "mousedown",
-        showOverlay
-    );
-
-
-    btn.addEventListener(
-        "mouseup",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "mouseleave",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchstart",
-        showOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchend",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchcancel",
-        hideOverlay
-    );
-
-}
+/*
+   今回のテストでは、
+   doctors.html / doctors.json の読み込み、
+   医師名の生成、
+   担当医表の追加、
+   担当医ボタンのイベント処理を
+   すべて停止しています。
+
+   「担当医表示処理そのもの」が
+   二本指操作に影響するかを確認するためです。
+*/
 
 
 /* ==================================================
@@ -1064,8 +738,10 @@ if (
             doc.documentElement.style.background =
                 'transparent';
 
+
             doc.body.style.background =
                 'transparent';
+
 
             doc.body.style.margin =
                 '0';
@@ -1087,7 +763,9 @@ if (
     function showClock(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
 
 
@@ -1109,7 +787,9 @@ if (
     function hideClock(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
 
 
