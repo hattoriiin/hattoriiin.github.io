@@ -20,116 +20,94 @@
 <style>
 
 /* ==================================================
-   時計
+   地図
 ================================================== */
 
-.clock-trigger-wrap {
+.location-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.location-map iframe {
+    display: block;
+    width: 100%;
+    height: 420px;
+    border-radius: 10px;
+}
+
+.map-link {
+    margin-top: .6rem;
     text-align: center;
-    margin: 20px 0;
+    font-size: .8rem;
 }
 
-.clock-btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+.access-map-frame {
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
-.clock-btn.active {
-    background-color: #e2e6ea;
-    border-color: #adb5bd;
-}
-
-
-.clock-modal {
-    position: fixed;
-    inset: 0;
+.access-map-frame iframe {
     width: 100%;
     height: 100%;
-
-    background: rgba(30, 40, 45, 0.10);
-
-    display: none;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 2147483647;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease;
-}
-
-
-.clock-modal.is-active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-
-.clock-modal-content {
-    width: 100vw;
-    height: 100vh;
-
-    max-width: none;
-    max-height: none;
-
-    background: rgba(235, 247, 250, 0.85);
-
-    border-radius: 0;
-    box-shadow: none;
-
-    position: relative;
-    overflow: hidden;
-
-    margin: 0;
-
-    transform: scale(1);
-}
-
-
-.clock-modal-content iframe {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 100vw;
-    height: 100vh;
-
-    border: none;
-    background: transparent;
-
-    transform: translate(-50%, -50%);
+    border: 0;
+    display: block;
 }
 
 
 /* ==================================================
-   担当医表テスト
+   固定電話
 ================================================== */
 
-.schedule-test {
-    margin: 20px 0;
+.fixed-call {
+    position: fixed;
+    z-index: 2147483647;
 }
 
-.schedule-overlay-container {
+
+/* ==================================================
+   院内写真
+================================================== */
+
+.clinic-view {
+    width: 100%;
+    overflow: hidden;
+}
+
+.clinic-camera {
     position: relative;
+    width: 100%;
+    overflow: hidden;
 }
 
-.doctors-note {
-    text-align: center;
+.clinic-image {
+    display: block;
+    width: 100%;
+}
+
+
+/* ==================================================
+   スマートフォン
+================================================== */
+
+@media (max-width: 600px) {
+
+    .location-grid {
+        grid-template-columns: 55% 45%;
+        gap: .7rem;
+    }
+
+    .location-map iframe {
+        height: 180px;
+    }
+
+    .access-map-frame {
+        height: 180px;
+    }
+
 }
 
 </style>
@@ -362,326 +340,6 @@
     </div>
 
 </section>
-
-
-<!-- ==================================================
-     時計モーダル
-================================================== -->
-
-<div
-    id="clockModal"
-    class="clock-modal"
->
-
-    <div class="clock-modal-content">
-
-        <iframe
-            src="https://hattoriiin.github.io/clock.claude.html"
-            title="診療時間時計"
-        ></iframe>
-
-    </div>
-
-</div>
-
-
-<!-- ==================================================
-     JavaScript
-================================================== -->
-
-<script>
-
-
-/* ==================================================
-   院内写真スクロール
-================================================== */
-
-const camera =
-    document.querySelector('.clinic-camera');
-
-const image =
-    document.querySelector('.clinic-image');
-
-
-if (camera && image) {
-
-    window.addEventListener(
-        'scroll',
-        function() {
-
-            const rect =
-                camera.getBoundingClientRect();
-
-            const viewHeight =
-                window.innerHeight;
-
-
-            if (
-                rect.top <= viewHeight &&
-                rect.bottom >= 0
-            ) {
-
-                const progress =
-                    (viewHeight - rect.top) /
-                    (viewHeight + rect.height);
-
-
-                const clamped =
-                    Math.max(
-                        0,
-                        Math.min(
-                            1,
-                            progress
-                        )
-                    );
-
-
-                const translateX =
-                    -50 +
-                    (clamped - 0.5) * 30;
-
-
-                const scale =
-                    0.85 +
-                    clamped * 0.15;
-
-
-                image.style.transform =
-                    `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ==================================================
-   担当医表
-================================================== */
-
-/*
-   今回は診療時間・担当医セクション自体を
-   HTMLから外しているため、
-   担当医表に関するJavaScriptはありません。
-*/
-
-
-/* ==================================================
-   時計
-================================================== */
-
-const clockBtn =
-    document.getElementById(
-        'clockBtn'
-    );
-
-
-const clockModal =
-    document.getElementById(
-        'clockModal'
-    );
-
-
-const clockFrame =
-    clockModal
-        ? clockModal.querySelector(
-            'iframe'
-        )
-        : null;
-
-
-if (
-    clockBtn &&
-    clockModal
-) {
-
-
-    function adjustClock() {
-
-        if (!clockFrame) return;
-
-
-        try {
-
-            const doc =
-                clockFrame.contentDocument;
-
-
-            if (!doc) return;
-
-
-            const title =
-                doc.querySelector(
-                    '.clock-title'
-                );
-
-
-            if (title) {
-
-                title.style.display =
-                    'none';
-
-            }
-
-
-            const timeRing =
-                doc.querySelector(
-                    '.time-ring'
-                );
-
-
-            if (timeRing) {
-
-                timeRing.style.opacity =
-                    '0.85';
-
-            }
-
-
-            doc.documentElement.style.background =
-                'transparent';
-
-
-            doc.body.style.background =
-                'transparent';
-
-
-            doc.body.style.margin =
-                '0';
-
-        }
-
-        catch (error) {
-
-            console.log(
-                '時計表示の調整に失敗しました:',
-                error
-            );
-
-        }
-
-    }
-
-
-    function showClock(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        clockModal.classList.add(
-            'is-active'
-        );
-
-
-        clockBtn.classList.add(
-            'active'
-        );
-
-
-        adjustClock();
-
-    }
-
-
-    function hideClock(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        clockModal.classList.remove(
-            'is-active'
-        );
-
-
-        clockBtn.classList.remove(
-            'active'
-        );
-
-    }
-
-
-    if (clockFrame) {
-
-        clockFrame.addEventListener(
-            'load',
-            adjustClock
-        );
-
-    }
-
-
-    clockBtn.addEventListener(
-        'touchstart',
-        function(e) {
-
-            showClock(e);
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    clockBtn.addEventListener(
-        'touchend',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'touchcancel',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'mousedown',
-        showClock
-    );
-
-
-    window.addEventListener(
-        'mouseup',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'mouseleave',
-        hideClock
-    );
-
-
-    clockModal.addEventListener(
-        'click',
-        function(e) {
-
-            if (
-                e.target === clockModal
-            ) {
-
-                hideClock();
-
-            }
-
-        }
-    );
-
-}
-
-
-</script>
 
 
 </main>
