@@ -19,25 +19,13 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
+}
+
+body {
     overflow: hidden;
 }
 
-.map-wrap {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.map-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.map-inner iframe {
+iframe {
     display: block;
     width: 100%;
     height: 100%;
@@ -50,21 +38,12 @@ body {
 
 <body>
 
-<div class="map-wrap">
-
-    <div class="map-inner">
-
-        <iframe
-            src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-            title="服部医院周辺アクセスマップ"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
-
-    </div>
-
-</div>
+<iframe
+    src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
+    title="服部医院周辺アクセスマップ"
+    loading="eager"
+    referrerpolicy="strict-origin-when-cross-origin">
+</iframe>
 
 </body>
 
