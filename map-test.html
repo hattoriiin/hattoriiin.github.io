@@ -13,14 +13,31 @@
 
 <style>
 
+/* =========================================================
+   ページ全体
+   =========================================================
+   地図専用ページなので、ページそのものに余白やスクロールを
+   発生させない。
+   ========================================================= */
+
 html,
 body {
     margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
     background: transparent;
 }
+
+
+/* =========================================================
+   地図表示領域
+   =========================================================
+   ここが「実際に見せる窓」。
+   地図そのものを拡大・縮小するのではなく、
+   この領域の中にGoogle Mapsをそのまま配置する。
+   ========================================================= */
 
 .map-wrap {
     position: relative;
@@ -29,20 +46,30 @@ body {
     overflow: hidden;
 }
 
-.map-inner {
-    position: absolute;
-    width: 140%;
-    height: 140%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
 
-.map-inner iframe {
-    display: block;
+/* =========================================================
+   Google Maps
+   =========================================================
+   iframeを表示領域いっぱいに配置する。
+   
+   以前のように140%へ拡大して中央から切り取らない。
+   これにより、iframeの実際のタッチ領域と表示領域を一致させる。
+   ========================================================= */
+
+.map-frame {
+    position: absolute;
+    inset: 0;
+
     width: 100%;
     height: 100%;
+
     border: 0;
+    display: block;
+
+    /*
+     * Google Maps iframeそのものを操作対象にする。
+     * CSS側でタッチ操作を奪わないため、touch-actionは指定しない。
+     */
 }
 
 </style>
@@ -54,17 +81,14 @@ body {
 
 <div class="map-wrap">
 
-    <div class="map-inner">
-
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576.89649152389!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp"
-            title="服部医院周辺アクセスマップ"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-
-    </div>
+    <iframe
+        class="map-frame"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d576.89649152389!2d136.92182768363716!3d35.12120684574428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60037b007130df29%3A0x58e7775ebd404235!2z5Yy755mC5rOV5Lq66Kqg5b2w5LyaIOacjemDqOWMu-mZog!5e0!3m2!1sja!2sjp"
+        title="服部医院周辺アクセスマップ"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
 
 </div>
 
