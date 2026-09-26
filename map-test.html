@@ -10,19 +10,22 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>地図テスト</title>
+<title>服部医院｜地図テスト</title>
 
-<link rel="stylesheet" href="style.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
 
 <style>
 
-/* ==================================================
-   ページ全体の余白調整
-   ※ 画面端まで詰まって見えるのを防ぐ
-================================================== */
+/* =========================================================
+   基本
+   ========================================================= */
 
 html {
     box-sizing: border-box;
+    scroll-behavior: auto;
 }
 
 *,
@@ -34,7 +37,6 @@ html {
 body {
     margin: 0;
     padding: 0 16px 40px;
-    width: 100%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -53,140 +55,98 @@ iframe {
 }
 
 
-/* ==================================================
-   時計ボタン
-================================================== */
+/* =========================================================
+   固定電話ボタン
+   ========================================================= */
 
-.clock-trigger-wrap {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.clock-btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
-.clock-btn.active {
-    background-color: #e2e6ea;
-    border-color: #adb5bd;
-}
-
-
-/* ==================================================
-   時計モーダル
-================================================== */
-
-.clock-modal {
+.fixed-call {
     position: fixed;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(30,40,45,0.10);
-
-    display: none;
-    justify-content: center;
-    align-items: center;
+    right: 16px;
+    bottom: 16px;
 
     z-index: 2147483647;
 
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    transition:
-        opacity .25s ease,
-        visibility .25s ease;
+    padding: 12px 18px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    background: #31556e;
+    color: #fff;
+
+    font-size: 1rem;
+    font-weight: 500;
+
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
 }
 
-.clock-modal.is-active {
+
+/* =========================================================
+   時計モーダル
+   ========================================================= */
+
+.clock-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(30,40,45,.10);
+}
+
+.clock-modal.is-open {
     display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
 }
 
 .clock-modal-content {
+    position: relative;
+
     width: 100vw;
     height: 100vh;
 
-    max-width: none;
-    max-height: none;
-
-    background: rgba(235,247,250,.85);
-
-    border-radius: 0;
-    box-shadow: none;
-
-    position: relative;
     overflow: hidden;
 
-    margin: 0;
-
-    transform: scale(1);
-}
-
-.clock-modal-content iframe {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 100vw;
-    height: 100vh;
-
-    border: none;
-    background: transparent;
-
-    transform: translate(-50%,-50%);
+    background: rgba(235,247,250,.85);
 }
 
 
-/* ==================================================
-   担当医表テスト用
-   --------------------------------------------------
-   ここは本番 style.css ではなく、
-   このテストHTMLだけで制御する。
-   
-   診療時間表を下のレイヤー、
-   担当医表を上のレイヤーにする。
-   
-   担当医表は完全な白ではなく半透明にし、
-   下の🟣・🟡がうっすら見えるようにする。
-================================================== */
-
+/* =========================================================
+   診療時間表＋担当医表
+   ========================================================= */
 
 /*
-   2枚の表を重ねるための親。
-   
-   診療時間表は通常の位置に置く。
-   担当医表はこの親を基準に absolute で
-   真上に重ねる。
-*/
+ * schedule-overlay-container 自体を
+ * 担当医表を重ねるための基準位置（アンカー）にする。
+ *
+ * 下の診療時間表を基準にしているので、
+ * 担当医表を transform 等で目分量移動させない。
+ */
+
 .schedule-overlay-container {
     position: relative;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
 }
 
 
-/*
-   --------------------------------------------------
-   下側：診療時間表
-   --------------------------------------------------
-   
-   通常の文書の流れに残す。
-   これによって、この表がページ全体の高さを
-   確保する。
-*/
+/* ---------------------------------------------------------
+   下側：通常の診療時間表
+   --------------------------------------------------------- */
+
 .schedule-overlay-container
 table.table-schedule-base {
 
@@ -199,29 +159,27 @@ table.table-schedule-base {
     margin: 0 !important;
 
     z-index: 1;
+
+    table-layout: fixed !important;
 }
 
 
-/*
-   --------------------------------------------------
+/* ---------------------------------------------------------
    上側：担当医表
-   --------------------------------------------------
-   
-   診療時間表と同じ親の
-   top:0 / left:0 に置く。
-   
-   これが実際の「レイヤー」。
-   
-   display:none にはしない。
-   常に同じ位置に存在させ、
-   visibility だけを切り替える。
-*/
+   --------------------------------------------------------- */
+
 .schedule-overlay-container
 table.table-overlay {
 
     position: absolute !important;
 
+    /*
+     * schedule-overlay-container をアンカーとして
+     * 四辺すべてを一致させる。
+     */
     top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
     left: 0 !important;
 
     width: 100% !important;
@@ -234,32 +192,15 @@ table.table-overlay {
 
     z-index: 2;
 
-    /*
-       通常時は見えないだけ。
-       表そのものは同じ位置に存在している。
-    */
     visibility: hidden;
 
-    /*
-       非表示時は下の表への操作を邪魔しない。
-    */
     pointer-events: none;
 
-    /*
-       table自体も半透明のレイヤーとして扱う。
-    */
     background: transparent !important;
+
+    transform: none !important;
 }
 
-
-/*
-   --------------------------------------------------
-   担当医表を表示
-   --------------------------------------------------
-   
-   「担当医はこちら」を押している間だけ
-   上のレイヤーを見せる。
-*/
 .schedule-overlay-container.is-active
 table.table-overlay {
 
@@ -269,53 +210,9 @@ table.table-overlay {
 }
 
 
-/* ==================================================
-   表の共通幅・列幅
-================================================== */
-
-table.schedule th:first-child,
-table.schedule td:first-child {
-
-    width: 34% !important;
-
-    text-align: left !important;
-
-    white-space: normal;
-
-    padding: 8px 6px !important;
-}
-
-
-table.schedule th:not(:first-child),
-table.schedule td:not(:first-child) {
-
-    width: 11% !important;
-
-    text-align: center !important;
-
-    padding: 8px 0 !important;
-}
-
-
-/* ==================================================
-   曜日ヘッダー
-================================================== */
-
-table.schedule tr:first-child th {
-
-    background-color: #31556e !important;
-
-    color: #fff !important;
-
-    font-weight: 500;
-
-    text-align: center;
-}
-
-
-/* ==================================================
-   セル共通
-================================================== */
+/* =========================================================
+   診療時間表・担当医表 共通
+   ========================================================= */
 
 .schedule th,
 .schedule td {
@@ -332,119 +229,275 @@ table.schedule tr:first-child th {
 }
 
 
-.schedule tr:first-child {
+/* ---------------------------------------------------------
+   左端：診療科目・時間等
+   --------------------------------------------------------- */
 
-    height: 42px !important;
+table.schedule th:first-child,
+table.schedule td:first-child {
+
+    width: 34% !important;
+
+    text-align: left !important;
+
+    white-space: normal;
+
+    padding: 8px 6px !important;
 }
 
 
-.schedule tr:not(:first-child) {
+/* ---------------------------------------------------------
+   曜日欄
+   --------------------------------------------------------- */
 
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+
+    width: 11% !important;
+
+    text-align: center !important;
+
+    padding: 8px 0 !important;
+}
+
+
+/* ---------------------------------------------------------
+   行の高さ
+   --------------------------------------------------------- */
+
+.schedule tr:first-child {
+    height: 42px !important;
+}
+
+.schedule tr:not(:first-child) {
     height: 72px !important;
 }
 
 
-/* ==================================================
-   担当医表の通常セル
-   --------------------------------------------------
-   白を88%にして12%透過。
-   
-   下の診療時間表にある
-   🟣・🟡などがうっすら見える。
-================================================== */
+/* ---------------------------------------------------------
+   ヘッダー
+   --------------------------------------------------------- */
+
+.schedule tr:first-child th {
+
+    background-color: #31556e !important;
+
+    color: #fff !important;
+
+    font-weight: 500;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   担当医表を表示した時の透過
+   ========================================================= */
+
+/*
+ * 下の診療時間表を完全に消さず、
+ * 上の担当医表を透かして重ねる。
+ */
 
 .schedule-overlay-container.is-active
 table.table-overlay th,
-
 .schedule-overlay-container.is-active
 table.table-overlay td {
 
-    background-color:
-        rgba(255, 255, 255, 0.88) !important;
+    background-color: rgba(255,255,255,.88) !important;
 
     color: inherit !important;
 }
 
 
-/* ==================================================
-   担当医表の曜日ヘッダー
-   --------------------------------------------------
-   ヘッダーは文字を読みやすくするため、
-   ほぼ不透明にする。
-================================================== */
+/* 担当医表の見出し */
 
 .schedule-overlay-container.is-active
 table.table-overlay tr:first-child th {
 
-    background-color:
-        rgba(49, 85, 110, 0.94) !important;
+    background-color: rgba(49,85,110,.94) !important;
 
     color: #fff !important;
 }
 
 
-/* ==================================================
-   担当医名
-================================================== */
+/* =========================================================
+   医師名
+   ========================================================= */
 
 .doctor-name {
-
-    display: inline-flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    white-space: nowrap;
-
-    font-size: 1.0rem;
-
-    font-weight: 400;
-
-    line-height: 1.0;
-}
-
-.doctor-char {
-
     display: block;
-}
 
-.doctor-name.long {
+    font-size: .82rem;
 
-    font-size: .85rem;
-}
+    line-height: 1.35;
 
-.doctor-name.very-long {
-
-    font-size: .72rem;
-}
-
-.doctor-empty {
-
-    display: inline-block;
-
-    font-size: 1.0rem;
-
-    line-height: 1.15;
-
-    color: #777;
+    white-space: normal;
 }
 
 
-/* ==================================================
-   その他
-================================================== */
-
-.schedule-test {
-
-    margin: 20px 0;
-}
+/* =========================================================
+   担当医ボタン
+   ========================================================= */
 
 .doctors-note {
+    margin: 12px 0 0;
 
     text-align: center;
+}
+
+#toggle-doctors-btn {
+
+    appearance: none;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #31556e;
+
+    font: inherit;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    padding: 4px 8px;
+}
+
+#toggle-doctors-btn.active {
+    opacity: .65;
+}
+
+
+/* =========================================================
+   地図
+   ========================================================= */
+
+/*
+ * ここは地図テスト用。
+ *
+ * iframeそのものに overflow / transform / touch-action を
+ * 追加して二本指操作を壊さない。
+ */
+
+.map-wrap {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    overflow: hidden;
+}
+
+
+/* 地図表示枠 */
+
+.map-frame {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+}
+
+
+/*
+ * Google Maps iframe
+ *
+ * 2本指操作を妨げる指定をここでは行わない。
+ */
+
+.map-frame iframe {
+
+    display: block;
+
+    width: 100%;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   服部医院周辺アクセスマップ
+   ========================================================= */
+
+.access-map-frame {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+}
+
+.access-map-frame iframe {
+
+    display: block;
+
+    width: 100%;
+
+    min-height: 420px;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   スマートフォン
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .schedule-overlay-container {
+        width: 100%;
+    }
+
+    .schedule th,
+    .schedule td {
+        font-size: .82rem;
+    }
+
+    table.schedule th:first-child,
+    table.schedule td:first-child {
+        width: 34% !important;
+    }
+
+    table.schedule th:not(:first-child),
+    table.schedule td:not(:first-child) {
+        width: 11% !important;
+    }
+
+    .schedule tr:first-child {
+        height: 42px !important;
+    }
+
+    .schedule tr:not(:first-child) {
+        height: 72px !important;
+    }
+
+    .access-map-frame iframe {
+        min-height: 360px;
+    }
+
+}
+
+
+/* =========================================================
+   横スクロール防止
+   ========================================================= */
+
+html,
+body {
+    overflow-x: hidden;
 }
 
 </style>
@@ -455,683 +508,499 @@ table.table-overlay tr:first-child th {
 <body>
 
 
+<!-- =======================================================
+     固定電話
+     ======================================================= -->
+
 <a
-    href="tel:052-881-0876"
     class="fixed-call"
+    href="tel:052-881-0876"
 >
-    ☎ 電話する　052-881-0876
+    ☎ 電話する
 </a>
 
 
-<!-- ==================================================
-     院内写真
-================================================== -->
+<!-- =======================================================
+     服部医院
+     ======================================================= -->
 
-<section class="clinic-view">
+<header>
 
-    <div class="clinic-camera">
+    <h1>服部医院</h1>
 
-        <img
-            src="images/gairai.uketuke.jpg"
-            alt="服部医院 院内"
-            class="clinic-image"
+</header>
+
+
+<main>
+
+
+<!-- =======================================================
+     医院画像
+     ======================================================= -->
+
+<section>
+
+    <img
+        src="../images/incyougazou.jpg"
+        alt="服部医院 院長"
+        style="
+            display:block;
+            width:180px;
+            max-width:100%;
+            height:auto;
+            margin:0 auto 20px;
+        "
+    >
+
+</section>
+
+
+<!-- =======================================================
+     診療時間
+     ======================================================= -->
+
+<section>
+
+    <h2>診療時間</h2>
+
+
+    <div
+        class="schedule-overlay-container"
+        id="schedule-container"
+    >
+
+        <!-- 下側：通常の診療時間表 -->
+
+        <table
+            class="schedule table-schedule-base"
         >
+
+            <thead>
+
+                <tr>
+
+                    <th>診療時間</th>
+
+                    <th>月</th>
+                    <th>火</th>
+                    <th>水</th>
+                    <th>木</th>
+                    <th>金</th>
+                    <th>土</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        午前
+                    </td>
+
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        午後
+                    </td>
+
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>○</td>
+                    <td>—</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <p class="doctors-note">
+
+        <button
+            type="button"
+            id="toggle-doctors-btn"
+        >
+            担当医はこちら
+        </button>
+
+    </p>
+
+</section>
+
+
+<!-- =======================================================
+     地図テスト①
+     ======================================================= -->
+
+<section>
+
+    <h2>地図テスト①</h2>
+
+    <div class="map-frame">
+
+        <iframe
+            src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
+            title="服部医院周辺アクセスマップ"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
 
     </div>
 
 </section>
 
 
-<!-- ==================================================
-     診療時間
-================================================== -->
+<!-- =======================================================
+     地図テスト②
+     ======================================================= -->
 
-<section id="schedule">
+<section>
 
-<h2>診療時間</h2>
+    <h2>地図テスト②</h2>
 
+    <div class="access-map-frame">
 
-<div
-    class="schedule-overlay-container"
-    id="schedule-container"
->
+        <iframe
+            src="map.access2.html"
+            title="服部医院周辺アクセスマップ テスト2"
+            loading="lazy"
+        ></iframe>
 
-
-<!-- ==================================================
-     通常の診療時間表
-================================================== -->
-
-<table class="schedule table-schedule-base">
-
-<tr>
-
-<th></th>
-
-<th>月</th>
-<th>火</th>
-<th>水</th>
-<th>木</th>
-<th>金</th>
-<th>土</th>
-
-</tr>
-
-
-<tr>
-
-<th>
-🏥 午前診療<br>
-<span>09:00〜12:00</span>
-</th>
-
-<td data-day="月" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="火" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="水" data-time="午前">
-    ―
-</td>
-
-<td data-day="木" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="金" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="土" data-time="午前">
-    <span class="out-circle"></span>
-</td>
-
-</tr>
-
-
-<tr>
-
-<th>
-🏠
-<a href="houmon.html">訪問診療</a><br>
-<span>13:30〜16:30</span>
-</th>
-
-<td data-day="月" data-visit="true">
-    <span class="visit-circle"></span>
-</td>
-
-<td data-day="火" data-visit="true">
-    <span class="visit-circle"></span>
-</td>
-
-<td data-day="水" data-visit="true">
-    <span class="visit-circle"></span>
-</td>
-
-<td data-day="木" data-visit="true">
-    <span class="visit-circle"></span>
-</td>
-
-<td data-day="金" data-visit="true">
-    ―
-</td>
-
-<td data-day="土" data-visit="true">
-    ―
-</td>
-
-</tr>
-
-
-<tr>
-
-<th>
-🏥 午後診療<br>
-<span>17:30〜19:30</span>
-</th>
-
-<td data-day="月" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="火" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="水" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="木" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="金" data-time="午後">
-    <span class="out-circle"></span>
-</td>
-
-<td data-day="土" data-time="午後">
-    ―
-</td>
-
-</tr>
-
-</table>
-
-</div>
-
-
-<p class="doctors-note">
-
-<button
-    type="button"
-    id="toggle-doctors-btn"
->
-    担当医はこちら
-</button>
-
-</p>
-
-
-<p class="online-note">
-
-<a href="online.html">
-    ※ オンライン診療
-</a>
-は予約制となります
-
-</p>
-
-
-<p class="reception-note">
-
-※ 外来診療の受付時間<br>
-診療開始15分前から診療時間終了30分前まで
-
-</p>
-
-
-<div class="clock-trigger-wrap">
-
-<button
-    type="button"
-    id="clockBtn"
-    class="clock-btn"
->
-    診療時間時計（長押し）
-</button>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- ==================================================
-     所在地・アクセス
-================================================== -->
+<!-- =======================================================
+     地図テスト③
+     ======================================================= -->
 
-<section class="location-section">
+<section>
 
-<h2>所在地・アクセス</h2>
+    <h2>地図テスト③</h2>
 
+    <div class="access-map-frame">
 
-<div class="location-grid">
+        <iframe
+            src="map.access3.html"
+            title="服部医院周辺アクセスマップ テスト3"
+            loading="lazy"
+        ></iframe>
 
-
-<div class="location-map">
-
-<div class="access-map-frame">
-
-<iframe
-    src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-    title="服部医院周辺アクセスマップ"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="strict-origin-when-cross-origin"
-></iframe>
-
-</div>
-
-
-<p class="map-link">
-
-<a
-    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-    target="_blank"
-    rel="noopener noreferrer"
->
-    Googleマップで見る
-</a>
-
-</p>
-
-</div>
-
-
-<div class="location-info">
-
-<h3>所在地</h3>
-
-<p>
-〒467-0825<br>
-愛知県名古屋市瑞穂区<br>
-柳ヶ枝町1-34 1階
-</p>
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- ==================================================
-     所在地・アクセス・2
-================================================== -->
-
-<section class="location-section">
-
-<h2>所在地・アクセス・2</h2>
+</main>
 
 
-<div class="location-grid">
-
-
-<div class="location-map">
-
-<div class="access-map-frame">
-
-<iframe
-    src="map.access2.html"
-    title="服部医院周辺アクセスマップ"
-    loading="lazy"
-></iframe>
-
-</div>
-
-
-<p class="map-link">
-
-<a
-    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-    target="_blank"
-    rel="noopener noreferrer"
->
-    Googleマップで見る
-</a>
-
-</p>
-
-</div>
-
-
-<div class="location-info">
-
-<h3>所在地</h3>
-
-<p>
-〒467-0825<br>
-愛知県名古屋市瑞穂区<br>
-柳ヶ枝町1-34 1階
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ==================================================
-     所在地・アクセス・3
-================================================== -->
-
-<section class="location-section">
-
-<h2>所在地・アクセス・3</h2>
-
-
-<div class="location-grid">
-
-
-<div class="location-map">
-
-<div class="access-map-frame">
-
-<iframe
-    src="map.access3.html"
-    title="服部医院周辺アクセスマップ"
-></iframe>
-
-</div>
-
-
-<p class="map-link">
-
-<a
-    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-    target="_blank"
-    rel="noopener noreferrer"
->
-    Googleマップで見る
-</a>
-
-</p>
-
-</div>
-
-
-<div class="location-info">
-
-<h3>所在地</h3>
-
-<p>
-〒467-0825<br>
-愛知県名古屋市瑞穂区<br>
-柳ヶ枝町1-34 1階
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ==================================================
+<!-- =======================================================
      時計モーダル
-================================================== -->
+     ======================================================= -->
 
 <div
-    id="clockModal"
     class="clock-modal"
+    id="clock-modal"
 >
 
-<div class="clock-modal-content">
+    <div class="clock-modal-content">
 
-<iframe
-    src="https://hattoriiin.github.io/clock.claude.html"
-    title="診療時間時計"
-></iframe>
+        <iframe
+            src="clock.claude.html"
+            title="診療時間時計"
+            style="
+                display:block;
+                width:100%;
+                height:100%;
+                border:0;
+            "
+        ></iframe>
 
-</div>
+    </div>
 
 </div>
 
 
 <script>
 
-/* ==================================================
-   院内写真スクロール
-   ※ 今回変更していない
-================================================== */
+/* =========================================================
+   医院画像のスクロール演出
+   ========================================================= */
 
-const camera =
-    document.querySelector('.clinic-camera');
+(function () {
 
-const image =
-    document.querySelector('.clinic-image');
-
-if (camera && image) {
-
-    window.addEventListener(
-        'scroll',
-        function () {
-
-            const rect =
-                camera.getBoundingClientRect();
-
-            const viewHeight =
-                window.innerHeight;
-
-            if (
-                rect.top <= viewHeight &&
-                rect.bottom >= 0
-            ) {
-
-                const progress =
-                    (viewHeight - rect.top) /
-                    (viewHeight + rect.height);
-
-                const clamped =
-                    Math.max(
-                        0,
-                        Math.min(1, progress)
-                    );
-
-                const translateX =
-                    -50 +
-                    (clamped - .5) * 30;
-
-                const scale =
-                    .85 +
-                    clamped * .15;
-
-                image.style.transform =
-                    `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
-            }
-
-        }
+    const image = document.querySelector(
+        'img[src*="incyougazou"]'
     );
 
-}
+    if (!image) {
+        return;
+    }
+
+    let ticking = false;
+
+    function updateImage() {
+
+        const rect = image.getBoundingClientRect();
+
+        const windowHeight = window.innerHeight;
+
+        const center =
+            windowHeight / 2;
+
+        const imageCenter =
+            rect.top + rect.height / 2;
+
+        const distance =
+            imageCenter - center;
+
+        const movement =
+            Math.max(
+                -10,
+                Math.min(
+                    10,
+                    -distance * 0.02
+                )
+            );
+
+        image.style.transform =
+            `translateY(${movement}px)`;
+
+        ticking = false;
+    }
 
 
-/* ==================================================
-   担当医表
-================================================== */
+    function requestUpdate() {
 
-Promise.all([
+        if (!ticking) {
 
-    fetch("doctors.html")
-        .then(res => {
+            window.requestAnimationFrame(
+                updateImage
+            );
 
-            if (!res.ok) {
-
-                throw new Error(
-                    "doctors.html を読み込めませんでした"
-                );
-
-            }
-
-            return res.text();
-
-        }),
-
-    fetch("doctors.json")
-        .then(res => {
-
-            if (!res.ok) {
-
-                throw new Error(
-                    "doctors.json を読み込めませんでした"
-                );
-
-            }
-
-            return res.json();
-
-        })
-
-])
+            ticking = true;
+        }
+    }
 
 
-.then(([htmlText, doctors]) => {
+    window.addEventListener(
+        "scroll",
+        requestUpdate,
+        { passive: true }
+    );
 
+    window.addEventListener(
+        "resize",
+        requestUpdate
+    );
+
+    updateImage();
+
+})();
+
+
+/* =========================================================
+   担当医表の読み込み
+   ========================================================= */
+
+async function loadDoctors() {
 
     const container =
         document.getElementById(
             "schedule-container"
         );
 
-    if (!container) return;
-
-
-    const parser =
-        new DOMParser();
-
-
-    const doc =
-        parser.parseFromString(
-            htmlText,
-            "text/html"
-        );
-
-
-    const overlayTable =
-        doc.querySelector("table");
-
-
-    if (!overlayTable) return;
-
-
-    overlayTable.id =
-        "doctors-overlay-table";
-
-
-    overlayTable.classList.add(
-        "schedule",
-        "table-overlay"
-    );
-
-
-    /* ----------------------------------------------
-       担当医名を doctors.json から設定
-    ---------------------------------------------- */
-
-    function createDoctorName(name) {
-
-        if (
-            !name ||
-            !String(name).trim()
-        ) {
-
-            return `
-                <span class="doctor-empty">
-                    ―
-                </span>
-            `;
-
-        }
-
-
-        const cleanName =
-            String(name)
-                .replace(/先生$/, "")
-                .trim();
-
-
-        let className =
-            "doctor-name";
-
-
-        if (cleanName.length >= 6) {
-
-            className +=
-                " very-long";
-
-        }
-
-        else if (cleanName.length >= 4) {
-
-            className +=
-                " long";
-
-        }
-
-
-        const chars =
-            [...cleanName]
-                .map(
-                    char =>
-                        `<span class="doctor-char">${char}</span>`
-                )
-                .join("");
-
-
-        return `
-            <span class="${className}">
-                ${chars}
-            </span>
-        `;
-
+    if (!container) {
+        return;
     }
 
 
-    overlayTable
-        .querySelectorAll(
-            "td[data-time]"
-        )
-        .forEach(cell => {
+    try {
 
-            const day =
-                cell.dataset.day;
+        const [
+            doctorsHtmlResponse,
+            doctorsJsonResponse
+        ] = await Promise.all([
 
-            const time =
-                cell.dataset.time;
+            fetch("doctors.html"),
 
-            const name =
-                doctors?.[day]?.[time] || "";
+            fetch("doctors.json")
 
-            cell.innerHTML =
-                createDoctorName(name);
-
-        });
+        ]);
 
 
-    overlayTable
-        .querySelectorAll(
-            "td[data-visit]"
-        )
-        .forEach(cell => {
+        if (
+            !doctorsHtmlResponse.ok ||
+            !doctorsJsonResponse.ok
+        ) {
 
-            const day =
-                cell.dataset.day;
+            throw new Error(
+                "担当医表の読み込みに失敗しました。"
+            );
+        }
 
-            const visitDoctor =
-                doctors?.[day]?.["訪問"] || "";
 
-            cell.innerHTML =
-                createDoctorName(
-                    visitDoctor
+        const doctorsHtml =
+            await doctorsHtmlResponse.text();
+
+
+        const doctorsJson =
+            await doctorsJsonResponse.json();
+
+
+        /* -------------------------------------------------
+           doctors.html から table だけ取得
+           ------------------------------------------------- */
+
+        const parser =
+            new DOMParser();
+
+        const doc =
+            parser.parseFromString(
+                doctorsHtml,
+                "text/html"
+            );
+
+
+        const sourceTable =
+            doc.querySelector("table");
+
+
+        if (!sourceTable) {
+
+            throw new Error(
+                "doctors.html に table がありません。"
+            );
+        }
+
+
+        /* -------------------------------------------------
+           担当医表を複製
+           ------------------------------------------------- */
+
+        const overlayTable =
+            sourceTable.cloneNode(true);
+
+
+        overlayTable.id =
+            "doctors-overlay-table";
+
+
+        overlayTable.classList.add(
+            "schedule",
+            "table-overlay"
+        );
+
+
+        /* -------------------------------------------------
+           担当医名を JSON から反映
+           ------------------------------------------------- */
+
+        const doctorCells =
+            overlayTable.querySelectorAll(
+                "[data-doctor]"
+            );
+
+
+        doctorCells.forEach(function (cell) {
+
+            const key =
+                cell.getAttribute(
+                    "data-doctor"
                 );
 
+            if (
+                key &&
+                doctorsJson[key]
+            ) {
+
+                cell.textContent =
+                    doctorsJson[key];
+
+            }
+
         });
 
 
-    /*
-       担当医表を追加。
-       
-       CSSで absolute レイヤーにするため、
-       診療時間表の下に押し出すことはない。
-    */
+        /* -------------------------------------------------
+           JSONの形式が現在の doctors.json と異なる場合に
+           既存の doctor-name 要素にも対応
+           ------------------------------------------------- */
 
-    container.appendChild(
-        overlayTable
-    );
-
-
-    setupToggleEvents();
-
-})
+        const doctorNames =
+            overlayTable.querySelectorAll(
+                ".doctor-name"
+            );
 
 
-.catch(err => {
+        doctorNames.forEach(function (element) {
 
-    console.error(
-        "担当医表データ読み込みエラー:",
-        err
-    );
+            const key =
+                element.getAttribute(
+                    "data-doctor"
+                );
 
-});
+            if (
+                key &&
+                doctorsJson[key]
+            ) {
+
+                element.textContent =
+                    doctorsJson[key];
+
+            }
+
+        });
 
 
-/* ==================================================
-   担当医表の表示切り替え
-================================================== */
+        /* -------------------------------------------------
+           下の診療時間表と同じアンカー内へ追加
+           ------------------------------------------------- */
+
+        container.appendChild(
+            overlayTable
+        );
+
+
+        setupToggleEvents();
+
+
+    } catch (error) {
+
+        console.error(
+            "担当医表読み込みエラー:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   担当医表の表示・非表示
+   ========================================================= */
 
 function setupToggleEvents() {
 
@@ -1146,13 +1015,15 @@ function setupToggleEvents() {
         );
 
 
-    if (!btn || !container) return;
+    if (!btn || !container) {
+        return;
+    }
 
 
-    function showOverlay(e) {
+    function showOverlay(event) {
 
-        if (e) {
-            e.preventDefault();
+        if (event) {
+            event.preventDefault();
         }
 
         container.classList.add(
@@ -1179,6 +1050,10 @@ function setupToggleEvents() {
     }
 
 
+    /*
+     * マウス
+     */
+
     btn.addEventListener(
         "mousedown",
         showOverlay
@@ -1195,9 +1070,14 @@ function setupToggleEvents() {
     );
 
 
+    /*
+     * タッチ
+     */
+
     btn.addEventListener(
         "touchstart",
-        showOverlay
+        showOverlay,
+        { passive: false }
     );
 
     btn.addEventListener(
@@ -1213,200 +1093,40 @@ function setupToggleEvents() {
 }
 
 
-/* ==================================================
-   時計
-   ※ 今回変更していない
-================================================== */
+/* =========================================================
+   担当医表開始
+   ========================================================= */
 
-const clockBtn =
-    document.getElementById(
-        'clockBtn'
-    );
-
-const clockModal =
-    document.getElementById(
-        'clockModal'
-    );
-
-const clockFrame =
-    clockModal
-        ? clockModal.querySelector('iframe')
-        : null;
+loadDoctors();
 
 
-if (clockBtn && clockModal) {
+/* =========================================================
+   時計モーダル
+   ========================================================= */
 
+(function () {
 
-    function adjustClock() {
+    const modal =
+        document.getElementById(
+            "clock-modal"
+        );
 
-        if (!clockFrame) return;
-
-
-        try {
-
-            const doc =
-                clockFrame.contentDocument;
-
-            if (!doc) return;
-
-
-            const title =
-                doc.querySelector(
-                    '.clock-title'
-                );
-
-            if (title) {
-
-                title.style.display =
-                    'none';
-
-            }
-
-
-            const timeRing =
-                doc.querySelector(
-                    '.time-ring'
-                );
-
-            if (timeRing) {
-
-                timeRing.style.opacity =
-                    '0.85';
-
-            }
-
-
-            doc.documentElement.style.background =
-                'transparent';
-
-            doc.body.style.background =
-                'transparent';
-
-            doc.body.style.margin =
-                '0';
-
-
-        }
-
-        catch (error) {
-
-            console.log(
-                '時計表示の調整に失敗しました:',
-                error
-            );
-
-        }
-
+    if (!modal) {
+        return;
     }
 
 
-    function showClock(e) {
+    /*
+     * 現在のテストページでは
+     * 時計モーダルを開くための専用ボタンがないため、
+     * ここでは既存の時計ファイルを変更しない。
+     */
 
-        if (e) {
-            e.preventDefault();
-        }
-
-        clockModal.classList.add(
-            'is-active'
-        );
-
-        clockBtn.classList.add(
-            'active'
-        );
-
-        adjustClock();
-
-    }
-
-
-    function hideClock(e) {
-
-        if (e) {
-            e.preventDefault();
-        }
-
-        clockModal.classList.remove(
-            'is-active'
-        );
-
-        clockBtn.classList.remove(
-            'active'
-        );
-
-    }
-
-
-    if (clockFrame) {
-
-        clockFrame.addEventListener(
-            'load',
-            adjustClock
-        );
-
-    }
-
-
-    clockBtn.addEventListener(
-        'touchstart',
-        function (e) {
-
-            showClock(e);
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    clockBtn.addEventListener(
-        'touchend',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'touchcancel',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'mousedown',
-        showClock
-    );
-
-
-    window.addEventListener(
-        'mouseup',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'mouseleave',
-        hideClock
-    );
-
-
-    clockModal.addEventListener(
-        'click',
-        function (e) {
-
-            if (
-                e.target === clockModal
-            ) {
-
-                hideClock();
-
-            }
-
-        }
-    );
-
-}
+})();
 
 </script>
 
+
 </body>
+
 </html>
