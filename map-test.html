@@ -324,28 +324,17 @@ table.schedule tr:first-child th {
 /* ==================================================
    担当医表の通常セル
 ================================================== */
-/* =========================================
-   担当医表を透明レイヤーにする
-   table以下の全階層から背景色を外す
-========================================= */
-
-.schedule-overlay-container.is-active
-table.table-overlay,
-.schedule-overlay-container.is-active
-table.table-overlay thead,
-.schedule-overlay-container.is-active
-table.table-overlay tbody,
-.schedule-overlay-container.is-active
-table.table-overlay tr,
 .schedule-overlay-container.is-active
 table.table-overlay th,
+
 .schedule-overlay-container.is-active
 table.table-overlay td {
 
-    background: transparent !important;
-    background-color: transparent !important;
-}
+    background-color:
+        rgba(255, 255, 255, 0.88) !important;
 
+    color: inherit !important;
+}
 
 /* 曜日の見出しだけは青を残す */
 
