@@ -12,7 +12,6 @@ content=“width=device-width, initial-scale=1.0”
 <style>
 /* =========================================================
    マップテストHTML専用
-   ページ全体の幅
    ========================================================= */
 html {
     box-sizing: border-box;
@@ -41,7 +40,7 @@ iframe {
     max-width: 100%;
 }
 /* =========================================================
-   キーボード操作・フォーカス表示
+   フォーカス
    ========================================================= */
 :focus-visible {
     outline: 3px solid #005fcc;
@@ -53,16 +52,6 @@ button {
 }
 button {
     font: inherit;
-}
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-    }
 }
 /* =========================================================
    時計ボタン・時計モーダル
@@ -121,7 +110,6 @@ button {
     position: relative;
     overflow: hidden;
     margin: 0;
-    transform: scale(1);
 }
 .clock-modal-content iframe {
     position: absolute;
@@ -276,7 +264,10 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
     class="clinic-view"
     aria-labelledby="clinic-view-heading"
 >
-<h2 id="clinic-view-heading" class="visually-hidden">
+<h2
+    id="clinic-view-heading"
+    class="visually-hidden"
+>
     院内写真
 </h2>
 <div class="clinic-camera">
@@ -294,7 +285,9 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
     id="schedule"
     aria-labelledby="schedule-heading"
 >
-<h2 id="schedule-heading">診療時間</h2>
+<h2 id="schedule-heading">
+    診療時間
+</h2>
 <div
     class="schedule-overlay-container"
     id="schedule-container"
@@ -316,10 +309,13 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
             </tr>
         </thead>
         <tbody>
+            <!-- 午前 -->
             <tr>
                 <th scope="row">
                     🏥 午前診療<br>
-                    <span>09:00〜12:00</span>
+                    <span>
+                        09:00〜12:00
+                    </span>
                 </th>
                 <td
                     data-day="月"
@@ -330,7 +326,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="火"
@@ -341,15 +336,15 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="水"
                     data-time="午前"
                     aria-label="水曜日の午前診療は休診"
                 >
-                    <span aria-hidden="true">―</span>
-                    <span class="visually-hidden">休診</span>
+                    <span aria-hidden="true">
+                        ―
+                    </span>
                 </td>
                 <td
                     data-day="木"
@@ -360,7 +355,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="金"
@@ -371,7 +365,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="土"
@@ -382,9 +375,9 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
             </tr>
+            <!-- 訪問診療 -->
             <tr>
                 <th scope="row">
                     🏠
@@ -392,7 +385,9 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         訪問診療
                     </a>
                     <br>
-                    <span>13:30〜16:30</span>
+                    <span>
+                        13:30〜16:30
+                    </span>
                 </th>
                 <td
                     data-day="月"
@@ -403,7 +398,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="visit-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">訪問診療あり</span>
                 </td>
                 <td
                     data-day="火"
@@ -414,7 +408,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="visit-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">訪問診療あり</span>
                 </td>
                 <td
                     data-day="水"
@@ -425,7 +418,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="visit-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">訪問診療あり</span>
                 </td>
                 <td
                     data-day="木"
@@ -436,29 +428,33 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="visit-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">訪問診療あり</span>
                 </td>
                 <td
                     data-day="金"
                     data-visit="true"
                     aria-label="金曜日の訪問診療は休診"
                 >
-                    <span aria-hidden="true">―</span>
-                    <span class="visually-hidden">休診</span>
+                    <span aria-hidden="true">
+                        ―
+                    </span>
                 </td>
                 <td
                     data-day="土"
                     data-visit="true"
                     aria-label="土曜日の訪問診療は休診"
                 >
-                    <span aria-hidden="true">―</span>
-                    <span class="visually-hidden">休診</span>
+                    <span aria-hidden="true">
+                        ―
+                    </span>
                 </td>
             </tr>
+            <!-- 午後 -->
             <tr>
                 <th scope="row">
                     🏥 午後診療<br>
-                    <span>17:30〜19:30</span>
+                    <span>
+                        17:30〜19:30
+                    </span>
                 </th>
                 <td
                     data-day="月"
@@ -469,7 +465,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="火"
@@ -480,7 +475,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="水"
@@ -491,7 +485,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="木"
@@ -502,7 +495,6 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="金"
@@ -513,15 +505,15 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
                         class="out-circle"
                         aria-hidden="true"
                     ></span>
-                    <span class="visually-hidden">診療あり</span>
                 </td>
                 <td
                     data-day="土"
                     data-time="午後"
                     aria-label="土曜日の午後診療は休診"
                 >
-                    <span aria-hidden="true">―</span>
-                    <span class="visually-hidden">休診</span>
+                    <span aria-hidden="true">
+                        ―
+                    </span>
                 </td>
             </tr>
         </tbody>
@@ -550,16 +542,12 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
     ※ 外来診療の受付時間<br>
     診療開始15分前から診療時間終了30分前まで
 </p>
-<!-- ===================================================
-     時計
-     =================================================== -->
+<!-- 時計 -->
 <div class="clock-trigger-wrap">
     <button
         type="button"
         id="clockBtn"
         class="clock-btn"
-        aria-controls="clockModal"
-        aria-expanded="false"
     >
         診療時間時計（長押し）
     </button>
@@ -572,11 +560,10 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
     class="location-section"
     aria-labelledby="location-heading"
 >
-<h2 id="location-heading">アクセス</h2>
-<!-- ---------------------------------------------------
-     地図テスト 1
-     直接Google Maps
-     --------------------------------------------------- -->
+<h2 id="location-heading">
+    アクセス
+</h2>
+<!-- 地図テスト1 -->
 <div class="location-map">
     <div class="access-map-frame">
         <iframe
@@ -595,14 +582,13 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
             rel="noopener noreferrer"
         >
             Googleマップで見る
-            <span class="visually-hidden">（新しいタブで開きます）</span>
+            <span class="visually-hidden">
+                （新しいタブで開きます）
+            </span>
         </a>
     </p>
 </div>
-<!-- ---------------------------------------------------
-     地図テスト 2
-     map.access2.html
-     --------------------------------------------------- -->
+<!-- 地図テスト2 -->
 <div class="location-map">
     <div class="access-map-frame">
         <iframe
@@ -619,14 +605,13 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
             rel="noopener noreferrer"
         >
             Googleマップで見る
-            <span class="visually-hidden">（新しいタブで開きます）</span>
+            <span class="visually-hidden">
+                （新しいタブで開きます）
+            </span>
         </a>
     </p>
 </div>
-<!-- ---------------------------------------------------
-     地図テスト 3
-     map.access3.html
-     --------------------------------------------------- -->
+<!-- 地図テスト3 -->
 <div class="location-map">
     <div class="access-map-frame">
         <iframe
@@ -643,7 +628,9 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
             rel="noopener noreferrer"
         >
             Googleマップで見る
-            <span class="visually-hidden">（新しいタブで開きます）</span>
+            <span class="visually-hidden">
+                （新しいタブで開きます）
+            </span>
         </a>
     </p>
 </div>
@@ -683,29 +670,36 @@ aria-label=“服部医院へ電話する。電話番号は052-881-0876”
 const clinicImage =
     document.querySelector(".clinic-image");
 if (clinicImage) {
-    window.addEventListener("scroll", () => {
-        const rect =
-            clinicImage.getBoundingClientRect();
-        const windowHeight =
-            window.innerHeight;
-        const center =
-            windowHeight / 2;
-        const imageCenter =
-            rect.top + rect.height / 2;
-        const distance =
-            imageCenter - center;
-        const move =
-            Math.max(
-                -20,
-                Math.min(20, distance * -0.03)
-            );
-        clinicImage.style.transform =
-            `translateY(${move}px)`;
-    });
+    window.addEventListener(
+        "scroll",
+        () => {
+            const rect =
+                clinicImage.getBoundingClientRect();
+            const windowHeight =
+                window.innerHeight;
+            const center =
+                windowHeight / 2;
+            const imageCenter =
+                rect.top +
+                rect.height / 2;
+            const distance =
+                imageCenter -
+                center;
+            const move =
+                Math.max(
+                    -20,
+                    Math.min(
+                        20,
+                        distance * -0.03
+                    )
+                );
+            clinicImage.style.transform =
+                `translateY(${move}px)`;
+        }
+    );
 }
 /* =========================================================
    担当医表
-   9月10日の方式
    ========================================================= */
 Promise.all([
     fetch("doctors.html")
@@ -735,61 +729,6 @@ Promise.all([
         "schedule",
         "table-overlay"
     );
-    overlayTable.setAttribute(
-        "aria-label",
-        "診療時間ごとの担当医"
-    );
-    const rows =
-        overlayTable.querySelectorAll("tr");
-    rows.forEach((row, rowIndex) => {
-        if (rowIndex === 0) {
-            row.querySelectorAll("th, td")
-                .forEach(cell => {
-                    cell.setAttribute(
-                        "scope",
-                        "col"
-                    );
-                });
-        } else {
-            const firstCell =
-                row.querySelector("th, td");
-            if (firstCell) {
-                firstCell.setAttribute(
-                    "scope",
-                    "row"
-                );
-            }
-        }
-    });
-    let overlayHead =
-        overlayTable.querySelector("thead");
-    let overlayBody =
-        overlayTable.querySelector("tbody");
-    if (!overlayHead || !overlayBody) {
-        const allRows =
-            Array.from(
-                overlayTable.querySelectorAll("tr")
-            );
-        overlayTable.innerHTML = "";
-        overlayHead =
-            document.createElement("thead");
-        overlayBody =
-            document.createElement("tbody");
-        if (allRows.length > 0) {
-            overlayHead.appendChild(
-                allRows.shift()
-            );
-        }
-        allRows.forEach(row => {
-            overlayBody.appendChild(row);
-        });
-        overlayTable.appendChild(
-            overlayHead
-        );
-        overlayTable.appendChild(
-            overlayBody
-        );
-    }
     container.appendChild(
         overlayTable
     );
@@ -800,8 +739,7 @@ Promise.all([
         ) {
             return `
                 <span class="doctor-empty">
-                    <span aria-hidden="true">―</span>
-                    <span class="visually-hidden">担当医なし</span>
+                    ―
                 </span>
             `;
         }
@@ -814,7 +752,8 @@ Promise.all([
         if (cleanName.length >= 6) {
             className +=
                 " very-long";
-        } else if (
+        }
+        else if (
             cleanName.length >= 4
         ) {
             className +=
@@ -828,10 +767,7 @@ Promise.all([
                 )
                 .join("");
         return `
-            <span
-                class="${className}"
-                aria-label="${cleanName}先生"
-            >
+            <span class="${className}">
                 ${chars}
             </span>
         `;
@@ -849,10 +785,6 @@ Promise.all([
                 createDoctorName(
                     doctors?.[day]?.[time] || ""
                 );
-            cell.setAttribute(
-                "aria-label",
-                `${day}曜日${time}診療の担当医`
-            );
         });
     overlayTable
         .querySelectorAll(
@@ -865,10 +797,6 @@ Promise.all([
                 createDoctorName(
                     doctors?.[day]?.["訪問"] || ""
                 );
-            cell.setAttribute(
-                "aria-label",
-                `${day}曜日訪問診療の担当医`
-            );
         });
     setupToggleEvents();
 })
@@ -901,10 +829,6 @@ function setupToggleEvents() {
         btn.classList.add(
             "active"
         );
-        btn.setAttribute(
-            "aria-expanded",
-            "true"
-        );
     }
     function hideOverlay() {
         container.classList.remove(
@@ -912,10 +836,6 @@ function setupToggleEvents() {
         );
         btn.classList.remove(
             "active"
-        );
-        btn.setAttribute(
-            "aria-expanded",
-            "false"
         );
     }
     btn.addEventListener(
@@ -945,30 +865,6 @@ function setupToggleEvents() {
         "touchcancel",
         hideOverlay
     );
-    btn.addEventListener(
-        "keydown",
-        event => {
-            if (
-                event.key === " " ||
-                event.key === "Enter"
-            ) {
-                event.preventDefault();
-                showOverlay(event);
-            }
-        }
-    );
-    btn.addEventListener(
-        "keyup",
-        event => {
-            if (
-                event.key === " " ||
-                event.key === "Enter"
-            ) {
-                event.preventDefault();
-                hideOverlay();
-            }
-        }
-    );
 }
 /* =========================================================
    診療時間時計
@@ -982,50 +878,24 @@ const clockModal =
         "clockModal"
     );
 if (clockBtn && clockModal) {
-    let lastFocusedElement =
-        null;
     function showClock(e) {
         if (e) {
             e.preventDefault();
         }
-        lastFocusedElement =
-            document.activeElement;
         clockModal.classList.add(
             "is-active"
         );
-        clockModal.setAttribute(
-            "aria-hidden",
-            "false"
-        );
         clockBtn.classList.add(
             "active"
-        );
-        clockBtn.setAttribute(
-            "aria-expanded",
-            "true"
         );
     }
     function hideClock() {
         clockModal.classList.remove(
             "is-active"
         );
-        clockModal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
         clockBtn.classList.remove(
             "active"
         );
-        clockBtn.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-        if (
-            lastFocusedElement &&
-            typeof lastFocusedElement.focus === "function"
-        ) {
-            lastFocusedElement.focus();
-        }
     }
     clockBtn.addEventListener(
         "mousedown",
@@ -1054,48 +924,11 @@ if (clockBtn && clockModal) {
         "touchcancel",
         hideClock
     );
-    clockBtn.addEventListener(
-        "keydown",
-        event => {
-            if (
-                event.key === " " ||
-                event.key === "Enter"
-            ) {
-                event.preventDefault();
-                showClock(event);
-            }
-        }
-    );
-    clockBtn.addEventListener(
-        "keyup",
-        event => {
-            if (
-                event.key === " " ||
-                event.key === "Enter"
-            ) {
-                event.preventDefault();
-                hideClock();
-            }
-        }
-    );
     clockModal.addEventListener(
         "click",
         function(e) {
             if (
                 e.target === clockModal
-            ) {
-                hideClock();
-            }
-        }
-    );
-    document.addEventListener(
-        "keydown",
-        function(e) {
-            if (
-                e.key === "Escape" &&
-                clockModal.classList.contains(
-                    "is-active"
-                )
             ) {
                 hideClock();
             }
