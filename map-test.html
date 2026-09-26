@@ -153,32 +153,18 @@ iframe {
 
 /* ==================================================
    担当医表
-   --------------------------------------------------
-   最大の目的：
-   担当医表を表示しても、その下の内容を動かさない。
-   
-   診療時間表を通常の文書の流れに残し、
-   その実測高さを親に保持させる。
-   
-   担当医表は親の中に absolute で重ねる。
 ================================================== */
 
 .schedule-overlay-container {
 
     position: relative;
 
-    /*
-       JavaScriptで診療時間表の実測高さを設定する。
-       高さが未設定の初期状態でも、
-       通常の診療時間表によって高さが確保される。
-    */
     width: 100%;
-
 }
 
 
 /* ==================================================
-   下側：通常の診療時間表
+   通常の診療時間表
 ================================================== */
 
 .schedule-overlay-container
@@ -197,9 +183,10 @@ table.table-schedule-base {
 
 
 /* ==================================================
-   上側：担当医表
+   担当医表
    --------------------------------------------------
-   absoluteなので文書の高さに影響しない。
+   9月10日の構造に合わせ、
+   通常の診療時間表の上にabsoluteで重ねる。
 ================================================== */
 
 .schedule-overlay-container
@@ -210,15 +197,9 @@ table.table-overlay {
     top: 0 !important;
     left: 0 !important;
 
-    width: 100% !important;
-
-    margin: 0 !important;
+    z-index: 2;
 
     display: table !important;
-
-    table-layout: fixed !important;
-
-    z-index: 2;
 
     visibility: hidden;
 
@@ -227,10 +208,6 @@ table.table-overlay {
     background: transparent !important;
 }
 
-
-/* ==================================================
-   担当医表を表示
-================================================== */
 
 .schedule-overlay-container.is-active
 table.table-overlay {
@@ -250,11 +227,11 @@ table.schedule td:first-child {
 
     width: 34% !important;
 
+    padding: 8px 6px !important;
+
     text-align: left !important;
 
     white-space: normal;
-
-    padding: 8px 6px !important;
 }
 
 
@@ -263,30 +240,14 @@ table.schedule td:not(:first-child) {
 
     width: 11% !important;
 
-    text-align: center !important;
-
     padding: 8px 0 !important;
+
+    text-align: center !important;
 }
 
 
 /* ==================================================
-   曜日ヘッダー
-================================================== */
-
-table.schedule tr:first-child th {
-
-    background-color: #31556e !important;
-
-    color: #fff !important;
-
-    font-weight: 500;
-
-    text-align: center;
-}
-
-
-/* ==================================================
-   セル共通
+   表の共通設定
 ================================================== */
 
 .schedule th,
@@ -304,16 +265,14 @@ table.schedule tr:first-child th {
 }
 
 
-/*
-   診療時間表と担当医表の高さを同期するため、
-   行高を固定する。
-*/
+/* ==================================================
+   行の高さ
+================================================== */
 
 .schedule tr:first-child {
 
     height: 42px !important;
 }
-
 
 .schedule tr:not(:first-child) {
 
@@ -322,49 +281,18 @@ table.schedule tr:first-child th {
 
 
 /* ==================================================
-   担当医表の通常セル
-================================================== */
-.schedule-overlay-container .table-overlay {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    z-index: 2;
-
-    display: table !important;
-
-    visibility: hidden;
-    pointer-events: none;
-
-    background: transparent !important;
-}
-
-.schedule-overlay-container.is-active .table-overlay {
-    visibility: visible;
-    pointer-events: auto;
-}
-}
-
-/* 曜日の見出しだけは青を残す */
-
-.schedule-overlay-container.is-active
-table.table-overlay tr:first-child th {
-
-    color: #fff !important;
-    background: rgba(49, 85, 110, 0.94) !important;
-}
-
-
-/* ==================================================
-   担当医表の曜日ヘッダー
+   曜日ヘッダー
 ================================================== */
 
-.schedule-overlay-container.is-active
-table.table-overlay tr:first-child th {
+.schedule tr:first-child th {
 
-    background-color:
-        rgba(49, 85, 110, 0.94) !important;
+    background-color: #31556e !important;
 
     color: #fff !important;
+
+    font-weight: 500;
+
+    text-align: center;
 }
 
 
@@ -384,11 +312,11 @@ table.table-overlay tr:first-child th {
 
     white-space: nowrap;
 
-    font-size: 1.0rem;
+    font-size: 1rem;
 
     font-weight: 400;
 
-    line-height: 1.0;
+    line-height: 1;
 }
 
 .doctor-char {
@@ -410,7 +338,7 @@ table.table-overlay tr:first-child th {
 
     display: inline-block;
 
-    font-size: 1.0rem;
+    font-size: 1rem;
 
     line-height: 1.15;
 
@@ -907,148 +835,34 @@ if (camera && image) {
 
 /* ==================================================
    担当医表
-================================================== */
-
-const scheduleContainer =
-    document.getElementById(
-        "schedule-container"
-    );
-
-const baseScheduleTable =
-    scheduleContainer
-        ? scheduleContainer.querySelector(
-            "table.table-schedule-base"
-        )
-        : null;
-
-
-/* ==================================================
-   診療時間表の高さを親に固定
    --------------------------------------------------
-   なぜ必要か：
+   9月10日の構造に戻したもの。
    
-   担当医表はabsoluteなので本来は文書の高さに
-   影響しない。
+   診療時間表は通常の文書の流れに残し、
+   担当医表だけをabsoluteで重ねる。
    
-   ただし、親の高さをブラウザの自動計算だけに
-   任せると、外部HTMLから移植したtableや
-   CSSの競合によってレイアウトが再計算される
-   余地がある。
-   
-   そこで、実際の診療時間表の高さを測り、
-   親に明示する。
-   
-   これにより、担当医表を表示・非表示しても
-   その下のコンテンツ位置を固定できる。
-================================================== */
-
-function lockScheduleContainerHeight() {
-
-    if (
-        !scheduleContainer ||
-        !baseScheduleTable
-    ) {
-        return;
-    }
-
-
-    const height =
-        baseScheduleTable.getBoundingClientRect().height;
-
-
-    if (
-        Number.isFinite(height) &&
-        height > 0
-    ) {
-
-        scheduleContainer.style.height =
-            `${height}px`;
-
-    }
-
-}
-
-
-/*
-   初回。
-*/
-
-lockScheduleContainerHeight();
-
-
-/*
-   画面幅が変化した場合も再計算する。
-   
-   iPhoneの縦横変更などで表の高さが変わっても、
-   古い高さを残さないため。
-*/
-
-window.addEventListener(
-    "resize",
-    lockScheduleContainerHeight
-);
-
-
-/* ==================================================
-   担当医表の読み込み
+   高さをJavaScriptで固定する処理は入れない。
 ================================================== */
 
 Promise.all([
 
     fetch("doctors.html")
-        .then(res => {
-
-            if (!res.ok) {
-
-                throw new Error(
-                    "doctors.html を読み込めませんでした"
-                );
-
-            }
-
-            return res.text();
-
-        }),
+        .then(res => res.text()),
 
     fetch("doctors.json")
-        .then(res => {
-
-            if (!res.ok) {
-
-                throw new Error(
-                    "doctors.json を読み込めませんでした"
-                );
-
-            }
-
-            return res.json();
-
-        })
+        .then(res => res.json())
 
 ])
 
-
 .then(([htmlText, doctors]) => {
 
-
-    if (!scheduleContainer) {
-
-        throw new Error(
-            "schedule-container が見つかりません"
+    const container =
+        document.getElementById(
+            "schedule-container"
         );
 
-    }
-
-
-    if (
-        !doctors ||
-        typeof doctors !== "object"
-    ) {
-
-        throw new Error(
-            "doctors.json の形式が正しくありません"
-        );
-
+    if (!container) {
+        return;
     }
 
 
@@ -1068,11 +882,7 @@ Promise.all([
 
 
     if (!overlayTable) {
-
-        throw new Error(
-            "doctors.html 内に担当医表がありません"
-        );
-
+        return;
     }
 
 
@@ -1086,32 +896,10 @@ Promise.all([
     );
 
 
-    /* ==================================================
-       HTMLエスケープ
-       --------------------------------------------------
-       なぜ必要か：
-       doctors.json の値をHTMLとして解釈させず、
-       医師名を文字として安全に表示するため。
-       
-       これにより、JSON側に意図しないHTMLタグが
-       入っていてもページのHTMLとして実行されない。
-    ================================================== */
+    container.appendChild(
+        overlayTable
+    );
 
-    function escapeHtml(value) {
-
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* ==================================================
-       担当医名生成
-    ================================================== */
 
     function createDoctorName(name) {
 
@@ -1129,21 +917,10 @@ Promise.all([
         }
 
 
-        const cleanName =
+        let cleanName =
             String(name)
                 .replace(/先生$/, "")
                 .trim();
-
-
-        if (!cleanName) {
-
-            return `
-                <span class="doctor-empty">
-                    ―
-                </span>
-            `;
-
-        }
 
 
         let className =
@@ -1155,9 +932,7 @@ Promise.all([
             className +=
                 " very-long";
 
-        }
-
-        else if (cleanName.length >= 4) {
+        } else if (cleanName.length >= 4) {
 
             className +=
                 " long";
@@ -1167,15 +942,9 @@ Promise.all([
 
         const chars =
             [...cleanName]
-                .map(char => {
-
-                    return `
-                        <span class="doctor-char">
-                            ${escapeHtml(char)}
-                        </span>
-                    `;
-
-                })
+                .map(char =>
+                    `<span class="doctor-char">${char}</span>`
+                )
                 .join("");
 
 
@@ -1187,10 +956,6 @@ Promise.all([
 
     }
 
-
-    /* ==================================================
-       午前・午後
-    ================================================== */
 
     overlayTable
         .querySelectorAll(
@@ -1204,18 +969,14 @@ Promise.all([
             const time =
                 cell.dataset.time;
 
-            const name =
-                doctors?.[day]?.[time] || "";
 
             cell.innerHTML =
-                createDoctorName(name);
+                createDoctorName(
+                    doctors?.[day]?.[time] || ""
+                );
 
         });
 
-
-    /* ==================================================
-       訪問診療
-    ================================================== */
 
     overlayTable
         .querySelectorAll(
@@ -1226,36 +987,13 @@ Promise.all([
             const day =
                 cell.dataset.day;
 
-            const visitDoctor =
-                doctors?.[day]?.["訪問"] || "";
 
             cell.innerHTML =
                 createDoctorName(
-                    visitDoctor
+                    doctors?.[day]?.["訪問"] || ""
                 );
 
         });
-
-
-    /* ==================================================
-       担当医表を重ねる
-       --------------------------------------------------
-       appendしてもabsoluteなので、
-       文書の流れには追加されない。
-    ================================================== */
-
-    scheduleContainer.appendChild(
-        overlayTable
-    );
-
-
-    /*
-       表を追加した後にも親の高さを再確認。
-       
-       これが今回のレイアウト固定の最後の保険。
-    */
-
-    lockScheduleContainerHeight();
 
 
     setupToggleEvents();
@@ -1291,34 +1029,21 @@ function setupToggleEvents() {
 
 
     if (!btn || !container) {
-
-        console.warn(
-            "担当医表の切り替え要素が見つかりません"
-        );
-
         return;
-
     }
 
 
     function showOverlay(e) {
 
         if (e) {
-
             e.preventDefault();
-
         }
 
-        /*
-           表示前にも高さを固定。
-           これにより押した瞬間のレイアウト変化を防ぐ。
-        */
-
-        lockScheduleContainerHeight();
 
         container.classList.add(
             "is-active"
         );
+
 
         btn.classList.add(
             "active"
@@ -1329,16 +1054,10 @@ function setupToggleEvents() {
 
     function hideOverlay() {
 
-        /*
-           非表示時も高さは解除しない。
-           
-           親の高さは常に診療時間表の高さとして
-           保持する。
-        */
-
         container.classList.remove(
             "is-active"
         );
+
 
         btn.classList.remove(
             "active"
@@ -1346,10 +1065,6 @@ function setupToggleEvents() {
 
     }
 
-
-    /* ==================================================
-       マウス
-    ================================================== */
 
     btn.addEventListener(
         "mousedown",
@@ -1366,10 +1081,6 @@ function setupToggleEvents() {
         hideOverlay
     );
 
-
-    /* ==================================================
-       タッチ
-    ================================================== */
 
     btn.addEventListener(
         "touchstart",
@@ -1482,9 +1193,7 @@ if (clockBtn && clockModal) {
     function showClock(e) {
 
         if (e) {
-
             e.preventDefault();
-
         }
 
         clockModal.classList.add(
@@ -1503,9 +1212,7 @@ if (clockBtn && clockModal) {
     function hideClock(e) {
 
         if (e) {
-
             e.preventDefault();
-
         }
 
         clockModal.classList.remove(
