@@ -324,16 +324,24 @@ table.schedule tr:first-child th {
 /* ==================================================
    担当医表の通常セル
 ================================================== */
-.schedule-overlay-container.is-active
-table.table-overlay th,
+.schedule-overlay-container .table-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 2;
 
-.schedule-overlay-container.is-active
-table.table-overlay td {
+    display: table !important;
 
-    background-color:
-        rgba(255, 255, 255, 0.88) !important;
+    visibility: hidden;
+    pointer-events: none;
 
-    color: inherit !important;
+    background: transparent !important;
+}
+
+.schedule-overlay-container.is-active .table-overlay {
+    visibility: visible;
+    pointer-events: auto;
+}
 }
 
 /* 曜日の見出しだけは青を残す */
