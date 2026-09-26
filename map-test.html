@@ -18,7 +18,7 @@
 
 /* ==================================================
    ページ全体の余白調整
-   ※ 画面端まで詰まって見えるのを防ぐため
+   ※ 画面端まで詰まって見えるのを防ぐ
 ================================================== */
 
 html {
@@ -40,11 +40,6 @@ body {
     margin-right: auto;
 }
 
-/*
-   各セクションも左右に余裕を持たせる。
-   bodyだけでは既存CSSの幅指定によって
-   画面いっぱいになる要素が残る可能性があるため。
-*/
 section {
     width: 100%;
     max-width: 1100px;
@@ -52,14 +47,11 @@ section {
     margin-right: auto;
 }
 
-/*
-   iframeや画像が親要素からはみ出して
-   横スクロールを作らないようにする。
-*/
 img,
 iframe {
     max-width: 100%;
 }
+
 
 /* ==================================================
    時計ボタン
@@ -162,71 +154,231 @@ iframe {
 
 /* ==================================================
    担当医表テスト用
-   ※ style.css は変更せず、このHTMLだけで制御
+   --------------------------------------------------
+   ここは本番 style.css ではなく、
+   このテストHTMLだけで制御する。
+   
+   診療時間表を下のレイヤー、
+   担当医表を上のレイヤーにする。
+   
+   担当医表は完全な白ではなく半透明にし、
+   下の🟣・🟡がうっすら見えるようにする。
 ================================================== */
 
+
+/*
+   2枚の表を重ねるための親。
+   
+   診療時間表は通常の位置に置く。
+   担当医表はこの親を基準に absolute で
+   真上に重ねる。
+*/
 .schedule-overlay-container {
     position: relative;
 }
 
 
 /*
-   担当医表は通常時は非表示。
+   --------------------------------------------------
+   下側：診療時間表
+   --------------------------------------------------
+   
+   通常の文書の流れに残す。
+   これによって、この表がページ全体の高さを
+   確保する。
 */
-.schedule-overlay-container table.table-overlay {
-    display: none !important;
+.schedule-overlay-container
+table.table-schedule-base {
+
+    position: relative;
+
+    display: table !important;
+
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    z-index: 1;
+}
+
+
+/*
+   --------------------------------------------------
+   上側：担当医表
+   --------------------------------------------------
+   
+   診療時間表と同じ親の
+   top:0 / left:0 に置く。
+   
+   これが実際の「レイヤー」。
+   
+   display:none にはしない。
+   常に同じ位置に存在させ、
+   visibility だけを切り替える。
+*/
+.schedule-overlay-container
+table.table-overlay {
 
     position: absolute !important;
 
     top: 0 !important;
     left: 0 !important;
 
-    /*
-       ここを100%の高さにする。
-       診療時間表と同じ領域を完全に覆うため。
-    */
     width: 100% !important;
-    height: 100% !important;
 
     margin: 0 !important;
 
-    z-index: 10 !important;
-
-    /*
-       下の診療時間表が見えないように、
-       表そのものを独立したレイヤーとして扱う。
-    */
-    background-color: #fff !important;
+    display: table !important;
 
     table-layout: fixed !important;
+
+    z-index: 2;
+
+    /*
+       通常時は見えないだけ。
+       表そのものは同じ位置に存在している。
+    */
+    visibility: hidden;
+
+    /*
+       非表示時は下の表への操作を邪魔しない。
+    */
+    pointer-events: none;
+
+    /*
+       table自体も半透明のレイヤーとして扱う。
+    */
+    background: transparent !important;
 }
 
 
 /*
-   「担当医はこちら」を押している時だけ
-   担当医表を上のレイヤーとして表示。
+   --------------------------------------------------
+   担当医表を表示
+   --------------------------------------------------
+   
+   「担当医はこちら」を押している間だけ
+   上のレイヤーを見せる。
 */
-.schedule-overlay-container.is-active table.table-overlay {
-    display: table !important;
+.schedule-overlay-container.is-active
+table.table-overlay {
+
+    visibility: visible;
+
+    pointer-events: auto;
 }
 
 
-/*
-   担当医表のセルにも背景を持たせる。
-   これにより下側の診療時間表が透けない。
-*/
-.schedule-overlay-container.is-active table.table-overlay th,
-.schedule-overlay-container.is-active table.table-overlay td {
-    background-color: #fff !important;
+/* ==================================================
+   表の共通幅・列幅
+================================================== */
+
+table.schedule th:first-child,
+table.schedule td:first-child {
+
+    width: 34% !important;
+
+    text-align: left !important;
+
+    white-space: normal;
+
+    padding: 8px 6px !important;
+}
+
+
+table.schedule th:not(:first-child),
+table.schedule td:not(:first-child) {
+
+    width: 11% !important;
+
+    text-align: center !important;
+
+    padding: 8px 0 !important;
+}
+
+
+/* ==================================================
+   曜日ヘッダー
+================================================== */
+
+table.schedule tr:first-child th {
+
+    background-color: #31556e !important;
+
+    color: #fff !important;
+
+    font-weight: 500;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   セル共通
+================================================== */
+
+.schedule th,
+.schedule td {
+
+    border-bottom: 1px solid #ddd;
+
+    font-size: .85rem;
+
+    line-height: 1.4;
+
+    vertical-align: middle;
+
+    box-sizing: border-box !important;
+}
+
+
+.schedule tr:first-child {
+
+    height: 42px !important;
+}
+
+
+.schedule tr:not(:first-child) {
+
+    height: 72px !important;
+}
+
+
+/* ==================================================
+   担当医表の通常セル
+   --------------------------------------------------
+   白を88%にして12%透過。
+   
+   下の診療時間表にある
+   🟣・🟡などがうっすら見える。
+================================================== */
+
+.schedule-overlay-container.is-active
+table.table-overlay th,
+
+.schedule-overlay-container.is-active
+table.table-overlay td {
+
+    background-color:
+        rgba(255, 255, 255, 0.88) !important;
+
     color: inherit !important;
 }
 
 
-/*
+/* ==================================================
    担当医表の曜日ヘッダー
-*/
-.schedule-overlay-container.is-active table.table-overlay tr:first-child th {
-    background-color: #31556e !important;
+   --------------------------------------------------
+   ヘッダーは文字を読みやすくするため、
+   ほぼ不透明にする。
+================================================== */
+
+.schedule-overlay-container.is-active
+table.table-overlay tr:first-child th {
+
+    background-color:
+        rgba(49, 85, 110, 0.94) !important;
+
     color: #fff !important;
 }
 
@@ -236,35 +388,45 @@ iframe {
 ================================================== */
 
 .doctor-name {
+
     display: inline-flex;
 
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
 
     white-space: nowrap;
 
     font-size: 1.0rem;
+
     font-weight: 400;
+
     line-height: 1.0;
 }
 
 .doctor-char {
+
     display: block;
 }
 
 .doctor-name.long {
+
     font-size: .85rem;
 }
 
 .doctor-name.very-long {
+
     font-size: .72rem;
 }
 
 .doctor-empty {
+
     display: inline-block;
 
     font-size: 1.0rem;
+
     line-height: 1.15;
 
     color: #777;
@@ -276,10 +438,12 @@ iframe {
 ================================================== */
 
 .schedule-test {
+
     margin: 20px 0;
 }
 
 .doctors-note {
+
     text-align: center;
 }
 
@@ -702,6 +866,7 @@ iframe {
 
 /* ==================================================
    院内写真スクロール
+   ※ 今回変更していない
 ================================================== */
 
 const camera =
@@ -938,9 +1103,10 @@ Promise.all([
 
 
     /*
-       担当医表を診療時間表のコンテナに追加。
-       CSS側で position:absolute にしているため、
-       通常時はページの高さに影響しない。
+       担当医表を追加。
+       
+       CSSで absolute レイヤーにするため、
+       診療時間表の下に押し出すことはない。
     */
 
     container.appendChild(
@@ -1049,6 +1215,7 @@ function setupToggleEvents() {
 
 /* ==================================================
    時計
+   ※ 今回変更していない
 ================================================== */
 
 const clockBtn =
