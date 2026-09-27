@@ -1245,9 +1245,15 @@ footer a:hover{
     map.accessのCSS
 ================================================== */
 
+/* ==================================================
+   map.accessのCSS
+   地図表示枠：横幅に対して黄金比 1 : 1.618
+   ※ location-grid の 55:45 は変更しない
+================================================== */
+
 .access-map-frame {
     width: 100%;
-    height: 420px;
+    aspect-ratio: 1 / 1.618;
     overflow: hidden;
     border-radius: 12px;
 }
