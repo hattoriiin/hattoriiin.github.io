@@ -73,8 +73,9 @@ iframe {
     -webkit-user-select: none;
 
     /*
-       通常時はブラウザ標準のタッチ処理を使用する。
-       時計表示後のスクロール処理はJavaScript側で行う。
+       時計表示後の1本指スクロールは
+       JavaScript側でページへ渡す。
+       touch-action:none は使用しない。
     */
     touch-action: manipulation;
 }
@@ -108,9 +109,8 @@ iframe {
     visibility: hidden;
 
     /*
-       時計自身はタッチ操作を受け取らない。
-       指の移動は下のページ側へ渡し、
-       JavaScriptでページスクロールを行う。
+       時計レイヤー自身はタッチ操作を受け取らない。
+       ページ側のタッチイベントを利用する。
     */
     pointer-events: none;
 
@@ -124,11 +124,6 @@ iframe {
     opacity: 1;
     visibility: visible;
 
-    /*
-       noneのままにすることで、
-       時計の表示レイヤーがページ操作を
-       物理的に奪わないようにする。
-    */
     pointer-events: none;
 }
 
@@ -151,10 +146,6 @@ iframe {
 
     transform: scale(1);
 
-    /*
-       時計本体もタッチ操作の対象にしない。
-       下のページをスクロールするため。
-    */
     pointer-events: none;
 }
 
@@ -172,9 +163,6 @@ iframe {
 
     transform: translate(-50%,-50%);
 
-    /*
-       iframeがタッチ操作を奪わないようにする。
-    */
     pointer-events: none;
 }
 
@@ -192,17 +180,12 @@ iframe {
 
 /* ==================================================
    携帯の縦画面
-   時計を画面中央より少し下へ
 ================================================== */
 
 @media screen and (max-width: 600px) and (orientation: portrait) {
 
     .clock-modal-content iframe {
 
-        /*
-           58%から62%へ変更。
-           時計を画面中央より少し下へ移動する。
-        */
         top: 62%;
 
         transform:
@@ -1756,7 +1739,69 @@ function setupLongPress(
     }
 
 
+    function endTouch() {
+
+        /*
+           iPhoneでは指を動かしてブラウザの
+           ジェスチャーが始まると、
+           pointercancelが発生することがある。
+
+           そのためtouch操作については
+           pointercancelでは終了させず、
+           実際のtouchendで終了させる。
+        */
+
+        if (
+            activePointerId === null ||
+            !isActive
+        ) {
+            return;
+        }
+
+
+        activePointerId =
+            null;
+
+
+        isActive =
+            false;
+
+
+        if (typeof onEnd === "function") {
+
+            onEnd(
+                {
+                    pointerType: "touch"
+                }
+            );
+
+        }
+
+    }
+
+
     function cancel(event) {
+
+        /*
+           ★重要
+           タッチ操作ではpointercancelを
+           「指を離した」とみなさない。
+
+           iPhoneではスクロール開始時などに
+           pointercancelが発生するため、
+           ここで表示を解除すると
+           担当医表・時計が元に戻ってしまう。
+        */
+
+        if (
+            event &&
+            event.pointerType === "touch"
+        ) {
+
+            return;
+
+        }
+
 
         if (
             activePointerId === null ||
@@ -1818,12 +1863,23 @@ function setupLongPress(
 
 
     /*
-       時計ではモーダル表示後に
-       指がボタンから離れるため、
-       pointerleaveで終了させない。
-       担当医表では従来通り。
+       タッチの場合はpointercancelを無視し、
+       touchendで明示的に終了する。
     */
+    button.addEventListener(
+        "touchend",
+        endTouch,
+        {
+            passive: true
+        }
+    );
 
+
+    /*
+       マウスだけpointerleaveで終了。
+       タッチでは指がボタンから離れても
+       ここでは終了させない。
+    */
     if (endOnPointerLeave) {
 
         button.addEventListener(
@@ -1847,7 +1903,32 @@ function setupLongPress(
 
     window.addEventListener(
         "blur",
-        cancel
+        function (event) {
+
+            /*
+               画面外へ移動した場合など、
+               タッチ中の状態を勝手に解除しない。
+               実際のtouchendを待つ。
+            */
+            if (
+                activePointerId !== null &&
+                isActive
+            ) {
+
+                if (
+                    event &&
+                    event.type === "blur"
+                ) {
+
+                    return;
+
+                }
+
+            }
+
+            cancel(event);
+
+        }
     );
 
 }
@@ -1863,6 +1944,9 @@ if (doctorsButton) {
         doctorsButton,
         {
 
+            /*
+               指を押した瞬間に担当医表を表示。
+            */
             onStart: function () {
 
                 setDoctorsOverlayVisible(
@@ -1872,6 +1956,10 @@ if (doctorsButton) {
             },
 
 
+            /*
+               マウスではボタンを離した時、
+               タッチではtouchend時に戻す。
+            */
             onEnd: function () {
 
                 setDoctorsOverlayVisible(
@@ -1881,6 +1969,11 @@ if (doctorsButton) {
             },
 
 
+            /*
+               タッチのpointercancelでは
+               setupLongPress側でここを呼ばない。
+               マウス等の本当のcancelだけここへ来る。
+            */
             onCancel: function () {
 
                 setDoctorsOverlayVisible(
@@ -2150,19 +2243,15 @@ function showClock(event) {
     }
 
 
-    /*
-       タッチスクロールの開始位置を初期化する。
-       ここを初期化しておくことで、
-       長押しした場所からの指の移動量だけを
-       ページスクロール量として扱える。
-    */
     clockLastTouchY =
         null;
 
 
     clockTouchActive =
-        event &&
-        event.pointerType === "touch";
+        Boolean(
+            event &&
+            event.pointerType === "touch"
+        );
 
 
     if (clockFrameLoaded) {
@@ -2211,14 +2300,9 @@ function hideClock(event) {
     }
 
 
-    /*
-       時計を消したらスクロール用状態も
-       必ず初期化する。
-       次回の長押しに前回の指位置が
-       残らないようにするため。
-    */
     clockTouchActive =
         false;
+
 
     clockLastTouchY =
         null;
@@ -2230,6 +2314,15 @@ function hideClock(event) {
    時計表示中のページスクロール
 ================================================== */
 
+/**
+ * 時計表示中の1本指ドラッグを
+ * ページ本体の縦スクロールへ変換する。
+ *
+ * 2本指以上の場合は処理しない。
+ *
+ * @param {TouchEvent} event タッチ移動イベント
+ * @returns {void}
+ */
 function handleClockTouchMove(event) {
 
     if (
@@ -2243,18 +2336,21 @@ function handleClockTouchMove(event) {
 
 
     /*
-       二本指以上の場合はここでは処理しない。
-       既存のマップ操作などの多指操作を
-       時計側のスクロール処理で奪わないため。
+       時計表示中でも2本指操作は
+       この処理の対象外。
+       地図などの既存の多指操作へ
+       影響を与えないため。
     */
     if (
         !event.touches ||
         event.touches.length !== 1
     ) {
+
         clockLastTouchY =
             null;
 
         return;
+
     }
 
 
@@ -2273,6 +2369,10 @@ function handleClockTouchMove(event) {
     }
 
 
+    /*
+       最初のtouchmoveでは基準位置だけ保存。
+       ここでスクロール量を発生させない。
+    */
     if (
         clockLastTouchY === null
     ) {
@@ -2291,9 +2391,12 @@ function handleClockTouchMove(event) {
 
 
     /*
-       指を上へ動かすと deltaY は負になる。
-       window.scrollBy に同じ値を渡すことで、
-       ページも上方向へスクロールする。
+       指を上へ動かす
+       → deltaYはマイナス
+       → scrollByにはプラス
+       → ページが下方向へ進む
+
+       指を下へ動かす場合は逆になる。
     */
     if (
         deltaY !== 0
@@ -2312,8 +2415,9 @@ function handleClockTouchMove(event) {
 
 
     /*
-       ブラウザ標準のスクロール処理との二重実行を防ぐ。
-       実際のページ移動は上のwindow.scrollByだけで行う。
+       このジェスチャーについては
+       JavaScriptでページスクロールを行うため、
+       ブラウザ側の同時スクロールを止める。
     */
     event.preventDefault();
 
@@ -2404,11 +2508,8 @@ if (
 
             /*
                時計表示後に指がボタンから
-               離れても終了させない。
-               指を動かしている間は時計を表示し、
-               指を離した時点で非表示にする。
+               離れても終了しない。
             */
-
             endOnPointerLeave: false,
 
 
@@ -2437,32 +2538,20 @@ if (
 
 
     /*
-       iPhoneで指を離したことを確実に検知する。
-       モーダル自体はpointer-events:noneなので、
-       window側で終了処理を行う。
+       マウス操作用。
+       タッチではpointercancelを
+       「指を離した」とみなさない。
     */
-
     window.addEventListener(
         "pointerup",
         function (event) {
 
             if (
-                clockModal.classList.contains(
-                    "is-active"
-                )
+                event.pointerType === "touch"
             ) {
-
-                hideClock(event);
-
+                return;
             }
 
-        }
-    );
-
-
-    window.addEventListener(
-        "pointercancel",
-        function (event) {
 
             if (
                 clockModal.classList.contains(
@@ -2479,12 +2568,42 @@ if (
 
 
     /*
-       時計表示中の指の移動を監視する。
-       passive:false にする理由は、
-       iPhone Safariの標準スクロールを止めて、
-       window.scrollBy() によるページスクロールへ
-      一本化するため。
+       タッチのpointercancelでは
+       時計を消さない。
+
+       iPhoneではページスクロールへ
+       ジェスチャーが移行した際にも
+       pointercancelが発生する場合があるため。
     */
+    window.addEventListener(
+        "pointercancel",
+        function (event) {
+
+            if (
+                event.pointerType === "touch"
+            ) {
+                return;
+            }
+
+
+            if (
+                clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+
+                hideClock(event);
+
+            }
+
+        }
+    );
+
+
+    /* ==================================================
+       時計表示中のタッチ移動
+    ================================================== */
+
     document.addEventListener(
         "touchmove",
         handleClockTouchMove,
@@ -2494,12 +2613,37 @@ if (
     );
 
 
+    /* ==================================================
+       時計：実際に指を離した時
+    ================================================== */
+
     document.addEventListener(
         "touchend",
-        function () {
+        function (event) {
+
+            if (
+                clockModal &&
+                clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+
+                /*
+                   touchendは実際に指を離した
+                   タイミングなので、ここで初めて
+                   時計を閉じる。
+                */
+                hideClock(event);
+
+            }
+
 
             clockLastTouchY =
                 null;
+
+
+            clockTouchActive =
+                false;
 
         },
         {
@@ -2508,6 +2652,11 @@ if (
     );
 
 
+    /*
+       touchcancelはスクロール開始時にも
+       発生し得るため、ここでは時計を消さない。
+       次のtouchendを待つ。
+    */
     document.addEventListener(
         "touchcancel",
         function () {
@@ -2521,6 +2670,10 @@ if (
         }
     );
 
+
+    /* ==================================================
+       Escape
+    ================================================== */
 
     document.addEventListener(
         "keydown",
