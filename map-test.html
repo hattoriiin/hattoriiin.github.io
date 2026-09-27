@@ -150,12 +150,16 @@ iframe {
     transform: translate(-50%,-50%);
 }
 
+/* 時計iframe */
+#clockModal iframe {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
 
 /* ==================================================
    診療時間表の親
-   --------------------------------------------------
-   通常の診療時間表を文書の流れに残し、
-   この親を担当医表の位置決め用アンカーにする。
 ================================================== */
 
 .schedule-overlay-container {
@@ -185,12 +189,6 @@ table.table-schedule-base {
 
 /* ==================================================
    担当医表
-   --------------------------------------------------
-   通常表の親を基準にして、
-   top:0 / left:0 から完全に重ねる。
-
-   display:none は style.css 側の指定と
-   整合させるために使用する。
 ================================================== */
 
 .schedule-overlay-container
@@ -229,8 +227,6 @@ table.table-overlay {
 
 /* ==================================================
    表の列幅
-   --------------------------------------------------
-   通常表と担当医表の列構成を同じにする。
 ================================================== */
 
 table.schedule th:first-child,
@@ -293,8 +289,6 @@ table.schedule tr:first-child th {
 
 /* ==================================================
    行高
-   --------------------------------------------------
-   通常表と担当医表の縦方向の基準を統一する。
 ================================================== */
 
 .schedule tr:first-child {
@@ -1042,11 +1036,6 @@ let doctorsDataReady =
 
 /* ==================================================
    診療時間表の寸法を取得
-   --------------------------------------------------
-   通常の診療時間表を基準にする。
-
-   担当医表はこの寸法と同じにすることで、
-   親の左上をアンカーとして正確に重ねる。
 ================================================== */
 
 function syncDoctorsOverlaySize() {
@@ -1447,10 +1436,6 @@ async function loadDoctorsTable() {
         );
 
 
-        /* ------------------------------------------
-           午前・午後
-        ------------------------------------------ */
-
         overlayTable
             .querySelectorAll(
                 "td[data-time]"
@@ -1475,10 +1460,6 @@ async function loadDoctorsTable() {
             });
 
 
-        /* ------------------------------------------
-           訪問診療
-        ------------------------------------------ */
-
         overlayTable
             .querySelectorAll(
                 "td[data-visit]"
@@ -1499,10 +1480,6 @@ async function loadDoctorsTable() {
             });
 
 
-        /* ------------------------------------------
-           古い担当医表を削除
-        ------------------------------------------ */
-
         const oldTable =
             scheduleContainer.querySelector(
                 "#doctors-overlay-table"
@@ -1516,10 +1493,6 @@ async function loadDoctorsTable() {
         }
 
 
-        /* ------------------------------------------
-           親の中に追加
-        ------------------------------------------ */
-
         scheduleContainer.appendChild(
             overlayTable
         );
@@ -1532,11 +1505,6 @@ async function loadDoctorsTable() {
         doctorsDataReady =
             true;
 
-
-        /*
-           通常表の寸法を基準に、
-           担当医表の寸法を同期する。
-        */
 
         syncDoctorsOverlaySize();
 
@@ -1594,11 +1562,6 @@ function setDoctorsOverlayVisible(
         return;
     }
 
-
-    /*
-       表示直前にもう一度寸法を同期。
-       iPhoneの表示幅変化などにも対応する。
-    */
 
     if (isVisible) {
 
@@ -2003,6 +1966,25 @@ function adjustClock() {
                 .background =
                     "transparent";
 
+            /* ⭐ 時計内部の文字選択・コピーを防ぐ */
+            frameDocument
+                .documentElement
+                .style
+                .userSelect =
+                    "none";
+
+            frameDocument
+                .documentElement
+                .style
+                .webkitUserSelect =
+                    "none";
+
+            frameDocument
+                .documentElement
+                .style
+                .webkitTouchCallout =
+                    "none";
+
         }
 
 
@@ -2014,6 +1996,17 @@ function adjustClock() {
 
             frameDocument.body.style.margin =
                 "0";
+
+
+            /* ⭐ 時計内部の文字選択・コピーを防ぐ */
+            frameDocument.body.style.userSelect =
+                "none";
+
+            frameDocument.body.style.webkitUserSelect =
+                "none";
+
+            frameDocument.body.style.webkitTouchCallout =
+                "none";
 
         }
 
