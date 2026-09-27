@@ -73,11 +73,14 @@ iframe {
     -webkit-user-select: none;
 
     /*
-       時計表示後の1本指スクロールは
-       JavaScript側でページへ渡すため、
-       ブラウザ側のジェスチャーを制限しない。
+       時計表示中の1本指操作は
+       JavaScript側でページスクロールへ変換する。
+
+       Safariにこのタッチを通常の
+       スクロールジェスチャーとして処理させず、
+       JavaScriptでscrollTopを動かすためnoneにする。
     */
-    touch-action: auto;
+    touch-action: none;
 }
 
 .clock-btn.active {
@@ -2383,9 +2386,9 @@ function handleClockTouchMove(event) {
     /*
        最初のtouchmoveでは基準位置だけ保存。
 
-       ここでスクロールさせないことで、
-       指を置いた瞬間にページが
-       不意に動くのを防ぐ。
+       touchstartで既に基準値を取得しているため、
+       通常はここには入らず、最初の移動量から
+       そのままスクロールを開始できる。
     */
     if (
         clockLastTouchY === null
@@ -2631,6 +2634,81 @@ if (
 
 
     /* ==================================================
+       時計表示中のタッチ開始
+    ================================================== */
+
+    /*
+       touchstartをwindowのcapture段階で取得する。
+
+       時計ボタンを押した直後に時計が表示されるため、
+       その後の最初のtouchmoveを待ってから基準位置を
+       決めるのではなく、touchstart時点のY座標を
+       clockLastTouchYへ保存しておく。
+
+       これにより、最初の移動量から連続して
+       scrollTopを動かせる。
+    */
+    window.addEventListener(
+        "touchstart",
+        function (event) {
+
+            if (
+                !clockModal ||
+                !clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+                return;
+            }
+
+
+            /*
+               1本指だけを対象にする。
+
+               2本指以上になった場合は
+               時計スクロール処理を行わない。
+            */
+            if (
+                !event.touches ||
+                event.touches.length !== 1
+            ) {
+
+                clockLastTouchY =
+                    null;
+
+                return;
+
+            }
+
+
+            const currentY =
+                event.touches[0].clientY;
+
+
+            if (
+                !Number.isFinite(currentY)
+            ) {
+
+                clockLastTouchY =
+                    null;
+
+                return;
+
+            }
+
+
+            clockLastTouchY =
+                currentY;
+
+        },
+        {
+            passive: true,
+            capture: true
+        }
+    );
+
+
+    /* ==================================================
        時計表示中のタッチ移動
     ================================================== */
 
@@ -2642,7 +2720,8 @@ if (
        到達する前のcapture段階で取得する。
 
        iPhone Safariで、時計ボタンから始まった
-       タッチ操作をページスクロールへ渡す目的。
+       タッチ操作をJavaScriptによる
+       ページスクロールへ変換する目的。
     */
     window.addEventListener(
         "touchmove",
