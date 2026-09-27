@@ -12,18 +12,6 @@
 
 <title>服部医院｜周辺アクセスマップ テスト3</title>
 
-
-<!-- ==================================================
-     Leaflet
-     APIキー不要
-================================================== -->
-
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
->
-
-
 <style>
 
 html,
@@ -35,11 +23,6 @@ body {
     background: transparent;
 }
 
-
-/* ==================================================
-   地図全体
-================================================== */
-
 .map-wrap {
     position: relative;
     width: 100%;
@@ -47,221 +30,44 @@ body {
     overflow: hidden;
 }
 
-
-/* ==================================================
-   Leaflet地図
-
-   これまでの map-inner iframe は使わず、
-   Leafletを直接この中に表示する。
-================================================== */
-
-#map {
+.map-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    transform: none;
 }
 
-
-/* ==================================================
-   服部医院のラベル
-================================================== */
-
-.clinic-label {
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(40, 60, 70, 0.25);
-    border-radius: 8px;
-    padding: 4px 7px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #26343a;
-    white-space: nowrap;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-}
-
-
-/*
-   ラベルの吹き出し矢印を消す
-*/
-
-.clinic-label::before {
-    display: none;
+.map-inner iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 <div class="map-wrap">
 
-    <div id="map"></div>
+    <div class="map-inner">
+
+<iframe
+    src="https://www.google.com/maps/@?api=1&map_action=map&center=35.11995,136.9219966&zoom=16"
+    title="服部医院周辺アクセスマップ"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin">
+</iframe>
+
+
+    </div>
 
 </div>
-
-
-<!-- ==================================================
-     Leaflet本体
-================================================== -->
-
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-></script>
-
-
-<script>
-
-/* ==================================================
-   服部医院
-
-   現在のテスト用座標
-================================================== */
-
-const CLINIC_LAT = 35.1212371;
-const CLINIC_LNG = 136.9219966;
-
-
-/* ==================================================
-   地図の初期中心
-
-   服部医院そのものを中心にしない。
-
-   少し南側を中心にすることで、
-   服部医院を画面上側へ持っていく。
-================================================== */
-
-const MAP_CENTER_LAT = 35.11995;
-const MAP_CENTER_LNG = 136.9219966;
-
-
-/* ==================================================
-   初期ズーム
-================================================== */
-
-const INITIAL_ZOOM = 16;
-
-
-/* ==================================================
-   地図を作成
-================================================== */
-
-const map = L.map(
-    "map",
-    {
-        center: [
-            MAP_CENTER_LAT,
-            MAP_CENTER_LNG
-        ],
-
-        zoom: INITIAL_ZOOM,
-
-        /*
-           Leafletによる通常の地図操作
-        */
-
-        dragging: true,
-
-        touchZoom: true,
-
-        scrollWheelZoom: true,
-
-        doubleClickZoom: true,
-
-        boxZoom: false,
-
-        keyboard: true
-    }
-);
-
-
-/* ==================================================
-   OpenStreetMap
-
-   APIキー不要。
-
-   attributionはライセンス上必要。
-================================================== */
-
-L.tileLayer(
-    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-        maxZoom: 19,
-
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }
-).addTo(map);
-
-
-/* ==================================================
-   服部医院のポイント
-================================================== */
-
-const clinicMarker = L.marker(
-    [
-        CLINIC_LAT,
-        CLINIC_LNG
-    ]
-).addTo(map);
-
-
-/* ==================================================
-   服部医院の名称
-
-   Google Mapsの検索ラベルではなく、
-   こちらで位置を制御できるラベル。
-================================================== */
-
-clinicMarker.bindTooltip(
-    "服部医院",
-    {
-        permanent: true,
-
-        direction: "top",
-
-        offset: [
-            0,
-            -8
-        ],
-
-        className: "clinic-label"
-    }
-);
-
-
-/* ==================================================
-   マーカーをタップした場合
-================================================== */
-
-clinicMarker.bindPopup(
-    "<strong>服部医院</strong><br>" +
-    "〒467-0825<br>" +
-    "愛知県名古屋市瑞穂区柳ヶ枝町1-34"
-);
-
-
-/* ==================================================
-   iframeの表示領域が確定した後、
-   Leafletにサイズを再認識させる。
-================================================== */
-
-window.addEventListener(
-    "load",
-    function () {
-
-        setTimeout(
-            function () {
-
-                map.invalidateSize();
-
-            },
-            100
-        );
-
-    }
-);
-
-</script>
 
 </body>
 
