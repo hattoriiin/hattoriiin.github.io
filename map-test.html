@@ -74,8 +74,8 @@ iframe {
 
     /*
        時計表示後の1本指スクロールは
-       JavaScript側でページへ渡す。
-       touch-action:none は使用しない。
+       JavaScript側でページへ渡すため、
+       ブラウザ側のジェスチャーを制限しない。
     */
     touch-action: auto;
 }
@@ -2325,6 +2325,13 @@ function hideClock(event) {
  */
 function handleClockTouchMove(event) {
 
+    /*
+       時計が表示されていない通常時は
+       この処理を完全に無視する。
+
+       そのため、通常時の地図操作などには
+       この処理が介入しない。
+    */
     if (
         !clockModal ||
         !clockModal.classList.contains(
@@ -2336,10 +2343,10 @@ function handleClockTouchMove(event) {
 
 
     /*
-       時計表示中でも2本指操作は
-       この処理の対象外。
-       地図などの既存の多指操作へ
-       影響を与えないため。
+       時計表示中でも2本指以上は処理しない。
+
+       これにより、多指操作をこの処理で
+       ページスクロールへ変換しない。
     */
     if (
         !event.touches ||
@@ -2362,6 +2369,10 @@ function handleClockTouchMove(event) {
         touch.clientY;
 
 
+    /*
+       異常な座標値が来た場合は
+       スクロール処理を行わない。
+    */
     if (
         !Number.isFinite(currentY)
     ) {
@@ -2371,7 +2382,10 @@ function handleClockTouchMove(event) {
 
     /*
        最初のtouchmoveでは基準位置だけ保存。
-       ここでスクロール量を発生させない。
+
+       ここでスクロールさせないことで、
+       指を置いた瞬間にページが
+       不意に動くのを防ぐ。
     */
     if (
         clockLastTouchY === null
@@ -2391,21 +2405,36 @@ function handleClockTouchMove(event) {
 
 
     /*
-       指を上へ動かす
-       → deltaYはマイナス
-       → scrollByにはプラス
-       → ページが下方向へ進む
+       実際にページをスクロールする
+       スクロールコンテナを取得する。
 
-       指を下へ動かす場合は逆になる。
+       window.scrollBy()ではなく
+       scrollingElement.scrollTopを直接変更することで、
+       iPhone Safari上でも「ページ本体」の
+       スクロール位置を明示的に動かす。
     */
+    const scrollingElement =
+        document.scrollingElement;
+
+
     if (
+        scrollingElement &&
         deltaY !== 0
     ) {
 
-        window.scrollBy(
-            0,
-            -deltaY
-        );
+        /*
+           指を上へ動かす
+           → deltaYはマイナス
+           → scrollTopを増やす
+           → ページが下へスクロール
+
+           指を下へ動かす
+           → deltaYはプラス
+           → scrollTopを減らす
+           → ページが上へスクロール
+        */
+        scrollingElement.scrollTop +=
+            -deltaY;
 
     }
 
@@ -2415,9 +2444,9 @@ function handleClockTouchMove(event) {
 
 
     /*
-       このジェスチャーについては
-       JavaScriptでページスクロールを行うため、
-       ブラウザ側の同時スクロールを止める。
+       このタッチ操作はJavaScript側で
+       ページスクロールへ変換しているため、
+       Safari自身による同時スクロールを防ぐ。
     */
     event.preventDefault();
 
@@ -2539,6 +2568,7 @@ if (
 
     /*
        マウス操作用。
+
        タッチではpointercancelを
        「指を離した」とみなさない。
     */
@@ -2604,11 +2634,22 @@ if (
        時計表示中のタッチ移動
     ================================================== */
 
-    document.addEventListener(
+    /*
+       documentではなくwindowで受け取る。
+
+       capture:trueにすることで、
+       タッチイベントが通常の要素側へ
+       到達する前のcapture段階で取得する。
+
+       iPhone Safariで、時計ボタンから始まった
+       タッチ操作をページスクロールへ渡す目的。
+    */
+    window.addEventListener(
         "touchmove",
         handleClockTouchMove,
         {
-            passive: false
+            passive: false,
+            capture: true
         }
     );
 
