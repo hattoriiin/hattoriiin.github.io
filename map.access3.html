@@ -10,7 +10,13 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>服部医院｜周辺アクセスマップ</title>
+<title>服部医院｜周辺アクセスマップ テスト3</title>
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+>
 
 <style>
 
@@ -20,51 +26,66 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: transparent;
 }
 
-.map-wrap {
-    position: relative;
+#map {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-}
-
-.map-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.map-inner iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
 }
 
 </style>
 
 </head>
 
-
 <body>
 
+<div id="map"></div>
 
-<div class="map-wrap">
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin="">
+</script>
 
-    <div class="map-inner">
+<script>
 
-        <iframe
-            src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-            title="服部医院周辺アクセスマップ"
-        ></iframe>
+/* ==================================================
+   地図
+================================================== */
 
-    </div>
+const map =
+    L.map("map").setView(
+        [35.1180, 136.9220],
+        16
+    );
 
-</div>
 
+/* ==================================================
+   OpenStreetMap
+================================================== */
+
+L.tileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom: 19,
+        attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }
+).addTo(map);
+
+
+/* ==================================================
+   服部医院
+================================================== */
+
+L.marker(
+    [35.1212371, 136.9219966]
+).addTo(map)
+.bindPopup(
+    "医療法人 誠彰会 服部医院"
+);
+
+</script>
 
 </body>
 
