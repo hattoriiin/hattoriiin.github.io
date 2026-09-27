@@ -71,12 +71,7 @@ iframe {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
-
-    /*
-       時計の長押し中は、このボタンから
-       Pointer Captureを取得して指の移動を追跡する。
-    */
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .clock-btn.active {
@@ -106,6 +101,11 @@ iframe {
 
     opacity: 0;
     visibility: hidden;
+
+    /*
+       時計は表示するが、
+       タッチ操作は下の元HTMLへ通す。
+    */
     pointer-events: none;
 
     transition:
@@ -117,7 +117,13 @@ iframe {
     display: flex;
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
+
+    /*
+       ここも none のまま。
+       これにより時計表示中も
+       元HTMLページをスクロールできる。
+    */
+    pointer-events: none;
 }
 
 .clock-modal-content {
@@ -138,25 +144,13 @@ iframe {
     margin: 0;
 
     transform: scale(1);
+
+    /*
+       時計そのものもタッチ操作を受け取らない。
+       下のページへ指操作を通す。
+    */
+    pointer-events: none;
 }
-
-
-/* ==================================================
-   iPhone等の縦画面だけ時計を少し下へ
-================================================== */
-
-@media (orientation: portrait) and (max-width: 768px) {
-
-    .clock-modal-content {
-        transform: translateY(10vh);
-    }
-
-}
-
-
-/* ==================================================
-   時計iframe
-================================================== */
 
 .clock-modal-content iframe {
     position: absolute;
@@ -171,14 +165,37 @@ iframe {
     background: transparent;
 
     transform: translate(-50%,-50%);
-}
 
+    /*
+       iframeがタッチ操作を奪わないようにする。
+    */
+    pointer-events: none;
+}
 
 /* 時計iframe */
 #clockModal iframe {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+}
+
+
+/* ==================================================
+   携帯の縦画面
+   時計を画面中央より少し下へ
+================================================== */
+
+@media screen and (max-width: 600px) and (orientation: portrait) {
+
+    .clock-modal-content iframe {
+
+        top: 58%;
+
+        transform:
+            translate(-50%, -50%);
+
+    }
+
 }
 
 
@@ -816,8 +833,6 @@ table.table-overlay tr:first-child th {
 
 <div class="location-grid">
 
-<div class="location-map">
-
 <div class="access-map-frame">
 
 <iframe
@@ -826,7 +841,6 @@ table.table-overlay tr:first-child th {
 ></iframe>
 
 </div>
-
 
 <p class="map-link">
 
@@ -1622,7 +1636,6 @@ function setupLongPress(
     button,
     {
         onStart,
-        onMove,
         onEnd,
         onCancel,
         endOnPointerLeave = true
@@ -1660,14 +1673,15 @@ function setupLongPress(
             true;
 
 
-        /*
-           指・ペン・マウスのいずれでも
-           このボタンにPointer Captureを取得する。
+        if (typeof onStart === "function") {
 
-           時計を表示するとモーダルが画面全体を
-           覆うため、タッチ時にも必要。
-        */
+            onStart(event);
+
+        }
+
+
         if (
+            event.pointerType === "mouse" &&
             button.setPointerCapture
         ) {
 
@@ -1687,37 +1701,6 @@ function setupLongPress(
                 );
 
             }
-
-        }
-
-
-        if (typeof onStart === "function") {
-
-            onStart(event);
-
-        }
-
-    }
-
-
-    function move(event) {
-
-        if (
-            activePointerId === null ||
-            !isActive ||
-            (
-                event &&
-                event.pointerId !==
-                    activePointerId
-            )
-        ) {
-            return;
-        }
-
-
-        if (typeof onMove === "function") {
-
-            onMove(event);
 
         }
 
@@ -1803,12 +1786,6 @@ function setupLongPress(
 
 
     button.addEventListener(
-        "pointermove",
-        move
-    );
-
-
-    button.addEventListener(
         "pointerup",
         end
     );
@@ -1827,12 +1804,12 @@ function setupLongPress(
 
 
     /*
-       担当医ボタンでは従来どおり、
-       マウスだけpointerleaveで終了。
-
-       時計ではfalseにして、
-       モーダル表示後も長押し状態を維持する。
+       時計ではモーダル表示後に
+       指がボタンから離れるため、
+       pointerleaveで終了させない。
+       担当医表では従来通り。
     */
+
     if (endOnPointerLeave) {
 
         button.addEventListener(
@@ -1946,14 +1923,6 @@ let clockFrameFailed =
 
 
 /* ==================================================
-   時計スクロール用
-================================================== */
-
-let clockLastPointerY =
-    null;
-
-
-/* ==================================================
    時計エラー表示
 ================================================== */
 
@@ -2048,9 +2017,6 @@ function adjustClock() {
                     "transparent";
 
 
-            /*
-               時計内部の文字選択・コピーを防ぐ
-            */
             frameDocument
                 .documentElement
                 .style
@@ -2084,9 +2050,6 @@ function adjustClock() {
                 "0";
 
 
-            /*
-               時計内部の文字選択・コピーを防ぐ
-            */
             frameDocument.body.style.userSelect =
                 "none";
 
@@ -2130,15 +2093,12 @@ function adjustClock() {
 
 function showClock(event) {
 
-    if (
-        event &&
-        event.cancelable
-    ) {
-
-        event.preventDefault();
-
-    }
-
+    /*
+       ここでは preventDefault() しない。
+       長押し後に指を動かしたとき、
+       元のHTMLページのスクロールを
+       ブラウザに許可するため。
+    */
 
     if (!clockModal) {
         return;
@@ -2186,16 +2146,6 @@ function showClock(event) {
 
 function hideClock(event) {
 
-    if (
-        event &&
-        event.cancelable
-    ) {
-
-        event.preventDefault();
-
-    }
-
-
     if (!clockModal) {
         return;
     }
@@ -2225,10 +2175,6 @@ function hideClock(event) {
         );
 
     }
-
-
-    clockLastPointerY =
-        null;
 
 }
 
@@ -2316,94 +2262,22 @@ if (
         {
 
             /*
-               長押し開始
+               時計表示後に指がボタンから
+               離れても終了させない。
+               これがスクロール可能にするための
+              重要な部分。
             */
+
+            endOnPointerLeave: false,
+
+
             onStart: function (event) {
-
-                clockLastPointerY =
-                    event.clientY;
-
 
                 showClock(event);
 
             },
 
 
-            /*
-               長押し中に指を動かしたら、
-               背後の元HTMLページをスクロールする。
-            */
-            onMove: function (event) {
-
-                if (
-                    event.pointerType !== "touch" &&
-                    event.pointerType !== "pen"
-                ) {
-                    return;
-                }
-
-
-                if (
-                    clockLastPointerY === null
-                ) {
-
-                    clockLastPointerY =
-                        event.clientY;
-
-                    return;
-
-                }
-
-
-                const currentY =
-                    event.clientY;
-
-
-                const deltaY =
-                    clockLastPointerY -
-                    currentY;
-
-
-                clockLastPointerY =
-                    currentY;
-
-
-                if (
-                    Math.abs(deltaY) < 0.5
-                ) {
-                    return;
-                }
-
-
-                /*
-                   指を上へ動かす
-                   → ページも上へ
-
-                   指を下へ動かす
-                   → ページも下へ
-                */
-                window.scrollBy(
-                    0,
-                    deltaY
-                );
-
-
-                /*
-                   ブラウザ標準のタッチスクロールを
-                   二重に発生させない。
-                */
-                if (event.cancelable) {
-
-                    event.preventDefault();
-
-                }
-
-            },
-
-
-            /*
-               指を離したら時計を閉じる。
-            */
             onEnd: function (event) {
 
                 hideClock(event);
@@ -2411,37 +2285,7 @@ if (
             },
 
 
-            /*
-               OSなどによるキャンセル時も閉じる。
-            */
             onCancel: function (event) {
-
-                hideClock(event);
-
-            },
-
-
-            /*
-               時計表示後に元のボタンから指が離れても
-               長押し状態を維持する。
-            */
-            endOnPointerLeave: false
-
-        }
-    );
-
-
-    /*
-       モーダル背景をタップした場合は閉じる。
-    */
-    clockModal.addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                event.target ===
-                clockModal
-            ) {
 
                 hideClock(event);
 
@@ -2452,8 +2296,50 @@ if (
 
 
     /*
-       Escapeで閉じる。
+       時計表示後はモーダルが
+       pointer-events:none のため、
+       button側のpointerupを受け取れない場合がある。
+
+       そのため、指を離したことを
+       window側でも監視する。
     */
+
+    window.addEventListener(
+        "pointerup",
+        function (event) {
+
+            if (
+                clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+
+                hideClock(event);
+
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "pointercancel",
+        function (event) {
+
+            if (
+                clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+
+                hideClock(event);
+
+            }
+
+        }
+    );
+
+
     document.addEventListener(
         "keydown",
         function (event) {
