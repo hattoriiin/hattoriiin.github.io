@@ -71,6 +71,13 @@ iframe {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
+
+    /*
+       touch-action は変更しない。
+       長押し後に指を動かしたとき、
+       下のマップテストHTMLのページを
+       スクロールできるようにするため。
+    */
     touch-action: manipulation;
 }
 
@@ -103,8 +110,9 @@ iframe {
     visibility: hidden;
 
     /*
-       時計は表示するが、
-       タッチ操作は下の元HTMLへ通す。
+       時計表示中もタッチ操作を下のページへ通す。
+       そのため、マップテストHTMLのページを
+       指で上下にスクロールできる。
     */
     pointer-events: none;
 
@@ -119,9 +127,9 @@ iframe {
     visibility: visible;
 
     /*
-       ここも none のまま。
-       これにより時計表示中も
-       元HTMLページをスクロールできる。
+       ここも none のままにする。
+       時計表示レイヤーがタッチ操作を奪わず、
+       下のマップテストHTMLへ操作を通すため。
     */
     pointer-events: none;
 }
@@ -147,7 +155,7 @@ iframe {
 
     /*
        時計そのものもタッチ操作を受け取らない。
-       下のページへ指操作を通す。
+       下のページへ指操作を通すため。
     */
     pointer-events: none;
 }
@@ -168,11 +176,16 @@ iframe {
 
     /*
        iframeがタッチ操作を奪わないようにする。
+       これにより下のページをスクロールできる。
     */
     pointer-events: none;
 }
 
-/* 時計iframe */
+
+/* ==================================================
+   時計iframe
+================================================== */
+
 #clockModal iframe {
     user-select: none;
     -webkit-user-select: none;
@@ -189,7 +202,11 @@ iframe {
 
     .clock-modal-content iframe {
 
-        top: 58%;
+        /*
+           現在の58%より下へ移動する。
+           62%なら画面中央より少し下側になる。
+        */
+        top: 62%;
 
         transform:
             translate(-50%, -50%);
@@ -2094,10 +2111,10 @@ function adjustClock() {
 function showClock(event) {
 
     /*
-       ここでは preventDefault() しない。
-       長押し後に指を動かしたとき、
-       元のHTMLページのスクロールを
-       ブラウザに許可するため。
+       時計表示中もモーダルのpointer-eventsをnoneにする。
+       これにより、長押し後に指を動かしたときも
+       下にあるマップテストHTMLのページを
+       スクロールできるようにする。
     */
 
     if (!clockModal) {
@@ -2264,8 +2281,8 @@ if (
             /*
                時計表示後に指がボタンから
                離れても終了させない。
-               これがスクロール可能にするための
-              重要な部分。
+               指を動かしている間は時計を表示し、
+               指を離した時点で非表示にする。
             */
 
             endOnPointerLeave: false,
