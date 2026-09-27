@@ -2327,134 +2327,59 @@ function hideClock(event) {
  * @returns {void}
  */
 function handleClockTouchMove(event) {
-
-    /*
-       時計が表示されていない通常時は
-       この処理を完全に無視する。
-
-       そのため、通常時の地図操作などには
-       この処理が介入しない。
-    */
     if (
         !clockModal ||
-        !clockModal.classList.contains(
-            "is-active"
-        )
+        !clockModal.classList.contains("is-active")
     ) {
         return;
     }
 
-
-    /*
-       時計表示中でも2本指以上は処理しない。
-
-       これにより、多指操作をこの処理で
-       ページスクロールへ変換しない。
-    */
     if (
         !event.touches ||
         event.touches.length !== 1
     ) {
-
-        clockLastTouchY =
-            null;
-
+        clockLastTouchY = null;
         return;
-
     }
 
-
-    const touch =
-        event.touches[0];
-
-
     const currentY =
-        touch.clientY;
+        event.touches[0].clientY;
 
-
-    /*
-       異常な座標値が来た場合は
-       スクロール処理を行わない。
-    */
     if (
         !Number.isFinite(currentY)
     ) {
         return;
     }
 
-
-    /*
-       最初のtouchmoveでは基準位置だけ保存。
-
-       touchstartで既に基準値を取得しているため、
-       通常はここには入らず、最初の移動量から
-       そのままスクロールを開始できる。
-    */
     if (
         clockLastTouchY === null
     ) {
-
-        clockLastTouchY =
-            currentY;
-
+        clockLastTouchY = currentY;
         return;
-
     }
-
 
     const deltaY =
         currentY -
         clockLastTouchY;
 
-
-    /*
-       実際にページをスクロールする
-       スクロールコンテナを取得する。
-
-       window.scrollBy()ではなく
-       scrollingElement.scrollTopを直接変更することで、
-       iPhone Safari上でも「ページ本体」の
-       スクロール位置を明示的に動かす。
-    */
-    const scrollingElement =
-        document.scrollingElement;
-
+    const currentScrollY =
+        window.pageYOffset;
 
     if (
-        scrollingElement &&
-        deltaY !== 0
+        deltaY !== 0 &&
+        Number.isFinite(currentScrollY)
     ) {
-
-        /*
-           指を上へ動かす
-           → deltaYはマイナス
-           → scrollTopを増やす
-           → ページが下へスクロール
-
-           指を下へ動かす
-           → deltaYはプラス
-           → scrollTopを減らす
-           → ページが上へスクロール
-        */
-        scrollingElement.scrollTop +=
-            -deltaY;
-
+        window.scrollTo(
+            0,
+            currentScrollY - deltaY
+        );
     }
-
 
     clockLastTouchY =
         currentY;
 
-
-    /*
-       このタッチ操作はJavaScript側で
-       ページスクロールへ変換しているため、
-       Safari自身による同時スクロールを防ぐ。
-    */
     event.preventDefault();
-
 }
-
 
 /* ==================================================
    時計iframe
