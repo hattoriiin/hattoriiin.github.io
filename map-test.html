@@ -2314,71 +2314,153 @@ function hideClock(event) {
 
 
 /* ==================================================
-   時計表示中のページスクロール
+   時計長押し
 ================================================== */
 
-/**
- * 時計表示中の1本指ドラッグを
- * ページ本体の縦スクロールへ変換する。
- *
- * 2本指以上の場合は処理しない。
- *
- * @param {TouchEvent} event タッチ移動イベント
- * @returns {void}
- */
-function handleClockTouchMove(event) {
-    if (
-        !clockModal ||
-        !clockModal.classList.contains("is-active")
-    ) {
-        return;
-    }
+if (
+    clockButton &&
+    clockModal
+) {
 
-    if (
-        !event.touches ||
-        event.touches.length !== 1
-    ) {
-        clockLastTouchY = null;
-        return;
-    }
+    /*
+       iPhone / Safari
 
-    const currentY =
-        event.touches[0].clientY;
+       時計ボタンを指で押した瞬間に
+       時計を表示する。
 
-    if (
-        !Number.isFinite(currentY)
-    ) {
-        return;
-    }
+       touch-action: pan-y により、
+       そのまま指を上下へ動かした場合は
+       Safari本来のページスクロールを使う。
 
-    if (
-        clockLastTouchY === null
-    ) {
-        clockLastTouchY = currentY;
-        return;
-    }
+       JavaScript側ではスクロール位置を
+       操作しない。
+    */
+    clockButton.addEventListener(
+        "touchstart",
+        function (event) {
 
-    const deltaY =
-        currentY -
-        clockLastTouchY;
+            if (
+                !event.touches ||
+                event.touches.length !== 1
+            ) {
+                return;
+            }
 
-    const currentScrollY =
-        window.pageYOffset;
+            showClock({
+                pointerType: "touch"
+            });
 
-    if (
-        deltaY !== 0 &&
-        Number.isFinite(currentScrollY)
-    ) {
-        window.scrollTo(
-            0,
-            currentScrollY - deltaY
-        );
-    }
+        },
+        {
+            passive: true
+        }
+    );
 
-    clockLastTouchY =
-        currentY;
 
-    event.preventDefault();
+    /*
+       指を離した時だけ時計を閉じる。
+
+       touchmoveでは時計を閉じないため、
+       時計を表示したままページを
+       1本指でスクロールできる。
+    */
+    document.addEventListener(
+        "touchend",
+        function (event) {
+
+            if (
+                clockModal.classList.contains(
+                    "is-active"
+                )
+            ) {
+
+                hideClock(event);
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+       touchcancelでは時計を閉じない。
+
+       Safariがスクロール開始時に
+       touchcancelを発生させる場合があるため、
+       ここで時計を消すと
+       「スクロールした瞬間に時計が消える」
+       ことにつながる。
+    */
+    document.addEventListener(
+        "touchcancel",
+        function () {
+
+            /*
+               何もしない。
+               実際に指を離した時の
+               touchendで時計を閉じる。
+            */
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+       マウス操作
+
+       iPhone以外では従来どおり、
+       マウスボタンを押している間だけ
+       時計を表示する。
+    */
+    let clockMouseActive =
+        false;
+
+
+    clockButton.addEventListener(
+        "mousedown",
+        function (event) {
+
+            if (
+                event.button !== 0
+            ) {
+                return;
+            }
+
+            clockMouseActive =
+                true;
+
+            showClock({
+                pointerType: "mouse"
+            });
+
+        }
+    );
+
+
+    document.addEventListener(
+        "mouseup",
+        function (event) {
+
+            if (
+                !clockMouseActive
+            ) {
+                return;
+            }
+
+            clockMouseActive =
+                false;
+
+            hideClock(event);
+
+        }
+    );
+
 }
 
 /* ==================================================
