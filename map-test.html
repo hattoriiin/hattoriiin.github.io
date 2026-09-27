@@ -73,10 +73,8 @@ iframe {
     -webkit-user-select: none;
 
     /*
-       touch-action は変更しない。
-       長押し後に指を動かしたとき、
-       下のマップテストHTMLのページを
-       スクロールできるようにするため。
+       通常時はブラウザ標準のタッチ処理を使用する。
+       時計表示後のスクロール処理はJavaScript側で行う。
     */
     touch-action: manipulation;
 }
@@ -110,9 +108,9 @@ iframe {
     visibility: hidden;
 
     /*
-       時計表示中もタッチ操作を下のページへ通す。
-       そのため、マップテストHTMLのページを
-       指で上下にスクロールできる。
+       時計自身はタッチ操作を受け取らない。
+       指の移動は下のページ側へ渡し、
+       JavaScriptでページスクロールを行う。
     */
     pointer-events: none;
 
@@ -127,9 +125,9 @@ iframe {
     visibility: visible;
 
     /*
-       ここも none のままにする。
-       時計表示レイヤーがタッチ操作を奪わず、
-       下のマップテストHTMLへ操作を通すため。
+       noneのままにすることで、
+       時計の表示レイヤーがページ操作を
+       物理的に奪わないようにする。
     */
     pointer-events: none;
 }
@@ -154,8 +152,8 @@ iframe {
     transform: scale(1);
 
     /*
-       時計そのものもタッチ操作を受け取らない。
-       下のページへ指操作を通すため。
+       時計本体もタッチ操作の対象にしない。
+       下のページをスクロールするため。
     */
     pointer-events: none;
 }
@@ -176,7 +174,6 @@ iframe {
 
     /*
        iframeがタッチ操作を奪わないようにする。
-       これにより下のページをスクロールできる。
     */
     pointer-events: none;
 }
@@ -203,8 +200,8 @@ iframe {
     .clock-modal-content iframe {
 
         /*
-           現在の58%より下へ移動する。
-           62%なら画面中央より少し下側になる。
+           58%から62%へ変更。
+           時計を画面中央より少し下へ移動する。
         */
         top: 62%;
 
@@ -1940,6 +1937,18 @@ let clockFrameFailed =
 
 
 /* ==================================================
+   時計スクロール用状態
+================================================== */
+
+let clockTouchActive =
+    false;
+
+
+let clockLastTouchY =
+    null;
+
+
+/* ==================================================
    時計エラー表示
 ================================================== */
 
@@ -2110,13 +2119,6 @@ function adjustClock() {
 
 function showClock(event) {
 
-    /*
-       時計表示中もモーダルのpointer-eventsをnoneにする。
-       これにより、長押し後に指を動かしたときも
-       下にあるマップテストHTMLのページを
-       スクロールできるようにする。
-    */
-
     if (!clockModal) {
         return;
     }
@@ -2146,6 +2148,21 @@ function showClock(event) {
         );
 
     }
+
+
+    /*
+       タッチスクロールの開始位置を初期化する。
+       ここを初期化しておくことで、
+       長押しした場所からの指の移動量だけを
+       ページスクロール量として扱える。
+    */
+    clockLastTouchY =
+        null;
+
+
+    clockTouchActive =
+        event &&
+        event.pointerType === "touch";
 
 
     if (clockFrameLoaded) {
@@ -2192,6 +2209,113 @@ function hideClock(event) {
         );
 
     }
+
+
+    /*
+       時計を消したらスクロール用状態も
+       必ず初期化する。
+       次回の長押しに前回の指位置が
+       残らないようにするため。
+    */
+    clockTouchActive =
+        false;
+
+    clockLastTouchY =
+        null;
+
+}
+
+
+/* ==================================================
+   時計表示中のページスクロール
+================================================== */
+
+function handleClockTouchMove(event) {
+
+    if (
+        !clockModal ||
+        !clockModal.classList.contains(
+            "is-active"
+        )
+    ) {
+        return;
+    }
+
+
+    /*
+       二本指以上の場合はここでは処理しない。
+       既存のマップ操作などの多指操作を
+       時計側のスクロール処理で奪わないため。
+    */
+    if (
+        !event.touches ||
+        event.touches.length !== 1
+    ) {
+        clockLastTouchY =
+            null;
+
+        return;
+    }
+
+
+    const touch =
+        event.touches[0];
+
+
+    const currentY =
+        touch.clientY;
+
+
+    if (
+        !Number.isFinite(currentY)
+    ) {
+        return;
+    }
+
+
+    if (
+        clockLastTouchY === null
+    ) {
+
+        clockLastTouchY =
+            currentY;
+
+        return;
+
+    }
+
+
+    const deltaY =
+        currentY -
+        clockLastTouchY;
+
+
+    /*
+       指を上へ動かすと deltaY は負になる。
+       window.scrollBy に同じ値を渡すことで、
+       ページも上方向へスクロールする。
+    */
+    if (
+        deltaY !== 0
+    ) {
+
+        window.scrollBy(
+            0,
+            -deltaY
+        );
+
+    }
+
+
+    clockLastTouchY =
+        currentY;
+
+
+    /*
+       ブラウザ標準のスクロール処理との二重実行を防ぐ。
+       実際のページ移動は上のwindow.scrollByだけで行う。
+    */
+    event.preventDefault();
 
 }
 
@@ -2313,12 +2437,9 @@ if (
 
 
     /*
-       時計表示後はモーダルが
-       pointer-events:none のため、
-       button側のpointerupを受け取れない場合がある。
-
-       そのため、指を離したことを
-       window側でも監視する。
+       iPhoneで指を離したことを確実に検知する。
+       モーダル自体はpointer-events:noneなので、
+       window側で終了処理を行う。
     */
 
     window.addEventListener(
@@ -2353,6 +2474,50 @@ if (
 
             }
 
+        }
+    );
+
+
+    /*
+       時計表示中の指の移動を監視する。
+       passive:false にする理由は、
+       iPhone Safariの標準スクロールを止めて、
+       window.scrollBy() によるページスクロールへ
+      一本化するため。
+    */
+    document.addEventListener(
+        "touchmove",
+        handleClockTouchMove,
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        "touchend",
+        function () {
+
+            clockLastTouchY =
+                null;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    document.addEventListener(
+        "touchcancel",
+        function () {
+
+            clockLastTouchY =
+                null;
+
+        },
+        {
+            passive: true
         }
     );
 
