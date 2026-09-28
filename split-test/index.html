@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>地図テスト</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="components.css">
+
+</head>
+
+<body>
+
+<a
+    href="tel:052-881-0876"
+    class="fixed-call"
+>
+    ☎ 電話する　052-881-0876
+</a>
+
+
+<!-- ==================================================
+     院内写真
+================================================== -->
+
+<section class="clinic-view">
+
+    <div class="clinic-camera">
+
+        <img
+            src="images/gairai.uketuke.jpg"
+            alt="服部医院 院内"
+            class="clinic-image"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     診療時間
+================================================== -->
+
+<section id="schedule">
+
+<h2>診療時間</h2>
+
+
+<div
+    class="schedule-overlay-container"
+    id="schedule-container"
+>
+
+<table class="schedule table-schedule-base">
+
+<tr>
+    <th></th>
+    <th>月</th>
+    <th>火</th>
+    <th>水</th>
+    <th>木</th>
+    <th>金</th>
+    <th>土</th>
+</tr>
+
+
+<tr>
+
+    <th>
+        🏥 午前診療<br>
+        <span>09:00〜12:00</span>
+    </th>
+
+    <td
+        data-day="月"
+        data-time="午前"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="火"
+        data-time="午前"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="水"
+        data-time="午前"
+    >
+        ―
+    </td>
+
+    <td
+        data-day="木"
+        data-time="午前"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="金"
+        data-time="午前"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="土"
+        data-time="午前"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+</tr>
+
+
+<tr>
+
+    <th>
+        🏠
+        <a href="houmon.html">
+            訪問診療
+        </a>
+        <br>
+        <span>13:30〜16:30</span>
+    </th>
+
+    <td
+        data-day="月"
+        data-visit="true"
+    >
+        <span class="visit-circle"></span>
+    </td>
+
+    <td
+        data-day="火"
+        data-visit="true"
+    >
+        <span class="visit-circle"></span>
+    </td>
+
+    <td
+        data-day="水"
+        data-visit="true"
+    >
+        <span class="visit-circle"></span>
+    </td>
+
+    <td
+        data-day="木"
+        data-visit="true"
+    >
+        <span class="visit-circle"></span>
+    </td>
+
+    <td
+        data-day="金"
+        data-visit="true"
+    >
+        ―
+    </td>
+
+    <td
+        data-day="土"
+        data-visit="true"
+    >
+        ―
+    </td>
+
+</tr>
+
+
+<tr>
+
+    <th>
+        🏥 午後診療<br>
+        <span>17:30〜19:30</span>
+    </th>
+
+    <td
+        data-day="月"
+        data-time="午後"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="火"
+        data-time="午後"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="水"
+        data-time="午後"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="木"
+        data-time="午後"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="金"
+        data-time="午後"
+    >
+        <span class="out-circle"></span>
+    </td>
+
+    <td
+        data-day="土"
+        data-time="午後"
+    >
+        ―
+    </td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<p class="doctors-note">
+
+    <button
+        type="button"
+        id="toggle-doctors-btn"
+        aria-describedby="doctors-status"
+    >
+        担当医はこちら
+    </button>
+
+</p>
+
+
+<p
+    id="doctors-status"
+    class="schedule-status"
+    aria-live="polite"
+></p>
+
+
+<p class="online-note">
+
+    <a href="online.html">
+        ※ オンライン診療
+    </a>
+    は予約制となります
+
+</p>
+
+
+<p class="reception-note">
+    ※ 外来診療の受付時間<br>
+    診療開始15分前から診療時間終了30分前まで
+</p>
+
+
+<div class="clock-trigger-wrap">
+
+    <button
+        type="button"
+        id="clockBtn"
+        class="clock-btn"
+        aria-controls="clockModal"
+        aria-expanded="false"
+    >
+        診療時間時計（長押し）
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     所在地・アクセス
+================================================== -->
+
+<section class="location-section">
+
+<h2>所在地・アクセス</h2>
+
+
+<div class="location-grid">
+
+    <div class="location-map">
+
+        <div class="access-map-frame">
+
+            <iframe
+                src="map.access.html"
+                title="服部医院周辺アクセスマップ"
+                loading="lazy"
+            ></iframe>
+
+        </div>
+
+
+        <p class="map-link">
+
+            <a
+                href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Googleマップで見る
+            </a>
+
+        </p>
+
+    </div>
+
+
+    <div class="location-info">
+
+        <h3>所在地</h3>
+
+        <p>
+            〒467-0825<br>
+            愛知県名古屋市瑞穂区<br>
+            柳ヶ枝町1-34 1階
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     診療時間時計
+================================================== -->
+
+<div
+    id="clockModal"
+    class="clock-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="clockBtn"
+    aria-hidden="true"
+>
+
+    <div class="clock-modal-content">
+
+        <iframe
+            src="https://hattoriiin.github.io/clock.claude.html"
+            title="診療時間時計"
+        ></iframe>
+
+
+        <p
+            id="clock-error"
+            class="clock-error"
+            role="alert"
+            hidden
+        >
+            時計を読み込めませんでした。
+            通信状態を確認して、もう一度お試しください。
+        </p>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+<script src="components.js"></script>
+
+</body>
+</html>
