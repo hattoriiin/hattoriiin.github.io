@@ -1,36 +1,25 @@
-/* 共通処理 */
+/* ==================================================
+   共通処理
+================================================== */
 
 function setText(element, text) {
-    if (!element) {
-        return;
-    }
-
+    if (!element) return;
     element.textContent = text;
 }
 
-
 function showElement(element) {
-    if (!element) {
-        return;
-    }
-
+    if (!element) return;
     element.hidden = false;
 }
 
-
 function hideElement(element) {
-    if (!element) {
-        return;
-    }
-
+    if (!element) return;
     element.hidden = true;
 }
 
 
 /* ==================================================
    長押し共通処理
-
-   担当医表と診療時間時計の両方で使用します。
 ================================================== */
 
 function setupLongPress(
@@ -42,251 +31,95 @@ function setupLongPress(
         endOnPointerLeave = true
     } = {}
 ) {
+    if (!button) return;
 
-    if (!button) {
-        return;
-    }
-
-
-    let activePointerId = null;
+    let timer = null;
     let isActive = false;
+    let activePointerId = null;
 
+    const clearTimer = () => {
+        if (timer !== null) {
+            clearTimeout(timer);
+            timer = null;
+        }
+    };
 
-    function start(event) {
+    const cancel = (event) => {
+        clearTimer();
 
-        if (
-            activePointerId !== null ||
-            event.button === 2
-        ) {
+        if (!isActive) {
+            activePointerId = null;
             return;
         }
 
+        isActive = false;
+        activePointerId = null;
 
-        activePointerId =
-            event.pointerId;
+        if (typeof onCancel === "function") {
+            onCancel(event);
+        }
+    };
 
-        isActive =
-            true;
-
-
-        if (
-            typeof onStart ===
-            'function'
-        ) {
-
-            onStart(event);
-
+    const start = (event) => {
+        if (event && event.type === "pointerdown") {
+            activePointerId = event.pointerId;
         }
 
+        clearTimer();
 
-        if (
-            event.pointerType === 'mouse' &&
-            button.setPointerCapture
-        ) {
+        timer = setTimeout(() => {
+            timer = null;
 
-            try {
+            if (isActive) return;
 
-                button.setPointerCapture(
-                    event.pointerId
-                );
+            isActive = true;
 
+            if (typeof onStart === "function") {
+                onStart(event);
             }
-            catch (error) {
+        }, 500);
+    };
 
-                console.debug(
-                    'Pointer Captureを設定できませんでした:',
-                    error
-                );
+    const end = (event) => {
+        clearTimer();
 
-            }
-
-        }
-
-    }
-
-
-    function end(event) {
-
-        if (
-            activePointerId === null ||
-            (
-                event &&
-                event.pointerId !==
-                activePointerId
-            )
-        ) {
+        if (!isActive) {
+            activePointerId = null;
             return;
         }
 
+        isActive = false;
+        activePointerId = null;
 
-        activePointerId =
-            null;
-
-
-        if (isActive) {
-
-            isActive =
-                false;
-
-
-            if (
-                typeof onEnd ===
-                'function'
-            ) {
-
-                onEnd(event);
-
-            }
-
+        if (typeof onEnd === "function") {
+            onEnd(event);
         }
+    };
 
-    }
+    button.addEventListener("pointerdown", start);
 
+    button.addEventListener("pointerup", end);
 
-    function endTouch() {
-
-        if (
-            activePointerId === null ||
-            !isActive
-        ) {
-            return;
-        }
-
-
-        activePointerId =
-            null;
-
-        isActive =
-            false;
-
-
-        if (
-            typeof onEnd ===
-            'function'
-        ) {
-
-            onEnd({
-                pointerType: 'touch'
-            });
-
-        }
-
-    }
-
-
-    function cancel(event) {
-
-        if (
-            event &&
-            event.pointerType === 'touch'
-        ) {
-            return;
-        }
-
-
-        if (
-            activePointerId === null ||
-            (
-                event &&
-                event.pointerId !==
-                activePointerId
-            )
-        ) {
-            return;
-        }
-
-
-        activePointerId =
-            null;
-
-
-        if (isActive) {
-
-            isActive =
-                false;
-
-
-            if (
-                typeof onCancel ===
-                'function'
-            ) {
-
-                onCancel(event);
-
-            }
-
-        }
-
-    }
-
-
-    button.addEventListener(
-        'pointerdown',
-        start
-    );
-
-    button.addEventListener(
-        'pointerup',
-        end
-    );
-
-    button.addEventListener(
-        'pointercancel',
-        cancel
-    );
-
-    button.addEventListener(
-        'lostpointercapture',
-        cancel
-    );
-
-    button.addEventListener(
-        'touchend',
-        endTouch,
-        {
-            passive: true
-        }
-    );
-
+    button.addEventListener("pointercancel", cancel);
 
     if (endOnPointerLeave) {
-
-        button.addEventListener(
-            'pointerleave',
-            function (event) {
-
-                if (
-                    event.pointerType ===
-                    'mouse' &&
-                    activePointerId !== null
-                ) {
-
-                    end(event);
-
-                }
-
-            }
-        );
-
+        button.addEventListener("pointerleave", cancel);
     }
 
-
-    window.addEventListener(
-        'blur',
-        function (event) {
-
-            if (
-                activePointerId !== null &&
-                isActive &&
-                event &&
-                event.type === 'blur'
-            ) {
-                return;
-            }
-
-            cancel(event);
-
+    button.addEventListener("blur", function(event) {
+        if (
+            activePointerId !== null &&
+            isActive &&
+            event &&
+            event.type === "blur"
+        ) {
+            return;
         }
-    );
 
+        cancel(event);
+    });
+
+    button.addEventListener("contextmenu", function(event) {
+        event.preventDefault();
+    });
 }
