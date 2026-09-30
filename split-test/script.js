@@ -1,24 +1,6 @@
-/*
- * 共通処理
- *
- * 共通化することで、components.js側から
- * 「表示」「非表示」の処理を同じ方法で呼び出せるようにする。
- */
+/* 共通処理 */
 
-
-/**
- * 指定した要素へ文字列を設定する。
- *
- * @param {HTMLElement|null} element - 対象要素
- * @param {string} text - 設定する文字列
- * @returns {void}
- * @throws {TypeError} elementがnull以外でtextContentを設定できない場合
- *
- * @example
- * setText(document.getElementById("message"), "読み込み完了");
- */
 function setText(element, text) {
-
     if (!element) {
         return;
     }
@@ -27,17 +9,7 @@ function setText(element, text) {
 }
 
 
-/**
- * 非表示になっている要素を表示する。
- *
- * @param {HTMLElement|null} element - 対象要素
- * @returns {void}
- *
- * @example
- * showElement(document.getElementById("clock-error"));
- */
 function showElement(element) {
-
     if (!element) {
         return;
     }
@@ -46,20 +18,275 @@ function showElement(element) {
 }
 
 
-/**
- * 要素をhidden属性で非表示にする。
- *
- * @param {HTMLElement|null} element - 対象要素
- * @returns {void}
- *
- * @example
- * hideElement(document.getElementById("clock-error"));
- */
 function hideElement(element) {
-
     if (!element) {
         return;
     }
 
     element.hidden = true;
+}
+
+
+/* ==================================================
+   長押し共通処理
+
+   担当医表と診療時間時計の両方で使用します。
+================================================== */
+
+function setupLongPress(
+    button,
+    {
+        onStart,
+        onEnd,
+        onCancel,
+        endOnPointerLeave = true
+    } = {}
+) {
+
+    if (!button) {
+        return;
+    }
+
+
+    let activePointerId = null;
+    let isActive = false;
+
+
+    function start(event) {
+
+        if (
+            activePointerId !== null ||
+            event.button === 2
+        ) {
+            return;
+        }
+
+
+        activePointerId =
+            event.pointerId;
+
+        isActive =
+            true;
+
+
+        if (
+            typeof onStart ===
+            'function'
+        ) {
+
+            onStart(event);
+
+        }
+
+
+        if (
+            event.pointerType === 'mouse' &&
+            button.setPointerCapture
+        ) {
+
+            try {
+
+                button.setPointerCapture(
+                    event.pointerId
+                );
+
+            }
+            catch (error) {
+
+                console.debug(
+                    'Pointer Captureを設定できませんでした:',
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+
+    function end(event) {
+
+        if (
+            activePointerId === null ||
+            (
+                event &&
+                event.pointerId !==
+                activePointerId
+            )
+        ) {
+            return;
+        }
+
+
+        activePointerId =
+            null;
+
+
+        if (isActive) {
+
+            isActive =
+                false;
+
+
+            if (
+                typeof onEnd ===
+                'function'
+            ) {
+
+                onEnd(event);
+
+            }
+
+        }
+
+    }
+
+
+    function endTouch() {
+
+        if (
+            activePointerId === null ||
+            !isActive
+        ) {
+            return;
+        }
+
+
+        activePointerId =
+            null;
+
+        isActive =
+            false;
+
+
+        if (
+            typeof onEnd ===
+            'function'
+        ) {
+
+            onEnd({
+                pointerType: 'touch'
+            });
+
+        }
+
+    }
+
+
+    function cancel(event) {
+
+        if (
+            event &&
+            event.pointerType === 'touch'
+        ) {
+            return;
+        }
+
+
+        if (
+            activePointerId === null ||
+            (
+                event &&
+                event.pointerId !==
+                activePointerId
+            )
+        ) {
+            return;
+        }
+
+
+        activePointerId =
+            null;
+
+
+        if (isActive) {
+
+            isActive =
+                false;
+
+
+            if (
+                typeof onCancel ===
+                'function'
+            ) {
+
+                onCancel(event);
+
+            }
+
+        }
+
+    }
+
+
+    button.addEventListener(
+        'pointerdown',
+        start
+    );
+
+    button.addEventListener(
+        'pointerup',
+        end
+    );
+
+    button.addEventListener(
+        'pointercancel',
+        cancel
+    );
+
+    button.addEventListener(
+        'lostpointercapture',
+        cancel
+    );
+
+    button.addEventListener(
+        'touchend',
+        endTouch,
+        {
+            passive: true
+        }
+    );
+
+
+    if (endOnPointerLeave) {
+
+        button.addEventListener(
+            'pointerleave',
+            function (event) {
+
+                if (
+                    event.pointerType ===
+                    'mouse' &&
+                    activePointerId !== null
+                ) {
+
+                    end(event);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    window.addEventListener(
+        'blur',
+        function (event) {
+
+            if (
+                activePointerId !== null &&
+                isActive &&
+                event &&
+                event.type === 'blur'
+            ) {
+                return;
+            }
+
+            cancel(event);
+
+        }
+    );
+
 }
