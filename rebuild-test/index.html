@@ -1035,7 +1035,6 @@ schedule th span{
 
 }
 
-
 /* ==================================================
    所在地・アクセス
 ================================================== */
@@ -1052,13 +1051,27 @@ schedule th span{
 
 }
 
+.access-map-frame{
+
+    width:100%;
+
+    aspect-ratio:1 / 0.618;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+}
+
 .location-map iframe{
 
     display:block;
 
     width:100%;
 
-    height:260px;
+    height:100%;
+
+    border:0;
 
     border-radius:10px;
 
@@ -1127,12 +1140,6 @@ schedule th span{
 
     }
 
-    .location-map iframe{
-
-        height:180px;
-
-    }
-
     .location-info h3{
 
         font-size:.85rem;
@@ -1154,8 +1161,6 @@ schedule th span{
     }
 
 }
-
-
 /* ==================================================
    診療内容 フローティングカード
 ================================================== */
