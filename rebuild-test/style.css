@@ -1,0 +1,1006 @@
+/* ==================================================
+   基本設定
+================================================== */
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:
+        "Noto Sans JP",
+        "M PLUS Rounded 1c",
+        sans-serif;
+
+    color: #34434c;
+    background: #f7fbfc;
+
+    line-height: 1.8;
+
+    padding-bottom: 90px;
+}
+
+
+/* ==================================================
+   ヘッダー
+================================================== */
+
+header {
+    position: relative;
+
+    width: 100%;
+
+    padding:
+        42px 16px
+        38px;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #20384d 0%,
+            #31556e 35%,
+            #4d7d98 68%,
+            #78b8c4 100%
+        );
+
+    overflow: hidden;
+}
+
+
+.clinic-title {
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    font-weight: 400;
+}
+
+
+.seishokai {
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-end;
+
+    gap: 8px;
+
+    margin-bottom: 4px;
+}
+
+
+.medical {
+    font-size: 0.82rem;
+
+    letter-spacing: 0.08em;
+
+    padding-bottom: 4px;
+}
+
+
+.logo-block {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+.furigana {
+    font-size: 0.48rem;
+
+    letter-spacing: 0.22em;
+
+    line-height: 1;
+
+    opacity: 0.9;
+}
+
+
+.kanji {
+    display: flex;
+
+    gap: 3px;
+
+    font-size: 1.25rem;
+
+    line-height: 1.15;
+
+    letter-spacing: 0.12em;
+}
+
+
+.clinic-name {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 2.05rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1.25;
+}
+
+
+.catchcopy {
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        18px 0 0;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 0.14em;
+
+    opacity: 0.96;
+}
+
+
+.bird {
+    position: absolute;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+.bird1 {
+    left: 2%;
+    bottom: -10px;
+
+    width: 110px;
+
+    opacity: 0.18;
+}
+
+
+.bird2 {
+    right: 3%;
+    top: 8px;
+
+    width: 125px;
+
+    opacity: 0.12;
+}
+
+
+/* ==================================================
+   固定電話
+================================================== */
+
+.fixed-call {
+    position: fixed;
+
+    z-index: 2147483647;
+
+    right: 12px;
+    bottom: 12px;
+
+    display: block;
+
+    padding:
+        9px 17px;
+
+    border-radius: 999px;
+
+    color: white;
+
+    background: #31556e;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+
+/* ==================================================
+   メイン
+================================================== */
+
+main {
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding:
+        0 16px 40px;
+}
+
+
+section {
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin:
+        38px auto 0;
+
+    padding:
+        28px 24px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.92);
+
+    box-shadow:
+        0 2px 14px rgba(50, 80, 90, 0.06);
+}
+
+
+section h2 {
+    position: relative;
+
+    margin:
+        0 0 24px;
+
+    padding-left: 14px;
+
+    color: #31556e;
+
+    font-size: 1.35rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+}
+
+
+section h2::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0.35em;
+
+    width: 4px;
+    height: 1.15em;
+
+    border-radius: 4px;
+
+    background: #78b8c4;
+}
+
+
+/* ==================================================
+   お知らせ
+================================================== */
+
+.news-card {
+    max-width: 1100px;
+
+    margin:
+        26px auto 0;
+
+    text-align: center;
+}
+
+
+.news-card a {
+    display: inline-block;
+
+    padding:
+        9px 28px;
+
+    border-radius: 999px;
+
+    color: white;
+
+    background: #4d7d98;
+
+    text-decoration: none;
+}
+
+
+.news-preview {
+    max-width: 1100px;
+
+    margin:
+        12px auto 0;
+}
+
+
+.news-preview-list,
+.news-list {
+    width: 100%;
+}
+
+
+.news-preview-list > *,
+.news-list > * {
+    margin-bottom: 8px;
+}
+
+
+.news-detail-note {
+    max-width: 1100px;
+
+    margin:
+        4px auto 0;
+
+    text-align: right;
+
+    font-size: 0.78rem;
+}
+
+
+.news-detail-note a {
+    color: #5c7787;
+
+    text-decoration: none;
+}
+
+
+/* ==================================================
+   写真
+================================================== */
+
+.protected-image {
+    margin:
+        0 auto 24px;
+
+    text-align: center;
+}
+
+
+.protected-image img {
+    display: block;
+
+    width: 100%;
+
+    max-width: 620px;
+
+    height: auto;
+
+    margin: 0 auto;
+
+    border-radius: 16px;
+}
+
+
+.clinic-view {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+
+.clinic-camera {
+    width: 100%;
+
+    text-align: center;
+}
+
+
+.clinic-image {
+    display: block;
+
+    width: 100%;
+
+    max-width: 900px;
+
+    height: auto;
+
+    margin: 0 auto;
+
+    border-radius: 16px;
+}
+
+
+/* ==================================================
+   サービス
+================================================== */
+
+.service-card,
+.equipment-card {
+    margin:
+        18px 0;
+
+    padding:
+        20px;
+
+    border-radius: 14px;
+
+    background:
+        #f3f9fa;
+
+    border:
+        1px solid rgba(100, 150, 160, 0.14);
+}
+
+
+.service-card h3,
+.equipment-card h3 {
+    margin:
+        0 0 12px;
+
+    color: #31556e;
+
+    font-size: 1.05rem;
+
+    font-weight: 600;
+}
+
+
+.service-card p,
+.equipment-card p {
+    margin:
+        0 0 12px;
+}
+
+
+.service-card p:last-child,
+.equipment-card p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==================================================
+   診療時間
+================================================== */
+
+.schedule-overlay-container {
+    position: relative;
+
+    width: 100%;
+
+    overflow: visible;
+}
+
+
+.schedule {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+    font-size: 0.86rem;
+}
+
+
+.schedule th,
+.schedule td {
+    padding:
+        9px 4px;
+
+    border:
+        1px solid #d5e3e7;
+
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+
+.schedule th {
+    color: #31556e;
+
+    background:
+        #edf6f8;
+
+    font-weight: 500;
+}
+
+
+.schedule th:first-child {
+    width: 27%;
+}
+
+
+.schedule th span {
+    font-size: 0.72rem;
+
+    font-weight: 400;
+}
+
+
+.schedule td {
+    height: 58px;
+
+    background:
+        rgba(255, 255, 255, 0.9);
+}
+
+
+.out-circle {
+    display: inline-block;
+
+    width: 17px;
+    height: 17px;
+
+    border-radius: 50%;
+
+    background: #78b8c4;
+}
+
+
+.visit-circle {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+
+    background: #4d7d98;
+}
+
+
+.visit-circle svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.doctors-note {
+    margin:
+        18px 0 6px;
+
+    text-align: center;
+}
+
+
+#toggle-doctors-btn {
+    appearance: none;
+
+    border: 0;
+
+    border-radius: 999px;
+
+    padding:
+        8px 22px;
+
+    color: white;
+
+    background: #4d7d98;
+
+    font:
+        inherit;
+
+    font-size: 0.88rem;
+
+    cursor: pointer;
+}
+
+
+.schedule-status {
+    min-height: 1.5em;
+
+    margin:
+        0;
+
+    text-align: center;
+
+    font-size: 0.8rem;
+}
+
+
+.online-note,
+.reception-note {
+    font-size: 0.82rem;
+
+    text-align: center;
+}
+
+
+.online-note a {
+    color: #31556e;
+}
+
+
+.clock-trigger-wrap {
+    margin-top: 18px;
+
+    text-align: center;
+}
+
+
+.clock-btn {
+    appearance: none;
+
+    border:
+        1px solid #78b8c4;
+
+    border-radius: 999px;
+
+    padding:
+        8px 22px;
+
+    color: #31556e;
+
+    background:
+        rgba(255, 255, 255, 0.85);
+
+    font:
+        inherit;
+
+    font-size: 0.82rem;
+
+    touch-action: pan-y;
+
+    cursor: pointer;
+}
+
+
+/* ==================================================
+   所在地・アクセス
+================================================== */
+
+.location-grid {
+    display: grid;
+
+    grid-template-columns:
+        55fr 45fr;
+
+    gap: 22px;
+
+    align-items: start;
+}
+
+
+.location-map {
+    min-width: 0;
+}
+
+
+.access-map-frame {
+    width: 100%;
+}
+
+
+.location-map iframe {
+    display: block;
+
+    width: 100%;
+
+    height: 200px;
+
+    border: 0;
+
+    border-radius: 14px;
+}
+
+
+.map-link {
+    margin:
+        8px 0 0;
+
+    text-align: center;
+
+    font-size: 0.8rem;
+}
+
+
+.map-link a {
+    color: #31556e;
+
+    text-decoration: none;
+}
+
+
+.location-info {
+    min-width: 0;
+
+    font-size: 0.82rem;
+}
+
+
+.location-info h3 {
+    margin:
+        0 0 5px;
+
+    color: #31556e;
+
+    font-size: 0.95rem;
+}
+
+
+.location-info p {
+    margin:
+        0 0 8px;
+}
+
+
+.access-note {
+    font-size: 0.75rem;
+
+    opacity: 0.85;
+}
+
+
+/* ==================================================
+   連絡先
+================================================== */
+
+.contact-label {
+    color: #31556e;
+
+    font-weight: 500;
+}
+
+
+/* ==================================================
+   フッター
+================================================== */
+
+footer {
+    margin-top: 42px;
+
+    padding:
+        26px 16px;
+
+    text-align: center;
+
+    color: #6b7d84;
+
+    background: #edf6f8;
+
+    font-size: 0.76rem;
+}
+
+
+footer a {
+    color: #5c7787;
+
+    text-decoration: none;
+}
+
+
+/* ==================================================
+   時計モーダル
+================================================== */
+
+.clock-modal {
+    position: fixed;
+
+    z-index: 2147483646;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(30, 40, 45, 0.10);
+}
+
+
+.clock-modal.is-open {
+    display: flex;
+}
+
+
+.clock-modal-content {
+    position: relative;
+
+    width: min(500px, 100%);
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background:
+        rgba(235, 247, 250, 0.85);
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.18);
+}
+
+
+.clock-modal-content iframe {
+    display: block;
+
+    width: 100%;
+
+    height: 460px;
+
+    border: 0;
+}
+
+
+.clock-error {
+    margin:
+        0;
+
+    padding:
+        12px;
+
+    color: #7a3030;
+
+    background:
+        rgba(255, 235, 235, 0.92);
+
+    text-align: center;
+
+    font-size: 0.82rem;
+}
+
+
+/* ==================================================
+   レスポンシブ
+================================================== */
+
+@media (max-width: 700px) {
+
+    main {
+        padding:
+            0 10px 30px;
+    }
+
+
+    section {
+        margin-top: 24px;
+
+        padding:
+            22px 14px;
+
+        border-radius: 15px;
+    }
+
+
+    section h2 {
+        font-size: 1.18rem;
+
+        margin-bottom: 18px;
+    }
+
+
+    .clinic-name {
+        font-size: 1.75rem;
+    }
+
+
+    .catchcopy {
+        font-size: 0.78rem;
+
+        letter-spacing: 0.08em;
+    }
+
+
+    .bird1 {
+        width: 80px;
+    }
+
+
+    .bird2 {
+        width: 90px;
+    }
+
+
+    .location-grid {
+        grid-template-columns:
+            55fr 45fr;
+
+        gap: 10px;
+    }
+
+
+    .location-map iframe {
+        height: 200px;
+    }
+
+
+    .location-info {
+        font-size: 0.72rem;
+
+        line-height: 1.65;
+    }
+
+
+    .location-info h3 {
+        font-size: 0.82rem;
+    }
+
+
+    .schedule {
+        font-size: 0.68rem;
+    }
+
+
+    .schedule th,
+    .schedule td {
+        padding:
+            7px 2px;
+    }
+
+
+    .schedule th:first-child {
+        width: 27%;
+    }
+
+
+    .schedule th span {
+        font-size: 0.58rem;
+    }
+
+
+    .out-circle {
+        width: 14px;
+        height: 14px;
+    }
+
+
+    .visit-circle {
+        width: 22px;
+        height: 22px;
+    }
+
+
+    .visit-circle svg {
+        width: 15px;
+        height: 15px;
+    }
+
+
+    .clock-modal {
+        padding: 12px;
+    }
+
+
+    .clock-modal-content iframe {
+        height: 420px;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .location-grid {
+        grid-template-columns:
+            55fr 45fr;
+    }
+
+
+    .location-info {
+        font-size: 0.68rem;
+    }
+
+
+    .location-info h3 {
+        font-size: 0.78rem;
+    }
+
+
+    .schedule th:first-child {
+        width: 28%;
+    }
+
+}
