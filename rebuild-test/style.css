@@ -1004,3 +1004,94 @@ footer a {
     }
 
 }
+
+/* =========================================
+冒頭の鳥の横スクロール：元の設定を復元
+========================================= */
+
+/* ヘッダー内で鳥を動かし、外側にははみ出さない */
+header {
+position: relative;
+overflow: hidden;
+}
+
+/* 2羽共通 */
+.bird {
+position: absolute;
+top: 10px;
+right: -120px;
+width: 80px;
+z-index: 4;
+pointer-events: none;
+opacity: 0;
+}
+
+/* 1羽目 */
+.bird1 {
+animation:
+flybird 25s linear infinite,
+fadebird1 25s linear infinite;
+}
+
+/* 2羽目 */
+.bird2 {
+animation:
+flybird 25s linear infinite,
+fadebird2 25s linear infinite;
+}
+
+/* 右から左へ横切る */
+@keyframes flybird {
+from {
+transform: translateX(0);
+}
+
+to {
+    transform: translateX(calc(-100vw - 220px));
+}
+
+}
+
+/* 1羽目の出現・移動中・消失 */
+@keyframes fadebird1 {
+0%   { opacity: 0; }
+15%  { opacity: .20; }
+20%  { opacity: .35; }
+42%  { opacity: .45; }
+54%  { opacity: 0; }
+100% { opacity: 0; }
+}
+
+/* 2羽目は時間差で出現 */
+@keyframes fadebird2 {
+0%   { opacity: 0; }
+44%  { opacity: 0; }
+54%  { opacity: .35; }
+60%  { opacity: .35; }
+66%  { opacity: .15; }
+70%  { opacity: 0; }
+100% { opacity: 0; }
+}
+
+/* スマートフォン縦向き：元のタイミング */
+@media (max-width: 600px) {
+@keyframes fadebird1 {
+0%   { opacity: 0; }
+18%  { opacity: .20; }
+25%  { opacity: .35; }
+48%  { opacity: .45; }
+55%  { opacity: 0; }
+100% { opacity: 0; }
+}
+
+@keyframes fadebird2 {
+    0%   { opacity: 0; }
+    50%  { opacity: 0; }
+    55%  { opacity: .35; }
+    68%  { opacity: .35; }
+    74%  { opacity: .15; }
+    78%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+}
