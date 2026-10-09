@@ -22,17 +22,24 @@ function setupNews() {
     fetch("/news.html")
         .then((response) => {
             if (!response.ok) {
-                throw new Error(`お知らせの取得に失敗しました: HTTP ${response.status}`);
+                throw new Error(
+                    `お知らせの取得に失敗しました: HTTP ${response.status}`
+                );
             }
+
             return response.text();
         })
         .then((html) => {
             const parser = new DOMParser();
-            const documentFragment = parser.parseFromString(html, "text/html");
+            const parsedDocument = parser.parseFromString(
+                html,
+                "text/html"
+            );
 
-            const source = documentFragment.querySelector(".news-list")
-                || documentFragment.querySelector("main")
-                || documentFragment.body;
+            const source =
+                parsedDocument.querySelector(".news-list") ||
+                parsedDocument.querySelector("main") ||
+                parsedDocument.body;
 
             if (preview) {
                 preview.replaceChildren(source.cloneNode(true));
@@ -43,7 +50,10 @@ function setupNews() {
             }
         })
         .catch((error) => {
-            console.error("[ERROR] お知らせを読み込めませんでした。", error);
+            console.error(
+                "[ERROR] お知らせを読み込めませんでした。",
+                error
+            );
         });
 }
 
@@ -54,7 +64,13 @@ function setupNews() {
  */
 function setupSmoothScroll() {
     document.addEventListener("click", (event) => {
-        const link = event.target.closest('a[href^="#"]');
+        const targetElement = event.target;
+
+        if (!(targetElement instanceof Element)) {
+            return;
+        }
+
+        const link = targetElement.closest('a[href^="#"]');
 
         if (!link) {
             return;
@@ -71,7 +87,11 @@ function setupSmoothScroll() {
         try {
             target = document.querySelector(href);
         } catch (error) {
-            console.warn("[WARN] ページ内リンクの指定が不正です。", error);
+            console.warn(
+                "[WARN] ページ内リンクの指定が不正です。",
+                error
+            );
+
             return;
         }
 
