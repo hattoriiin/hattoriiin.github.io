@@ -316,3 +316,10 @@ footer > div {
     text-align: center !important;
     width: 100% !important;
 }
+
+/* 担当医ボタン：長押しで文字を選択させない */
+#toggle-doctors-btn {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
