@@ -352,7 +352,7 @@ if(clockButton&&clockModal){
         clockLastTouchY=currentY;
     }
 
-    window.addEventListener("touchmove",handleClockTouchMove,{passive:false,capture:true});
+    if(location.search.indexOf("notouchmove")<0){window.addEventListener("touchmove",handleClockTouchMove,{passive:false,capture:true})}else{document.body.style.outline="4px solid #e08a00"}
 
     document.addEventListener("touchend",function(){
         if(clockModal.classList.contains("is-active"))hideClock();
