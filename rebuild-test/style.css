@@ -186,7 +186,7 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
     display:grid;grid-template-columns:40% 60%;gap:1.5rem;align-items:start;
 }
 .location-map iframe{display:block;width:100%;height:100%;border-radius:10px}
-.access-map-frame{width:100%;height:420px;overflow:hidden;border-radius:12px}
+.access-map-frame{width:100%;aspect-ratio:1 / 1.618;overflow:hidden;border-radius:12px}
 .access-map-frame iframe{width:100%;height:100%;border:0;display:block}
 .map-link{margin-top:.6rem;text-align:center;font-size:.8rem}
 .map-link a{color:#4d7d98;text-decoration:none}
