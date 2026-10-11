@@ -292,7 +292,7 @@
 (function(){
     var q=location.search;
     if(q.indexOf("nojs")>=0){
-        var mm=q.match(/rm=([a-l]*)/),rm=mm?mm[1]:"";
+        var mm=q.match(/rm=([a-p]*)/),rm=mm?mm[1]:"";
         function has(c){return rm.indexOf(c)>=0}
         function del(e){if(e&&e.parentNode)e.parentNode.removeChild(e)}
         var main=document.querySelector("main"),loc=document.querySelector(".location-section");
@@ -309,6 +309,10 @@
             if(has("j")){main.style.setProperty("max-width","none","important");main.style.setProperty("margin","0","important")}
             if(has("k"))main.style.setProperty("background","none","important");
             if(has("l")){var dv=document.createElement("div");dv.style.cssText="max-width:900px;margin:auto;padding:1.5rem;background:#fff";while(main.firstChild)dv.appendChild(main.firstChild);main.parentNode.replaceChild(dv,main)}
+            if(has("m"))main.style.setProperty("padding","1.5rem 0","important");
+            if(has("n"))main.style.setProperty("padding","0 1.5rem","important");
+            if(has("o")&&loc)loc.style.setProperty("margin","0 -1.5rem","important");
+            if(has("p")){main.style.setProperty("padding","0","important");if(loc)loc.style.setProperty("padding","1.5rem","important")}
         }
         var b=document.createElement("div");
         b.id="diag-nojs";
@@ -320,8 +324,6 @@
     document.write('<script src="script.js"><\/script><script src="components.js?v=20261011"><\/script>');
 })();
 </script>
-
-
 
 </body>
 </html>
