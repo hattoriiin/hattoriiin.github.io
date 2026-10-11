@@ -216,7 +216,7 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .access-note{font-size:.85rem;color:#666}
 @media(max-width:600px){
     .location-grid{grid-template-columns:55% 45%;gap:.7rem}
-    .location-map iframe{height:180px}
+    .location-map iframe{height:100%}
     .location-info h3{font-size:.85rem}
     .location-info p{font-size:.92rem;line-height:1.55}
     .map-link{font-size:.65rem}
