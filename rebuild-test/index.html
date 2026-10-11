@@ -292,7 +292,7 @@
 (function(){
     var q=location.search;
     if(q.indexOf("nojs")>=0){
-        var mm=q.match(/rm=([a-p]*)/),rm=mm?mm[1]:"";
+        var mm=q.match(/rm=([a-r]*)/),rm=mm?mm[1]:"";
         function has(c){return rm.indexOf(c)>=0}
         function del(e){if(e&&e.parentNode)e.parentNode.removeChild(e)}
         var main=document.querySelector("main"),loc=document.querySelector(".location-section");
@@ -313,6 +313,8 @@
             if(has("n"))main.style.setProperty("padding","0 1.5rem","important");
             if(has("o")&&loc)loc.style.setProperty("margin","0 -1.5rem","important");
             if(has("p")){main.style.setProperty("padding","0","important");if(loc)loc.style.setProperty("padding","1.5rem","important")}
+            if(has("q")){if(loc)loc.style.setProperty("margin","0 -1.5rem","important");var fq=document.querySelector(".access-map-frame");if(fq)fq.style.setProperty("width","188px","important")}
+            if(has("r")){var fr=document.querySelector(".access-map-frame");if(fr)fr.style.setProperty("width","215px","important")}
         }
         var b=document.createElement("div");
         b.id="diag-nojs";
