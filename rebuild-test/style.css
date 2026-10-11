@@ -181,15 +181,33 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
     .protected-image{width:120px;margin-right:15px;margin-bottom:8px}
 }
 
+
 /* 所在地・アクセス */
 .location-grid{
-    display:grid;grid-template-columns:40% 60%;gap:1.5rem;align-items:start;
+    display:grid;
+    grid-template-columns:40% 60%;
+    gap:1.5rem;
+    align-items:start;
 }
-.location-map iframe{display:block;width:100%;height:100%;border-radius:10px}
-.access-map-frame{width:100%;aspect-ratio:1 / 1.618;overflow:hidden;border-radius:12px}
-.access-map-frame iframe{width:100%;height:100%;border:0;display:block}
-.map-link{margin-top:.6rem;text-align:center;font-size:.8rem}
-.map-link a{color:#4d7d98;text-decoration:none}
+
+.location-map iframe{
+    display:block;
+    width:100%;
+    height:420px;
+    border-radius:10px;
+}
+
+.map-link{
+    margin-top:.6rem;
+    text-align:center;
+    font-size:.8rem;
+}
+
+.map-link a{
+    color:#4d7d98;
+    text-decoration:none;
+}
+
 .location-info h3{
     margin-top:0;margin-bottom:.5rem;padding-bottom:.3rem;
     border-bottom:1px solid #ddd;color:#31556e;font-size:1rem;font-weight:500;
