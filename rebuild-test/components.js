@@ -379,3 +379,19 @@ if(clockButton&&clockModal){
         if(event.key==="Escape"&&clockModal.classList.contains("is-active"))hideClock();
     });
 }
+
+/* ---- 診断用（検証後に削除）---- */
+(function(){
+    var q=location.search,f=[],css="";
+    function has(k){return q.indexOf(k)>=0}
+    if(has("bare")||has("nobirds")){css+=".bird{display:none!important}";f.push("鳥OFF")}
+    if(has("bare")||has("nofixed")){css+=".fixed-call{display:none!important}";f.push("電話ボタンOFF")}
+    if(has("bare")||has("noclinic")){css+=".clinic-view{display:none!important}";f.push("院内写真OFF")}
+    if(has("bare")||has("nohead")){css+="header{display:none!important}";f.push("ヘッダーOFF")}
+    if(css){var s=document.createElement("style");s.textContent=css;document.head.appendChild(s)}
+    var b=document.createElement("div");
+    b.id="diag-banner";
+    b.textContent="検証 "+(has("notouchmove")?"touchmove OFF":"touchmove ON")+(f.length?" / "+f.join("・"):"");
+    b.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483647;padding:4px 8px;background:#e08a00;color:#fff;font:12px/1.4 sans-serif;text-align:center;pointer-events:none";
+    document.body.appendChild(b);
+})();
