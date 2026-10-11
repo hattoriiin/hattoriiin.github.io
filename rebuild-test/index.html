@@ -288,46 +288,8 @@
 </div>
 </div>
 
-<script>
-(function(){
-    var q=location.search;
-    if(q.indexOf("nojs")>=0){
-        var mm=q.match(/rm=([a-t]*)/),rm=mm?mm[1]:"";
-        function has(c){return rm.indexOf(c)>=0}
-        function del(e){if(e&&e.parentNode)e.parentNode.removeChild(e)}
-        var main=document.querySelector("main"),loc=document.querySelector(".location-section");
-        if(has("a"))del(document.querySelector("header"));
-        if(has("b"))del(document.querySelector(".fixed-call"));
-        if(has("c"))del(document.getElementById("clockModal"));
-        if(has("d")&&main&&loc){Array.prototype.slice.call(main.children).forEach(function(c){if(c!==loc)del(c)})}
-        if(has("e"))del(document.querySelector(".location-info"));
-        if(has("f"))del(document.querySelector("footer"));
-        if(has("g")&&main&&loc){document.body.insertBefore(loc,main);del(main)}
-        if(has("h"))del(document.querySelector('link[href="components.css"]'));
-        if(main&&main.parentNode){
-            if(has("i"))main.style.setProperty("padding","0","important");
-            if(has("j")){main.style.setProperty("max-width","none","important");main.style.setProperty("margin","0","important")}
-            if(has("k"))main.style.setProperty("background","none","important");
-            if(has("l")){var dv=document.createElement("div");dv.style.cssText="max-width:900px;margin:auto;padding:1.5rem;background:#fff";while(main.firstChild)dv.appendChild(main.firstChild);main.parentNode.replaceChild(dv,main)}
-            if(has("m"))main.style.setProperty("padding","1.5rem 0","important");
-            if(has("n"))main.style.setProperty("padding","0 1.5rem","important");
-            if(has("o")&&loc)loc.style.setProperty("margin","0 -1.5rem","important");
-            if(has("p")){main.style.setProperty("padding","0","important");if(loc)loc.style.setProperty("padding","1.5rem","important")}
-            if(has("q")){if(loc)loc.style.setProperty("margin","0 -1.5rem","important");var fq=document.querySelector(".access-map-frame");if(fq)fq.style.setProperty("width","188px","important")}
-            if(has("r")){var fr=document.querySelector(".access-map-frame");if(fr)fr.style.setProperty("width","215px","important")}
-            if(has("s")){var fs=document.querySelector(".access-map-frame");if(fs)fs.style.setProperty("width","200px","important")}
-            if(has("t")){var ft=document.querySelector(".access-map-frame");if(ft)ft.style.setProperty("width","208px","important")}
-        }
-        var b=document.createElement("div");
-        b.id="diag-nojs";
-        b.textContent="検証 JS全OFF / 削除="+(rm||"なし");
-        b.style.cssText="padding:4px 8px;background:#9b2226;color:#fff;font:12px/1.4 sans-serif;text-align:center";
-        document.body.insertBefore(b,document.body.firstChild);
-        return;
-    }
-    document.write('<script src="script.js"><\/script><script src="components.js?v=20261011"><\/script>');
-})();
-</script>
+<script src="script.js"></script>
+<script src="components.js?v=20261012"></script>
 
 </body>
 </html>
