@@ -395,3 +395,21 @@ if(clockButton&&clockModal){
     b.style.cssText="position:fixed;top:0;left:0;right:0;z-index:2147483647;padding:4px 8px;background:#e08a00;color:#fff;font:12px/1.4 sans-serif;text-align:center;pointer-events:none";
     document.body.appendChild(b);
 })();
+
+
+/* ---- 診断用2（検証後に削除）---- */
+(function(){
+    var q=location.search,f=[];
+    function has(k){return q.indexOf(k)>=0}
+    if(has("only")){var m=document.querySelector("main"),k=document.querySelector(".location-section");if(m&&k){Array.prototype.slice.call(m.children).forEach(function(c){if(c!==k)c.remove()});f.push("本文は地図のみ")}}
+    if(has("nomodal")){var md=document.getElementById("clockModal");if(md)md.remove();f.push("時計モーダルOFF")}
+    if(has("nocomp")){var lk=document.querySelector('link[href="components.css"]');if(lk)lk.remove();f.push("components.css OFF")}
+    if(has("eager")){var fr=document.querySelector(".location-map iframe");if(fr){fr.setAttribute("loading","eager");f.push("地図eager")}}
+    if(f.length){
+        var b=document.createElement("div");
+        b.id="diag-banner2";
+        b.textContent="検証2 / "+f.join("・");
+        b.style.cssText="position:fixed;bottom:0;left:0;right:0;z-index:2147483647;padding:4px 8px;background:#2a6f97;color:#fff;font:12px/1.4 sans-serif;text-align:center;pointer-events:none";
+        document.body.appendChild(b);
+    }
+})();
