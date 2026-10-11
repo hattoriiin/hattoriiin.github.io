@@ -304,6 +304,12 @@
         if(has("f"))del(document.querySelector("footer"));
         if(has("g")&&main&&loc){document.body.insertBefore(loc,main);del(main)}
         if(has("h"))del(document.querySelector('link[href="components.css"]'));
+        if(main&&main.parentNode){
+            if(has("i"))main.style.setProperty("padding","0","important");
+            if(has("j")){main.style.setProperty("max-width","none","important");main.style.setProperty("margin","0","important")}
+            if(has("k"))main.style.setProperty("background","none","important");
+            if(has("l")){var dv=document.createElement("div");dv.style.cssText="max-width:900px;margin:auto;padding:1.5rem;background:#fff";while(main.firstChild)dv.appendChild(main.firstChild);main.parentNode.replaceChild(dv,main)}
+        }
         var b=document.createElement("div");
         b.id="diag-nojs";
         b.textContent="検証 JS全OFF / 削除="+(rm||"なし");
@@ -314,6 +320,7 @@
     document.write('<script src="script.js"><\/script><script src="components.js?v=20261011"><\/script>');
 })();
 </script>
+
 
 
 </body>
