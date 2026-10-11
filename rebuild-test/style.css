@@ -198,7 +198,8 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .location-info p{margin-top:.5rem;margin-bottom:1rem}
 .access-note{font-size:.85rem;color:#666}
 @media(max-width:600px){
-    .location-grid{grid-template-columns:55% 45%;gap:.7rem}
+    .location-grid{grid-template-columns:55% 45%;gap:.7rem;margin-left:-1.5rem;margin-right:-.8rem}
+    .location-info{padding-right:.5rem}
     .location-map iframe{height:100%}
     .location-info h3{font-size:.85rem}
     .location-info p{font-size:.92rem;line-height:1.55}
