@@ -292,12 +292,21 @@
 (function(){
     var q=location.search;
     if(q.indexOf("nojs")>=0){
-        var css="";
-        if(q.indexOf("only")>=0){css="header,.fixed-call,#clockModal{display:none!important}main>*:not(.location-section){display:none!important}"}
-        if(css){var s=document.createElement("style");s.textContent=css;document.head.appendChild(s)}
+        var mm=q.match(/rm=([a-h]*)/),rm=mm?mm[1]:"";
+        function has(c){return rm.indexOf(c)>=0}
+        function del(e){if(e&&e.parentNode)e.parentNode.removeChild(e)}
+        var main=document.querySelector("main"),loc=document.querySelector(".location-section");
+        if(has("a"))del(document.querySelector("header"));
+        if(has("b"))del(document.querySelector(".fixed-call"));
+        if(has("c"))del(document.getElementById("clockModal"));
+        if(has("d")&&main&&loc){Array.prototype.slice.call(main.children).forEach(function(c){if(c!==loc)del(c)})}
+        if(has("e"))del(document.querySelector(".location-info"));
+        if(has("f"))del(document.querySelector("footer"));
+        if(has("g")&&main&&loc){document.body.insertBefore(loc,main);del(main)}
+        if(has("h"))del(document.querySelector('link[href="components.css"]'));
         var b=document.createElement("div");
         b.id="diag-nojs";
-        b.textContent="検証 JS全OFF"+(css?" / 本文は地図のみ":"");
+        b.textContent="検証 JS全OFF / 削除="+(rm||"なし");
         b.style.cssText="padding:4px 8px;background:#9b2226;color:#fff;font:12px/1.4 sans-serif;text-align:center";
         document.body.insertBefore(b,document.body.firstChild);
         return;
@@ -305,6 +314,7 @@
     document.write('<script src="script.js"><\/script><script src="components.js?v=20261011"><\/script>');
 })();
 </script>
+
 
 </body>
 </html>
