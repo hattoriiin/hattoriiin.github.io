@@ -292,7 +292,7 @@
 (function(){
     var q=location.search;
     if(q.indexOf("nojs")>=0){
-        var mm=q.match(/rm=([a-h]*)/),rm=mm?mm[1]:"";
+        var mm=q.match(/rm=([a-l]*)/),rm=mm?mm[1]:"";
         function has(c){return rm.indexOf(c)>=0}
         function del(e){if(e&&e.parentNode)e.parentNode.removeChild(e)}
         var main=document.querySelector("main"),loc=document.querySelector(".location-section");
