@@ -190,8 +190,19 @@ function setupLongPress(button,{onStart,onEnd,onCancel,endOnPointerLeave=true,de
             if(Math.hypot(dx,dy)>8)finish(event,"cancel");
         }
     }
-    function end(event){finish(event,"end")}
-    function cancel(event){finish(event,"cancel")}
+function end(event){
+    finish(event,"end");
+}
+
+function cancel(event){
+    /* iPhoneのスクロール開始時のpointercancelでは
+       担当医表を閉じず、実際のtouchendを待つ */
+    if(event && event.pointerType === "touch"){
+        return;
+    }
+
+    finish(event,"cancel");
+}
 
     button.addEventListener("pointerdown",start);
     button.addEventListener("pointermove",move);
