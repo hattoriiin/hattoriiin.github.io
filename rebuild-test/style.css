@@ -324,7 +324,7 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .location-info p{margin:.4rem 0 1.15rem;line-height:1.8}
 .location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8}
 .location-car .access-note{font-size:.78rem;color:#6b7a85}
-.location-grid-sub{margin-top:1.2rem}
+.location-grid-sub{margin-top:1.2rem;grid-template-columns:45% 55%}
 .access-figure{margin:0}
 .access-figure img{display:block;width:100%;height:auto;border-radius:2px}
 .location-car{margin-top:1.4rem}
@@ -334,7 +334,6 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
     .location-info p{line-height:1.75}
     .location-walk .location-bus{line-height:1.75}
     .location-walk{padding-left:1.1rem}
-    .location-sub{padding-right:.5rem}
 }
 @media(max-width:384px){
     .location-walk{padding-left:1.5rem}
