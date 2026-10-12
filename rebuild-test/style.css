@@ -342,3 +342,9 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 /* 徒歩の時間を目立たせる */
 .walk{white-space:nowrap;font-weight:600;color:#20384d}
 .walk b{font-size:1.25em;font-weight:700;color:#31556e;padding:0 .08em}
+
+/* 周辺図の右端のすき間(地図の左のすき間と同じ幅) */
+@media(min-width:385px) and (max-width:600px){
+    .location-sub .access-figure{position:relative;left:-.4rem}
+}
+
