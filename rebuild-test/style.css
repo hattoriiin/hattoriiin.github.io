@@ -296,8 +296,7 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
     .location-grid{margin-left:-1.1rem}
 }
 
-
-/* 所在地・アクセス:シャープな見た目(見た目だけ。地図の幅・55:45・黄金比は変えない) */
+/* 所在地・アクセス:シャープな見た目(見た目だけ。地図の幅・黄金比は変えない) */
 .location-section h2{
     border-bottom:0;padding-bottom:0;margin-bottom:1.4rem;
     font-weight:500;letter-spacing:.14em;color:#20384d;
@@ -321,17 +320,19 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
     border:1px solid #4d7d98;border-radius:2px;
     font-size:.7rem;font-weight:500;letter-spacing:.1em;line-height:1.7;color:#31556e;
 }
-.location-info p{margin:.4rem 0 1.15rem;line-height:1.8}
-.location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8}
+.location-info p{margin:.7rem 0 1.9rem;line-height:2}
+.location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8;text-align:right}
 .location-car .access-note{font-size:.78rem;color:#6b7a85}
-.location-grid-sub{margin-top:1.2rem;grid-template-columns:45% 55%}
+.location-grid-sub{margin-top:1.2rem;grid-template-columns:60% 40%}
 .access-figure{margin:0}
 .access-figure img{display:block;width:100%;height:auto;border-radius:2px}
 .location-car{margin-top:1.4rem}
+.nb{white-space:nowrap}
 @media(max-width:600px){
+    .location-grid-sub{grid-template-columns:45% 55%}
     .location-addr h3,.location-info h3,.location-walk h3,.location-car h3{font-size:.78rem}
     .location-addr p,.location-info p,.location-walk p,.location-car p{font-size:.88rem;line-height:1.6}
-    .location-info p{line-height:1.75}
+    .location-info p{line-height:1.95}
     .location-walk .location-bus{line-height:1.75}
     .location-walk{padding-left:1.1rem}
 }
@@ -347,4 +348,3 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 @media(min-width:385px) and (max-width:600px){
     .location-sub .access-figure{position:relative;left:-.4rem}
 }
-
