@@ -289,3 +289,9 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 
 /* 連絡先 */
 .contact-label{display:inline-block;width:3.5em}
+
+
+/* 地図の左端のすき間 */
+@media(min-width:385px) and (max-width:600px){
+    .location-grid{margin-left:-1.1rem}
+}
