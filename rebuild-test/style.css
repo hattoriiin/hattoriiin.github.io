@@ -295,3 +295,51 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 @media(min-width:385px) and (max-width:600px){
     .location-grid{margin-left:-1.1rem}
 }
+
+
+/* 所在地・アクセス:シャープな見た目(見た目だけ。地図の幅・55:45・黄金比は変えない) */
+.location-section h2{
+    border-bottom:0;padding-bottom:0;margin-bottom:1.4rem;
+    font-weight:500;letter-spacing:.14em;color:#20384d;
+}
+.location-section h2::before{
+    content:"ACCESS";display:block;margin-bottom:.15rem;
+    font-size:.62rem;font-weight:500;letter-spacing:.32em;color:#4d7d98;
+}
+.location-section h2::after{
+    content:"";display:block;width:2.4rem;height:2px;margin-top:.55rem;background:#31556e;
+}
+.location-addr h3,.location-info h3,.location-walk h3,.location-car h3{
+    margin:0 0 .45rem;padding:0 0 0 .55rem;
+    border-bottom:0;border-left:2px solid #31556e;
+    font-size:.82rem;font-weight:500;letter-spacing:.14em;line-height:1.3;color:#20384d;
+}
+.location-addr p,.location-info p,.location-walk p,.location-car p{margin:.3rem 0 .75rem;color:#333;line-height:1.65}
+.location-addr{margin-bottom:1.3rem}
+.location-info strong,.location-walk strong{
+    display:inline-block;margin-bottom:.2rem;padding:0 .45rem;
+    border:1px solid #4d7d98;border-radius:2px;
+    font-size:.7rem;font-weight:500;letter-spacing:.1em;line-height:1.7;color:#31556e;
+}
+.location-info p{margin:.4rem 0 1.15rem;line-height:1.8}
+.location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8}
+.location-car .access-note{font-size:.78rem;color:#6b7a85}
+.location-grid-sub{margin-top:1.2rem}
+.access-figure{margin:0}
+.access-figure img{display:block;width:100%;height:auto;border-radius:2px}
+.location-car{margin-top:1.4rem}
+@media(max-width:600px){
+    .location-addr h3,.location-info h3,.location-walk h3,.location-car h3{font-size:.78rem}
+    .location-addr p,.location-info p,.location-walk p,.location-car p{font-size:.88rem;line-height:1.6}
+    .location-info p{line-height:1.75}
+    .location-walk .location-bus{line-height:1.75}
+    .location-walk{padding-left:1.1rem}
+    .location-sub{padding-right:.5rem}
+}
+@media(max-width:384px){
+    .location-walk{padding-left:1.5rem}
+}
+
+/* 徒歩の時間を目立たせる */
+.walk{white-space:nowrap;font-weight:600;color:#20384d}
+.walk b{font-size:1.25em;font-weight:700;color:#31556e;padding:0 .08em}
