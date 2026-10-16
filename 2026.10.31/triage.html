@@ -82,6 +82,18 @@
         .bg-yellow { background-color: #ca8a04; }
         .bg-red    { background-color: #dc2626; }
         .bg-black  { background-color: #1e293b; }
+
+        .history-box {
+            background: #f1f5f9;
+            border-left: 4px solid #64748b;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+        .history-box strong {
+            color: #334155;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +106,7 @@
         <h2>【質問 1】歩けますか？</h2>
         <p>患者さんは自分の足で歩くことができますか？</p>
         <a href="javascript:void(0);" class="btn btn-green" onclick="showStep('result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症）へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-resp')">👉 【いいえ】歩けない ➔ 次のステップへ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-resp')">👉 【いいえ】歩けない ➔ 次のステップ（呼吸）へ</a>
     </div>
 
     <!-- 🟢 判定：緑 -->
@@ -106,6 +118,9 @@
 
     <!-- 【質問 2】呼吸確認 -->
     <div id="step-resp" class="card step-section">
+        <div class="history-box">
+            ✅ <strong>ここまでの経緯：</strong> 自力歩行は「<strong>できない</strong>（赤・黒・黄のいずれか）」
+        </div>
         <h2>【質問 2】呼吸をしていますか？</h2>
         <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
@@ -113,6 +128,9 @@
 
     <!-- 気道確保 -->
     <div id="step-airway" class="card step-section">
+        <div class="history-box">
+            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong>
+        </div>
         <h2>🛠️ 気道確保の処置</h2>
         <p>ただちに気道確保を行ってください。</p>
         <a href="javascript:void(0);" class="btn btn-black" onclick="showStep('result-black')">👉 気道確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
@@ -122,35 +140,42 @@
     <!-- ⬛ 判定：黒 -->
     <div id="result-black" class="card step-section">
         <div class="result-box bg-black">⬛ 判定：黒（死亡・不可逆）</div>
-        <p><strong>対応：</strong>救命不可能な状態です。</p>
+        <p><strong>対応：</strong>気道確保を行っても自発呼吸が戻らないため、救命不可能な状態と判断します。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 🟥 判定：赤 -->
     <div id="result-red" class="card step-section">
         <div class="result-box bg-red">🟥 判定：赤（重症・最優先）</div>
-        <p><strong>対応：</strong>命に関わる緊急状態です！直ちに救命処置および二次搬送の手配を行ってください。</p>
+        <p><strong>対応：</strong>命に関わる緊急状態です（気道確保後の呼吸再開、または呼吸数・脈拍・意識の異常）。直ちに救命処置および二次搬送の手配を行ってください！</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 【質問 3】呼吸数 -->
     <div id="step-resprate" class="card step-section">
-        <h2>【質問 3】呼吸数は正常ですか？</h2>
-        <p>10〜29回/分の範囲内ですか？</p>
+        <div class="history-box">
+            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸あり</strong>
+        </div>
+        <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
         <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
     </div>
 
     <!-- 【質問 4】脈拍 -->
     <div id="step-pulse" class="card step-section">
-        <h2>【質問 4】手首の脈はありますか？</h2>
-        <p>橈骨動脈の脈拍は確認できますか？</p>
+        <div class="history-box">
+            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ <strong>呼吸数正常（10〜29回）</strong>
+        </div>
+        <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
         <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 脈なし（または毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
     </div>
 
     <!-- 【質問 5】意識 -->
     <div id="step-mentality" class="card step-section">
+        <div class="history-box">
+            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ <strong>脈拍良好</strong>
+        </div>
         <h2>【質問 5】簡単な指示に従えますか？</h2>
         <p>「手を握ってください」などの指示に従えますか？</p>
         <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 従えない ➔ 🟥 赤へ</a>
@@ -159,26 +184,22 @@
 
     <!-- 🟨 判定：黄 -->
     <div id="result-yellow" class="card step-section">
-        <div class="result-box bg-yellow">🟨 判定：黄（中等症）</div>
-        <p><strong>対応：</strong>すぐには命に別状はありませんが、経過観察・待機治療が必要です。</p>
+        <div class="result-box bg-yellow">🟨 判定：黄（中等症・待機治療群）</div>
+        <p><strong>対応：</strong>すべての重症チェック（赤・黒の条件）をクリアしましたが、すぐには命に別状のない中等症です。経過観察・待機治療へ。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 </div>
 
 <script>
-    // タップした項目に応じて次のステップをスムーズに表示する仕組み
     function showStep(id) {
-        // 該当のセクションを表示状態にする
         const target = document.getElementById(id);
         if (target) {
             target.classList.add('active');
-            // スムーズにその場所までスクロールする
             target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 
     function resetAll() {
-        // すべての質問・判定エリアを非状態に戻す
         const sections = document.querySelectorAll('.step-section');
         sections.forEach(sec => sec.classList.remove('active'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
