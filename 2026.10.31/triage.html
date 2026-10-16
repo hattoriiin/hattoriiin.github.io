@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一次トリアージ判定ナビ（タグ連動型）</title>
+    <title>一次トリアージ判定ナビ（START法）</title>
     <style>
         :root {
             --primary: #0056b3;
@@ -23,17 +23,16 @@
             max-width: 600px;
             margin: 0 auto;
         }
-        /* トリアージタグを模したカードデザイン */
         .card {
             background: var(--card-bg);
             border-radius: 12px;
+            padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
-            overflow: hidden;
             transition: opacity 0.3s ease;
         }
-        /* 過去のカードはうっすら透過し、ボタンも完全にロック */
+        /* 過去のカードは20%透過＆ボタン無効化 */
         .card.dimmed {
             opacity: 0.2;
         }
@@ -41,34 +40,7 @@
             pointer-events: none;
             cursor: default;
         }
-
-        /* タグ上部の「モギリ帯（カラーインジケーター）」 */
-        .tag-header {
-            display: flex;
-            height: 12px;
-            width: 100%;
-        }
-        .tag-green { background-color: #16a34a; flex: 1; }
-        .tag-yellow { background-color: #ca8a04; flex: 1; }
-        .tag-red { background-color: #dc2626; flex: 1; }
-        .tag-black { background-color: #1e293b; flex: 1; }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        /* 状態を強調するバッジ */
-        .stage-badge {
-            display: inline-block;
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
+        
         h1 {
             font-size: 1.3rem;
             color: var(--primary);
@@ -100,12 +72,8 @@
         .btn-black  { background-color: #334155; color: white; }
         .btn-reset  { background-color: #64748b; color: white; margin-top: 20px; }
         
-        .step-section {
-            display: none;
-        }
-        .step-section.active {
-            display: block;
-        }
+        .step-section { display: none; }
+        .step-section.active { display: block; }
         
         .result-box {
             padding: 16px;
@@ -129,145 +97,209 @@
             font-size: 0.9rem;
             border-radius: 4px;
         }
+
+        /* --- タグのモギリ指示カード（図解風） --- */
+        .tag-guide {
+            border: 2px dashed #94a3b8;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 16px 0;
+        }
+        .tag-guide-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+        .tag-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .tag-part {
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tag-part-main  { background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; }
+        .tag-part-black { background: #334155; color: white; }
+        .tag-part-red   { background: #dc2626; color: white; }
+        .tag-part-yellow{ background: #ca8a04; color: white; }
+        .tag-part-green { background: #16a34a; color: white; }
+        
+        .action-cut {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid #f87171;
+        }
+        .action-keep {
+            background: #dcfce7;
+            color: #166534;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border: 1px solid #4ade80;
+        }
+        .warning-text {
+            color: #dc2626;
+            font-weight: bold;
+            font-size: 0.9rem;
+            background: #fef2f2;
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 4px solid #dc2626;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚨 一次トリアージ判定ナビ（タグ連動）</h1>
+    <h1>🚨 一次トリアージ判定ナビ</h1>
 
     <!-- 【質問 1】 -->
     <div class="card active-target" id="card-1">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <span class="stage-badge">ステップ 1（分類基準 III / II / I）</span>
-            <h2>【質問 1】歩けますか？</h2>
-            <p>患者さんは自分の足で歩くことができますか？</p>
-            <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症・III）へ</a>
-            <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">👉 【いいえ】歩けない ➔ 次のステップへ</a>
-        </div>
+        <h2>【質問 1】歩けますか？</h2>
+        <p>患者さんは自分の足で歩くことができますか？</p>
+        <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症）へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">👉 【いいえ】歩けない ➔ 次のステップへ</a>
     </div>
 
     <!-- 🟢 判定：緑 -->
     <div id="result-green" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green" style="opacity:1"></div><div class="tag-yellow" style="opacity:0.2"></div><div class="tag-red" style="opacity:0.2"></div><div class="tag-black" style="opacity:0.2"></div>
+        <div class="result-box bg-green">🟢 判定：緑（軽症・保留治療群）</div>
+        
+        <div class="tag-guide">
+            <div class="tag-guide-title">✂️ 紙タグのちぎり方（もぎり指示）</div>
+            <div class="tag-visual">
+                <div class="tag-part tag-part-main">📄 タック本体（カルテ・氏名欄） <span>【残す】</span></div>
+                <div class="tag-part tag-part-black">0 黒色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-red">I 赤色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-yellow">II 黄色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-green">III 緑色 <span>【一番下を残す】</span></div>
+            </div>
+            <div class="warning-text">
+                ⚠️ **何も切らないでください！** 一番下の「緑色」が見える状態のまま患者に装着します。
+            </div>
         </div>
-        <div class="card-body">
-            <div class="result-box bg-green">🟢 判定：緑（軽処置群 / III）</div>
-            <p><strong>対応：</strong>緑以外のタグ（黄・赤・黒）は切り落とさず残し、軽症エリアへ。タグの「緑」を残します。</p>
-            <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        </div>
+
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 【質問 2】呼吸確認 -->
     <div id="step-resp" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩行「不可」</div>
-            <span class="stage-badge">ステップ 2</span>
-            <h2>【質問 2】呼吸をしていますか？</h2>
-            <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">👉 【いいえ】呼吸なし ➔ 気道確保へ</a>
-            <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">👉 【はい】呼吸あり ➔ 呼吸数チェックへ</a>
-        </div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 自力歩行は「<strong>できない</strong>」</div>
+        <h2>【質問 2】呼吸をしていますか？</h2>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
     </div>
 
     <!-- 気道確保 -->
     <div id="step-airway" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong></div>
-            <span class="stage-badge">ステップ 2-1（緊急処置）</span>
-            <h2>🛠️ 気道確保の実施</h2>
-            <p>ただちに気道確保を行ってください。</p>
-            <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">👉 確保しても【呼吸しない】 ➔ ⬛ 黒（0）へ</a>
-            <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">👉 確保で【呼吸が再開】 ➔ 🟥 赤（I）へ</a>
-        </div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong></div>
+        <h2>🛠️ 気道確保の処置</h2>
+        <p>ただちに気道確保を行ってください。</p>
+        <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">👉 気道確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">👉 気道確保で【呼吸が再開した】 ➔ 🟥 赤へ</a>
     </div>
 
     <!-- ⬛ 判定：黒 -->
     <div id="result-black" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green" style="opacity:0.2"></div><div class="tag-yellow" style="opacity:0.2"></div><div class="tag-red" style="opacity:0.2"></div><div class="tag-black" style="opacity:1"></div>
+        <div class="result-box bg-black">⬛ 判定：黒（死亡・不可逆）</div>
+        
+        <div class="tag-guide">
+            <div class="tag-guide-title">✂️ 紙タグのちぎり方（もぎり指示）</div>
+            <div class="tag-visual">
+                <div class="tag-part tag-part-main">📄 タック本体（カルテ） <span>【残す】</span></div>
+                <div class="tag-part tag-part-black"><span class="action-keep">★ ここを残す！</span> 0 黒色</div>
+                <div class="tag-part tag-part-red" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> I 赤色</div>
+                <div class="tag-part tag-part-yellow" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> II 黄色</div>
+                <div class="tag-part tag-part-green" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> III 緑色</div>
+            </div>
+            <div class="warning-text">
+                ⚠️ 「赤・黄・緑」の3色をまとめて切り落とし、「黒」が一番下になるようにします。
+            </div>
         </div>
-        <div class="card-body">
-            <div class="result-box bg-black">⬛ 判定：黒（死亡・不処置群 / 0）</div>
-            <p><strong>対応：</strong>救命不可能な状態です。タグの「黒」以外をもぎり、黒を残します。</p>
-            <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        </div>
+
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 🟥 判定：赤 -->
     <div id="result-red" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green" style="opacity:0.2"></div><div class="tag-yellow" style="opacity:0.2"></div><div class="tag-red" style="opacity:1"></div><div class="tag-black" style="opacity:0.2"></div>
+        <div class="result-box bg-red">🟥 判定：赤（重症・最優先）</div>
+        
+        <div class="tag-guide">
+            <div class="tag-guide-title">✂️ 紙タグのちぎり方（もぎり指示）</div>
+            <div class="tag-visual">
+                <div class="tag-part tag-part-main">📄 タック本体（カルテ） <span>【残す】</span></div>
+                <div class="tag-part tag-part-black">0 黒色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-red"><span class="action-keep">★ ここを残す！</span> I 赤色</div>
+                <div class="tag-part tag-part-yellow" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> II 黄色</div>
+                <div class="tag-part tag-part-green" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> III 緑色</div>
+            </div>
+            <div class="warning-text">
+                ⚠️ 「黄・緑」の2色を切ります！**赤色は絶対に切らないでください！**
+            </div>
         </div>
-        <div class="card-body">
-            <div class="result-box bg-red">🟥 判定：赤（最優先治療群 / I）</div>
-            <p><strong>対応：</strong>命に関わる重症です！緑と黄をもぎり、<strong>「赤（I）」を残して</strong>直ちに救命処置へ！</p>
-            <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        </div>
+
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 【質問 3】呼吸数 -->
     <div id="step-resprate" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり</div>
-            <span class="stage-badge">ステップ 3</span>
-            <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
-            <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤（I）へ</a>
-            <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">👉 正常（10〜29回/分） ➔ 次へ</a>
-        </div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸あり</strong></div>
+        <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
     </div>
 
     <!-- 【質問 4】脈拍 -->
     <div id="step-pulse" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常</div>
-            <span class="stage-badge">ステップ 4</span>
-            <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
-            <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">👉 脈なし（循環障害） ➔ 🟥 赤（I）へ</a>
-            <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">👉 脈あり ➔ 次へ</a>
-        </div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ <strong>呼吸数正常</strong></div>
+        <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">👉 脈なし（または毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
     </div>
 
     <!-- 【質問 5】意識 -->
     <div id="step-mentality" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green"></div><div class="tag-yellow"></div><div class="tag-red"></div><div class="tag-black"></div>
-        </div>
-        <div class="card-body">
-            <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ 脈拍良好</div>
-            <span class="stage-badge">ステップ 5</span>
-            <h2>【質問 5】簡単な指示に従えますか？</h2>
-            <p>「手を握ってください」などの指示に従えますか？</p>
-            <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">👉 従えない ➔ 🟥 赤（I）へ</a>
-            <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">👉 従える ➔ 🟨 黄（II）へ</a>
-        </div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ <strong>脈拍良好</strong></div>
+        <h2>【質問 5】簡単な指示に従えますか？</h2>
+        <p>「手を握ってください」などの指示に従えますか？</p>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">👉 従えない ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">👉 従える ➔ 🟨 黄へ</a>
     </div>
 
     <!-- 🟨 判定：黄 -->
     <div id="result-yellow" class="card step-section active-target">
-        <div class="tag-header">
-            <div class="tag-green" style="opacity:0.2"></div><div class="tag-yellow" style="opacity:1"></div><div class="tag-red" style="opacity:0.2"></div><div class="tag-black" style="opacity:0.2"></div>
+        <div class="result-box bg-yellow">🟨 判定：黄（中等症・待機治療群）</div>
+        
+        <div class="tag-guide">
+            <div class="tag-guide-title">✂️ 紙タグのちぎり方（もぎり指示）</div>
+            <div class="tag-visual">
+                <div class="tag-part tag-part-main">📄 タック本体（カルテ） <span>【残す】</span></div>
+                <div class="tag-part tag-part-black">0 黒色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-red">I 赤色 <span>【残す】</span></div>
+                <div class="tag-part tag-part-yellow"><span class="action-keep">★ ここを残す！</span> II 黄色</div>
+                <div class="tag-part tag-part-green" style="opacity:0.4;"><span class="action-cut">✂️ 切り取る</span> III 緑色</div>
+            </div>
+            <div class="warning-text">
+                ⚠️ **一番下の「緑色」だけを切り取ります！**<br>黄色や赤色は絶対に切らないでください！
+            </div>
         </div>
-        <div class="card-body">
-            <div class="result-box bg-yellow">🟨 判定：黄（非緊急治療群 / II）</div>
-            <p><strong>対応：</strong>すべての重症チェックをクリアしました。緑をもぎり、<strong>「黄（II）」を残して</strong>待機エリアへ。</p>
-            <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        </div>
+
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 </div>
 
