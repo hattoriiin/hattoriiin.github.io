@@ -32,13 +32,13 @@
             border: 1px solid #e2e8f0;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        /* 過去のカードは少しうっすら（透過）させる */
+        /* 過去のカードは「もっと薄く」（透明度20%に設定） */
         .card.dimmed {
-            opacity: 0.45;
+            opacity: 0.2;
         }
         /* 過去のカードをタップしたときに少しハッキリ戻す（確認用） */
         .card.dimmed:hover {
-            opacity: 0.8;
+            opacity: 0.7;
         }
         
         h1 {
@@ -189,37 +189,22 @@
 
 <script>
     function selectOption(currentId, nextId) {
-        // 1. 今選んだカード（およびそれより上のすべてのカード）を「透過（dimmed）」させる
         const currentCard = document.getElementById(currentId);
         if (currentCard) {
             currentCard.classList.add('dimmed');
             currentCard.classList.remove('active-target');
         }
 
-        // 2. 次のステップのカードを表示状態にし、最新のフォーカス対象にする
         const nextTarget = document.getElementById(nextId);
         if (nextTarget) {
             nextTarget.classList.add('active', 'active-target');
             nextTarget.classList.remove('dimmed');
-            // スムーズに最新のカードへスクロール
             nextTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 
     function resetAll() {
-        // すべてのステップを非表示にし、透過クラスもリセット
-        const sections = document.querySelectorAll('.card');
-        sections.exports = sections.forEach(sec => {
-            sec.classList.remove('active', 'dimmed');
-            if(sec.id === 'card-1') {
-                sec.classList.add('active-target');
-            } else {
-                sec.classList.remove('active-target');
-            }
-        });
-        // 最初のカードだけ表示状態に戻す
-        document.getElementById('card-1').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        location.reload(); // ページをリロードするのが一番確実かつ綺麗に初期状態に戻ります
     }
 </script>
 
