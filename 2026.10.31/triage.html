@@ -30,7 +30,17 @@
             margin-bottom: 16px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
+        /* 過去のカードは少しうっすら（透過）させる */
+        .card.dimmed {
+            opacity: 0.45;
+        }
+        /* 過去のカードをタップしたときに少しハッキリ戻す（確認用） */
+        .card.dimmed:hover {
+            opacity: 0.8;
+        }
+        
         h1 {
             font-size: 1.3rem;
             color: var(--primary);
@@ -81,7 +91,7 @@
         .bg-green  { background-color: #16a34a; }
         .bg-yellow { background-color: #ca8a04; }
         .bg-red    { background-color: #dc2626; }
-        .bg-black  { background-color: #1e293b; }
+        .bg-black  { background-color: #334155; }
 
         .history-box {
             background: #f1f5f9;
@@ -91,9 +101,6 @@
             font-size: 0.9rem;
             border-radius: 4px;
         }
-        .history-box strong {
-            color: #334155;
-        }
     </style>
 </head>
 <body>
@@ -102,106 +109,116 @@
     <h1>🚨 一次トリアージ判定ナビ</h1>
 
     <!-- 【質問 1】 -->
-    <div class="card">
+    <div class="card active-target" id="card-1">
         <h2>【質問 1】歩けますか？</h2>
         <p>患者さんは自分の足で歩くことができますか？</p>
-        <a href="javascript:void(0);" class="btn btn-green" onclick="showStep('result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症）へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-resp')">👉 【いいえ】歩けない ➔ 次のステップ（呼吸）へ</a>
+        <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症）へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">👉 【いいえ】歩けない ➔ 次のステップ（呼吸）へ</a>
     </div>
 
     <!-- 🟢 判定：緑 -->
-    <div id="result-green" class="card step-section">
+    <div id="result-green" class="card step-section active-target">
         <div class="result-box bg-green">🟢 判定：緑（軽症・保留治療群）</div>
         <p><strong>対応：</strong>専門的処置を要しない軽症です。一般診察・待機エリアへご案内してください。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 【質問 2】呼吸確認 -->
-    <div id="step-resp" class="card step-section">
-        <div class="history-box">
-            ✅ <strong>ここまでの経緯：</strong> 自力歩行は「<strong>できない</strong>（赤・黒・黄のいずれか）」
-        </div>
+    <div id="step-resp" class="card step-section active-target">
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 自力歩行は「<strong>できない</strong>」</div>
         <h2>【質問 2】呼吸をしていますか？</h2>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
     </div>
 
     <!-- 気道確保 -->
-    <div id="step-airway" class="card step-section">
-        <div class="history-box">
-            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong>
-        </div>
+    <div id="step-airway" class="card step-section active-target">
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong></div>
         <h2>🛠️ 気道確保の処置</h2>
         <p>ただちに気道確保を行ってください。</p>
-        <a href="javascript:void(0);" class="btn btn-black" onclick="showStep('result-black')">👉 気道確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 気道確保で【呼吸が再開した】 ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">👉 気道確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">👉 気道確保で【呼吸が再開した】 ➔ 🟥 赤へ</a>
     </div>
 
     <!-- ⬛ 判定：黒 -->
-    <div id="result-black" class="card step-section">
+    <div id="result-black" class="card step-section active-target">
         <div class="result-box bg-black">⬛ 判定：黒（死亡・不可逆）</div>
         <p><strong>対応：</strong>気道確保を行っても自発呼吸が戻らないため、救命不可能な状態と判断します。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 🟥 判定：赤 -->
-    <div id="result-red" class="card step-section">
+    <div id="result-red" class="card step-section active-target">
         <div class="result-box bg-red">🟥 判定：赤（重症・最優先）</div>
-        <p><strong>対応：</strong>命に関わる緊急状態です（気道確保後の呼吸再開、または呼吸数・脈拍・意識の異常）。直ちに救命処置および二次搬送の手配を行ってください！</p>
+        <p><strong>対応：</strong>命に関わる緊急状態です！直ちに救命処置および二次搬送の手配を行ってください。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 
     <!-- 【質問 3】呼吸数 -->
-    <div id="step-resprate" class="card step-section">
-        <div class="history-box">
-            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸あり</strong>
-        </div>
+    <div id="step-resprate" class="card step-section active-target">
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸あり</strong></div>
         <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
     </div>
 
     <!-- 【質問 4】脈拍 -->
-    <div id="step-pulse" class="card step-section">
-        <div class="history-box">
-            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ <strong>呼吸数正常（10〜29回）</strong>
-        </div>
+    <div id="step-pulse" class="card step-section active-target">
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ <strong>呼吸数正常</strong></div>
         <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 脈なし（または毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="showStep('step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">👉 脈なし（または毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
     </div>
 
     <!-- 【質問 5】意識 -->
-    <div id="step-mentality" class="card step-section">
-        <div class="history-box">
-            ✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ <strong>脈拍良好</strong>
-        </div>
+    <div id="step-mentality" class="card step-section active-target">
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ <strong>脈拍良好</strong></div>
         <h2>【質問 5】簡単な指示に従えますか？</h2>
         <p>「手を握ってください」などの指示に従えますか？</p>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="showStep('result-red')">👉 従えない ➔ 🟥 赤へ</a>
-        <a href="javascript:void(0);" class="btn btn-yellow" onclick="showStep('result-yellow')">👉 従える ➔ 🟨 黄へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">👉 従えない ➔ 🟥 赤へ</a>
+        <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">👉 従える ➔ 🟨 黄へ</a>
     </div>
 
     <!-- 🟨 判定：黄 -->
-    <div id="result-yellow" class="card step-section">
+    <div id="result-yellow" class="card step-section active-target">
         <div class="result-box bg-yellow">🟨 判定：黄（中等症・待機治療群）</div>
-        <p><strong>対応：</strong>すべての重症チェック（赤・黒の条件）をクリアしましたが、すぐには命に別状のない中等症です。経過観察・待機治療へ。</p>
+        <p><strong>対応：</strong>すべての重症チェックをクリアしましたが、すぐには命に別状のない中等症です。経過観察・待機治療へ。</p>
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
     </div>
 </div>
 
 <script>
-    function showStep(id) {
-        const target = document.getElementById(id);
-        if (target) {
-            target.classList.add('active');
-            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function selectOption(currentId, nextId) {
+        // 1. 今選んだカード（およびそれより上のすべてのカード）を「透過（dimmed）」させる
+        const currentCard = document.getElementById(currentId);
+        if (currentCard) {
+            currentCard.classList.add('dimmed');
+            currentCard.classList.remove('active-target');
+        }
+
+        // 2. 次のステップのカードを表示状態にし、最新のフォーカス対象にする
+        const nextTarget = document.getElementById(nextId);
+        if (nextTarget) {
+            nextTarget.classList.add('active', 'active-target');
+            nextTarget.classList.remove('dimmed');
+            // スムーズに最新のカードへスクロール
+            nextTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 
     function resetAll() {
-        const sections = document.querySelectorAll('.step-section');
-        sections.forEach(sec => sec.classList.remove('active'));
+        // すべてのステップを非表示にし、透過クラスもリセット
+        const sections = document.querySelectorAll('.card');
+        sections.exports = sections.forEach(sec => {
+            sec.classList.remove('active', 'dimmed');
+            if(sec.id === 'card-1') {
+                sec.classList.add('active-target');
+            } else {
+                sec.classList.remove('active-target');
+            }
+        });
+        // 最初のカードだけ表示状態に戻す
+        document.getElementById('card-1').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
