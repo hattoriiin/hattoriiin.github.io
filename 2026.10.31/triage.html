@@ -32,12 +32,13 @@
             border: 1px solid #e2e8f0;
             transition: opacity 0.3s ease;
         }
-        /* 過去のカードはうっすら透過（20%）させて残す */
+        /* 過去のカードはうっすら透過し、ボタンも完全に押せないようにする */
         .card.dimmed {
             opacity: 0.2;
         }
-        .card.dimmed:hover {
-            opacity: 0.7;
+        .card.dimmed a.btn {
+            pointer-events: none; /* ボタンのクリックを無効化 */
+            cursor: default;
         }
         
         h1 {
@@ -188,14 +189,14 @@
 
 <script>
     function selectOption(currentId, nextId) {
-        // 1. 今選んだカードを透過（dimmed）させる
+        // 1. 今選んだカードを透過させ、中のボタンも完全ロックする
         const currentCard = document.getElementById(currentId);
         if (currentCard) {
             currentCard.classList.add('dimmed');
             currentCard.classList.remove('active-target');
         }
 
-        // 2. 次のステップを表示し、画面の「一番上（start）」までしっかりスクロールさせる
+        // 2. 次のステップを表示し、画面の一番上にスクロール
         const nextTarget = document.getElementById(nextId);
         if (nextTarget) {
             nextTarget.classList.add('active', 'active-target');
@@ -205,7 +206,7 @@
     }
 
     function resetAll() {
-        location.reload();
+        location.reload(); // やり直すときはページをリロードしてきれいに初期化
     }
 </script>
 
