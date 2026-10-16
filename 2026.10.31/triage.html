@@ -70,8 +70,24 @@
         .btn-yellow { background-color: #ca8a04; color: white; }
         .btn-red    { background-color: #dc2626; color: white; }
         .btn-black  { background-color: #334155; color: white; }
+        
+        /* リセットボタン（標準） */
         .btn-reset  { background-color: #64748b; color: white; margin-top: 20px; }
         
+        /* 一つ戻るボタン（細め・主張を抑えたデザイン） */
+        .btn-back {
+            background-color: transparent;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            margin: 6px 0 0 0;
+            font-size: 0.85rem;
+            font-weight: normal;
+        }
+        .btn-back:hover {
+            background-color: #f1f5f9;
+        }
+
         .step-section { display: none; }
         .step-section.active { display: block; }
         
@@ -98,7 +114,7 @@
             border-radius: 4px;
         }
 
-        /* --- タグのモギリ指示カード（図解風） --- */
+        /* モギリ指示ガイド */
         .tag-guide {
             border: 2px dashed #94a3b8;
             background: #ffffff;
@@ -190,11 +206,12 @@
                 <div class="tag-part tag-part-green">III 緑色 <span>【一番下を残す】</span></div>
             </div>
             <div class="warning-text">
-                ⚠️ **何も切らないでください！** 一番下の「緑色」が見える状態のまま患者に装着します。
+                ⚠️ <strong>何も切らないでください！</strong> 一番下の「緑色」が見える状態のまま患者に装着します。
             </div>
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 【質問 2】呼吸確認 -->
@@ -203,6 +220,9 @@
         <h2>【質問 2】呼吸をしていますか？</h2>
         <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
+        
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 気道確保 -->
@@ -212,6 +232,9 @@
         <p>ただちに気道確保を行ってください。</p>
         <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">👉 気道確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
         <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">👉 気道確保で【呼吸が再開した】 ➔ 🟥 赤へ</a>
+        
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- ⬛ 判定：黒 -->
@@ -233,6 +256,7 @@
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 🟥 判定：赤 -->
@@ -254,6 +278,7 @@
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 【質問 3】呼吸数 -->
@@ -262,6 +287,9 @@
         <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
         <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
+        
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 【質問 4】脈拍 -->
@@ -270,6 +298,9 @@
         <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
         <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">👉 脈なし（または毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
         <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
+        
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 【質問 5】意識 -->
@@ -279,6 +310,9 @@
         <p>「手を握ってください」などの指示に従えますか？</p>
         <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">👉 従えない ➔ 🟥 赤へ</a>
         <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">👉 従える ➔ 🟨 黄へ</a>
+        
+        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
     <!-- 🟨 判定：黄 -->
@@ -300,10 +334,14 @@
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 </div>
 
 <script>
+    // 選択の履歴を保持する配列
+    let historyStack = ['card-1'];
+
     function selectOption(currentId, nextId) {
         const currentCard = document.getElementById(currentId);
         if (currentCard) {
@@ -316,6 +354,29 @@
             nextTarget.classList.add('active', 'active-target');
             nextTarget.classList.remove('dimmed');
             nextTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // 履歴に追記
+            historyStack.push(nextId);
+        }
+    }
+
+    function goBack() {
+        if (historyStack.length <= 1) return;
+
+        // 現在のカードを非表示化
+        const currentId = historyStack.pop();
+        const currentCard = document.getElementById(currentId);
+        if (currentCard) {
+            currentCard.classList.remove('active', 'active-target');
+        }
+
+        // 一つ前のカードをアクティブ（くっきり＆ボタン有効）に戻す
+        const previousId = historyStack[historyStack.length - 1];
+        const previousCard = document.getElementById(previousId);
+        if (previousCard) {
+            previousCard.classList.remove('dimmed');
+            previousCard.classList.add('active-target');
+            previousCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
