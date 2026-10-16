@@ -18,7 +18,7 @@
             padding: 16px;
             background-color: var(--bg);
             color: var(--text);
-            /* 下部に十分な余白を確保 */
+            /* 下部にスクロール領域を確保 */
             padding-bottom: 80vh;
         }
         .container {
@@ -59,12 +59,12 @@
         }
         .btn {
             display: block;
-            padding: 14px 16px;
-            margin: 10px 0;
+            padding: 12px 14px;
+            margin: 8px 0;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-align: center;
         }
         .btn-action { background-color: #0284c7; color: white; }
@@ -73,14 +73,14 @@
         .btn-red    { background-color: #dc2626; color: white; }
         .btn-black  { background-color: #334155; color: white; }
         
-        .btn-reset  { background-color: #64748b; color: white; margin-top: 12px; }
+        .btn-reset  { background-color: #64748b; color: white; margin-top: 10px; }
         .btn-back {
             background-color: #ffffff;
             color: #64748b;
             border: 1px solid #cbd5e1;
-            padding: 8px 12px;
-            margin: 6px 0 0 0;
-            font-size: 0.85rem;
+            padding: 6px 10px;
+            margin: 4px 0 0 0;
+            font-size: 0.8rem;
             font-weight: normal;
         }
 
@@ -88,13 +88,13 @@
         .step-section.active { display: block; }
         
         .result-box {
-            padding: 12px;
-            border-radius: 8px;
+            padding: 8px 10px;
+            border-radius: 6px;
             color: white;
             font-weight: bold;
             text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 1rem;
+            margin-bottom: 8px;
         }
         .bg-green  { background-color: #16a34a; }
         .bg-yellow { background-color: #ca8a04; }
@@ -111,72 +111,71 @@
         }
 
         /* -------------------------------------------------------------
-           画面中央固定オーバレイ（最終結果用）
-           裏の過去カードは自由にスクロール可能
+           画面中央固定オーバレイ（横幅をスリム化して裏が見えるように調整）
         ------------------------------------------------------------- */
         .fixed-modal-overlay {
-            display: none; /* 初期非表示 */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: none; /* 背景のスクロール操作を通す */
+            pointer-events: none; /* 裏のスクロール操作を通す */
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 16px;
             box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.15); /* うっすら背景を暗くして立体感を強調 */
         }
         .fixed-modal-overlay.active {
             display: flex;
         }
 
         .fixed-modal-card {
-            pointer-events: auto; /* カード内はタップ可能 */
+            pointer-events: auto; /* カード内は操作可能 */
             background: #ffffff;
             border-radius: 12px;
-            padding: 14px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0,0,0,0.1);
-            max-width: 360px;
-            width: 100%;
-            max-height: 92vh;
+            padding: 12px;
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0,0,0,0.1);
+            /* ★画面幅をギュッとスリムに（スマホで裏が見える幅に調整） */
+            width: 270px;
+            max-width: 80vw;
+            max-height: 88vh;
             overflow-y: auto;
             border: 2px solid #0056b3;
-            animation: popIn 0.3s ease;
+            animation: popIn 0.25s ease;
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
+            0% { transform: scale(0.85); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
         /* -------------------------------------------------------------
-           厚労省規格（縦23.2cm × 横11cm）の正確な縦横比トリアージタッグ図解
-           アスペクト比 11 : 23.2 (約 1 : 2.109)
+           厚労省規格（縦23.2cm × 横11cm）の正確な比率トリアージタッグ図解
+           アスペクト比 11 : 23.2
         ------------------------------------------------------------- */
         .tag-spec-container {
-            width: 100%;
-            max-width: 160px; /* スマホ画面で収まりが良いサイズ */
+            width: 110px; /* カード内でさらにスリムに配置 */
             aspect-ratio: 11 / 23.2;
-            margin: 10px auto;
-            border: 2px solid #334155;
-            border-radius: 6px;
-            box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+            margin: 6px auto;
+            border: 1.5px solid #334155;
+            border-radius: 4px;
+            box-shadow: 1px 3px 6px rgba(0,0,0,0.12);
             display: flex;
             flex-direction: column;
             background: #ffffff;
             overflow: hidden;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: bold;
         }
 
-        /* 白いカルテ・記録欄（全体23.2cm中 16cm分 = 約69%） */
         .tag-spec-body {
             flex: 16;
             background: #f8fafc;
-            border-bottom: 2px dashed #94a3b8;
-            padding: 6px;
+            border-bottom: 1.5px dashed #94a3b8;
+            padding: 4px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -185,27 +184,28 @@
             box-sizing: border-box;
         }
         .tag-spec-title {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             border-bottom: 1px solid #cbd5e1;
-            padding-bottom: 2px;
+            padding-bottom: 1px;
+            line-height: 1.1;
         }
         .tag-spec-notes {
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             color: #64748b;
-            text-align: left;
-            line-height: 1.2;
+            text-align: center;
+            line-height: 1.1;
         }
 
-        /* 各色モギリ帯（各1.8cm分 = 全体の約7.7%ずつ） */
         .tag-spec-strip {
             flex: 1.8;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 8px;
+            padding: 0 5px;
             color: white;
             border-top: 1px solid rgba(255,255,255,0.3);
             box-sizing: border-box;
+            font-size: 0.6rem;
         }
         .strip-black  { background: #1e293b; }
         .strip-red    { background: #dc2626; }
@@ -213,7 +213,7 @@
         .strip-green  { background: #16a34a; }
 
         .strip-cut {
-            opacity: 0.25;
+            opacity: 0.2;
             background: #cbd5e1 !important;
             color: #94a3b8 !important;
             text-decoration: line-through;
@@ -221,29 +221,29 @@
         .strip-badge-keep {
             background: #ffffff;
             color: #1e293b;
-            font-size: 0.65rem;
-            padding: 1px 4px;
-            border-radius: 3px;
+            font-size: 0.55rem;
+            padding: 0 3px;
+            border-radius: 2px;
         }
         .strip-badge-cut {
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             color: #ef4444;
             background: #ffffff;
-            padding: 1px 4px;
-            border-radius: 3px;
+            padding: 0 3px;
+            border-radius: 2px;
         }
 
         .warning-text {
             color: #dc2626;
             font-weight: bold;
-            font-size: 0.82rem;
+            font-size: 0.75rem;
             background: #fef2f2;
-            padding: 6px 10px;
+            padding: 6px 8px;
             border-radius: 6px;
-            border-left: 4px solid #dc2626;
-            margin-top: 8px;
+            border-left: 3px solid #dc2626;
+            margin-top: 6px;
             text-align: left;
-            line-height: 1.3;
+            line-height: 1.25;
         }
     </style>
 </head>
@@ -319,7 +319,7 @@
 </div>
 
 <!-- =======================================================================
-     画面中央固定オーバレイ（最終判定用モーダルカード群）
+     画面中央固定オーバレイ（幅をスリムにして裏のスクロールを見やすく調整）
 ======================================================================= -->
 <div id="modal-overlay" class="fixed-modal-overlay">
 
@@ -327,10 +327,9 @@
     <div id="result-green" class="fixed-modal-card step-section">
         <div class="result-box bg-green">🟢 判定：緑（III・軽症）</div>
         
-        <!-- 縦横比 23.2 : 11 規格縮尺タッグ -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm 規格）</div>
+                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
                 <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
@@ -340,11 +339,11 @@
         </div>
 
         <div class="warning-text">
-            ⚠️ <strong>何も切り取らないでください！</strong> 緑が見える状態のまま装着します。
+            ⚠️ <strong>切らないでください！</strong> 緑が見える状態のまま装着します。
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
     </div>
 
     <!-- 🟨 判定：黄 -->
@@ -353,7 +352,7 @@
         
         <div class="tag-spec-container">
             <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm 規格）</div>
+                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
                 <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
@@ -363,11 +362,11 @@
         </div>
 
         <div class="warning-text">
-            ⚠️ <strong>一番下の「緑色」だけを切り取ります！</strong><br>黄色や赤色は絶対に切らないでください！
+            ⚠️ <strong>「緑色」だけを切り取ります！</strong> 黄色や赤色は絶対に切らないでください！
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
     </div>
 
     <!-- 🟥 判定：赤 -->
@@ -376,7 +375,7 @@
         
         <div class="tag-spec-container">
             <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm 規格）</div>
+                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
                 <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
@@ -386,11 +385,11 @@
         </div>
 
         <div class="warning-text">
-            ⚠️ <strong>「黄・緑」の2色を切り落とします！</strong><br>赤色は絶対に切らないでください！
+            ⚠️ <strong>「黄・緑」の2色を切ります！</strong> 赤色は絶対に切らないでください！
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
     </div>
 
     <!-- ⬛ 判定：黒 -->
@@ -399,7 +398,7 @@
         
         <div class="tag-spec-container">
             <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm 規格）</div>
+                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
                 <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">★残す</span></div>
@@ -413,7 +412,7 @@
         </div>
 
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
     </div>
 
 </div>
@@ -431,18 +430,15 @@
         const isResult = nextId.startsWith('result-');
         
         if (isResult) {
-            // 最終結果の場合：画面中央オーバーレイを表示
             const modalOverlay = document.getElementById('modal-overlay');
             modalOverlay.classList.add('active');
 
-            // すべてのモーダル内カードを一旦非表示にして該当カードのみ表示
             document.querySelectorAll('.fixed-modal-card').forEach(el => el.classList.remove('active'));
             const resultCard = document.getElementById(nextId);
             if (resultCard) {
                 resultCard.classList.add('active');
             }
         } else {
-            // 通常ステップの場合
             const nextTarget = document.getElementById(nextId);
             if (nextTarget) {
                 nextTarget.classList.add('active', 'active-target');
@@ -461,7 +457,6 @@
         const isResult = currentId.startsWith('result-');
 
         if (isResult) {
-            // 最終結果から戻る場合：オーバレイを閉じる
             const modalOverlay = document.getElementById('modal-overlay');
             modalOverlay.classList.remove('active');
             const resultCard = document.getElementById(currentId);
@@ -475,7 +470,6 @@
             }
         }
 
-        // 一つ前の質問カードをアクティブに戻してスクロール
         const previousId = historyStack[historyStack.length - 1];
         const previousCard = document.getElementById(previousId);
         if (previousCard) {
