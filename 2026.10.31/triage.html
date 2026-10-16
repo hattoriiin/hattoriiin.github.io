@@ -30,13 +30,12 @@
             margin-bottom: 16px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease;
         }
-        /* 過去のカードは「もっと薄く」（透明度20%に設定） */
+        /* 過去のカードはうっすら透過（20%）させて残す */
         .card.dimmed {
             opacity: 0.2;
         }
-        /* 過去のカードをタップしたときに少しハッキリ戻す（確認用） */
         .card.dimmed:hover {
             opacity: 0.7;
         }
@@ -73,10 +72,10 @@
         .btn-reset  { background-color: #64748b; color: white; margin-top: 20px; }
         
         .step-section {
-            display: none; /* 初期状態は非表示 */
+            display: none;
         }
         .step-section.active {
-            display: block; /* 選択されたら表示 */
+            display: block;
         }
         
         .result-box {
@@ -189,22 +188,24 @@
 
 <script>
     function selectOption(currentId, nextId) {
+        // 1. 今選んだカードを透過（dimmed）させる
         const currentCard = document.getElementById(currentId);
         if (currentCard) {
             currentCard.classList.add('dimmed');
             currentCard.classList.remove('active-target');
         }
 
+        // 2. 次のステップを表示し、画面の「一番上（start）」までしっかりスクロールさせる
         const nextTarget = document.getElementById(nextId);
         if (nextTarget) {
             nextTarget.classList.add('active', 'active-target');
             nextTarget.classList.remove('dimmed');
-            nextTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            nextTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
     function resetAll() {
-        location.reload(); // ページをリロードするのが一番確実かつ綺麗に初期状態に戻ります
+        location.reload();
     }
 </script>
 
