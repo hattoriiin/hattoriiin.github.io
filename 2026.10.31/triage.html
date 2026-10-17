@@ -17,23 +17,23 @@
         <div class="overview-box">
             <div class="flow-row">
                 <div class="flow-num">1.</div>
-                <div class="flow-content"><strong>歩行判定</strong> ➔ 歩ける：🟢 軽症（緑）</div>
+                <div class="flow-content"><strong>歩行判定</strong> ➔ 歩ける：🟩 軽症（緑）</div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">2.</div>
-                <div class="flow-content"><strong>呼吸判定</strong> ➔ なし：気道確保 ➔ 呼吸再開：🔴 赤 / なし：⬛ 黒</div>
+                <div class="flow-content"><strong>呼吸判定</strong> ➔ なし：気道確保 ➔ 呼吸再開：🟥 赤<br>なし：⬛ 黒</div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">3.</div>
-                <div class="flow-content"><strong>呼吸数判定</strong> ➔ 10未満/30以上：🔴 重症（赤）</div>
+                <div class="flow-content"><strong>呼吸数判定</strong> ➔ 10未満/30以上：🟥 重症（赤）</div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">4.</div>
-                <div class="flow-content"><strong>循環判定（脈拍）</strong> ➔ 橈骨動脈触知不可：🔴 重症（赤）</div>
+                <div class="flow-content"><strong>循環判定（脈拍）</strong> ➔ 橈骨動脈触知不可：🟥 重症（赤）</div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">5.</div>
-                <div class="flow-content"><strong>意識判定（従命）</strong> ➔ 従えない：🔴 赤 / 従える：🟡 中等症（黄）</div>
+                <div class="flow-content"><strong>意識判定（従命）</strong> ➔ 従えない：🟥 赤<br>従える：🟨 黄</div>
             </div>
         </div>
         <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
@@ -159,21 +159,17 @@
     <div id="result-green" class="fixed-modal-card step-section">
         <div class="result-box btn-green">🟩 判定：緑（III・軽症）</div>
 
-        <!-- 大型化したトリアージ・タッグ図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
-                
-                <!-- 薄い赤枠スペース（極太行動メッセージ） -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">
                         専門的処置不要。<br>
-                        徒歩で一般救護所・<br>
-                        軽症待機エリアへ誘導してください。
+                        一般救護所・<br>
+                        軽症待機エリアへ誘導
                     </div>
                 </div>
-                
-                <div class="tag-spec-notes">⚠️ タッグは切らずにそのまま装着</div>
+                <div class="tag-spec-notes">⚠️ 切らずにそのまま装着</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
             <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">残す</span></div>
@@ -191,22 +187,17 @@
     <div id="result-yellow" class="fixed-modal-card step-section">
         <div class="result-box btn-yellow">🟨 判定：黄（II・中等症）</div>
 
-        <!-- 大型化したトリアージ・タッグ図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
-                
-                <!-- 薄い赤枠スペース（極太行動メッセージ） -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">
-                        応急処置・観察を行い、<br>
-                        中等症エリアへ<br>
-                        搬送してください。<br>
+                        応急処置・観察を行い<br>
+                        中等症エリアへ搬送<br>
                         <span class="cut-highlight">【緑色を切る】</span>
                     </div>
                 </div>
-                
-                <div class="tag-spec-notes">⚠️ 「緑色」のみ切り取ります</div>
+                <div class="tag-spec-notes">⚠️ 緑色のみ切り取ります</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
             <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">残す</span></div>
@@ -224,22 +215,18 @@
     <div id="result-red" class="fixed-modal-card step-section">
         <div class="result-box btn-red">🟥 判定：赤（I・重症）</div>
 
-        <!-- 大型化したトリアージ・タッグ図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
-                
-                <!-- 薄い赤枠スペース（極太行動メッセージ） -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">
-                        🚨 最優先で救命処置！<br>
+                        救命処置を最優先！<br>
                         病院搬送の手配を<br>
-                        行ってください。<br>
+                        行ってください<br>
                         <span class="cut-highlight">【黄・緑を切る】</span>
                     </div>
                 </div>
-                
-                <div class="tag-spec-notes">⚠️ 「黄・緑」の2色を切ります</div>
+                <div class="tag-spec-notes">⚠️ 黄・緑の2色を切ります</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
             <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">★残す</span></div>
@@ -257,22 +244,17 @@
     <div id="result-black" class="fixed-modal-card step-section">
         <div class="result-box btn-black">⬛ 判定：黒（0・死亡）</div>
 
-        <!-- 大型化したトリアージ・タッグ図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
-                
-                <!-- 薄い赤枠スペース（極太行動メッセージ） -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">
-                        不慮の死亡と判断。<br>
-                        安寧を保ち、<br>
-                        安置エリアへ搬送。<br>
+                        不慮の死亡と判断<br>
+                        安置エリアへ搬送<br>
                         <span class="cut-highlight">【赤・黄・緑を切る】</span>
                     </div>
                 </div>
-                
-                <div class="tag-spec-notes">⚠️ 「赤・黄・緑」の3色を切ります</div>
+                <div class="tag-spec-notes">⚠️ 赤・黄・緑の3色を切ります</div>
             </div>
             <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">★残す</span></div>
             <div class="tag-spec-strip strip-red strip-cut"><span>I 赤</span> <span class="strip-badge-cut">✂️切る</span></div>
@@ -288,7 +270,7 @@
 
 </div>
 
-<!-- 長押しプレビュー（チャート） -->
+<!-- 長押しプレビュー -->
 <div id="chart-preview-overlay" class="chart-preview-overlay">
     <div class="chart-preview-content">
         <h3>📋 START法 全体フローチャート（確認中）</h3>
@@ -298,19 +280,19 @@
         </div>
         <div class="flow-row">
             <div class="flow-num">2.</div>
-            <div class="flow-content"><strong>呼吸確認</strong> ➔ なし：気道確保 ➔ 呼吸再開：🔴 赤 / なし：⬛ 黒</div>
+            <div class="flow-content"><strong>呼吸確認</strong> ➔ なし：気道確保 ➔ 呼吸再開：🟥 赤<br>なし：⬛ 黒</div>
         </div>
         <div class="flow-row">
             <div class="flow-num">3.</div>
-            <div class="flow-content"><strong>呼吸数確認</strong> ➔ 10未満/30以上：🔴 重症（赤）</div>
+            <div class="flow-content"><strong>呼吸数確認</strong> ➔ 10未満/30以上：🟥 重症（赤）</div>
         </div>
         <div class="flow-row">
             <div class="flow-num">4.</div>
-            <div class="flow-content"><strong>循環確認（脈拍）</strong> ➔ 橈骨動脈触知不可：🔴 重症（赤）</div>
+            <div class="flow-content"><strong>循環確認（脈拍）</strong> ➔ 橈骨動脈触知不可：🟥 重症（赤）</div>
         </div>
         <div class="flow-row">
             <div class="flow-num">5.</div>
-            <div class="flow-content"><strong>意識確認（従命）</strong> ➔ 従えない：🔴 赤 / 従える：🟡 中等症（黄）</div>
+            <div class="flow-content"><strong>意識確認（従命）</strong> ➔ 従えない：🟥 赤<br>従える：🟨 黄</div>
         </div>
     </div>
 </div>
