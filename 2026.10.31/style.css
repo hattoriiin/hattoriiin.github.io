@@ -61,7 +61,7 @@ h2 {
     overflow-wrap: break-word;
 }
 
-/* ボタン整列レイアウト */
+/* ★ボタン内が勝手に2行に折り返されないよう調整 */
 .btn {
     display: flex;
     align-items: center;
@@ -71,22 +71,23 @@ h2 {
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 0.9rem; /* 少し文字を最適化 */
     box-sizing: border-box;
-    word-break: keep-all;
+    white-space: nowrap; /* 1行を維持する強制設定 */
 }
 
 .btn-left {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     text-align: left;
-    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn-arrow {
-    padding: 0 8px;
-    font-size: 0.9rem;
+    padding: 0 6px;
+    font-size: 0.85rem;
     opacity: 0.8;
 }
 
@@ -94,7 +95,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 4px;
-    white-space: nowrap;
+    flex-shrink: 0; /* 右側の文字が潰れないように保護 */
 }
 
 .btn-action { background-color: #0284c7; color: white; }
@@ -108,6 +109,7 @@ h2 {
     color: white;
     justify-content: center;
     margin-top: 12px;
+    white-space: nowrap;
 }
 
 .btn-back {
@@ -119,6 +121,7 @@ h2 {
     font-size: 0.8rem;
     font-weight: normal;
     justify-content: center;
+    white-space: nowrap;
 }
 
 .step-section { display: none; }
@@ -185,6 +188,7 @@ h2 {
     font-size: 1.05rem;
     padding: 14px;
     justify-content: center;
+    white-space: nowrap;
 }
 
 /* 画面中央固定オーバレイ */
@@ -270,15 +274,17 @@ h2 {
     to { opacity: 1; }
 }
 
+/* ★長押しヒントの文字が不自然に折れないように調整 */
 .longpress-hint {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: #64748b;
     text-align: center;
     margin-top: 6px;
     background: #f1f5f9;
-    padding: 4px;
+    padding: 4px 6px;
     border-radius: 4px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 /* タッグ規格図解 */
