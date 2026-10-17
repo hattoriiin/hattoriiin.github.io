@@ -19,7 +19,6 @@
             background-color: var(--bg);
             color: var(--text);
             padding-bottom: 80vh;
-            /* ページ全体で文字選択を防止し、長押し動作を快適にする */
             -webkit-user-select: none;
             user-select: none;
         }
@@ -30,13 +29,14 @@
         .card {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 20px;
+            padding: 18px;
             margin-bottom: 16px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
             transition: opacity 0.3s ease;
+            box-sizing: border-box;
         }
-        /* 過去のカードは20%透過＆ボタン無効化 */
+        /* 過去カード透過＆ロック */
         .card.dimmed {
             opacity: 0.2;
         }
@@ -46,44 +46,76 @@
         }
         
         h1 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--primary);
             text-align: center;
             margin-top: 0;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
         h2 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--primary);
             margin-top: 0;
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 6px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
         }
+
+        /* --- ボタン整列レイアウト（1文字落ち防止・キレイに揃える） --- */
         .btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 12px 14px;
-            margin: 8px 0;
+            margin: 10px 0;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             font-size: 0.95rem;
-            text-align: center;
+            box-sizing: border-box;
+            word-break: keep-all;
         }
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-align: left;
+            flex: 1;
+        }
+        .btn-arrow {
+            padding: 0 8px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .btn-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
         .btn-action { background-color: #0284c7; color: white; }
         .btn-green  { background-color: #16a34a; color: white; }
         .btn-yellow { background-color: #ca8a04; color: white; }
         .btn-red    { background-color: #dc2626; color: white; }
         .btn-black  { background-color: #334155; color: white; }
         
-        .btn-reset  { background-color: #64748b; color: white; margin-top: 10px; }
+        .btn-reset  {
+            background-color: #64748b;
+            color: white;
+            justify-content: center;
+            margin-top: 12px;
+        }
         .btn-back {
             background-color: #ffffff;
             color: #64748b;
             border: 1px solid #cbd5e1;
-            padding: 6px 10px;
+            padding: 8px 12px;
             margin: 4px 0 0 0;
             font-size: 0.8rem;
             font-weight: normal;
+            justify-content: center;
         }
 
         .step-section { display: none; }
@@ -103,16 +135,35 @@
         .bg-red    { background-color: #dc2626; }
         .bg-black  { background-color: #334155; }
 
+        /* 現場での行動指針ガイド（結果カード内） */
+        .action-guide-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 0.78rem;
+            line-height: 1.4;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .action-guide-title {
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         .history-box {
             background: #f1f5f9;
             border-left: 4px solid #64748b;
-            padding: 10px 14px;
-            margin-bottom: 14px;
-            font-size: 0.9rem;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
             border-radius: 4px;
         }
 
-        /* フローチャート全体確認用のトップカード */
         .overview-box {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
@@ -125,9 +176,9 @@
         .btn-start {
             background-color: #16a34a;
             color: white;
-            font-size: 1.1rem;
-            padding: 16px;
-            margin-top: 16px;
+            font-size: 1.05rem;
+            padding: 14px;
+            justify-content: center;
         }
 
         /* -------------------------------------------------------------
@@ -148,9 +199,7 @@
             box-sizing: border-box;
             background: rgba(15, 23, 42, 0.15);
         }
-        .fixed-modal-overlay.active {
-            display: flex;
-        }
+        .fixed-modal-overlay.active { display: flex; }
 
         .fixed-modal-card {
             pointer-events: auto;
@@ -159,12 +208,11 @@
             padding: 12px;
             box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0,0,0,0.1);
             width: 270px;
-            max-width: 80vw;
+            max-width: 82vw;
             max-height: 88vh;
             overflow-y: auto;
             border: 2px solid #0056b3;
             animation: popIn 0.25s ease;
-            position: relative;
         }
 
         @keyframes popIn {
@@ -172,7 +220,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* 長押し中に出現するフローチャート全体のプレビューモーダル */
+        /* ★長押しプレビュー（指で隠れないよう「画面上部寄り」に表示） */
         .chart-preview-overlay {
             display: none;
             position: fixed;
@@ -180,35 +228,36 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 99999;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-start; /* 上寄せ配置 */
+            padding: 20px 16px;
             box-sizing: border-box;
             animation: fadeIn 0.2s ease;
         }
-        .chart-preview-overlay.active {
-            display: flex;
-        }
+        .chart-preview-overlay.active { display: flex; }
+        
         .chart-preview-content {
             background: #ffffff;
-            padding: 20px;
+            padding: 16px;
             border-radius: 12px;
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 75vh;
             overflow-y: auto;
-            font-size: 0.85rem;
-            line-height: 1.6;
+            font-size: 0.82rem;
+            line-height: 1.5;
             color: #1e293b;
+            margin-top: 10px; /* 指から十分離れた画面上部に出現 */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .chart-preview-content h3 {
             margin-top: 0;
             color: #0056b3;
             border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 6px;
-            font-size: 1rem;
+            padding-bottom: 4px;
+            font-size: 0.95rem;
         }
 
         @keyframes fadeIn {
@@ -216,7 +265,6 @@
             to { opacity: 1; }
         }
 
-        /* 長押しを促すヒントバッジ */
         .longpress-hint {
             font-size: 0.7rem;
             color: #64748b;
@@ -228,11 +276,11 @@
             cursor: pointer;
         }
 
-        /* 厚労省規格タッグ図解 */
+        /* タッグ規格図解 */
         .tag-spec-container {
-            width: 110px;
+            width: 105px;
             aspect-ratio: 11 / 23.2;
-            margin: 6px auto;
+            margin: 4px auto;
             border: 1.5px solid #334155;
             border-radius: 4px;
             box-shadow: 1px 3px 6px rgba(0,0,0,0.12);
@@ -256,13 +304,13 @@
             box-sizing: border-box;
         }
         .tag-spec-title {
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             border-bottom: 1px solid #cbd5e1;
             padding-bottom: 1px;
             line-height: 1.1;
         }
         .tag-spec-notes {
-            font-size: 0.55rem;
+            font-size: 0.52rem;
             color: #64748b;
             text-align: center;
             line-height: 1.1;
@@ -272,11 +320,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 5px;
+            padding: 0 4px;
             color: white;
             border-top: 1px solid rgba(255,255,255,0.3);
             box-sizing: border-box;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
         }
         .strip-black  { background: #1e293b; }
         .strip-red    { background: #dc2626; }
@@ -292,27 +340,27 @@
         .strip-badge-keep {
             background: #ffffff;
             color: #1e293b;
-            font-size: 0.55rem;
-            padding: 0 3px;
+            font-size: 0.52rem;
+            padding: 0 2px;
             border-radius: 2px;
         }
         .strip-badge-cut {
-            font-size: 0.55rem;
+            font-size: 0.52rem;
             color: #ef4444;
             background: #ffffff;
-            padding: 0 3px;
+            padding: 0 2px;
             border-radius: 2px;
         }
 
         .warning-text {
             color: #dc2626;
             font-weight: bold;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             background: #fef2f2;
-            padding: 6px 8px;
+            padding: 5px 7px;
             border-radius: 6px;
             border-left: 3px solid #dc2626;
-            margin-top: 6px;
+            margin-top: 5px;
             text-align: left;
             line-height: 1.25;
         }
@@ -323,11 +371,11 @@
 <div class="container" id="top-anchor">
     <h1>🚨 一次トリアージ判定ナビ</h1>
 
-    <!-- 0. 全体フローチャート確認ページ（初期表示） -->
+    <!-- 0. 全体フローチャート確認ページ -->
     <div class="card" id="card-overview">
         <h2>📋 START法 全体フローチャート</h2>
         <div class="overview-box">
-            1. <strong>歩行確認</strong> ➔ 歩ける：🟢 緑<br>
+            1. <strong>歩行確認</strong> ➔ 歩ける：🟩 緑<br>
             2. <strong>呼吸確認</strong> ➔ なし：気道確保<br>
             &nbsp;&nbsp;&nbsp;・確保後も無呼吸：⬛ 黒<br>
             &nbsp;&nbsp;&nbsp;・確保で呼吸再開：🟥 赤<br>
@@ -338,24 +386,39 @@
             5. <strong>意識確認</strong>（従命反応）<br>
             &nbsp;&nbsp;&nbsp;・従えない：🟥 赤 / 従える：🟨 黄
         </div>
-        <p style="font-size: 0.9rem; margin-bottom: 0;">準備ができたらスタートボタンを押してください。</p>
         <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
     </div>
 
     <!-- 【質問 1】 -->
     <div class="card step-section" id="card-1">
         <h2>【質問 1】歩けますか？</h2>
-        <p>患者さんは自分の足で歩くことができますか？</p>
-        <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">👉 【はい】歩ける ➔ 🟢 緑（軽症）へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">👉 【いいえ】歩けない ➔ 次のステップへ</a>
+        <p style="font-size: 0.9rem;">患者さんは自分の足で歩くことができますか？</p>
+        <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">
+            <span class="btn-left">▶︎ 歩ける</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟩 軽症へ</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">
+            <span class="btn-left">▶︎ 歩けない</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">次へ</span>
+        </a>
     </div>
 
     <!-- 【質問 2】呼吸確認 -->
     <div id="step-resp" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 自力歩行は「<strong>できない</strong>」</div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 自力歩行「不可」</div>
         <h2>【質問 2】呼吸をしていますか？</h2>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">👉 【いいえ】呼吸していない ➔ 気道確保へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">👉 【はい】呼吸している ➔ 呼吸数チェックへ</a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">
+            <span class="btn-left">▶︎ 呼吸なし</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">気道確保へ</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">
+            <span class="btn-left">▶︎ 呼吸あり</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">呼吸数へ</span>
+        </a>
         
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
         <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
@@ -363,11 +426,19 @@
 
     <!-- 気道確保 -->
     <div id="step-airway" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸なし</strong></div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸なし</div>
         <h2>🛠️ 気道確保の処置</h2>
-        <p>ただちに気道確保を行ってください。</p>
-        <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">👉 確保しても【呼吸しない】 ➔ ⬛ 黒へ</a>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">👉 確保で【呼吸が再開した】 ➔ 🟥 赤へ</a>
+        <p style="font-size: 0.9rem;">ただちに気道確保を行ってください。</p>
+        <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">
+            <span class="btn-left">▶︎ 呼吸なし（無呼吸）</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">⬛ 黒</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">
+            <span class="btn-left">▶︎ 呼吸再開</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟥 赤</span>
+        </a>
         
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
         <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
@@ -375,10 +446,18 @@
 
     <!-- 【質問 3】呼吸数 -->
     <div id="step-resprate" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ <strong>呼吸あり</strong></div>
+        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり</div>
         <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">👉 異常（10回未満 / 30回以上） ➔ 🟥 赤へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">👉 正常（10〜29回/分） ➔ 循環の確認へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">
+            <span class="btn-left">▶︎ 異常（10未満/30以上）</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟥 赤</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">
+            <span class="btn-left">▶︎ 正常（10〜29回）</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">循環へ</span>
+        </a>
         
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
         <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
@@ -386,22 +465,37 @@
 
     <!-- 【質問 4】脈拍 -->
     <div id="step-pulse" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ <strong>呼吸数正常</strong></div>
+        <div class="history-box">✅ <strong>経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常</div>
         <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">👉 脈なし（毛細血管再充満2秒超） ➔ 🟥 赤へ</a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">👉 脈あり ➔ 意識の確認へ</a>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">
+            <span class="btn-left">▶︎ 脈なし（毛細血管2秒超）</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟥 赤</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">
+            <span class="btn-left">▶︎ 脈あり</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">意識へ</span>
+        </a>
         
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
         <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
     </div>
 
-    <!-- 【質問 5】意識（★ご要望のスッキリした配列に統一） -->
+    <!-- 【質問 5】意識 -->
     <div id="step-mentality" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ <strong>脈拍良好</strong></div>
-        <h2>【質問 5】意識（従命反応）</h2>
-        <p>「手を握ってください」などの指示に従えますか？</p>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">👉 従えない ➔ 🟥 赤</a>
-        <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">👉 従える ➔ 🟨 黄</a>
+        <div class="history-box">✅ <strong>経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ 脈あり</div>
+        <h2>【質問 5】意識（簡単な指示に従えますか？）</h2>
+        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">
+            <span class="btn-left">▶︎ 従えない</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟥 赤</span>
+        </a>
+        <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">
+            <span class="btn-left">▶︎ 従える</span>
+            <span class="btn-arrow">👉</span>
+            <span class="btn-right">🟨 黄</span>
+        </a>
         
         <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
         <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
@@ -413,10 +507,15 @@
 ======================================================================= -->
 <div id="modal-overlay" class="fixed-modal-overlay">
 
-    <!-- 🟢 判定：緑 -->
+    <!-- 🟩 判定：緑 -->
     <div id="result-green" class="fixed-modal-card step-section">
-        <div class="result-box bg-green">🟢 判定：緑（III・軽症）</div>
+        <div class="result-box bg-green">🟩 判定：緑（III・軽症）</div>
         
+        <div class="action-guide-box">
+            <div class="action-guide-title">🩺 現場での対応指針</div>
+            専門的処置は不要です。徒歩で一般救護所・軽症待機エリアへ誘導してください。
+        </div>
+
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
@@ -442,6 +541,11 @@
     <div id="result-yellow" class="fixed-modal-card step-section">
         <div class="result-box bg-yellow">🟨 判定：黄（II・中等症）</div>
         
+        <div class="action-guide-box">
+            <div class="action-guide-title">🩺 現場での対応指針</div>
+            直ちに命の危険はありませんが放置で重症化の恐れがあります。手当・観察し待機エリアへ。
+        </div>
+
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
@@ -467,6 +571,11 @@
     <div id="result-red" class="fixed-modal-card step-section">
         <div class="result-box bg-red">🟥 判定：赤（I・重症）</div>
         
+        <div class="action-guide-box">
+            <div class="action-guide-title">🚨 現場での対応指針</div>
+            命に関わる緊急状態です！最優先で救命処置および病院搬送の手配を行ってください。
+        </div>
+
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
@@ -492,6 +601,11 @@
     <div id="result-black" class="fixed-modal-card step-section">
         <div class="result-box bg-black">⬛ 判定：黒（0・死亡）</div>
         
+        <div class="action-guide-box">
+            <div class="action-guide-title">🕊️ 現場での対応指針</div>
+            気道確保で呼吸が戻りません。不可逆的状態と判断し安寧を保ち安置エリアへ。
+        </div>
+
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
@@ -516,13 +630,13 @@
 </div>
 
 <!-- =======================================================================
-     長押し中だけ表示される全体フローチャート（ポップアップ）
+     長押しプレビュー（画面上部寄りにポップアップ表示）
 ======================================================================= -->
 <div id="chart-preview-overlay" class="chart-preview-overlay">
     <div class="chart-preview-content">
         <h3>📋 START法 全体フローチャート（確認中）</h3>
         <p>
-            1. <strong>歩行確認</strong> ➔ 歩ける：🟢 緑<br>
+            1. <strong>歩行確認</strong> ➔ 歩ける：🟩 緑<br>
             2. <strong>呼吸確認</strong> ➔ なし：気道確保<br>
             &nbsp;&nbsp;&nbsp;・確保後も無呼吸：⬛ 黒<br>
             &nbsp;&nbsp;&nbsp;・確保で呼吸再開：🟥 赤<br>
@@ -533,7 +647,7 @@
             5. <strong>意識確認</strong>（従命反応）<br>
             &nbsp;&nbsp;&nbsp;・従えない：🟥 赤 / 従える：🟨 黄
         </p>
-        <p style="text-align: center; color: #64748b; font-size: 0.8rem; margin-bottom: 0;">（指を離すと元の画面に戻ります）</p>
+        <p style="text-align: center; color: #64748b; font-size: 0.78rem; margin-bottom: 0;">（指を離すと元の画面に戻ります）</p>
     </div>
 </div>
 
@@ -546,7 +660,6 @@
 
         const card1 = document.getElementById('card-1');
         card1.classList.add('active', 'active-target');
-        card1.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
         historyStack.push('card-1');
     }
@@ -574,7 +687,6 @@
             if (nextTarget) {
                 nextTarget.classList.add('active', 'active-target');
                 nextTarget.classList.remove('dimmed');
-                nextTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
         
@@ -606,7 +718,6 @@
         if (previousCard) {
             previousCard.classList.remove('dimmed');
             previousCard.classList.add('active-target');
-            previousCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
@@ -614,26 +725,19 @@
         location.reload();
     }
 
-    // -------------------------------------------------------------------------
-    // 最終判定カードの「長押し」で全体チャートを表示するロジック（文字選択も完全防止）
-    // -------------------------------------------------------------------------
+    // 長押し制御（指で隠れない「画面上部」へポップアップ）
     const previewOverlay = document.getElementById('chart-preview-overlay');
     
-    // 対象のヒントやカードに対してイベント設定
     document.querySelectorAll('.longpress-hint, .fixed-modal-card').forEach(item => {
         let pressTimer = null;
 
-        // 長押し開始（スマホ・マウス共通）
         function startPress(e) {
-            // ボタンなどのリンク要素を押したときは長押し判定しない
             if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
-            
             pressTimer = setTimeout(() => {
                 previewOverlay.classList.add('active');
-            }, 400); // 0.4秒長押しで発動
+            }, 400);
         }
 
-        // 長押し終了・キャンセル
         function endPress() {
             clearTimeout(pressTimer);
             previewOverlay.classList.remove('active');
