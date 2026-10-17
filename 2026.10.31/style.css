@@ -57,11 +57,9 @@ h2 {
     margin-top: 0;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 6px;
-    word-break: keep-all;
-    overflow-wrap: break-word;
 }
 
-/* ★ボタン内が勝手に2行に折り返されないよう調整 */
+/* ★ボタン内だけを1行でスッキリ綺麗に収める */
 .btn {
     display: flex;
     align-items: center;
@@ -71,9 +69,9 @@ h2 {
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.9rem; /* 少し文字を最適化 */
+    font-size: 0.9rem;
     box-sizing: border-box;
-    white-space: nowrap; /* 1行を維持する強制設定 */
+    white-space: nowrap; 
 }
 
 .btn-left {
@@ -95,7 +93,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 4px;
-    flex-shrink: 0; /* 右側の文字が潰れないように保護 */
+    flex-shrink: 0;
 }
 
 .btn-action { background-color: #0284c7; color: white; }
@@ -142,7 +140,7 @@ h2 {
 .bg-red    { background-color: #dc2626; }
 .bg-black  { background-color: #334155; }
 
-/* 現場での行動指針ガイド */
+/* 現場での行動指針ガイド（通常通り複数行で読みやすく） */
 .action-guide-box {
     background: #f8fafc;
     border: 1px solid #cbd5e1;
@@ -152,6 +150,7 @@ h2 {
     line-height: 1.4;
     color: #334155;
     margin-bottom: 8px;
+    white-space: normal;
 }
 
 .action-guide-title {
@@ -170,6 +169,7 @@ h2 {
     margin-bottom: 12px;
     font-size: 0.85rem;
     border-radius: 4px;
+    white-space: normal;
 }
 
 .overview-box {
@@ -180,6 +180,7 @@ h2 {
     font-size: 0.85rem;
     margin-bottom: 16px;
     line-height: 1.6;
+    white-space: normal;
 }
 
 .btn-start {
@@ -259,6 +260,7 @@ h2 {
     color: #1e293b;
     margin-top: 10px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    white-space: normal;
 }
 
 .chart-preview-content h3 {
@@ -274,7 +276,7 @@ h2 {
     to { opacity: 1; }
 }
 
-/* ★長押しヒントの文字が不自然に折れないように調整 */
+/* 長押しヒント */
 .longpress-hint {
     font-size: 0.68rem;
     color: #64748b;
@@ -381,4 +383,5 @@ h2 {
     margin-top: 5px;
     text-align: left;
     line-height: 1.25;
+    white-space: normal;
 }
