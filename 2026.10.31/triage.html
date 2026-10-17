@@ -11,7 +11,7 @@
 <div class="container" id="top-anchor">
     <h1>🚨 一次トリアージ判定ナビ</h1>
 
-    <!-- 0. 全体フローチャート確認ページ -->
+    <!-- 0. 全体フローチャート確認ページ（画像のご指示を反映） -->
     <div class="card" id="card-overview">
         <h2>📋 START法 全体フローチャート</h2>
         <div class="overview-box">
@@ -21,19 +21,32 @@
             </div>
             <div class="flow-row">
                 <div class="flow-num">2.</div>
-                <div class="flow-content"><strong>呼吸判定</strong> ➔ なし：気道確保 ➔ 呼吸再開：🟥 赤<br>なし：⬛ 黒</div>
+                <div class="flow-content">
+                    <strong>呼吸判定</strong> ➔ なし：気道確保<br>
+                    ・確保後も無呼吸：⬛ 黒<br>
+                    ・確保で呼吸再開：🟥 赤
+                </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">3.</div>
-                <div class="flow-content"><strong>呼吸数判定</strong> ➔ 10未満/30以上：🟥 重症（赤）</div>
+                <div class="flow-content">
+                    <strong>呼吸数確認</strong>（10〜29回/分）<br>
+                    ・異常（10未満/30以上）：🟥 赤
+                </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">4.</div>
-                <div class="flow-content"><strong>循環判定（脈拍）</strong> ➔ 橈骨動脈触知不可：🟥 重症（赤）</div>
+                <div class="flow-content">
+                    <strong>脈拍確認</strong>（橈骨動脈）<br>
+                    ・なし（触知不可）：🟥 赤
+                </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">5.</div>
-                <div class="flow-content"><strong>意識判定（従命）</strong> ➔ 従えない：🟥 赤<br>従える：🟨 黄</div>
+                <div class="flow-content">
+                    <strong>意識確認</strong>（従命反応）<br>
+                    ・従えない：🟥 赤 / 従える：🟨 黄
+                </div>
             </div>
         </div>
         <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
@@ -262,7 +275,7 @@
 
 </div>
 
-<!-- 長押しプレビュー -->
+<!-- 長押しプレビュー（全体フローチャート） -->
 <div id="chart-preview-overlay" class="chart-preview-overlay">
     <div class="chart-preview-content">
         <h3>📋 START法 全体フローチャート（確認中）</h3>
@@ -272,19 +285,32 @@
         </div>
         <div class="flow-row">
             <div class="flow-num">2.</div>
-            <div class="flow-content"><strong>呼吸確認</strong> ➔ なし：気道確保 ➔ 呼吸再開：🟥 赤<br>なし：⬛ 黒</div>
+            <div class="flow-content">
+                <strong>呼吸確認</strong> ➔ なし：気道確保<br>
+                ・確保後も無呼吸：⬛ 黒<br>
+                ・確保で呼吸再開：🟥 赤
+            </div>
         </div>
         <div class="flow-row">
             <div class="flow-num">3.</div>
-            <div class="flow-content"><strong>呼吸数確認</strong> ➔ 10未満/30以上：🟥 重症（赤）</div>
+            <div class="flow-content">
+                <strong>呼吸数確認</strong>（10〜29回/分）<br>
+                ・異常（10未満/30以上）：🟥 赤
+            </div>
         </div>
         <div class="flow-row">
             <div class="flow-num">4.</div>
-            <div class="flow-content"><strong>循環確認（脈拍）</strong> ➔ 橈骨動脈触知不可：🟥 重症（赤）</div>
+            <div class="flow-content">
+                <strong>脈拍確認</strong>（橈骨動脈）<br>
+                ・なし（触知不可）：🟥 赤
+            </div>
         </div>
         <div class="flow-row">
             <div class="flow-num">5.</div>
-            <div class="flow-content"><strong>意識確認（従命）</strong> ➔ 従えない：🟥 赤<br>従える：🟨 黄</div>
+            <div class="flow-content">
+                <strong>意識確認</strong>（従命反応）<br>
+                ・従えない：🟥 赤 / 従える：🟨 黄
+            </div>
         </div>
     </div>
 </div>
