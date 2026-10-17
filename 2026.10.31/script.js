@@ -7,9 +7,7 @@ function startNavigation() {
     const card1 = document.getElementById('card-1');
     card1.classList.add('active', 'active-target');
 
-    // カードの下端が画面に入るようにスムーズスクロール
     card1.scrollIntoView({ behavior: 'smooth', block: 'end' });
-
     historyStack.push('card-1');
 }
 
@@ -36,7 +34,6 @@ function selectOption(currentId, nextId) {
         if (nextTarget) {
             nextTarget.classList.add('active', 'active-target');
             nextTarget.classList.remove('dimmed');
-            // 次のカードの下端までしっかり画面内に引き上げるスクロール
             nextTarget.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
     }
@@ -77,7 +74,7 @@ function resetAll() {
     location.reload();
 }
 
-// 長押しプレビュー制御
+// 最終判定カードの長押しプレビュー機能
 document.addEventListener('DOMContentLoaded', () => {
     const previewOverlay = document.getElementById('chart-preview-overlay');
     
