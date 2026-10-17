@@ -13,9 +13,29 @@
 
     <!-- 0. 全体フローチャート確認ページ -->
     <div class="card" id="card-overview">
-        <h2>📋 START法 全体フローチャート救命処置を最優先で！病院搬送の手配を！</td>
-            </tr>
-        </table>
+        <h2>📋 START法 全体フローチャート</h2>
+        <div class="overview-box">
+            <div class="flow-row">
+                <div class="flow-num">1.</div>
+                <div class="flow-content"><strong>歩行判定</strong> ➔ 歩ける：🟢 軽症（緑）</div>
+            </div>
+            <div class="flow-row">
+                <div class="flow-num">2.</div>
+                <div class="flow-content"><strong>呼吸判定</strong> ➔ なし：気道確保 ➔ 呼吸再開：🔴 赤 / なし：⬛ 黒</div>
+            </div>
+            <div class="flow-row">
+                <div class="flow-num">3.</div>
+                <div class="flow-content"><strong>呼吸数判定</strong> ➔ 10未満/30以上：🔴 重症（赤）</div>
+            </div>
+            <div class="flow-row">
+                <div class="flow-num">4.</div>
+                <div class="flow-content"><strong>循環判定（脈拍）</strong> ➔ 橈骨動脈触知不可：🔴 重症（赤）</div>
+            </div>
+            <div class="flow-row">
+                <div class="flow-num">5.</div>
+                <div class="flow-content"><strong>意識判定（従命）</strong> ➔ 従えない：🔴 赤 / 従える：🟡 中等症（黄）</div>
+            </div>
+        </div>
         <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
     </div>
 
@@ -137,19 +157,18 @@
 
     <!-- 🟩 判定：緑 -->
     <div id="result-green" class="fixed-modal-card step-section">
-        <div class="result-box bg-green">🟩 判定：緑（III・軽症）</div>
+        <div class="result-box btn-green">🟩 判定：緑（III・軽症）</div>
         
         <div class="action-guide-box">
             <div class="action-guide-title">🩺 現場での対応指針</div>
             専門的処置は不要です。徒歩で一般救護所・軽症待機エリアへ誘導してください。
         </div>
 
-        <!-- タッグ規格図解（修正版） -->
+        <!-- タッグ規格図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
                 
-                <!-- ★空白スペースに行動指針を配置 -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">一般救護所・待機エリアへ誘導</div>
                 </div>
@@ -174,19 +193,18 @@
 
     <!-- 🟨 判定：黄 -->
     <div id="result-yellow" class="fixed-modal-card step-section">
-        <div class="result-box bg-yellow">🟨 判定：黄（II・中等症）</div>
+        <div class="result-box btn-yellow">🟨 判定：黄（II・中等症）</div>
         
         <div class="action-guide-box">
             <div class="action-guide-title">🩺 現場での対応指針</div>
             直ちに命の危険はありませんが放置で重症化の恐れがあります。手当・観察し待機エリアへ。
         </div>
 
-        <!-- タッグ規格図解（修正版） -->
+        <!-- タッグ規格図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
                 
-                <!-- ★空白スペースに行動指針を配置 -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">応急処置・観察を行い、中等症エリアへ搬送</div>
                 </div>
@@ -211,19 +229,18 @@
 
     <!-- 🟥 判定：赤 -->
     <div id="result-red" class="fixed-modal-card step-section">
-        <div class="result-box bg-red">🟥 判定：赤（I・重症）</div>
+        <div class="result-box btn-red">🟥 判定：赤（I・重症）</div>
         
         <div class="action-guide-box">
             <div class="action-guide-title">🚨 現場での対応指針</div>
             命に関わる緊急状態です！最優先で救命処置および病院搬送の手配を行ってください。
         </div>
 
-        <!-- タッグ規格図解（修正版） -->
+        <!-- タッグ規格図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
                 
-                <!-- ★空白スペースに行動指針を配置 -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">救命処置を最優先で！病院搬送の手配を！</div>
                 </div>
@@ -248,19 +265,18 @@
 
     <!-- ⬛ 判定：黒 -->
     <div id="result-black" class="fixed-modal-card step-section">
-        <div class="result-box bg-black">⬛ 判定：黒（0・死亡）</div>
+        <div class="result-box btn-black">⬛ 判定：黒（0・死亡）</div>
         
         <div class="action-guide-box">
             <div class="action-guide-title">🕊️ 現場での対応指針</div>
             気道確保で呼吸が戻りません。不可逆的状態と判断し安寧を保ち安置エリアへ。
         </div>
 
-        <!-- タッグ規格図解（修正版） -->
+        <!-- タッグ規格図解 -->
         <div class="tag-spec-container">
             <div class="tag-spec-body">
                 <div class="tag-spec-title">トリアージ・タッグ</div>
                 
-                <!-- ★空白スペースに行動指針を配置 -->
                 <div class="tag-spec-guide-space">
                     <div class="tag-spec-guide-text">不慮の死亡と判断。安置エリアへ。</div>
                 </div>
@@ -295,21 +311,21 @@
         </div>
         <div class="flow-row">
             <div class="flow-num">2.</div>
-            <div class="flow-content"><strong>呼吸確認</strong> ➔ なし：気道確保救命処置を最優先で！病院搬送の手配を！</td>
-        </tr>
-    </table>
-    
-    <h3>この2例で何分くらい使える？</h3>
-    <p>この2つの症例を丁寧に回すと、トータルで約20分〜30分程度の訓練時間を確保できます。</p>
-    
-    <h3>この訓練に参加するのは全員？</h3>
-    <p>実動部分に全員が同時に参加するわけではありません。通常、見学・ギャラリー（勉強役）と、実動スタッフ（プレーヤー）に分かれて進行します。</p>
-    
-    <h3>出来るだけ多くのスタッフや医師が参加出来る様に症例を増やすのは？</h3>
-    <p>症例数を増やして並行処理を行うのは効果的です！救護所内を「マルチタスク状態」にし、すべてのセクションが同時にフル稼働する訓練にできます。</p>
-    
-    <h3>東京MER症例も入れたい</h3>
-    <p>MERテイストの緊急重症例（赤→黄、または黄→赤の急変対応）を入れることで、救護所内の緊張感を高め、各職種の連携をスリリングに訓練できます。</p>
+            <div class="flow-content"><strong>呼吸確認</strong> ➔ なし：気道確保 ➔ 呼吸再開：🔴 赤 / なし：⬛ 黒</div>
+        </div>
+        <div class="flow-row">
+            <div class="flow-num">3.</div>
+            <div class="flow-content"><strong>呼吸数確認</strong> ➔ 10未満/30以上：🔴 重症（赤）</div>
+        </div>
+        <div class="flow-row">
+            <div class="flow-num">4.</div>
+            <div class="flow-content"><strong>循環確認（脈拍）</strong> ➔ 橈骨動脈触知不可：🔴 重症（赤）</div>
+        </div>
+        <div class="flow-row">
+            <div class="flow-num">5.</div>
+            <div class="flow-content"><strong>意識確認（従命）</strong> ➔ 従えない：🔴 赤 / 従える：🟡 中等症（黄）</div>
+        </div>
+    </div>
 </div>
 
 <script src="script.js"></script>
