@@ -57,9 +57,12 @@ h2 {
     margin-top: 0;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 6px;
+    white-space: normal; /* 質問文は折り返し許可 */
 }
 
-/* ★ボタン内だけを1行でスッキリ綺麗に収める */
+/* =========================================================
+   ★ボタン：絶対に1行を死守するための厳格な設定
+   ========================================================= */
 .btn {
     display: flex;
     align-items: center;
@@ -71,29 +74,29 @@ h2 {
     font-weight: bold;
     font-size: 0.9rem;
     box-sizing: border-box;
-    white-space: nowrap; 
+    white-space: nowrap !important; /* 絶対に折り返さない */
+    width: 100%;
 }
 
 .btn-left {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap !important;
 }
 
 .btn-arrow {
     padding: 0 6px;
     font-size: 0.85rem;
     opacity: 0.8;
+    white-space: nowrap !important;
 }
 
 .btn-right {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
-    flex-shrink: 0;
+    white-space: nowrap !important;
 }
 
 .btn-action { background-color: #0284c7; color: white; }
@@ -107,7 +110,7 @@ h2 {
     color: white;
     justify-content: center;
     margin-top: 12px;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 .btn-back {
@@ -119,7 +122,7 @@ h2 {
     font-size: 0.8rem;
     font-weight: normal;
     justify-content: center;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 .step-section { display: none; }
@@ -133,12 +136,8 @@ h2 {
     text-align: center;
     font-size: 1rem;
     margin-bottom: 8px;
+    white-space: normal;
 }
-
-.bg-green  { background-color: #16a34a; }
-.bg-yellow { background-color: #ca8a04; }
-.bg-red    { background-color: #dc2626; }
-.bg-black  { background-color: #334155; }
 
 /* 現場での行動指針ガイド（通常通り複数行で読みやすく） */
 .action-guide-box {
@@ -189,7 +188,7 @@ h2 {
     font-size: 1.05rem;
     padding: 14px;
     justify-content: center;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 /* 画面中央固定オーバレイ */
@@ -286,7 +285,7 @@ h2 {
     padding: 4px 6px;
     border-radius: 4px;
     cursor: pointer;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
 /* タッグ規格図解 */
