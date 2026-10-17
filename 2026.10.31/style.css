@@ -57,12 +57,9 @@ h2 {
     margin-top: 0;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 6px;
-    white-space: normal; /* 質問文は折り返し許可 */
 }
 
-/* =========================================================
-   ★ボタン：絶対に1行を死守するための厳格な設定
-   ========================================================= */
+/* ボタン：絶対に1行を死守 */
 .btn {
     display: flex;
     align-items: center;
@@ -74,7 +71,7 @@ h2 {
     font-weight: bold;
     font-size: 0.9rem;
     box-sizing: border-box;
-    white-space: nowrap !important; /* 絶対に折り返さない */
+    white-space: nowrap !important;
     width: 100%;
 }
 
@@ -136,10 +133,9 @@ h2 {
     text-align: center;
     font-size: 1rem;
     margin-bottom: 8px;
-    white-space: normal;
 }
 
-/* 現場での行動指針ガイド（通常通り複数行で読みやすく） */
+/* 現場での行動指針ガイド */
 .action-guide-box {
     background: #f8fafc;
     border: 1px solid #cbd5e1;
@@ -191,7 +187,7 @@ h2 {
     white-space: nowrap !important;
 }
 
-/* 画面中央固定オーバレイ */
+/* 画面中央固定オーバレイ（最終判定用） */
 .fixed-modal-overlay {
     display: none;
     position: fixed;
@@ -228,7 +224,7 @@ h2 {
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* 長押しプレビュー（画面上部配置） */
+/* 長押しプレビュー（画面上部寄り配置） */
 .chart-preview-overlay {
     display: none;
     position: fixed;
