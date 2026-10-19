@@ -348,11 +348,7 @@ h2[data-en]::before{
     .location-walk{padding-right:.4rem}
 }
 
-.card-btn{display:inline-block;position:relative;margin-top:.8rem;text-align:center;text-decoration:none;color:#31556e;line-height:1.35;font-size:.9rem}
-.card-btn small{display:block;font-size:.72rem;color:#6b7a85}
-.card-btn b{display:block;font-weight:500}
-.card-btn.house{width:9.5rem;padding:2.6rem .5rem .8rem;background:#4d7d98;clip-path:polygon(50% 0,100% 30%,100% 100%,0 100%,0 30%);isolation:isolate}
-.card-btn.house::before{content:"";position:absolute;inset:2px;background:#f4f8fa;clip-path:polygon(50% 0,100% 30%,100% 100%,0 100%,0 30%);z-index:-1}
-.card-btn.phone{width:8rem;padding:1.5rem .5rem 1.3rem;border:2px solid #4d7d98;border-radius:16px;background:#f4f8fa}
-.card-btn.phone::before{content:"";position:absolute;top:.45rem;left:50%;width:1.6rem;height:3px;margin-left:-.8rem;border-radius:2px;background:#4d7d98}
-.card-btn.phone::after{content:"";position:absolute;bottom:.4rem;left:50%;width:.45rem;height:.45rem;margin-left:-.22rem;border-radius:50%;border:1.5px solid #4d7d98;box-sizing:border-box}
+.card-btn{display:flex;align-items:center;gap:.8rem;margin-top:.8rem;text-decoration:none;color:#31556e}
+.card-ico{flex:none;width:2.6rem;height:3rem;fill:#f4f8fa;stroke:#4d7d98;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.card-btn-text b{display:block;font-size:.95rem;font-weight:500;line-height:1.4}
+.card-btn-text small{display:block;font-size:.76rem;color:#6b7a85}
