@@ -138,7 +138,8 @@ table.schedule td:first-child {
     width: 34% !important;
     text-align: left !important;
     white-space: normal;
-    padding: 8px 6px !important;
+        padding: 8px 4px 8px 12px !important;
+
 }
 
 table.schedule th:not(:first-child),
