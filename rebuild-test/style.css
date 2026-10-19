@@ -133,7 +133,11 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .schedule td{background:#fff}
 .schedule tr:last-child th,.schedule tr:last-child td{border-bottom:none}
 .schedule th:first-child{width:120px}
+
 .schedule th span{display:inline-block;margin-top:4px}
+.schedule th .sch-ico{margin-top:0;width:1.55em}
+.schedule th .sch-time{margin-top:9px;padding-left:1.1em;font-size:.78rem;letter-spacing:0;white-space:nowrap;font-variant-numeric:tabular-nums}
+
 .schedule tr:not(:first-child) th{
     line-height:1.35;padding-top:.55rem;padding-bottom:.55rem;letter-spacing:.05em;
 }
