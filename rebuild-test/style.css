@@ -349,4 +349,6 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 /* 周辺図の右端のすき間(地図の左のすき間と同じ幅) */
 @media(min-width:385px) and (max-width:600px){
     .location-sub .access-figure{position:relative;left:-.4rem}
+    .location-walk{padding-right:.4rem}
+}
 }
