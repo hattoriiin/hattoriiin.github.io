@@ -325,7 +325,7 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .location-car .access-note{font-size:.78rem;color:#6b7a85}
 .location-grid-sub{margin-top:1.2rem;grid-template-columns:60% 40%}
 .access-figure{margin:0}
-.access-figure img{display:block;width:100%;height:auto;border-radius:2px}
+.access-figure img{display:block;width:100%;height:auto;border-radius:12px}
 .location-car{margin-top:1.4rem}
 .nb{white-space:nowrap}
 @media(max-width:600px){
