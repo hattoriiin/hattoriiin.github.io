@@ -299,17 +299,12 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 }
 
 /* 所在地・アクセス:シャープな見た目(見た目だけ。地図の幅・黄金比は変えない) */
-.location-section h2{
-    border-bottom:0;padding-bottom:0;margin-bottom:1.4rem;
-    font-weight:500;letter-spacing:.14em;color:#20384d;
-}
-.location-section h2::before{
-    content:"ACCESS";display:block;margin-bottom:.15rem;
+h2{font-weight:500;letter-spacing:.14em;color:#20384d}
+h2[data-en]::before{
+    content:attr(data-en);display:block;margin-bottom:.15rem;
     font-size:.62rem;font-weight:500;letter-spacing:.32em;color:#4d7d98;
 }
-.location-section h2::after{
-    content:"";display:block;width:2.4rem;height:2px;margin-top:.55rem;background:#31556e;
-}
+
 .location-addr h3,.location-info h3,.location-walk h3,.location-car h3{
     margin:0 0 .45rem;padding:0 0 0 .55rem;
     border-bottom:0;border-left:2px solid #31556e;
