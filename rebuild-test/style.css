@@ -326,8 +326,9 @@ h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 .location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8;text-align:right}
 .location-car .access-note{font-size:.78rem;color:#6b7a85}
 .location-grid-sub{margin-top:1.2rem;grid-template-columns:60% 40%}
-.access-figure{margin:0}
-.access-figure img{display:block;width:100%;height:auto;border-radius:12px}
+.access-figure{margin:0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.access-figure img{display:block;width:100%;height:auto;border-radius:12px;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}
+
 .location-car{margin-top:1.4rem}
 .nb{white-space:nowrap}
 @media(max-width:600px){
