@@ -400,3 +400,40 @@ h2[data-en]::before{
     .location-card{padding:.6rem .7rem}
 }
 
+/* 縦持ち:三つのカードの間隔を揃え、周辺図の下端を自転車カードの下端に合わせる */
+@media(max-width:600px){
+    .location-info{display:flex;flex-direction:column;align-self:stretch;margin-bottom:-1.2rem}
+    .location-info p:first-of-type{margin-bottom:auto}
+    .location-info p:last-of-type{margin-bottom:auto}
+    .location-sub{align-self:end}
+    .location-bike p{margin-bottom:0}
+}
+
+/* 鳥(透過性65%=見える部分35%) */
+.bird-note,.bird-note-2{display:none;pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;opacity:.35}
+@media(max-width:397px){
+    .location-sub{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;margin-top:-1.8rem}
+    .bird-note{display:block;flex:1 1 0;min-height:0;width:100%;margin:0;padding:1.2rem 16%;box-sizing:border-box;object-fit:contain;object-position:center}
+}
+@media(min-width:385px) and (max-width:397px){
+    .bird-note{position:relative;left:-.4rem}
+}
+
+/* 横向き・パソコン:地図 | カード縦一列 | 周辺図 の3列 */
+@media(min-width:601px){
+    .location-section{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:1.2rem;grid-template-rows:auto auto auto auto 1fr auto 1fr auto}
+    .location-map{grid-column:1;grid-row:3 / span 3}
+    .location-info>*,.location-walk>*{grid-column:2}
+    .location-info h3{grid-row:3}
+    .location-info p:first-of-type{grid-row:4}
+    .location-info p:last-of-type{grid-row:5}
+    .location-walk .location-bus{grid-row:6}
+    .location-bike{grid-row:7;align-self:stretch;display:flex;flex-direction:column}
+    .location-bike p{flex:1;margin-bottom:0}
+    .location-sub{display:contents}
+    .location-sub .access-figure{grid-column:3;grid-row:6 / span 2;align-self:end;left:0}
+    .location-car{grid-row:8}
+    .bird-note,.bird-note-2{display:block;justify-self:center;align-self:center;width:62%;height:auto}
+    .bird-note{grid-column:3;grid-row:3 / span 3}
+    .location-walk .bird-note-2{grid-column:1;grid-row:6 / span 2}
+}
