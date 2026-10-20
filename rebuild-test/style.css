@@ -353,3 +353,26 @@ h2[data-en]::before{
 .card-ico{flex:none;width:2.6rem;height:3rem;fill:#f4f8fa;stroke:#4d7d98;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .card-btn-text b{display:block;font-size:.95rem;font-weight:500;line-height:1.4}
 .card-btn-text small{display:block;font-size:.76rem;color:#6b7a85}
+
+/* アクセス:薄いカード */
+.location-info p,.location-walk .location-bus,.location-car{
+    background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;
+    padding:.6rem .75rem;text-align:left;
+}
+.location-info p,.location-walk .location-bus{margin:.5rem 0 .7rem}
+.location-car p{margin:.3rem 0 .5rem}
+.location-car h3{margin-top:0}
+@media(max-width:600px){
+    .location-info p,.location-walk .location-bus{padding:.5rem .55rem}
+    .location-car{padding:.6rem .7rem}
+}
+
+/* 横向き携帯・パソコン:カードを縦一列(左:地図と周辺図 / 右:カード) */
+@media(min-width:601px){
+    .location-section{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:1.5rem;grid-template-rows:auto auto auto auto auto 1fr auto 1fr auto;align-items:start}
+    .location-section>h2,.location-addr,.location-car{grid-column:1 / -1}
+    .location-grid,.location-grid-sub,.location-info,.location-walk{display:contents}
+    .location-map{grid-column:1;grid-row:3 / span 4}
+    .location-info>*,.location-walk>*{grid-column:2}
+    .location-sub{grid-column:1;grid-row:7 / span 2}
+}
