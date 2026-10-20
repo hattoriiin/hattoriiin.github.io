@@ -376,3 +376,14 @@ h2[data-en]::before{
     .location-info>*,.location-walk>*{grid-column:2}
     .location-sub{grid-column:1;grid-row:7 / span 2}
 }
+
+/* 自転車・徒歩のカード / お車カードの右端を上のカードに揃える */
+.location-bike{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem;margin:.5rem 0 .7rem}
+.location-bike h3{margin-top:0}
+.location-bike p{margin:.3rem 0 0}
+@media(max-width:600px){
+    .location-bike{padding:.5rem .55rem}
+    .location-bike h3{font-size:.72rem;letter-spacing:.04em}
+    .location-car{margin-right:-1rem}
+}
+
