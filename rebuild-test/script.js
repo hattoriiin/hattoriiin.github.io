@@ -129,7 +129,7 @@
 
                 const body = document.createElement("p");
                 body.className = "news-body";
-                body.textContent =
+                body.innerHTML =
                     typeof item.body === "string" && item.body.length
                         ? item.body
                         : "詳細は準備中です。";
