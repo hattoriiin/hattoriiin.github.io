@@ -387,3 +387,16 @@ h2[data-en]::before{
     .location-car{margin-right:-1rem}
 }
 
+/* 見出しはカードの外に出す(公共交通機関・所在地と同じ並び) */
+.location-car{background:none;border:0;padding:0}
+.location-car h3{margin:0 0 .45rem}
+.location-card{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem}
+.location-card p{margin:.3rem 0 .5rem}
+.location-bike{background:none;border:0;padding:0;margin:.9rem 0 0}
+.location-bike h3{margin:0 0 .45rem;font-size:.78rem;letter-spacing:.14em}
+.location-bike p{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem;margin:.5rem 0 .7rem}
+@media(max-width:600px){
+    .location-bike p{padding:.5rem .55rem}
+    .location-card{padding:.6rem .7rem}
+}
+
