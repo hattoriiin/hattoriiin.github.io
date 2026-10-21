@@ -540,3 +540,40 @@ h2[data-en]::before{
         transition: none;
     }
 }
+
+/* =========================================
+   見出し下線アニメーション
+   最初は「ごあいさつ」だけに適用
+========================================= */
+
+h2[data-en="GREETING"] {
+    position: relative;
+    border-bottom: 2px solid transparent;
+}
+
+h2[data-en="GREETING"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: #7897a8;
+
+    /* 左端を固定して右へ伸ばす */
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.9s ease-out;
+}
+
+h2[data-en="GREETING"].line-visible::after {
+    transform: scaleX(1);
+}
+
+/* 動きを減らす設定では最初から線を表示 */
+@media (prefers-reduced-motion: reduce) {
+    h2[data-en="GREETING"]::after {
+        transition: none;
+        transform: scaleX(1);
+    }
+}
