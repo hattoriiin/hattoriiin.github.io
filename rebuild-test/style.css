@@ -578,3 +578,6 @@ h2[data-en="GREETING"].line-visible::after {
         transform: scaleX(1);
     }
 }
+
+/* 電話ボタン:番号を併記 */
+.fixed-call .call-num{margin-left:1em;font-size:.95rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
