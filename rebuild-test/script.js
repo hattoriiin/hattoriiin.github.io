@@ -329,7 +329,8 @@ function initHeadingLine() {
             observer.unobserve(entry.target);
         });
     }, {
-        threshold: 0.3
+        threshold: 0,
+    rootMargin: "-45% 0px -45% 0px"
     });
 
     observer.observe(heading);
