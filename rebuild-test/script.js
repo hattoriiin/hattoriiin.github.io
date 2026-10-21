@@ -245,3 +245,56 @@
 
     observer.observe(bird);
 })();
+
+/* =========================================
+   横線スクロール表示モジュール
+========================================= */
+
+/**
+ * 横線が画面内に入ったら表示する。
+ *
+ * 引数: なし
+ * 戻り値: なし
+ * 例外: 対象要素がなくても正常終了
+ * 使用例: initScrollLines()
+ */
+function initScrollLines() {
+    const lines = document.querySelectorAll(".scroll-line");
+
+    // 対象がなければ何もしない
+    if (lines.length === 0) return;
+
+    // 非対応環境でも横線を表示する
+    if (!("IntersectionObserver" in window)) {
+        lines.forEach(line => line.classList.add("is-visible"));
+        return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+
+            // 一度表示した線は監視を終了して負荷を抑える
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.3
+    });
+
+    lines.forEach(line => {
+        if (!line.classList.contains("is-visible")) {
+            observer.observe(line);
+        }
+    });
+}
+
+// HTMLの読み込み状態に関係なく安全に初期化
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollLines, {
+        once: true
+    });
+} else {
+    initScrollLines();
+}
