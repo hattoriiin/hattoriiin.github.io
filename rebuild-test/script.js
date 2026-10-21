@@ -298,3 +298,48 @@ if (document.readyState === "loading") {
 } else {
     initScrollLines();
 }
+
+/**
+ * ごあいさつの見出しが画面に入ったとき、
+ * 下線を左から右へ一度だけ伸ばす。
+ *
+ * 引数: なし
+ * 戻り値: なし
+ * 例外: 要素がない場合や監視API非対応時は安全に終了
+ * 使用例: initHeadingLine()
+ */
+function initHeadingLine() {
+    const heading = document.querySelector('h2[data-en="GREETING"]');
+
+    if (!heading) return;
+
+    // 非対応ブラウザでは線をそのまま表示
+    if (!("IntersectionObserver" in window)) {
+        heading.classList.add("line-visible");
+        return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("line-visible");
+
+            // 一度だけ動かすため監視を解除
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.3
+    });
+
+    observer.observe(heading);
+}
+
+// HTML読み込み後に実行する
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeadingLine, {
+        once: true
+    });
+} else {
+    initHeadingLine();
+}
