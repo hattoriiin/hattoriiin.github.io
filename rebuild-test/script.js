@@ -214,27 +214,15 @@
 
 /* ==================================================
    ⭐ ページ末尾の鳥
-   画面に入ったときに一度だけ表示する
+   画面に入るたびにふわっと表示する
 ================================================== */
-
 (() => {
     "use strict";
 
     const bird = document.querySelector(".footer-bird");
-
-    // 対象が存在しないページでは何もしない
     if (!bird) return;
 
-// ⭐ matchMedia非対応環境でもエラーを起こさないための確認
-if (
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-) {
-    bird.classList.add("is-visible");
-    return;
-}
-
-    // IntersectionObserver非対応環境でも表示を保証
+    // IntersectionObserverが使えない環境では静止表示
     if (!("IntersectionObserver" in window)) {
         bird.classList.add("is-visible");
         return;
@@ -242,16 +230,17 @@ if (
 
     const observer = new IntersectionObserver(
         (entries) => {
-            if (entries[0].isIntersecting) {
-                bird.classList.add("is-visible");
+            const entry = entries[0];
 
-                // 一度表示したら監視を終了
-                observer.disconnect();
+            if (entry.isIntersecting) {
+                // 画面に入ったら表示
+                bird.classList.add("is-visible");
+            } else {
+                // 画面から出たら透明に戻す
+                bird.classList.remove("is-visible");
             }
         },
-        {
-            threshold: 0.8
-        }
+        { threshold: 0.2 }
     );
 
     observer.observe(bird);
