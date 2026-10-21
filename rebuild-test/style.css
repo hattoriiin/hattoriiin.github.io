@@ -524,7 +524,7 @@ h2[data-en]::before{
     background-color: #7897a8;
 
     /* 中央から左右へ伸ばすため、初期状態は縮小 */
-    transform: scaleX(0);
+    transform: scaleX(1); /* アニメーションを使わず線を表示して原因を切り分ける */
     transform-origin: center;
 
     transition: transform 0.9s ease-out;
