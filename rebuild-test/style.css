@@ -594,3 +594,82 @@ h2[data-en="GREETING"].line-visible::after {
 .tag-spec-strip{font-size:.78rem;padding:0 8px}
 .strip-badge-keep,.strip-badge-cut{font-size:.66rem;padding:1px 5px}
 .strip-cut{opacity:.6}
+
+/* =========================================
+   お知らせ枠：静かな光の一周演出
+   既存の枠を置き換え、二重線を防ぐ
+========================================= */
+
+.news-preview::before {
+    border: 0;
+    border-image: none;
+    background: none;
+    pointer-events: none;
+}
+
+/* 四角い枠の位置とサイズは既存設定を継承 */
+.news-preview {
+    isolation: isolate;
+}
+
+/* 光る枠を独立したレイヤーとして描画 */
+.news-preview::after {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    padding: 2px;
+    pointer-events: none;
+    z-index: 1;
+
+    /* 左上から時計回りに光の濃淡を配置 */
+    background: conic-gradient(
+        from 270deg,
+        rgba(49, 85, 110, .12) 0deg,
+        rgba(120, 184, 196, .65) 45deg,
+        rgba(49, 85, 110, .12) 90deg,
+        rgba(49, 85, 110, .12) 360deg
+    );
+
+    /* 中央をくり抜き、枠線だけを表示 */
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+
+    animation: news-border-glow 7s ease-in-out 1 both;
+}
+
+@keyframes news-border-glow {
+    0% {
+        opacity: .25;
+        filter: brightness(1);
+    }
+
+    35% {
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+
+    75% {
+        opacity: .8;
+        filter: brightness(1.1);
+    }
+
+    100% {
+        opacity: .25;
+        filter: brightness(1);
+    }
+}
+
+/* 動きを減らす設定では静止した枠を表示 */
+@media (prefers-reduced-motion: reduce) {
+    .news-preview::after {
+        animation: none;
+        opacity: .35;
+    }
+}
