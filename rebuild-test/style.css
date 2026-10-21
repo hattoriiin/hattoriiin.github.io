@@ -454,7 +454,7 @@ h2[data-en]::before{
 
 /* ==================================================
    ⭐ ページ末尾の鳥
-   既存のヘッダー・アクセス欄とは独立
+   ゆっくり浮かび上がる演出
 ================================================== */
 
 .footer-bird {
@@ -473,41 +473,26 @@ h2[data-en]::before{
     width: 90px;
     max-width: 25%;
     height: auto;
+
+    /* 最初は見えない状態 */
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
 
-    /* 静かに浮かび上がるようにする */
-    animation: footerBirdAppear 2.4s ease-out forwards;
-    animation-timeline: view();
-    animation-range: entry 0% cover 55%;
+    /* 時間をかけて浮かび上がる */
+    transition:
+        opacity 2.4s ease-out,
+        transform 2.4s ease-out;
 }
 
-@keyframes footerBirdAppear {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    to {
-        opacity: 0.38;
-        transform: translateY(0);
-    }
-}
-
-/* スクロール連動非対応環境でも鳥を表示 */
-@supports not (animation-timeline: view()) {
-    .footer-bird img {
-        opacity: 0.38;
-        transform: none;
-        animation: none;
-    }
+/* 画面に入ったら表示 */
+.footer-bird.is-visible img {
+    opacity: 0.45;
+    transform: translateY(0);
 }
 
 /* 動きを減らす設定では静止表示 */
 @media (prefers-reduced-motion: reduce) {
     .footer-bird img {
-        opacity: 0.38;
-        transform: none;
-        animation: none;
+        transition: none;
     }
 }
