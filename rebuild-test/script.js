@@ -300,40 +300,40 @@ if (document.readyState === "loading") {
 }
 
 /**
- * ごあいさつの見出しが画面に入ったとき、
- * 下線を左から右へ一度だけ伸ばす。
+ * ごあいさつの下線を、スクロール開始後に一度だけ伸ばす。
  *
  * 引数: なし
  * 戻り値: なし
- * 例外: 要素がない場合や監視API非対応時は安全に終了
+ * 例外: 見出しがない場合は何もしない
  * 使用例: initHeadingLine()
  */
 function initHeadingLine() {
     const heading = document.querySelector('h2[data-en="GREETING"]');
 
+    // 見出しが存在しない場合は安全に終了
     if (!heading) return;
 
-    // 非対応ブラウザでは線をそのまま表示
-    if (!("IntersectionObserver" in window)) {
+    const startScroll = 150;
+
+    /**
+     * スクロール位置を確認して下線を表示する。
+     *
+     * 引数: なし
+     * 戻り値: なし
+     * 例外: なし
+     * 使用例: checkScroll()
+     */
+    function checkScroll() {
+        if (window.scrollY < startScroll) return;
+
         heading.classList.add("line-visible");
-        return;
+
+        // 一度伸びたら監視を終了する
+        window.removeEventListener("scroll", checkScroll);
     }
 
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-
-            entry.target.classList.add("line-visible");
-
-            // 一度だけ動かすため監視を解除
-            observer.unobserve(entry.target);
-        });
-    }, {
-        threshold: 0,
-    rootMargin: "-45% 0px -45% 0px"
-    });
-
-    observer.observe(heading);
+    // スクロール時だけ判定するので初期表示では動かない
+    window.addEventListener("scroll", checkScroll, { passive: true });
 }
 
 // HTML読み込み後に実行する
