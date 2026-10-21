@@ -452,6 +452,15 @@ h2[data-en]::before{
     .location-car{margin-left:-1.1rem}
 }
 
+/* 縦持ち:お車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-car{margin-left:-1.5rem}
+}
+@media(min-width:385px) and (max-width:600px){
+    .location-car{margin-left:-1.1rem}
+}
+
+
 /* ==================================================
    ⭐ ページ末尾の鳥
    右下で小さく舞い上がり、静かに留まる
