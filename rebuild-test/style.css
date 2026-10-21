@@ -563,7 +563,8 @@ h2[data-en="GREETING"]::after {
     /* 左端を固定して右へ伸ばす */
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 0.9s ease-out;
+/* 線が伸びる動きをゆったり見せる */
+    transition: transform 1.8s ease-out;
 }
 
 h2[data-en="GREETING"].line-visible::after {
