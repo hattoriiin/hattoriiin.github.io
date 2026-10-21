@@ -211,3 +211,48 @@
         smoothScrollTo(newsSection, 1800);
     });
 })();
+
+/* ==================================================
+   ⭐ ページ末尾の鳥
+   画面に入ったときに一度だけ表示する
+================================================== */
+
+(() => {
+    "use strict";
+
+    const bird = document.querySelector(".footer-bird");
+
+    // 対象が存在しないページでは何もしない
+    if (!bird) return;
+
+// ⭐ matchMedia非対応環境でもエラーを起こさないための確認
+if (
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+    bird.classList.add("is-visible");
+    return;
+}
+
+    // IntersectionObserver非対応環境でも表示を保証
+    if (!("IntersectionObserver" in window)) {
+        bird.classList.add("is-visible");
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            if (entries[0].isIntersecting) {
+                bird.classList.add("is-visible");
+
+                // 一度表示したら監視を終了
+                observer.disconnect();
+            }
+        },
+        {
+            threshold: 0.2
+        }
+    );
+
+    observer.observe(bird);
+})();
