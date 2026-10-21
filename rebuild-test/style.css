@@ -511,3 +511,32 @@ h2[data-en]::before{
         opacity: 0.45;
     }
 }
+
+/* =========================================
+   スクロール連動の横線モジュール
+   既存のCSSに影響しない専用クラス
+========================================= */
+
+.scroll-line {
+    width: 70%;
+    height: 1px;
+    margin: 36px auto;
+    background-color: #7897a8;
+
+    /* 中央から左右へ伸ばすため、初期状態は縮小 */
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.9s ease-out;
+}
+
+.scroll-line.is-visible {
+    transform: scaleX(1);
+}
+
+/* 動きを減らすOS設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-line {
+        transition: none;
+    }
+}
