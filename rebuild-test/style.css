@@ -413,9 +413,10 @@ h2[data-en]::before{
 .bird-note,.bird-note-2{display:none;pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;opacity:.35}
 @media(max-width:410px){
     .location-sub{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;margin-top:-1.8rem}
-    .bird-note{display:block;flex:1 1 0;min-height:0;width:100%;margin:0;padding:1.2rem 16%;box-sizing:border-box;object-fit:contain;object-position:center}
+    .bird-note{display:block;flex:1 1 0;min-height:0;width:100%;margin:0;padding:.4rem 10%
+;box-sizing:border-box;object-fit:contain;object-position:center}
 }
-@media(min-width:385px) and (max-width:397px){
+@media(min-width:385px) and (max-width:410px){
     .bird-note{position:relative;left:-.4rem}
 }
 
@@ -436,4 +437,9 @@ h2[data-en]::before{
     .bird-note,.bird-note-2{display:block;justify-self:center;align-self:center;width:62%;height:auto}
     .bird-note{grid-column:3;grid-row:3 / span 3}
     .location-walk .bird-note-2{grid-column:1;grid-row:6 / span 2}
+}
+
+/* 縦持ち:市バス・自転車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-walk{padding-left:0}
 }
