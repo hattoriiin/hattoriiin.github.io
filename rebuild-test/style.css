@@ -581,3 +581,16 @@ h2[data-en="GREETING"].line-visible::after {
 
 /* 電話ボタン:番号を併記 */
 .fixed-call .call-num{margin-left:1em;font-size:.95rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* タッグを大きく(縦横比は元のまま)、文字を読みやすく */
+.fixed-modal-card{width:320px;max-width:92vw}
+.tag-spec-container{width:172px;aspect-ratio:11/23.2}
+.tag-spec-body{padding:8px}
+.tag-spec-title{font-size:.72rem;padding-bottom:3px}
+.tag-spec-guide-space{margin:6px 0}
+.tag-spec-guide-text{font-size:.9rem;line-height:1.4}
+.tag-spec-guide-text .cut-highlight{display:block;margin-top:.35rem;font-size:.82rem;white-space:nowrap}
+.tag-spec-notes{font-size:.64rem;line-height:1.35}
+.tag-spec-strip{font-size:.78rem;padding:0 8px}
+.strip-badge-keep,.strip-badge-cut{font-size:.66rem;padding:1px 5px}
+.strip-cut{opacity:.6}
