@@ -443,3 +443,11 @@ h2[data-en]::before{
 @media(max-width:600px){
     .location-walk{padding-left:0}
 }
+
+/* 縦持ち:お車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-car{margin-left:-1.5rem}
+}
+@media(min-width:385px) and (max-width:600px){
+    .location-car{margin-left:-1.1rem}
+}
