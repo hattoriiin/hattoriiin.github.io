@@ -77,7 +77,15 @@ function resetAll() {
 // 最終判定カードの長押しプレビュー機能
 document.addEventListener('DOMContentLoaded', () => {
     const previewOverlay = document.getElementById('chart-preview-overlay');
-    
+ 
+
+    // 長押しの内容は、画面の概要をそのままコピーして表示する（書き場所を1か所にするため）
+    const ovSrc = document.querySelector('#card-overview .overview-box');
+    const ovDst = document.querySelector('#chart-preview-overlay .chart-preview-content');
+    if (ovSrc && ovDst) {
+        ovDst.insertAdjacentHTML('beforeend', ovSrc.innerHTML);
+    }
+
     document.querySelectorAll('.longpress-hint, .fixed-modal-card').forEach(item => {
         let pressTimer = null;
 
