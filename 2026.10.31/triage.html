@@ -17,39 +17,41 @@
         <div class="overview-box">
             <div class="flow-row">
                 <div class="flow-num">1.</div>
-                <div class="flow-content"><strong>歩行判定</strong> ➔ 歩ける：🟩 軽症（緑）</div>
+                <div class="flow-content">
+                    <strong>歩行確認</strong>
+                    <div class="flow-line"><span class="flow-cond">歩ける</span><span class="flow-res">🟩 軽症（緑）</span></div>
+                </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">2.</div>
                 <div class="flow-content">
-                    <strong>呼吸判定</strong> ➔ なし：気道確保<br>
-                    ・確保後も無呼吸：⬛ 黒<br>
-                    ・確保で呼吸再開：🟥 赤
+                    <strong>呼吸確認</strong>
+                    <div class="flow-branch">なし：気道確保</div>
+                    <div class="flow-line"><span class="flow-cond">確保後も無呼吸</span><span class="flow-res">⬛ 黒</span></div>
+                    <div class="flow-line"><span class="flow-cond">確保で呼吸再開</span><span class="flow-res">🟥 赤</span></div>
+                    <div class="flow-branch">あり：呼吸数確認</div>
+                    <div class="flow-line"><span class="flow-cond">正常（10〜29回/分）</span><span class="flow-res">3 へ</span></div>
+                    <div class="flow-line"><span class="flow-cond">異常（10未満/30以上）</span><span class="flow-res">🟥 赤</span></div>
                 </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">3.</div>
                 <div class="flow-content">
-                    <strong>呼吸数確認</strong>（10〜29回/分）<br>
-                    ・異常（10未満/30以上）：🟥 赤
+                    <strong>脈拍確認</strong>（橈骨動脈）
+                    <div class="flow-line"><span class="flow-cond">触知できる</span><span class="flow-res">4 へ</span></div>
+                    <div class="flow-line"><span class="flow-cond">触知不可</span><span class="flow-res">🟥 赤</span></div>
                 </div>
             </div>
             <div class="flow-row">
                 <div class="flow-num">4.</div>
                 <div class="flow-content">
-                    <strong>脈拍確認</strong>（橈骨動脈）<br>
-                    ・なし（触知不可）：🟥 赤
-                </div>
-            </div>
-            <div class="flow-row">
-                <div class="flow-num">5.</div>
-                <div class="flow-content">
-                    <strong>意識確認</strong>（従命反応）<br>
-                    ・従えない：🟥 赤<br>
-                    ・従える：🟨 黄
+                    <strong>意識確認</strong>（従命反応）
+                    <div class="flow-line"><span class="flow-cond">従えない</span><span class="flow-res">🟥 赤</span></div>
+                    <div class="flow-line"><span class="flow-cond">従える</span><span class="flow-res">🟨 黄</span></div>
                 </div>
             </div>
         </div>
+
         <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
     </div>
 
