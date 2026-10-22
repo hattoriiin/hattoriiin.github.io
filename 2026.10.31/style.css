@@ -430,4 +430,10 @@ h2 {
 .strip-badge-keep,.strip-badge-cut{font-size:.66rem;padding:1px 5px}
 .strip-cut{opacity:.6}
 
+/* 全体フローチャート:色の四角を縦一列にそろえる */
+.flow-line{display:flex;align-items:baseline;gap:.6rem;padding-left:.8rem}
+.flow-cond{flex:1;min-width:0}
+.flow-res{flex:0 0 7em;white-space:nowrap}
+.flow-branch{margin-top:.15rem;padding-left:.2rem;font-size:.85rem;color:#475569}
+.flow-row{margin-bottom:10px}
 
