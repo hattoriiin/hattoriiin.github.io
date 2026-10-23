@@ -1,295 +1,665 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一次トリアージ判定ナビ（START法）</title>
-    <!-- 外部CSSファイルの読み込み -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container" id="top-anchor">
-    <h1>🚨 一次トリアージ判定ナビ</h1>
-
-    <!-- 0. 全体フローチャート確認ページ -->
-    <div class="card" id="card-overview">
-        <h2>📋 START法 全体フローチャート</h2>
-        <div class="overview-box">
-            1. <strong>歩行確認</strong> ➔ 歩ける：🟩 緑<br>
-            2. <strong>呼吸確認</strong> ➔ なし：気道確保<br>
-            &nbsp;&nbsp;&nbsp;・確保後も無呼吸：⬛ 黒<br>
-            &nbsp;&nbsp;&nbsp;・確保で呼吸再開：🟥 赤<br>
-            3. <strong>呼吸数確認</strong>（10〜29回/分）<br>
-            &nbsp;&nbsp;&nbsp;・異常：🟥 赤<br>
-            4. <strong>脈拍確認</strong>（橈骨動脈）<br>
-            &nbsp;&nbsp;&nbsp;・なし：🟥 赤<br>
-            5. <strong>意識確認</strong>（従命反応）<br>
-            &nbsp;&nbsp;&nbsp;・従えない：🟥 赤 / 従える：🟨 黄
-        </div>
-        <a href="javascript:void(0);" class="btn btn-start" onclick="startNavigation()">🚀 判定スタート</a>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   一次トリアージ判定ナビ（START法）
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container" id="top-anchor">
+   <nav aria-label="関連ページ" class="clinic-nav">
+    <a href="../">
+     ← 服部医院
+    </a>
+    <a href="consciousness.html" rel="noopener noreferrer" target="_blank">
+     意識レベルチェック ↗
+    </a>
+   </nav>
+   <h1>
+    🚨 一次トリアージ判定ナビ
+   </h1>
+   <div class="card" id="card-overview">
+    <h2>
+     📋 START法 全体フローチャート
+    </h2>
+    <div class="overview-box">
+     <div class="flow-row">
+      <div class="flow-num">
+       1.
+      </div>
+      <div class="flow-content">
+       <strong>
+        歩行確認
+       </strong>
+       <div class="flow-line">
+        <span class="flow-cond">
+         歩ける
+        </span>
+        <span class="flow-res">
+         🟩 軽症（緑）
+        </span>
+       </div>
+      </div>
+     </div>
+     <div class="flow-row">
+      <div class="flow-num">
+       2.
+      </div>
+      <div class="flow-content">
+       <strong>
+        呼吸確認
+       </strong>
+       <div class="flow-branch">
+        なし：気道確保
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         確保後も無呼吸
+        </span>
+        <span class="flow-res">
+         ⬛ 黒
+        </span>
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         確保で呼吸再開
+        </span>
+        <span class="flow-res">
+         🟥 赤
+        </span>
+       </div>
+       <div class="flow-branch">
+        あり：呼吸数確認
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         正常（10〜29回/分）
+        </span>
+        <span class="flow-res">
+         3 へ
+        </span>
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         異常（10未満/30以上）
+        </span>
+        <span class="flow-res">
+         🟥 赤
+        </span>
+       </div>
+      </div>
+     </div>
+     <div class="flow-row">
+      <div class="flow-num">
+       3.
+      </div>
+      <div class="flow-content">
+       <strong>
+        脈拍確認
+       </strong>
+       （橈骨動脈）
+       <div class="flow-line">
+        <span class="flow-cond">
+         触知できる
+        </span>
+        <span class="flow-res">
+         4 へ
+        </span>
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         触知不可
+        </span>
+        <span class="flow-res">
+         🟥 赤
+        </span>
+       </div>
+      </div>
+     </div>
+     <div class="flow-row">
+      <div class="flow-num">
+       4.
+      </div>
+      <div class="flow-content">
+       <strong>
+        意識確認
+       </strong>
+       （従命反応）
+       <div class="flow-line">
+        <span class="flow-cond">
+         従えない
+        </span>
+        <span class="flow-res">
+         🟥 赤
+        </span>
+       </div>
+       <div class="flow-line">
+        <span class="flow-cond">
+         従える
+        </span>
+        <span class="flow-res">
+         🟨 黄
+        </span>
+       </div>
+      </div>
+     </div>
     </div>
-
-    <!-- 【質問 1】 -->
-    <div class="card step-section" id="card-1">
-        <h2>【質問 1】歩けますか？</h2>
-        <p style="font-size: 0.9rem;">患者さんは自分の足で歩くことができますか？</p>
-        <a href="javascript:void(0);" class="btn btn-green" onclick="selectOption('card-1', 'result-green')">
-            <span class="btn-left">▶︎ 歩ける</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟩 軽症へ</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('card-1', 'step-resp')">
-            <span class="btn-left">▶︎ 歩けない</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">次へ</span>
-        </a>
+    <a class="btn btn-start" href="javascript:void(0);" onclick="startNavigation()">
+     🚀 判定スタート
+    </a>
+   </div>
+   <div class="card step-section" id="card-1">
+    <h2>
+     【質問 1】歩けますか？
+    </h2>
+    <p class="step-desc">
+     患者さんは自分の足で歩くことができますか？
+    </p>
+    <a class="btn btn-green" href="javascript:void(0);" onclick="selectOption('card-1', 'result-green')">
+     <span class="btn-left">
+      ▶︎ 歩ける
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟩 軽症へ
+     </span>
+    </a>
+    <a class="btn btn-action" href="javascript:void(0);" onclick="selectOption('card-1', 'step-resp')">
+     <span class="btn-left">
+      ▶︎ 歩けない
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      次へ
+     </span>
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+   <div class="card step-section" id="step-resp">
+    <div class="history-box">
+     ✅
+     <strong>
+      ここまでの経緯：
+     </strong>
+     自力歩行「不可」
     </div>
-
-    <!-- 【質問 2】呼吸確認 -->
-    <div id="step-resp" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 自力歩行「不可」</div>
-        <h2>【質問 2】呼吸をしていますか？</h2>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-airway')">
-            <span class="btn-left">▶︎ 呼吸なし</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">気道確保へ</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resp', 'step-resprate')">
-            <span class="btn-left">▶︎ 呼吸あり</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">呼吸数へ</span>
-        </a>
-        
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+    <h2>
+     【質問 2】呼吸をしていますか？
+    </h2>
+    <a class="btn btn-action" href="javascript:void(0);" onclick="selectOption('step-resp', 'step-airway')">
+     <span class="btn-left">
+      ▶︎ 呼吸なし
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      気道確保へ
+     </span>
+    </a>
+    <a class="btn btn-action" href="javascript:void(0);" onclick="selectOption('step-resp', 'step-resprate')">
+     <span class="btn-left">
+      ▶︎ 呼吸あり
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      呼吸数へ
+     </span>
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+   <div class="card step-section" id="step-airway">
+    <div class="history-box">
+     ✅
+     <strong>
+      ここまでの経緯：
+     </strong>
+     歩けない ＋ 呼吸なし
     </div>
-
-    <!-- 気道確保 -->
-    <div id="step-airway" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸なし</div>
-        <h2>🛠️ 気道確保の処置</h2>
-        <p style="font-size: 0.9rem;">ただちに気道確保を行ってください。</p>
-        <a href="javascript:void(0);" class="btn btn-black" onclick="selectOption('step-airway', 'result-black')">
-            <span class="btn-left">▶︎ 呼吸なし（無呼吸）</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">⬛ 黒</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-airway', 'result-red')">
-            <span class="btn-left">▶︎ 呼吸再開</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟥 赤</span>
-        </a>
-        
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+    <h2>
+     🛠️ 気道確保の処置
+    </h2>
+    <p class="step-desc">
+     ただちに気道確保を行ってください。
+    </p>
+    <a class="btn btn-black" href="javascript:void(0);" onclick="selectOption('step-airway', 'result-black')">
+     <span class="btn-left">
+      ▶︎ 呼吸なし（無呼吸）
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      ⬛ 黒
+     </span>
+    </a>
+    <a class="btn btn-red" href="javascript:void(0);" onclick="selectOption('step-airway', 'result-red')">
+     <span class="btn-left">
+      ▶︎ 呼吸再開
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟥 赤
+     </span>
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+   <div class="card step-section" id="step-resprate">
+    <div class="history-box">
+     ✅
+     <strong>
+      ここまでの経緯：
+     </strong>
+     歩けない ＋ 呼吸あり
     </div>
-
-    <!-- 【質問 3】呼吸数 -->
-    <div id="step-resprate" class="card step-section">
-        <div class="history-box">✅ <strong>ここまでの経緯：</strong> 歩けない ＋ 呼吸あり</div>
-        <h2>【質問 3】呼吸数は正常ですか？（10〜29回/分）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-resprate', 'result-red')">
-            <span class="btn-left">▶︎ 異常（10未満/30以上）</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟥 赤</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-resprate', 'step-pulse')">
-            <span class="btn-left">▶︎ 正常（10〜29回）</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">循環へ</span>
-        </a>
-        
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+    <h2>
+     【質問 3】呼吸数は正常ですか？（10〜29回/分）
+    </h2>
+    <a class="btn btn-red" href="javascript:void(0);" onclick="selectOption('step-resprate', 'result-red')">
+     <span class="btn-left">
+      ▶︎ 異常（10未満/30以上）
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟥 赤
+     </span>
+    </a>
+    <a class="btn btn-action" href="javascript:void(0);" onclick="selectOption('step-resprate', 'step-pulse')">
+     <span class="btn-left">
+      ▶︎ 正常（10〜29回）
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      循環へ
+     </span>
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+   <div class="card step-section" id="step-pulse">
+    <div class="history-box">
+     ✅
+     <strong>
+      ここまでの経緯：
+     </strong>
+     歩けない ＋ 呼吸あり ＋ 呼吸数正常
     </div>
-
-    <!-- 【質問 4】脈拍 -->
-    <div id="step-pulse" class="card step-section">
-        <div class="history-box">✅ <strong>経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常</div>
-        <h2>【質問 4】手首の脈はありますか？（橈骨動脈）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-pulse', 'result-red')">
-            <span class="btn-left">▶︎ 脈なし（毛細血管2秒超）</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟥 赤</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-action" onclick="selectOption('step-pulse', 'step-mentality')">
-            <span class="btn-left">▶︎ 脈あり</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">意識へ</span>
-        </a>
-        
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+    <h2>
+     【質問 4】手首の脈はありますか？（橈骨動脈）
+    </h2>
+    <a class="btn btn-red" href="javascript:void(0);" onclick="selectOption('step-pulse', 'result-red')">
+     <span class="btn-left">
+      ▶︎ 脈なし（毛細血管2秒超）
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟥 赤
+     </span>
+    </a>
+    <a class="btn btn-action" href="javascript:void(0);" onclick="selectOption('step-pulse', 'step-mentality')">
+     <span class="btn-left">
+      ▶︎ 脈あり
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      意識へ
+     </span>
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+   <div class="card step-section" id="step-mentality">
+    <div class="history-box">
+     ✅
+     <strong>
+      ここまでの経緯：
+     </strong>
+     歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ 脈あり
     </div>
-
-    <!-- 【質問 5】意識 -->
-    <div id="step-mentality" class="card step-section">
-        <div class="history-box">✅ <strong>経緯：</strong> 歩けない ＋ 呼吸あり ＋ 呼吸数正常 ＋ 脈あり</div>
-        <h2>【質問 5】意識（簡単な指示に従えますか？）</h2>
-        <a href="javascript:void(0);" class="btn btn-red" onclick="selectOption('step-mentality', 'result-red')">
-            <span class="btn-left">▶︎ 従えない</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟥 赤</span>
-        </a>
-        <a href="javascript:void(0);" class="btn btn-yellow" onclick="selectOption('step-mentality', 'result-yellow')">
-            <span class="btn-left">▶︎ 従える</span>
-            <span class="btn-arrow">👉</span>
-            <span class="btn-right">🟨 黄</span>
-        </a>
-        
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前の判定に戻る</a>
+    <h2>
+     【質問 5】意識（簡単な指示に従えますか？）
+    </h2>
+    <a class="btn btn-red" href="javascript:void(0);" onclick="selectOption('step-mentality', 'result-red')">
+     <span class="btn-left">
+      ▶︎ 従えない
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟥 赤
+     </span>
+    </a>
+    <a class="btn btn-yellow" href="javascript:void(0);" onclick="selectOption('step-mentality', 'result-yellow')">
+     <span class="btn-left">
+      ▶︎ 従える
+     </span>
+     <span class="btn-arrow">
+      👉
+     </span>
+     <span class="btn-right">
+      🟨 黄
+     </span>
+    </a>
+    <a class="consciousness-link" href="consciousness.html" rel="noopener noreferrer" target="_blank">
+     JCS・GCSで詳しく評価する ↗
+    </a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前の判定に戻る
+    </a>
+   </div>
+  </div>
+  <div class="fixed-modal-overlay" id="modal-overlay">
+   <div class="fixed-modal-card step-section" id="result-green">
+    <div class="tag-spec-container">
+     <div class="tag-spec-body">
+      <div class="tag-spec-title">
+       トリアージ・タッグ
+      </div>
+      <div class="tag-spec-guide-space">
+       <div class="tag-spec-guide-text">
+        専門的処置不要。
+        <br/>
+        一般救護所・
+        <br/>
+        軽症待機エリアへ誘導
+       </div>
+      </div>
+      <div class="tag-spec-notes">
+       ⚠️ 切らずにそのまま装着
+      </div>
+     </div>
+     <div class="tag-spec-strip strip-black">
+      <span>
+       0 黒
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-red">
+      <span>
+       I 赤
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-yellow">
+      <span>
+       II 黄
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-green">
+      <span>
+       III 緑
+      </span>
+      <span class="strip-badge-keep">
+       ★最下部
+      </span>
+     </div>
     </div>
-</div>
-
-<!-- 画面中央固定オーバレイ（最終結果） -->
-<div id="modal-overlay" class="fixed-modal-overlay">
-
-    <!-- 🟩 判定：緑 -->
-    <div id="result-green" class="fixed-modal-card step-section">
-        <div class="result-box bg-green">🟩 判定：緑（III・軽症）</div>
-        
-        <div class="action-guide-box">
-            <div class="action-guide-title">🩺 現場での対応指針</div>
-            専門的処置は不要です。徒歩で一般救護所・軽症待機エリアへ誘導してください。
-        </div>
-
-        <div class="tag-spec-container">
-            <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
-                <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
-            </div>
-            <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-yellow"><span>II 黄</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-green"><span>III 緑</span> <span class="strip-badge-keep">最下部</span></div>
-        </div>
-
-        <div class="warning-text">
-            ⚠️ <strong>切らないでください！</strong> 緑が見える状態のまま装着します。
-        </div>
-
-        <div class="longpress-hint" id="hint-green">👆 長押しすると全体チャート確認</div>
-
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
+    <div class="longpress-hint">
+     👆 長押しすると全体チャート確認
     </div>
-
-    <!-- 🟨 判定：黄 -->
-    <div id="result-yellow" class="fixed-modal-card step-section">
-        <div class="result-box bg-yellow">🟨 判定：黄（II・中等症）</div>
-        
-        <div class="action-guide-box">
-            <div class="action-guide-title">🩺 現場での対応指針</div>
-            直ちに命の危険はありませんが放置で重症化の恐れがあります。手当・観察し待機エリアへ。
-        </div>
-
-        <div class="tag-spec-container">
-            <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
-                <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
-            </div>
-            <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-yellow"><span>II 黄</span> <span class="strip-badge-keep">★残す</span></div>
-            <div class="tag-spec-strip strip-green strip-cut"><span>III 緑</span> <span class="strip-badge-cut">✂️切る</span></div>
-        </div>
-
-        <div class="warning-text">
-            ⚠️ <strong>「緑色」だけを切り取ります！</strong> 黄色や赤色は絶対に切らないでください！
-        </div>
-
-        <div class="longpress-hint" id="hint-yellow">👆 長押しすると全体チャート確認</div>
-
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前へ戻る
+    </a>
+   </div>
+   <div class="fixed-modal-card step-section" id="result-yellow">
+    <div class="tag-spec-container">
+     <div class="tag-spec-body">
+      <div class="tag-spec-title">
+       トリアージ・タッグ
+      </div>
+      <div class="tag-spec-guide-space">
+       <div class="tag-spec-guide-text">
+        応急処置・観察を行い
+        <br/>
+        中等症エリアへ搬送
+        <br/>
+        <span class="cut-highlight">
+         【緑色を切る】
+        </span>
+       </div>
+      </div>
+      <div class="tag-spec-notes">
+       ⚠️ 緑色のみ切り取ります
+      </div>
+     </div>
+     <div class="tag-spec-strip strip-black">
+      <span>
+       0 黒
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-red">
+      <span>
+       I 赤
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-yellow">
+      <span>
+       II 黄
+      </span>
+      <span class="strip-badge-keep">
+       ★残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-green strip-cut">
+      <span>
+       III 緑
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
     </div>
-
-    <!-- 🟥 判定：赤 -->
-    <div id="result-red" class="fixed-modal-card step-section">
-        <div class="result-box bg-red">🟥 判定：赤（I・重症）</div>
-        
-        <div class="action-guide-box">
-            <div class="action-guide-title">🚨 現場での対応指針</div>
-            命に関わる緊急状態です！最優先で救命処置および病院搬送の手配を行ってください。
-        </div>
-
-        <div class="tag-spec-container">
-            <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
-                <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
-            </div>
-            <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">残す</span></div>
-            <div class="tag-spec-strip strip-red"><span>I 赤</span> <span class="strip-badge-keep">★残す</span></div>
-            <div class="tag-spec-strip strip-yellow strip-cut"><span>II 黄</span> <span class="strip-badge-cut">✂️切る</span></div>
-            <div class="tag-spec-strip strip-green strip-cut"><span>III 緑</span> <span class="strip-badge-cut">✂️切る</span></div>
-        </div>
-
-        <div class="warning-text">
-            ⚠️ <strong>「黄・緑」の2色を切ります！</strong> 赤色は絶対に切らないでください！
-        </div>
-
-        <div class="longpress-hint" id="hint-red">👆 長押しすると全体チャート確認</div>
-
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
+    <div class="longpress-hint">
+     👆 長押しすると全体チャート確認
     </div>
-
-    <!-- ⬛ 判定：黒 -->
-    <div id="result-black" class="fixed-modal-card step-section">
-        <div class="result-box bg-black">⬛ 判定：黒（0・死亡）</div>
-        
-        <div class="action-guide-box">
-            <div class="action-guide-title">🕊️ 現場での対応指針</div>
-            気道確保で呼吸が戻りません。不可逆的状態と判断し安寧を保ち安置エリアへ。
-        </div>
-
-        <div class="tag-spec-container">
-            <div class="tag-spec-body">
-                <div class="tag-spec-title">トリアージ・タッグ<br>（23.2×11cm）</div>
-                <div class="tag-spec-notes">📄 氏名・カルテ欄<br>【そのまま残す】</div>
-            </div>
-            <div class="tag-spec-strip strip-black"><span>0 黒</span> <span class="strip-badge-keep">★残す</span></div>
-            <div class="tag-spec-strip strip-red strip-cut"><span>I 赤</span> <span class="strip-badge-cut">✂️切る</span></div>
-            <div class="tag-spec-strip strip-yellow strip-cut"><span>II 黄</span> <span class="strip-badge-cut">✂️切る</span></div>
-            <div class="tag-spec-strip strip-green strip-cut"><span>III 緑</span> <span class="strip-badge-cut">✂️切る</span></div>
-        </div>
-
-        <div class="warning-text">
-            ⚠️ <strong>「赤・黄・緑」の3色をまとめて切り落とします！</strong>
-        </div>
-
-        <div class="longpress-hint" id="hint-black">👆 長押しすると全体チャート確認</div>
-
-        <a href="javascript:void(0);" class="btn btn-reset" onclick="resetAll()">🔄 最初からやり直す</a>
-        <a href="javascript:void(0);" class="btn btn-back" onclick="goBack()">↩️ 一つ前へ戻る</a>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前へ戻る
+    </a>
+   </div>
+   <div class="fixed-modal-card step-section" id="result-red">
+    <div class="tag-spec-container">
+     <div class="tag-spec-body">
+      <div class="tag-spec-title">
+       トリアージ・タッグ
+      </div>
+      <div class="tag-spec-guide-space">
+       <div class="tag-spec-guide-text">
+        救命処置を最優先！
+        <br/>
+        病院搬送の手配を
+        <br/>
+        行ってください
+        <br/>
+        <span class="cut-highlight">
+         【黄・緑を切る】
+        </span>
+       </div>
+      </div>
+      <div class="tag-spec-notes">
+       ⚠️ 黄・緑の2色を切ります
+      </div>
+     </div>
+     <div class="tag-spec-strip strip-black">
+      <span>
+       0 黒
+      </span>
+      <span class="strip-badge-keep">
+       残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-red">
+      <span>
+       I 赤
+      </span>
+      <span class="strip-badge-keep">
+       ★残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-yellow strip-cut">
+      <span>
+       II 黄
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-green strip-cut">
+      <span>
+       III 緑
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
     </div>
-
-</div>
-
-<!-- 長押しプレビュー -->
-<div id="chart-preview-overlay" class="chart-preview-overlay">
-    <div class="chart-preview-content">
-        <h3>📋 START法 全体フローチャート（確認中）</h3>
-        <p>
-            1. <strong>歩行確認</strong> ➔ 歩ける：🟩 緑<br>
-            2. <strong>呼吸確認</strong> ➔ なし：気道確保<br>
-            &nbsp;&nbsp;&nbsp;・確保後も無呼吸：⬛ 黒<br>
-            &nbsp;&nbsp;&nbsp;・確保で呼吸再開：🟥 赤<br>
-            3. <strong>呼吸数確認</strong>（10〜29回/分）<br>
-            &nbsp;&nbsp;&nbsp;・異常：🟥 赤<br>
-            4. <strong>脈拍確認</strong>（橈骨動脈）<br>
-            &nbsp;&nbsp;&nbsp;・なし：🟥 赤<br>
-            5. <strong>意識確認</strong>（従命反応）<br>
-            &nbsp;&nbsp;&nbsp;・従えない：🟥 赤 / 従える：🟨 黄
-        </p>
-        <p style="text-align: center; color: #64748b; font-size: 0.78rem; margin-bottom: 0;">（指を離すと元の画面に戻ります）</p>
+    <div class="longpress-hint">
+     👆 長押しすると全体チャート確認
     </div>
-</div>
-
-<!-- 外部JavaScriptファイルの読み込み -->
-<script src="script.js"></script>
-
-</body>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前へ戻る
+    </a>
+   </div>
+   <div class="fixed-modal-card step-section" id="result-black">
+    <div class="tag-spec-container">
+     <div class="tag-spec-body">
+      <div class="tag-spec-title">
+       トリアージ・タッグ
+      </div>
+      <div class="tag-spec-guide-space">
+       <div class="tag-spec-guide-text">
+        不慮の死亡と判断
+        <br/>
+        安置エリアへ搬送
+        <br/>
+        <span class="cut-highlight">
+         【赤・黄・緑を切る】
+        </span>
+       </div>
+      </div>
+      <div class="tag-spec-notes">
+       ⚠️ 赤・黄・緑の3色を切ります
+      </div>
+     </div>
+     <div class="tag-spec-strip strip-black">
+      <span>
+       0 黒
+      </span>
+      <span class="strip-badge-keep">
+       ★残す
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-red strip-cut">
+      <span>
+       I 赤
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-yellow strip-cut">
+      <span>
+       II 黄
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
+     <div class="tag-spec-strip strip-green strip-cut">
+      <span>
+       III 緑
+      </span>
+      <span class="strip-badge-cut">
+       ✂️切る
+      </span>
+     </div>
+    </div>
+    <div class="longpress-hint">
+     👆 長押しすると全体チャート確認
+    </div>
+    <a class="btn btn-reset" href="javascript:void(0);" onclick="resetAll()">
+     🔄 最初からやり直す
+    </a>
+    <a class="btn btn-back" href="javascript:void(0);" onclick="goBack()">
+     ↩️ 一つ前へ戻る
+    </a>
+   </div>
+  </div>
+  <div class="chart-preview-overlay" id="chart-preview-overlay">
+   <div class="chart-preview-content">
+    <h3>
+     📋 START法 全体フローチャート（確認中）
+    </h3>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
 </html>
