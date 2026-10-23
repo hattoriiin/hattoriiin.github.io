@@ -44,12 +44,18 @@ body {
 }
 
 h1 {
-    font-size: 1.4rem;
-    color: var(--primary);
+    display: block;
+    box-sizing: border-box;
+    background-color: var(--primary);
+    color: #ffffff;
     text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 86, 179, 0.2);
     margin-top: 0;
     margin-bottom: 20px;
-    letter-spacing: 0.02em;
 }
 
 h2 {
