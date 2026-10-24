@@ -220,6 +220,7 @@ h2 {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: var(--h); /* iPhoneのSafariでツールバーを除いた見える高さに合わせる */
     pointer-events: none;
     z-index: 9999;
     justify-content: center;
@@ -239,6 +240,7 @@ h2 {
     width: 290px;
     max-width: 85vw;
     max-height: 90vh;
+    max-height: calc(var(--h) - 32px);
     overflow-y: auto;
     border: 2px solid #0056b3;
     animation: popIn 0.25s ease;
@@ -256,6 +258,7 @@ h2 {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: var(--h);
     background: rgba(0, 0, 0, 0.85);
     z-index: 99999;
     justify-content: center;
@@ -273,6 +276,7 @@ h2 {
     max-width: 520px;
     width: 100%;
     max-height: 80vh;
+    max-height: calc(var(--h) - 100px);
     overflow-y: auto;
     font-size: 0.88rem;
     line-height: 1.6;
