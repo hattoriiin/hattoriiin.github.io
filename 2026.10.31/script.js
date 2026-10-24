@@ -1,3 +1,18 @@
+// 画面の「見える高さ」を CSS 変数 --h に入れる（iPhone の Safari はツールバーで高さが変わるため）
+// ツールバーが引っ込んで高くなっても、いったん小さい値のまま使い、レイアウトがガタつかないようにする
+(function () {
+    var lastW = 0, minH = 0;
+    function update() {
+        var w = window.innerWidth, h = window.innerHeight;
+        if (w !== lastW) { lastW = w; minH = h; }
+        else if (h < minH) { minH = h; }
+        document.documentElement.style.setProperty('--h', minH + 'px');
+    }
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('orientationchange', function () { setTimeout(update, 300); });
+})();
+
 let historyStack = ['card-overview'];
 
 function startNavigation() {
@@ -112,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ovDst.insertAdjacentHTML('beforeend', ovSrc.innerHTML);
     }
 
-    document.querySelectorAll('.longpress-hint, .fixed-modal-card').forEach(item => {
+    document.querySelectorAll('.tag-press-zone').forEach(item => {
         let pressTimer = null;
 
         function startPress(e) {
@@ -134,5 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('touchstart', startPress, { passive: true });
         item.addEventListener('touchend', endPress);
         item.addEventListener('touchcancel', endPress);
+        item.addEventListener('contextmenu', e => e.preventDefault());
     });
 });
