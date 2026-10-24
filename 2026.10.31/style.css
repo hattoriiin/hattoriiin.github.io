@@ -443,15 +443,51 @@ h2 {
 .flow-branch{margin-top:.15rem;padding-left:.2rem;font-size:.85rem;color:#475569}
 .flow-row{margin-bottom:10px}
 
-.btn-secondary {
-    display: block;
-    background-color: #64748b;
-    color: #ffffff;
-    text-align: center;
-    padding: 12px;
-    border-radius: 8px;
+/* さりげないホームページへの戻りリンク（スクロールしても上部に残る） */
+.home-link {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: -20px -12px 6px;
+    padding: 5px 12px;
+    background-color: var(--bg);
+    font-size: 0.72rem;
+    line-height: 1.3;
+}
+.home-link a {
+    color: #94a3b8;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 0.95rem;
-    margin-top: 10px;
+}
+
+/* スマホ1画面に「見出し〜判定スタート」が収まるよう、最初のカードだけ詰める */
+h1 {
+    font-size: 1rem;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+}
+#card-overview {
+    padding: 12px 12px 10px;
+    margin-bottom: 12px;
+}
+#card-overview h2 {
+    font-size: 1rem;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+}
+#card-overview .overview-box {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+#card-overview .flow-row { margin-bottom: 5px; }
+#card-overview .flow-num { width: 20px; }
+#card-overview .flow-line { gap: 0.3rem; padding-left: 0.5rem; }
+#card-overview .flow-cond { white-space: nowrap; }
+#card-overview .flow-res { flex: 0 0 6.2em; }
+#card-overview .flow-branch { font-size: 0.78rem; margin-top: 0; }
+#card-overview .btn-start {
+    padding: 11px;
+    margin: 0;
+    font-size: 1.05rem;
 }
