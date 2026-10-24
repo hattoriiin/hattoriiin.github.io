@@ -1,12 +1,14 @@
-// 画面の「見える高さ」を CSS 変数 --h に入れる（iPhone の Safari はツールバーで高さが変わるため）
-// ツールバーが引っ込んで高くなっても、いったん小さい値のまま使い、レイアウトがガタつかないようにする
+// 画面の「見える高さ」を CSS 変数 --h で使う。
+// 通常は CSS の svh（Safari のツールバーが出ている状態の高さ。スクロールや引っ張りで変わらない）を使う。
+// svh に対応していない古い端末だけ、読み込み時の高さを使う（画面の幅が変わったとき＝回転時のみ更新）。
 (function () {
-    var lastW = 0, minH = 0;
+    if (window.CSS && CSS.supports && CSS.supports('height', '100svh')) return;
+    var lastW = 0;
     function update() {
-        var w = window.innerWidth, h = window.innerHeight;
-        if (w !== lastW) { lastW = w; minH = h; }
-        else if (h < minH) { minH = h; }
-        document.documentElement.style.setProperty('--h', minH + 'px');
+        var w = window.innerWidth;
+        if (w === lastW) return;
+        lastW = w;
+        document.documentElement.style.setProperty('--h', window.innerHeight + 'px');
     }
     update();
     window.addEventListener('resize', update);
