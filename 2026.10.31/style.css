@@ -443,3 +443,15 @@ h2 {
 .flow-branch{margin-top:.15rem;padding-left:.2rem;font-size:.85rem;color:#475569}
 .flow-row{margin-bottom:10px}
 
+.btn-secondary {
+    display: block;
+    background-color: #64748b;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
