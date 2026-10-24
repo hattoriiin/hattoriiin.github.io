@@ -459,35 +459,38 @@ h2 {
     text-decoration: none;
 }
 
-/* スマホ1画面に「見出し〜判定スタート」が収まるよう、最初のカードだけ詰める */
+/* 画面の高さに合わせて、最初のカードの文字・余白をなめらかに調整
+   小さい画面(iPhone mini など)では詰めて1画面に収め、大きい画面では元のゆったりした表示にする */
+:root { --h: 100vh; }
+@supports (height: 100svh) { :root { --h: 100svh; } }
+
 h1 {
-    font-size: 1rem;
-    padding: 10px 12px;
-    margin-bottom: 10px;
+    font-size: clamp(16px, calc(16px + (var(--h) - 640px) * 0.016), 17.6px);
+    padding: clamp(10px, calc(10px + (var(--h) - 640px) * 0.06), 16px) clamp(12px, calc(12px + (var(--h) - 640px) * 0.04), 16px);
+    margin-bottom: clamp(10px, calc(10px + (var(--h) - 640px) * 0.1), 20px);
 }
 #card-overview {
-    padding: 12px 12px 10px;
-    margin-bottom: 12px;
+    padding: clamp(12px, calc(12px + (var(--h) - 640px) * 0.12), 24px) clamp(12px, calc(12px + (var(--h) - 640px) * 0.08), 20px) clamp(10px, calc(10px + (var(--h) - 640px) * 0.14), 24px);
+    margin-bottom: clamp(12px, calc(12px + (var(--h) - 640px) * 0.08), 20px);
 }
 #card-overview h2 {
-    font-size: 1rem;
-    padding-bottom: 5px;
-    margin-bottom: 8px;
+    font-size: clamp(16px, calc(16px + (var(--h) - 640px) * 0.024), 18.4px);
+    padding-bottom: clamp(5px, calc(5px + (var(--h) - 640px) * 0.03), 8px);
+    margin-bottom: clamp(8px, calc(8px + (var(--h) - 640px) * 0.06), 14px);
 }
 #card-overview .overview-box {
-    padding: 8px 10px;
-    margin-bottom: 8px;
-    font-size: 0.82rem;
-    line-height: 1.35;
+    padding: clamp(8px, calc(8px + (var(--h) - 640px) * 0.08), 16px) clamp(10px, calc(10px + (var(--h) - 640px) * 0.06), 16px);
+    margin-bottom: clamp(8px, calc(8px + (var(--h) - 640px) * 0.12), 20px);
+    font-size: clamp(13.1px, calc(13.1px + (var(--h) - 640px) * 0.013), 14.4px);
+    line-height: clamp(17.7px, calc(17.7px + (var(--h) - 640px) * 0.068), 24.5px);
 }
-#card-overview .flow-row { margin-bottom: 5px; }
-#card-overview .flow-num { width: 20px; }
-#card-overview .flow-line { gap: 0.3rem; padding-left: 0.5rem; }
-#card-overview .flow-cond { white-space: nowrap; }
+#card-overview .flow-row { margin-bottom: clamp(5px, calc(5px + (var(--h) - 640px) * 0.05), 10px); }
+#card-overview .flow-num { width: clamp(20px, calc(20px + (var(--h) - 640px) * 0.04), 24px); }
+#card-overview .flow-line { gap: clamp(4.8px, calc(4.8px + (var(--h) - 640px) * 0.048), 9.6px); padding-left: clamp(8px, calc(8px + (var(--h) - 640px) * 0.048), 12.8px); }
 #card-overview .flow-res { flex: 0 0 6.2em; }
-#card-overview .flow-branch { font-size: 0.78rem; margin-top: 0; }
+#card-overview .flow-branch { font-size: clamp(12.5px, calc(12.5px + (var(--h) - 640px) * 0.011), 13.6px); margin-top: clamp(0px, calc(0px + (var(--h) - 640px) * 0.024), 2.4px); }
 #card-overview .btn-start {
-    padding: 11px;
-    margin: 0;
-    font-size: 1.05rem;
+    padding: clamp(11px, calc(11px + (var(--h) - 640px) * 0.05), 16px);
+    margin: clamp(0px, calc(0px + (var(--h) - 640px) * 0.12), 12px) 0;
+    font-size: clamp(16.8px, calc(16.8px + (var(--h) - 640px) * 0.016), 18.4px);
 }
