@@ -70,9 +70,35 @@ function goBack() {
     }
 }
 
+// リロード後に画面が上へ戻らないよう、ブラウザの自動スクロール復元を止める
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+// 「判定スタート」ボタンが画面の一番下に来るように位置を合わせる
+function anchorToStart() {
+    const overviewCard = document.getElementById('card-overview');
+    if (overviewCard) {
+        overviewCard.scrollIntoView({ block: 'end' });
+    }
+}
+
 function resetAll() {
+    try { sessionStorage.setItem('anchorToStart', '1'); } catch (e) {}
     location.reload();
 }
+
+window.addEventListener('load', () => {
+    let flag = null;
+    try {
+        flag = sessionStorage.getItem('anchorToStart');
+        sessionStorage.removeItem('anchorToStart');
+    } catch (e) {}
+    if (flag) {
+        anchorToStart();
+        setTimeout(anchorToStart, 150); // 表示が落ち着いた後にもう一度合わせる
+    }
+});
 
 // 最終判定カードの長押しプレビュー機能
 document.addEventListener('DOMContentLoaded', () => {
