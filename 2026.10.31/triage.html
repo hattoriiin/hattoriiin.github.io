@@ -3,52 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一次トリアージ判定ナビ（START法）</title>
+    <title>一次トリアージ判定（START法）</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container" id="top-anchor">
     <div class="home-link"><a href="../index.html">← 服部医院 ホームページ</a></div>
-    <h1>🚨 一次トリアージ判定ナビ</h1>
+    <h1>🚨 一次トリアージ判定</h1>
 
-    <!-- 0. 全体フローチャート確認ページ -->
+    <!-- 0. 判定アルゴリズム（全体チャート）確認ページ -->
     <div class="card" id="card-overview">
-        <h2>📋 START法 全体フローチャート</h2>
+        <h2>START法 判定アルゴリズム</h2>
         <div class="overview-box">
             <div class="flow-row">
-                <div class="flow-num">1.</div>
+                <div class="flow-num">1</div>
                 <div class="flow-content">
                     <strong>歩行確認</strong>
-                    <div class="flow-line"><span class="flow-cond">歩ける</span><span class="flow-res">🟩 軽症（緑）</span></div>
+                    <div class="flow-line"><span class="flow-cond">歩ける（軽症）</span><span class="flow-res"><span class="chip chip-green">緑</span></span></div>
                 </div>
             </div>
             <div class="flow-row">
-                <div class="flow-num">2.</div>
+                <div class="flow-num">2</div>
                 <div class="flow-content">
                     <strong>呼吸確認</strong>
                     <div class="flow-branch">なし：気道確保</div>
-                    <div class="flow-line"><span class="flow-cond">確保後も無呼吸</span><span class="flow-res">⬛ 黒</span></div>
-                    <div class="flow-line"><span class="flow-cond">確保で呼吸再開</span><span class="flow-res">🟥 赤</span></div>
+                    <div class="flow-line"><span class="flow-cond">確保後も無呼吸</span><span class="flow-res"><span class="chip chip-black">黒</span></span></div>
+                    <div class="flow-line"><span class="flow-cond">確保で呼吸再開</span><span class="flow-res"><span class="chip chip-red">赤</span></span></div>
                     <div class="flow-branch">あり：呼吸数確認</div>
-                    <div class="flow-line"><span class="flow-cond">正常（10〜29回/分）</span><span class="flow-res">3 へ</span></div>
-                    <div class="flow-line"><span class="flow-cond">異常（10未満/30以上）</span><span class="flow-res">🟥 赤</span></div>
+                    <div class="flow-line"><span class="flow-cond">異常（10未満/30以上）</span><span class="flow-res"><span class="chip chip-red">赤</span></span></div>
+                    <div class="flow-line"><span class="flow-cond">正常（10〜29回/分）</span><span class="flow-res"><span class="flow-next">↓ 次③へ</span></span></div>
                 </div>
             </div>
             <div class="flow-row">
-                <div class="flow-num">3.</div>
+                <div class="flow-num">3</div>
                 <div class="flow-content">
                     <strong>脈拍確認</strong>（橈骨動脈）
-                    <div class="flow-line"><span class="flow-cond">触知できる</span><span class="flow-res">4 へ</span></div>
-                    <div class="flow-line"><span class="flow-cond">触知不可</span><span class="flow-res">🟥 赤</span></div>
+                    <div class="flow-line"><span class="flow-cond">触知不可（毛細血管2秒超）</span><span class="flow-res"><span class="chip chip-red">赤</span></span></div>
+                    <div class="flow-line"><span class="flow-cond">触知できる</span><span class="flow-res"><span class="flow-next">↓ 次④へ</span></span></div>
                 </div>
             </div>
             <div class="flow-row">
-                <div class="flow-num">4.</div>
+                <div class="flow-num">4</div>
                 <div class="flow-content">
                     <strong>意識確認</strong>（従命反応）
-                    <div class="flow-line"><span class="flow-cond">従えない</span><span class="flow-res">🟥 赤</span></div>
-                    <div class="flow-line"><span class="flow-cond">従える</span><span class="flow-res">🟨 黄</span></div>
+                    <div class="flow-line"><span class="flow-cond">従えない</span><span class="flow-res"><span class="chip chip-red">赤</span></span></div>
+                    <div class="flow-line"><span class="flow-cond">従える</span><span class="flow-res"><span class="chip chip-yellow">黄</span></span></div>
                 </div>
             </div>
         </div>
@@ -286,7 +286,7 @@
 <!-- 長押しプレビュー（全体フローチャート） -->
 <div id="chart-preview-overlay" class="chart-preview-overlay">
     <div class="chart-preview-content">
-        <h3>📋 START法 全体フローチャート（確認中）</h3>
+        <h3>START法 判定アルゴリズム（確認中）</h3>
 
     </div>
 </div>
