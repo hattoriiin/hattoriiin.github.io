@@ -586,3 +586,123 @@ h1 {
 .chart-preview-content .flow-res { flex: 0 0 6.5em; }
 .chart-preview-content .flow-branch { font-size: .93em; margin-top: .1em; }
 .chart-preview-content h3 { font-size: .95em; line-height: 1.3; margin: 0 0 .5em; padding-bottom: .4em; }
+
+/* =========================================================
+   判定アルゴリズム（全体チャート）：見出しと部品の整理
+   ========================================================= */
+/* 見出し：中央揃え・絵文字なし・短い線 */
+#card-overview h2 {
+    text-align: center;
+    border-bottom: none;
+}
+#card-overview h2::after {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 3px;
+    margin: 6px auto 0;
+    background: var(--primary);
+    border-radius: 2px;
+}
+.chart-preview-content h3 { text-align: center; }
+
+/* 手順の番号：青い丸 */
+#card-overview .flow-num,
+.chart-preview-content .flow-num {
+    flex: none;
+    width: 1.55em;
+    height: 1.55em;
+    line-height: 1.55em;
+    margin-right: .55em;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: .85em;
+    text-align: center;
+}
+/* 手順と手順の間に薄い区切り線 */
+.overview-box .flow-row + .flow-row,
+.chart-preview-content .flow-row + .flow-row {
+    border-top: 1px solid #e2e8f0;
+    padding-top: .45em;
+}
+/* 枝の見出し（なし／あり）：左の線で階層を示す */
+#card-overview .flow-branch,
+.chart-preview-content .flow-branch {
+    font-weight: bold;
+    color: #475569;
+    border-left: 3px solid #cbd5e1;
+    padding-left: .5em;
+    margin: .3em 0 .1em;
+}
+/* 結果：色つきラベルを右端にそろえる */
+#card-overview .flow-res,
+.chart-preview-content .flow-res {
+    flex: 0 0 4.6em;
+    display: flex;
+    justify-content: flex-end;
+}
+.chip {
+    display: inline-block;
+    min-width: 3.1em;
+    padding: .02em .5em;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: .95em;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+}
+.chip-green  { background: #16a34a; }
+.chip-black  { background: #1e293b; }
+.chip-red    { background: #dc2626; }
+.chip-yellow { background: #ca8a04; }
+.flow-next {
+    color: #64748b;
+    font-weight: bold;
+    font-size: .9em;
+    white-space: nowrap;
+}
+
+/* 行間：どの行も同じ高さにそろえ、読みやすく。画面の高さ540px→大きい画面へ、なめらかに広げる */
+#card-overview .overview-box {
+    font-size: clamp(12px, calc(12px + (var(--h) - 540px) * 0.0116), 14.4px);
+    line-height: clamp(15.5px, calc(15.5px + (var(--h) - 540px) * 0.042), 24.5px);
+}
+.overview-box .flow-line,
+.chart-preview-content .flow-line {
+    align-items: center;
+}
+#card-overview .flow-line { min-height: clamp(18px, calc(18px + (var(--h) - 540px) * 0.047), 27px); }
+.chart-preview-content .flow-line { min-height: 2em; }
+#card-overview .flow-row { margin-bottom: clamp(3px, calc(3px + (var(--h) - 540px) * 0.021), 12px); }
+.overview-box .flow-row + .flow-row { padding-top: clamp(3px, calc(3px + (var(--h) - 540px) * 0.021), 8px); }
+#card-overview .flow-res,
+.chart-preview-content .flow-res { flex: 0 0 5em; }
+#card-overview .flow-branch { margin: clamp(2px, calc(2px + (var(--h) - 540px) * 0.02), 6px) 0 clamp(1px, calc(1px + (var(--h) - 540px) * 0.01), 3px); }
+.chart-preview-content .flow-branch { margin: .4em 0 .15em; }
+#card-overview .btn-start { padding: clamp(10px, calc(10px + (var(--h) - 540px) * 0.02), 16px); }
+#card-overview h2::after { margin-top: clamp(3px, calc(3px + (var(--h) - 540px) * 0.03), 6px); }
+.chip { line-height: 1.35; }
+
+/* ラベル・丸数字の文字を、枠の上下中央にそろえる。
+   --label-nudge は文字を下へ動かす量（0.12em ≒ 1.5px）。実機で上寄りなら大きく、下寄りなら小さく（0 でも可）調整してください */
+:root { --label-nudge: 0.12em; }
+.chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 1.75em;
+    padding: calc(var(--label-nudge) * 2) .5em 0;
+    line-height: 1;
+}
+#card-overview .flow-num,
+.chart-preview-content .flow-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-top: calc(var(--label-nudge) * 2);
+    line-height: 1;
+}
