@@ -664,19 +664,23 @@ h1 {
     white-space: nowrap;
 }
 
+/* 行の高さ（行間）。--row-h を変えると全体が変わります。
+   画面の高さ540px で19px → 大きい画面で23px まで、なめらかに広がります（広すぎれば数字を小さく、狭ければ大きく） */
+:root { --row-h: clamp(19px, calc(19px + (var(--h) - 540px) * 0.0235), 23px); }
+
 /* 行間：どの行も同じ高さにそろえ、読みやすく。画面の高さ540px→大きい画面へ、なめらかに広げる */
 #card-overview .overview-box {
     font-size: clamp(12px, calc(12px + (var(--h) - 540px) * 0.0116), 14.4px);
-    line-height: clamp(15.5px, calc(15.5px + (var(--h) - 540px) * 0.042), 24.5px);
+    line-height: var(--row-h);
 }
 .overview-box .flow-line,
 .chart-preview-content .flow-line {
     align-items: center;
 }
-#card-overview .flow-line { min-height: clamp(18px, calc(18px + (var(--h) - 540px) * 0.047), 27px); }
+#card-overview .flow-line { min-height: var(--row-h); }
 .chart-preview-content .flow-line { min-height: 2em; }
-#card-overview .flow-row { margin-bottom: clamp(3px, calc(3px + (var(--h) - 540px) * 0.021), 12px); }
-.overview-box .flow-row + .flow-row { padding-top: clamp(3px, calc(3px + (var(--h) - 540px) * 0.021), 8px); }
+#card-overview .flow-row { margin-bottom: clamp(3px, calc(3px + (var(--h) - 540px) * 0.015), 6px); }
+.overview-box .flow-row + .flow-row { padding-top: clamp(3px, calc(3px + (var(--h) - 540px) * 0.015), 5px); }
 #card-overview .flow-res,
 .chart-preview-content .flow-res { flex: 0 0 5em; }
 #card-overview .flow-branch { margin: clamp(2px, calc(2px + (var(--h) - 540px) * 0.02), 6px) 0 clamp(1px, calc(1px + (var(--h) - 540px) * 0.01), 3px); }
@@ -693,7 +697,7 @@ h1 {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    height: 1.75em;
+    height: 1.6em;
     padding: calc(var(--label-nudge) * 2) .5em 0;
     line-height: 1;
 }
