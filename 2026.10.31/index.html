@@ -101,31 +101,24 @@
             font-weight: bold;
             margin-bottom: 6px;
         }
+        /* さりげない服部医院ホームページへのリンク（トリアージ判定ページと同じ見た目） */
+        .home-link {
+            font-size: 0.72rem;
+            line-height: 1.3;
+        }
+        .home-link a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="home-link"><a href="../index.html">← 服部医院 ホームページ</a></div>
     <div class="header">
         <h1>🚨 瑞穂区救護所訓練 ポータル</h1>
         <p>2026年10月31日（土）14:00〜16:00／汐路中学校</p>
-    </div>
-
-    <!-- メインナビボタン -->
-    <div class="card">
-        <h2>📱 一次トリアージ判定</h2>
-        <p style="font-size: 0.9rem; margin-bottom: 16px;">スマホ画面で判定手順（START法）をタップしながら、直感的に一次トリアージの判定ができます。</p>
-        <a href="triage.html" class="btn-primary">
-            👉 一次トリアージ判定を開く
-        </a>
-    </div>
-
-    <div class="card">
-        <h2>🗺️ 救護所の動き（CSCA-TTT）</h2>
-        <p style="font-size: 0.9rem; margin-bottom: 16px;">体制づくり（CSCA）から医療活動（TTT）まで、救護所の動きを1枚の図で確認できます。</p>
-        <a href="csca-ttt.html" class="btn-primary">
-            👉 救護所の動きを開く
-        </a>
     </div>
 
     <!-- 訓練概要・ガイド -->
@@ -148,10 +141,21 @@
         </ul>
     </div>
 
-    <!-- ホームページへの戻りリンク -->
+    <!-- メインナビボタン -->
     <div class="card">
-        <h2>🔗 リンク</h2>
-        <a href="../index.html" class="btn-secondary">🏠 服部医院 ホームページ（トップ）へ戻る</a>
+        <h2>🗺️ 救護所の動き（CSCA-TTT）</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 16px;">体制づくり（CSCA）から医療活動（TTT）まで、救護所の動きを1枚の図で確認できます。</p>
+        <a href="csca-ttt.html" class="btn-primary">
+            👉 救護所の動きを開く
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>📱 一次トリアージ判定</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 16px;">スマホ画面で判定手順（START法）をタップしながら、直感的に一次トリアージの判定ができます。</p>
+        <a href="triage.html" class="btn-primary">
+            👉 一次トリアージ判定を開く
+        </a>
     </div>
 </div>
 
