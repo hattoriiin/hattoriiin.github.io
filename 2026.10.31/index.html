@@ -351,10 +351,10 @@
 
         </ol>
 
-        <!-- パスワード入力欄（常に表示） -->
+        <!-- パスワード入力欄 -->
         <div id="lock-box" class="lock-box">
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
-            <p class="lock-text">パスワード（一次）を入力すると、各項目のくわしい内容が展開します。</p>
+            <p class="lock-text">パスワード（「一次」など）を入力すると、くわしい内容が展開します。</p>
             <form id="lock-form" class="lock-form">
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
@@ -368,10 +368,26 @@
 
 <script>
 (function () {
+    var STORE_KEY = "portal_unlocked_20261031_v2";
     var box = document.getElementById("lock-box");
     var form = document.getElementById("lock-form");
     var input = document.getElementById("lock-input");
     var msg = document.getElementById("lock-msg");
+
+    function revealDetails() {
+        var notes = document.querySelectorAll(".detail-note");
+        for (var i = 0; i < notes.length; i++) {
+            notes[i].style.display = "block";
+        }
+        if (box) box.style.display = "none";
+    }
+
+    // 起動時に前回の解除状態をチェック
+    try {
+        if (localStorage.getItem(STORE_KEY) === "true") {
+            revealDetails();
+        }
+    } catch (e) {}
 
     form.addEventListener("submit", function (ev) {
         ev.preventDefault();
@@ -379,11 +395,8 @@
         
         // 「一次」「1次」「１次」「一次トリアージ」等のいずれでもOK
         if (val === "一次" || val === "1次" || val === "１次" || val === "一次トリアージ" || val === "1次トリアージ" || val === "１次トリアージ") {
-            var notes = document.querySelectorAll(".detail-note");
-            for (var i = 0; i < notes.length; i++) {
-                notes[i].style.display = "block";
-            }
-            if (box) box.style.display = "none";
+            revealDetails();
+            try { localStorage.setItem(STORE_KEY, "true"); } catch (e) {}
         } else {
             msg.textContent = "パスワードが違います。";
             input.value = "";
