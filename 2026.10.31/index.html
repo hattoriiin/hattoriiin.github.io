@@ -205,6 +205,23 @@
             font-size: 0.88rem;
             color: #475569;
         }
+        .detail-body h4 {
+            margin: 10px 0 4px;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+        .detail-body p {
+            margin: 0 0 4px;
+            font-size: 0.88rem;
+        }
+        .detail-body ul {
+            margin: 2px 0 4px;
+            padding-left: 18px;
+        }
+        .detail-body li {
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+        }
 
         /* パスワード入力（振り返り用） */
         .lock-box {
@@ -307,7 +324,13 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        災害医療情報システムを用いた被災状況・傷病者情報の集約訓練。本部との回線接続およびデータ送受信の確認を行います。
+                        <h4>目的と内容</h4>
+                        <p>災害医療情報システム（AKKシステム）を用いた被災状況・傷病者情報の集約訓練。本部との回線接続およびデータ送受信の確認を行います。</p>
+                        <h4>実施上の留意点</h4>
+                        <ul>
+                            <li>端末のバッテリー残量、電波状況、ログイン情報の再確認</li>
+                            <li>入力フォーマットの統一と、誤送信防止のためのダブルチェック体制</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -318,7 +341,12 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        全体説明および訓練上の諸注意。
+                        <h4>進行内容</h4>
+                        <p>全体説明および訓練上の諸注意の伝達。</p>
+                        <ul>
+                            <li>主催者挨拶および訓練統括者からの指示</li>
+                            <li>参加者名簿の確認、安全管理上の注意事項（熱中症・防寒対策、動線確認）</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -329,7 +357,13 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        救護所設営に必要なテント、発電機、トリアージタッグ、通信機器などの確認と取扱い説明。
+                        <h4>主な確認資機材</h4>
+                        <ul>
+                            <li>救護所設営用テント（組み立て手順、ウェイト設置）</li>
+                            <li>非常用発電機、照明器具、コードリールの配線確認</li>
+                            <li>トリアージタッグ、カルテ、筆記用具、ホワイトボード（クロノロ用）の一式</li>
+                            <li>通信機器（衛星・IP無線・モバイル端末）の接続テスト</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -340,7 +374,12 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        携帯回線や衛星通信を用いたモバイル端末による情報伝達・共有訓練。
+                        <h4>通信訓練の内容</h4>
+                        <p>携帯回線や衛星通信を用いたモバイル端末による情報伝達・共有訓練。</p>
+                        <ul>
+                            <li>災害時の優先回線切り替え手順の確認</li>
+                            <li>本部への状況報告（SITREP）の送信テスト</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -354,7 +393,16 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        CSCA-TTTに基づいた救護所ゾーニングと設営。
+                        <h4>CSCA-TTTに基づくゾーニング</h4>
+                        <ul>
+                            <li><strong>C (Command)：</strong> 指揮所（全体統括・リエゾン）</li>
+                            <li><strong>S (Safety)：</strong> 安全確保（危険因子・二次災害の排除）</li>
+                            <li><strong>C (Communication)：</strong> 情報通信（本部・他機関との連絡）</li>
+                            <li><strong>A (Assessment)：</strong> 評価（全体状況の把握）</li>
+                            <li><strong>T (Triage)：</strong> 一次・二次トリアージエリアの配置</li>
+                            <li><strong>T (Treatment)：</strong> 治療エリア（赤・黄・緑・黒ゾーンの展開）</li>
+                            <li><strong>T (Transport)：</strong> 搬送調整エリア（後方病院への送り出し）</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -371,7 +419,12 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        模擬患者に対する医師会・歯科医師会・薬剤師会の連携診療。一次トリアージから各ゾーンへの振り分け。
+                        <h4>3師会連携による実践診療</h4>
+                        <ul>
+                            <li><strong>医師会：</strong> 一次トリアージ判定、赤（重症）の応急処置、搬送順位の決定</li>
+                            <li><strong>歯科医師会：</strong> 顔面・口腔外傷の処置、避難所における口腔ケアニーズ（誤嚥性肺炎予防等）の集約</li>
+                            <li><strong>薬剤師会：</strong> 慢性疾患（降圧薬・インスリン等）の在庫管理、お薬手帳なき場合の代替薬処方判断・服薬指導</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -382,7 +435,12 @@
                 <details class="locked-details">
                     <summary class="locked-summary">くわしい内容を見る</summary>
                     <div class="detail-body">
-                        各班からの反省点共有、統括講評、解散。
+                        <h4>振り返りと解散</h4>
+                        <ul>
+                            <li>各班（医師会・歯科医師会・薬剤師会・事務局）からの反省点・気づきの共有</li>
+                            <li>統括講評（良かった点、実際の災害時に向けた課題の提示）</li>
+                            <li>資機材の片付け、原状復帰、解散</li>
+                        </ul>
                     </div>
                 </details>
             </li>
@@ -392,7 +450,7 @@
         <!-- パスワード入力欄（振り返り用） -->
         <div id="lock-box" class="lock-box">
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
-            <p class="lock-text">パスワード（「一次」など）を入力すると、各項目のくわしい内容（details）が展開します。</p>
+            <p class="lock-text">パスワード（「一次」など）を入力すると、各項目のくわしい内容が展開します。</p>
             <form id="lock-form" class="lock-form">
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
@@ -406,7 +464,7 @@
 
 <script>
 (function () {
-    var STORE_KEY = "portal_unlocked_20261031_v4";
+    var STORE_KEY = "portal_unlocked_20261031_v5";
     var box = document.getElementById("lock-box");
     var form = document.getElementById("lock-form");
     var input = document.getElementById("lock-input");
@@ -416,13 +474,10 @@
         var detailsList = document.querySelectorAll(".locked-details");
         for (var i = 0; i < detailsList.length; i++) {
             detailsList[i].style.display = "block";
-            // 最初から開き状態にしたい場合は以下を有効にしてください
-            // detailsList[i].open = true;
         }
         if (box) box.style.display = "none";
     }
 
-    // 起動時のストレージチェック
     try {
         if (localStorage.getItem(STORE_KEY) === "true") {
             revealDetails();
@@ -433,7 +488,6 @@
         ev.preventDefault();
         var val = (input.value || "").trim().normalize("NFKC");
         
-        // 「一次」「1次」「１次」「一次トリアージ」等のいずれでもOK
         if (val === "一次" || val === "1次" || val === "１次" || val === "一次トリアージ" || val === "1次トリアージ" || val === "１次トリアージ") {
             revealDetails();
             try { localStorage.setItem(STORE_KEY, "true"); } catch (e) {}
