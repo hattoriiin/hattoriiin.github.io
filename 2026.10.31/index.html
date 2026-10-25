@@ -373,7 +373,6 @@
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
             <p class="lock-text">各場面のくわしい内容は、パスワードを入力すると見られます。一度開くと、この端末では次回から入力なしで表示されます。</p>
             <form id="lock-form" class="lock-form">
-                <!-- 答えを見せない通常の「パスワード」表記にしつつ、日本語が打ちやすい type="text" を維持 -->
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
             </form>
@@ -426,12 +425,13 @@
     function unlock(pw) {
         var enc = new TextEncoder();
         
-        // ★ 厳密な正規化：前後の空白を消し、全角半角の揺れを直しつつ、「1」「１」「一」を確実に「一次」へ統一
-        var cleanPw = (pw || "").toString();
-        var norm = cleanPw.normalize("NFKC").trim().toLowerCase();
-        norm = norm.replace(/^[1１一]次/, "一次");
+        // シンプルかつ確実に揺れを吸収する変換
+        var val = (pw || "").trim();
+        if (val === "1次" || val === "１次" || val === "1次トリアージ" || val === "１次トリアージ" || val === "一次トリアージ") {
+            val = "一次";
+        }
         
-        return crypto.subtle.importKey("raw", enc.encode(norm), "PBKDF2", false, ["deriveKey"])
+        return crypto.subtle.importKey("raw", enc.encode(val), "PBKDF2", false, ["deriveKey"])
             .then(function (base) {
                 return crypto.subtle.deriveKey(
                     { name: "PBKDF2", salt: fromB64(P.salt), iterations: P.iter, hash: "SHA-256" },
@@ -451,34 +451,21 @@
     }
 
     var saved = null;
-    try { 
-        saved = localStorage.getItem(STORE); 
-    } catch (e) {
-        // プライベートモード等でストレージがブロックされてもエラーで落ちないように保護
-        saved = null; 
-    }
-
+    try { saved = localStorage.getItem(STORE); } catch (e) {}
     if (saved) {
         crypto.subtle.importKey("raw", fromB64(saved), "AES-GCM", false, ["decrypt"])
             .then(decryptWith)
             .then(show)
-            .catch(function () { 
-                try { localStorage.removeItem(STORE); } catch (e) {} 
-            });
+            .catch(function () { try { localStorage.removeItem(STORE); } catch (e) {} });
     }
 
     form.addEventListener("submit", function (ev) {
         ev.preventDefault();
         if (!input.value) return;
         msg.textContent = "確認しています…";
-        
-        try {
-            unlock(input.value).catch(function () {
-                msg.textContent = "パスワードが違います。";
-            });
-        } catch (e) {
-            msg.textContent = "エラーが発生しました。";
-        }
+        unlock(input.value).catch(function () {
+            msg.textContent = "パスワードが違います。";
+        });
     });
 })();
 </script>
