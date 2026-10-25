@@ -71,16 +71,7 @@
         .btn-primary:active {
             transform: scale(0.98);
         }
-        .btn-secondary {
-            display: block;
-            background-color: #64748b;
-            color: #ffffff;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.95rem;
+        .btn-primary + .btn-primary {
             margin-top: 10px;
         }
         ul {
@@ -119,6 +110,129 @@
             color: #94a3b8;
             text-decoration: none;
         }
+
+        /* 当日の流れ（タイムライン） */
+        .flow-lead {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin: 0 0 14px;
+        }
+        .timeline {
+            position: relative;
+            margin: 0;
+            padding: 0 0 0 22px;
+            list-style: none;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: #cbd5e1;
+        }
+        .seg {
+            position: relative;
+            margin: 0 0 18px;
+            padding: 0;
+        }
+        .seg:last-child {
+            margin-bottom: 0;
+        }
+        .seg::before {
+            content: "";
+            position: absolute;
+            left: -22px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            box-sizing: border-box;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid var(--primary);
+        }
+        .seg.pre::before {
+            border-color: #94a3b8;
+        }
+        .seg-time {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 0.04em;
+        }
+        .seg.pre .seg-time {
+            color: var(--text-sub);
+        }
+        .seg-tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 0 6px;
+            border-radius: 4px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: bold;
+        }
+        .seg h3 {
+            font-size: 1.05rem;
+            margin: 2px 0 4px;
+            color: var(--text);
+        }
+        .seg p {
+            font-size: 0.9rem;
+            margin: 0 0 6px;
+        }
+        .seg ul {
+            margin: 4px 0 6px;
+        }
+        .seg li {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        .dur {
+            color: var(--text-sub);
+            font-size: 0.8rem;
+        }
+        details {
+            margin: 6px 0 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+        summary {
+            cursor: pointer;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .detail-body {
+            padding: 0 12px 10px;
+            font-size: 0.88rem;
+        }
+        .detail-body h4 {
+            margin: 10px 0 4px;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+        .detail-body p {
+            margin: 0 0 4px;
+            font-size: 0.88rem;
+        }
+        .detail-body ul {
+            margin: 2px 0 4px;
+        }
+        .detail-body li {
+            font-size: 0.88rem;
+            margin-bottom: 3px;
+        }
+        .seg .btn-primary {
+            margin-top: 8px;
+            padding: 13px;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -152,21 +266,128 @@
         </ul>
     </div>
 
-    <!-- メインナビボタン -->
+    <!-- 当日の流れ -->
     <div class="card">
-        <h2>🗺️ 救護所の動き（CSCA-TTT）</h2>
-        <p style="font-size: 0.9rem; margin-bottom: 16px;">体制づくり（CSCA）から医療活動（TTT）まで、救護所の動きを1枚の図で確認できます。</p>
-        <a href="csca-ttt.html" class="btn-primary">
-            👉 救護所の動きを開く
-        </a>
-    </div>
+        <h2>🕒 当日の流れ</h2>
+        <p class="flow-lead">上から順に進みます。この画面を見ながら、今どこかを確認してください。</p>
 
-    <div class="card">
-        <h2>📱 一次トリアージ判定</h2>
-        <p style="font-size: 0.9rem; margin-bottom: 16px;">スマホ画面で判定手順（START法）をタップしながら、直感的に一次トリアージの判定ができます。</p>
-        <a href="triage.html" class="btn-primary">
-            👉 一次トリアージ判定を開く
-        </a>
+        <ol class="timeline">
+
+            <li class="seg pre">
+                <span class="seg-time">13:00〜</span><span class="seg-tag">集合前・医師会のみ</span>
+                <h3>AKKシステムの訓練</h3>
+                <p>受診者安否・避難所・救護所情報のデジタル集約を、参加者が集まる前に医師会だけで行います。</p>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">14:00</span>
+                <h3>開会・資料の確認</h3>
+                <p>開会あいさつ（瑞穂区医師会会長、瑞穂区長、名古屋市会議員）のあと、受付で渡した資料を確認します。</p>
+                <details>
+                    <summary>確認すること</summary>
+                    <div class="detail-body">
+                        <ul>
+                            <li>ネームプレートを着用してください。裏に、模擬診察時の役割が書いてあります。</li>
+                            <li>裏に役割の記載がない方は、見学をお願いします。</li>
+                            <li>資料に不足があれば、ピンクのビブスを着た保健センター職員に声をかけてください。</li>
+                            <li>訓練の様子は、写真・動画で記録します。個人が特定される映像を広報に使う場合は、事前に了解をいただきます。</li>
+                        </ul>
+                    </div>
+                </details>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">14:10</span>
+                <h3>資機材・設備の説明</h3>
+                <ul>
+                    <li>発電機・投光器、災害用トイレの説明（区役所）<span class="dur">　約15分</span></li>
+                    <li>地下式給水栓の開設方法（動画、保健センター）<span class="dur">　約6分</span></li>
+                    <li>防災倉庫の確認（区役所）<span class="dur">　約10分</span></li>
+                </ul>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">14:40</span>
+                <h3>公共安全モバイルシステムの訓練</h3>
+                <p>本年度から導入されたシステムです。保健センターの説明（約5分）のあと、3人ずつ、2回程度、実際に操作します。他の参加者は見学です。</p>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">15:00</span>
+                <h3>医療救護所の設営訓練</h3>
+                <p>発災を想定した流れで設営します。状況確認、役割分担、設営の順に進みます。<span class="dur">　設営は約10分</span></p>
+                <p>役割は体育館の壁に貼ってあります。役割の場所に集まってください。見学の方は、見える位置に集まってください。</p>
+                <details>
+                    <summary>設営の流れを見る</summary>
+                    <div class="detail-body">
+                        <h4>状況確認</h4>
+                        <p>施設の安全確認が済むまで、勝手に入らず、安全が確認されるまで待つことが重要です。</p>
+                        <ul>
+                            <li>近隣協力員等が学校の門を解錠し、施設の安全確認が終わっていることが前提です。</li>
+                            <li>設営が可能なら、医療救護班が救護所の鍵を解錠します。</li>
+                            <li>設営が困難と判断したら、その旨を区医師会または本会の本部に伝えます。</li>
+                        </ul>
+                        <h4>役割分担</h4>
+                        <p>その場に集まった会員で、大まかな役割分担を決めます。</p>
+                        <ul>
+                            <li><strong>リーダー</strong>（医療救護班の班長または副班長）：活動の指揮をとる</li>
+                            <li><strong>連絡係、記録係</strong>：本部との通信内容や活動内容を記録する</li>
+                            <li><strong>トリアージ係、搬送係</strong>：搬送者の選別や搬送の準備をする</li>
+                            <li><strong>診察、避難所への巡回診療</strong>：本部からの指示で、適宜決める</li>
+                        </ul>
+                        <h4>設営</h4>
+                        <ul>
+                            <li>防災備蓄倉庫から、災害時救護所セット（黒いケース）を運び出します。中に、救護所に使う部屋の鍵が入っています。</li>
+                            <li>本来の救護所は、汐路中学校ではJ教室と相談室です。本日は訓練で人数の関係もあり、体育館で実施します。</li>
+                            <li>どの通信設備が使えて、どこと連絡できるかを確認します。</li>
+                            <li>全員で、図面を参考に、机・椅子を移動して診察室、薬局、受付を作ります。</li>
+                            <li>全員で、図面を参考に、パーテーションをセットします（訓練では1個のみ）。</li>
+                            <li>全員で、診察道具（カルテ、問診票、その他書類、薬品リスト、聴診器、医療材料など）を用意します。</li>
+                            <li>ホワイトボード代わりに、ホワイトシートを用意します。</li>
+                        </ul>
+                        <h4>役割ごとの設営</h4>
+                        <ul>
+                            <li>「診察・診察介助」「投薬」「問診」の役割：机と椅子のセット</li>
+                            <li>「クロノロ」の役割：ホワイトシートの貼付</li>
+                            <li>その他、医師会から参加の方：パーテーションの組み立て（区役所の方の説明に従います）</li>
+                        </ul>
+                        <p>最後に、救護所が設営できたことを示す掲示を、中学校の校門などに貼り出します。ここで設営は完了です。</p>
+                    </div>
+                </details>
+                <a href="csca-ttt.html" class="btn-primary">
+                    🗺️ 救護所の動き（CSCA-TTT）を開く
+                </a>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">設営のあと</span>
+                <h3>模擬診察</h3>
+                <ul>
+                    <li>START法と、CSCA-TTT の Command &amp; Control の説明<span class="dur">　約5分（受付で渡した講義資料）</span></li>
+                    <li>模擬診察（一次トリアージも行います）<span class="dur">　約20分</span></li>
+                </ul>
+                <p>模擬診察の間に、次の2つも行います。</p>
+                <ul>
+                    <li><strong>薬剤師会から参加の方：</strong>薬剤の確認<span class="dur">　約10分</span></li>
+                    <li><strong>該当の方：</strong>実際の救護所の設置場所であるJ教室と相談室の確認と、救護所セットの鍵で解錠できるかの確認（移動します）<span class="dur">　約5分</span></li>
+                </ul>
+                <p>模擬診察のあとは、片付けです。<span class="dur">　約5分</span></p>
+                <a href="csca-ttt.html" class="btn-primary">
+                    🗺️ 救護所の動き（CSCA-TTT）を開く
+                </a>
+                <a href="triage.html" class="btn-primary">
+                    📱 一次トリアージ判定を開く
+                </a>
+                <p class="dur" style="margin-top: 8px;">スマホ画面で判定手順（START法）をタップしながら、一次トリアージの判定ができます。</p>
+            </li>
+
+            <li class="seg">
+                <span class="seg-time">15:50</span>
+                <h3>講評・閉会</h3>
+                <p>瑞穂区医師会による講評のあと、閉会です。最初に集まった舞台付近に移動してください。<span class="dur">　16:00 終了予定</span></p>
+            </li>
+
+        </ol>
     </div>
 </div>
 
