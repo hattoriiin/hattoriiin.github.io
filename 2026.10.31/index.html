@@ -101,7 +101,6 @@
             line-height: 1.5;
             color: #475569;
         }
-        /* さりげない服部医院ホームページへのリンク */
         .home-link {
             font-size: 0.72rem;
             line-height: 1.3;
@@ -110,8 +109,6 @@
             color: #94a3b8;
             text-decoration: none;
         }
-
-        /* 当日の流れ（タイムライン） */
         .flow-lead {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -191,17 +188,11 @@
             font-size: 0.9rem;
             margin-bottom: 4px;
         }
-        .dur {
-            color: var(--text-sub);
-            font-size: 0.8rem;
-        }
         .seg .btn-primary {
             margin-top: 8px;
             padding: 13px;
             font-size: 1rem;
         }
-
-        /* パスワード入力（振り返り用） */
         .lock-box {
             margin-top: 18px;
             padding: 14px;
@@ -257,7 +248,6 @@
             line-height: 1.5;
             color: #475569;
         }
-        /* 募集リンク（ページ最下部・控えめ） */
         .recruit {
             margin: 4px 0 0;
             text-align: center;
@@ -360,9 +350,11 @@
             </li>
 
         </ol>
+
+        <!-- パスワード入力欄（常に表示） -->
         <div id="lock-box" class="lock-box">
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
-            <p class="lock-text">各場面のくわしい内容は、パスワードを入力すると見られます。一度開くと、この端末では次回から入力なしで表示されます。</p>
+            <p class="lock-text">パスワード（一次）を入力すると、各項目のくわしい内容が展開します。</p>
             <form id="lock-form" class="lock-form">
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
@@ -371,41 +363,27 @@
         </div>
     </div>
 
-    <!-- ▼ 医療救護班員の募集リンク -->
     <p class="recruit"><a href="https://ishikai.nagoya/info/kyugobosyu.pdf" target="_blank" rel="noopener">参考：名古屋市医師会 医療救護班員の募集（PDF）</a></p>
 </div>
 
 <script>
 (function () {
-    var STORE = "portal-2026-10-31-unlocked";
     var box = document.getElementById("lock-box");
     var form = document.getElementById("lock-form");
     var input = document.getElementById("lock-input");
     var msg = document.getElementById("lock-msg");
 
-    function unlockPortal() {
-        var notes = document.querySelectorAll(".detail-note");
-        for (var i = 0; i < notes.length; i++) {
-            notes[i].style.display = "block";
-        }
-        if (box) box.style.display = "none";
-        try { localStorage.setItem(STORE, "true"); } catch (e) {}
-    }
-
-    // すでに解除済みの端末なら最初から詳細を表示
-    try {
-        if (localStorage.getItem(STORE) === "true") {
-            unlockPortal();
-            return;
-        }
-    } catch (e) {}
-
     form.addEventListener("submit", function (ev) {
         ev.preventDefault();
         var val = (input.value || "").trim().normalize("NFKC");
+        
         // 「一次」「1次」「１次」「一次トリアージ」等のいずれでもOK
         if (val === "一次" || val === "1次" || val === "１次" || val === "一次トリアージ" || val === "1次トリアージ" || val === "１次トリアージ") {
-            unlockPortal();
+            var notes = document.querySelectorAll(".detail-note");
+            for (var i = 0; i < notes.length; i++) {
+                notes[i].style.display = "block";
+            }
+            if (box) box.style.display = "none";
         } else {
             msg.textContent = "パスワードが違います。";
             input.value = "";
