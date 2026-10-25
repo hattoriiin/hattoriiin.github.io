@@ -22,28 +22,18 @@
             max-width: 600px;
             margin: 0 auto;
         }
+        /* 図を主役にするため、リンクはさりげない文字リンクにする */
         .nav {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            line-height: 1.3;
         }
         .nav a, .nav-bottom a {
-            flex: 1;
-            display: block;
-            text-align: center;
-            padding: 12px 8px;
-            border-radius: 10px;
+            color: #64748b;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
-        .btn-portal {
-            background-color: #64748b;
-            color: #ffffff;
-        }
-        .btn-triage {
-            background-color: var(--primary);
-            color: #ffffff;
+            padding: 6px 2px;
         }
         .figure a {
             display: block;
@@ -64,8 +54,10 @@
         }
         .nav-bottom {
             display: flex;
-            gap: 10px;
-            margin-top: 14px;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            line-height: 1.3;
         }
     </style>
 </head>
@@ -78,11 +70,8 @@
     </div>
 
     <div class="figure">
-        <a href="csca-ttt.png.PNG">
-            <img src="csca-ttt.png.PNG" alt="令和8年度 瑞穂区医師会 災害時医療救護所訓練 救護所の動き。体制づくり（CSCA）の順に体制を整え、医療活動（TTT）を行う。">
-        </a>
+        <img src="csca-ttt.png.PNG" alt="令和8年度 瑞穂区医師会 災害時医療救護所訓練 救護所の動き。体制づくり（CSCA）の順に体制を整え、医療活動（TTT）を行う。">
     </div>
-    <p class="hint">図をタップすると拡大できます</p>
 
     <div class="nav-bottom">
         <a href="index.html" class="btn-portal">← 訓練ポータル</a>
