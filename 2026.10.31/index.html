@@ -188,39 +188,51 @@
         /* 詳細用 details / summary スタイル */
         .locked-details {
             display: none;
-            margin: 6px 0 8px;
-            border: 1px solid #e2e8f0;
+            margin: 8px 0 10px;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
             background: #f8fafc;
         }
         .locked-summary {
             cursor: pointer;
-            padding: 8px 12px;
-            font-size: 0.88rem;
+            padding: 10px 14px;
+            font-size: 0.9rem;
             font-weight: bold;
             color: var(--primary);
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .locked-details[open] .locked-summary {
+            border-bottom: 1px solid #e2e8f0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
         .detail-body {
-            padding: 0 12px 10px;
+            padding: 12px 14px;
             font-size: 0.88rem;
-            color: #475569;
+            color: #334155;
+            line-height: 1.6;
         }
         .detail-body h4 {
-            margin: 10px 0 4px;
-            font-size: 0.88rem;
-            color: var(--text);
+            margin: 12px 0 4px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 6px;
+        }
+        .detail-body h4:first-child {
+            margin-top: 0;
         }
         .detail-body p {
-            margin: 0 0 4px;
-            font-size: 0.88rem;
+            margin: 0 0 8px;
         }
         .detail-body ul {
-            margin: 2px 0 4px;
-            padding-left: 18px;
+            margin: 4px 0 8px;
+            padding-left: 20px;
         }
         .detail-body li {
-            font-size: 0.85rem;
-            margin-bottom: 3px;
+            font-size: 0.86rem;
+            margin-bottom: 4px;
         }
 
         /* パスワード入力（振り返り用） */
@@ -322,14 +334,15 @@
                 <span class="seg-time">13:00〜</span><span class="seg-tag">集合前・医師会のみ</span>
                 <h3>AKKシステムの訓練</h3>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>目的と内容</h4>
-                        <p>災害医療情報システム（AKKシステム）を用いた被災状況・傷病者情報の集約訓練。本部との回線接続およびデータ送受信の確認を行います。</p>
-                        <h4>実施上の留意点</h4>
+                        <h4>AKKシステム事前接続訓練の目的</h4>
+                        <p>災害医療情報システムを用いた被災状況・傷病者情報の集約訓練。本番稼働に向けた本部サーバーとの回線接続テストおよびデータ送受信の動作確認を行います。</p>
+                        <h4>実施手順と留意点</h4>
                         <ul>
-                            <li>端末のバッテリー残量、電波状況、ログイン情報の再確認</li>
-                            <li>入力フォーマットの統一と、誤送信防止のためのダブルチェック体制</li>
+                            <li><strong>端末準備：</strong> 各自のモバイル端末（タブレット・スマートフォン）のバッテリー確認および専用回線・Wi-Fi接続の確認。</li>
+                            <li><strong>データ入力テスト：</strong> 模擬データを想定してシステムへの登録・送信を実施し、エラーの有無をチェック。</li>
+                            <li><strong>役割分担：</strong> 医師会内でのシステム入力担当者（データマネージャー）をあらかじめ明確にしておく。</li>
                         </ul>
                     </div>
                 </details>
@@ -339,13 +352,14 @@
                 <span class="seg-time">14:00</span>
                 <h3>開会</h3>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>進行内容</h4>
-                        <p>全体説明および訓練上の諸注意の伝達。</p>
+                        <h4>開会式・オリエンテーション</h4>
+                        <p>全体説明および訓練上の諸注意の伝達を行います。</p>
                         <ul>
-                            <li>主催者挨拶および訓練統括者からの指示</li>
-                            <li>参加者名簿の確認、安全管理上の注意事項（熱中症・防寒対策、動線確認）</li>
+                            <li>主催者挨拶および訓練統括者（医師会役員等）からの本日の想定シナリオ共有。</li>
+                            <li>安全管理上の注意事項（校内動線の確認、熱中症・防寒対策、けが防止の徹底）。</li>
+                            <li>各機関（医師会・歯科医師会・薬剤師会・行政事務局・消防等）の責任者紹介とリエゾン体制の確認。</li>
                         </ul>
                     </div>
                 </details>
@@ -355,14 +369,15 @@
                 <span class="seg-time">14:10</span>
                 <h3>資機材・設備の説明</h3>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>主な確認資機材</h4>
+                        <h4>救護所設営資機材の確認と取り扱い</h4>
+                        <p>設営に必要な各種ハードウェアの点検と設営スタッフへのレクチャーを行います。</p>
                         <ul>
-                            <li>救護所設営用テント（組み立て手順、ウェイト設置）</li>
-                            <li>非常用発電機、照明器具、コードリールの配線確認</li>
-                            <li>トリアージタッグ、カルテ、筆記用具、ホワイトボード（クロノロ用）の一式</li>
-                            <li>通信機器（衛星・IP無線・モバイル端末）の接続テスト</li>
+                            <li><strong>テント類：</strong> 救護所用ワンタッチテント・組み立て式テントの展開手順と、強風対策のウェイト（重り）設置。</li>
+                            <li><strong>電源・照明：</strong> 非常用発電機の始動手順、コードリールの安全な配線、夜間・屋内照明の確保。</li>
+                            <li><strong>医療資機材：</strong> トリアージタッグ、簡易ベッド、ストレッチャー、外傷処置セット、感染防護具（PPE）の配置確認。</li>
+                            <li><strong>通信・記録：</strong> ホワイトボード（クロノロ用）、マーカー、IP無線機等の動作確認。</li>
                         </ul>
                     </div>
                 </details>
@@ -372,13 +387,14 @@
                 <span class="seg-time">14:40</span>
                 <h3>公共安全モバイルシステムの訓練</h3>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>通信訓練の内容</h4>
-                        <p>携帯回線や衛星通信を用いたモバイル端末による情報伝達・共有訓練。</p>
+                        <h4>広域通信・情報伝達訓練</h4>
+                        <p>携帯回線や衛星通信（Starlink等）を用いたモバイル端末による情報伝達・共有訓練を実施します。</p>
                         <ul>
-                            <li>災害時の優先回線切り替え手順の確認</li>
-                            <li>本部への状況報告（SITREP）の送信テスト</li>
+                            <li>災害時の輻輳（ふくそう）を想定した優先回線の接続確認。</li>
+                            <li>災害対策本部への定期的な状況報告（SITREP：収容患者数、重症度別内訳、医療資機材の枯渇状況等）の送信演習。</li>
+                            <li>他救護所や後方病院（基幹病院）との搬送調整ラインの疎通確認。</li>
                         </ul>
                     </div>
                 </details>
@@ -391,17 +407,25 @@
                     🗺️ 救護所の動き（CSCA-TTT）を開く
                 </a>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>CSCA-TTTに基づくゾーニング</h4>
+                        <h4>CSCA-TTTモデルに基づく救護所ゾーニング</h4>
+                        <p>災害医学の標準的フレームワーク（CSCA-TTT）に則った効率的なレイアウトを展開します。</p>
                         <ul>
-                            <li><strong>C (Command)：</strong> 指揮所（全体統括・リエゾン）</li>
-                            <li><strong>S (Safety)：</strong> 安全確保（危険因子・二次災害の排除）</li>
-                            <li><strong>C (Communication)：</strong> 情報通信（本部・他機関との連絡）</li>
-                            <li><strong>A (Assessment)：</strong> 評価（全体状況の把握）</li>
-                            <li><strong>T (Triage)：</strong> 一次・二次トリアージエリアの配置</li>
-                            <li><strong>T (Treatment)：</strong> 治療エリア（赤・黄・緑・黒ゾーンの展開）</li>
-                            <li><strong>T (Transport)：</strong> 搬送調整エリア（後方病院への送り出し）</li>
+                            <li><strong>C (Command - 指揮)：</strong> 救護所全体の統括責任者席。全体の進捗管理と他機関との折衝。</li>
+                            <li><strong>S (Safety - 安全)：</strong> 倒壊家屋・余震等の危険因子評価、スタッフの安全管理。</li>
+                            <li><strong>C (Communication - 通信)：</strong> 本部および搬送機関との連絡窓口。</li>
+                            <li><strong>A (Assessment - 評価)：</strong> 刻々と変わる被災状況や傷病者の流入予測の分析。</li>
+                            <li><strong>T (Triage - トリアージ)：</strong> 来所した傷病者を最初に受け入れ、重症度を判別する一次トリアージエリア。</li>
+                            <li><strong>T (Treatment - 治療)：</strong> 
+                                <ul>
+                                    <li>赤（重症・緊急）：最優先の救命処置エリア</li>
+                                    <li>黄（中等症）：継続観察エリア</li>
+                                    <li>緑（軽症）：セルフケア・軽処置エリア</li>
+                                    <li>黒（死亡・不処置）：モルグ（待機エリア）</li>
+                                </ul>
+                            </li>
+                            <li><strong>T (Transport - 搬送)：</strong> 後方病院への搬送バス・救急車待ちおよび送り出しエリア。</li>
                         </ul>
                     </div>
                 </details>
@@ -417,13 +441,14 @@
                     📱 一次トリアージ判定を開く
                 </a>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>3師会連携による実践診療</h4>
+                        <h4>3師会連携による実践的トリアージ・模擬診察</h4>
+                        <p>多数の模擬患者（負傷者役）の来所を想定したロールプレイング形式の診療訓練。</p>
                         <ul>
-                            <li><strong>医師会：</strong> 一次トリアージ判定、赤（重症）の応急処置、搬送順位の決定</li>
-                            <li><strong>歯科医師会：</strong> 顔面・口腔外傷の処置、避難所における口腔ケアニーズ（誤嚥性肺炎予防等）の集約</li>
-                            <li><strong>薬剤師会：</strong> 慢性疾患（降圧薬・インスリン等）の在庫管理、お薬手帳なき場合の代替薬処方判断・服薬指導</li>
+                            <li><strong>医師会の役割：</strong> 一次トリアージの迅速な判定、赤（重症）に対する気道確保・止血等の応急処置、後方病院への搬送順位決定。</li>
+                            <li><strong>歯科医師会の役割：</strong> 災害時の多発外傷である顔面・口腔外傷の初期処置、避難所における高齢者・要配慮者の口腔ケアニーズ（誤嚥性肺炎・感染症予防）の集約。</li>
+                            <li><strong>薬剤師会の役割：</strong> 避難者がお薬手帳を持たずに避難してきた状況を想定。持病（高血圧・糖尿病等の慢性疾患）に対する代替薬の処方判断支援、服薬指導、限られたトリアージ医薬品の在庫管理。</li>
                         </ul>
                     </div>
                 </details>
@@ -433,13 +458,14 @@
                 <span class="seg-time">15:50</span>
                 <h3>講評・閉会</h3>
                 <details class="locked-details">
-                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <summary class="locked-summary">くわしい内容（運営・解説）を見る</summary>
                     <div class="detail-body">
-                        <h4>振り返りと解散</h4>
+                        <h4>振り返り、統括講評、解散</h4>
+                        <p>本日の訓練の総括と、実際の災害対応に向けた課題の共有を行います。</p>
                         <ul>
-                            <li>各班（医師会・歯科医師会・薬剤師会・事務局）からの反省点・気づきの共有</li>
-                            <li>統括講評（良かった点、実際の災害時に向けた課題の提示）</li>
-                            <li>資機材の片付け、原状復帰、解散</li>
+                            <li>各部門（医師会・歯科医師会・薬剤師会・事務局）からの反省点・気づきの発表。</li>
+                            <li>統括者による全体講評（良かった点、改善すべきボトルネックの指摘）。</li>
+                            <li>資機材の完全撤収、清掃、原状復帰を確認し、現地解散。</li>
                         </ul>
                     </div>
                 </details>
@@ -450,7 +476,7 @@
         <!-- パスワード入力欄（振り返り用） -->
         <div id="lock-box" class="lock-box">
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
-            <p class="lock-text">パスワード（「一次」など）を入力すると、各項目のくわしい内容が展開します。</p>
+            <p class="lock-text">パスワード（「一次」など）を入力すると、各項目のくわしい内容（解説・運営手順）が展開します。</p>
             <form id="lock-form" class="lock-form">
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
@@ -464,7 +490,7 @@
 
 <script>
 (function () {
-    var STORE_KEY = "portal_unlocked_20261031_v5";
+    var STORE_KEY = "portal_unlocked_20261031_v6";
     var box = document.getElementById("lock-box");
     var form = document.getElementById("lock-form");
     var input = document.getElementById("lock-input");
