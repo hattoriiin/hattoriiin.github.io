@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>救護所の動き（CSCA-TTT）</title>
+    <title>2026.10.31 瑞穂区救護所訓練 ポータル</title>
     <style>
         :root {
             --primary: #0056b3;
+            --primary-hover: #003d80;
             --bg: #f8fafc;
+            --card-bg: #ffffff;
             --text: #1e293b;
+            --text-sub: #64748b;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 12px 12px 24px;
+            padding: 16px;
             background-color: var(--bg);
             color: var(--text);
         }
@@ -22,71 +25,133 @@
             max-width: 600px;
             margin: 0 auto;
         }
-        .nav {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        .nav a, .nav-bottom a {
-            flex: 1;
-            display: block;
+        .header {
             text-align: center;
-            padding: 12px 8px;
+            padding: 20px 0 10px;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0 0 8px 0;
+        }
+        .header p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin: 0;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+        .card h2 {
+            font-size: 1.15rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        .btn-primary {
+            display: block;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-align: center;
+            padding: 16px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 6px rgba(0, 86, 179, 0.2);
+            transition: background-color 0.2s, transform 0.1s;
         }
-        .btn-portal {
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        .btn-secondary {
+            display: block;
             background-color: #64748b;
             color: #ffffff;
-        }
-        .btn-triage {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-        .figure a {
-            display: block;
-        }
-        .figure img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: #ffffff;
-        }
-        .hint {
-            font-size: 0.8rem;
-            color: #64748b;
             text-align: center;
-            margin: 6px 0 14px;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-top: 10px;
         }
-        .nav-bottom {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 6px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="nav">
-        <a href="index.html" class="btn-portal">← 訓練ポータル</a>
-        <a href="triage.html" class="btn-triage">一次トリアージ判定 →</a>
+    <div class="header">
+        <h1>🚨 瑞穂区救護所訓練 ポータル</h1>
+        <p>2026年10月31日（土）14:00〜16:00／汐路中学校</p>
     </div>
 
-    <div class="figure">
-        <a href="csca-ttt.png.PNG">
-            <img src="csca-ttt.png.PNG" alt="令和8年度 瑞穂区医師会 災害時医療救護所訓練 救護所の動き。体制づくり（CSCA）の順に体制を整え、医療活動（TTT）を行う。">
+    <!-- メインナビボタン -->
+    <div class="card">
+        <h2>📱 一次トリアージ判定</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 16px;">スマホ画面で判定手順（START法）をタップしながら、直感的に一次トリアージの判定ができます。</p>
+        <a href="triage.html" class="btn-primary">
+            👉 一次トリアージ判定を開く
         </a>
     </div>
-    <p class="hint">図をタップすると拡大できます</p>
 
-    <div class="nav-bottom">
-        <a href="index.html" class="btn-portal">← 訓練ポータル</a>
-        <a href="triage.html" class="btn-triage">一次トリアージ判定 →</a>
+    <div class="card">
+        <h2>🗺️ 救護所の動き（CSCA-TTT）</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 16px;">体制づくり（CSCA）から医療活動（TTT）まで、救護所の動きを1枚の図で確認できます。</p>
+        <a href="csca-ttt.html" class="btn-primary">
+            👉 救護所の動きを開く
+        </a>
+    </div>
+
+    <!-- 訓練概要・ガイド -->
+    <div class="card">
+        <h2>📋 救護所訓練の概要</h2>
+        <span class="badge">想定シナリオ</span>
+        <p style="font-size: 0.9rem; margin-top: 0;">南海トラフ巨大地震発生 翌日午前（瑞穂区内救護所開設）</p>
+
+        <span class="badge">3師会連携の役割</span>
+        <ul>
+            <li><strong>医師会：</strong> 全体調整、一次トリアージ、赤（重症）の処置・搬送判断</li>
+            <li><strong>歯科医師会：</strong> 顔面・口腔外傷処置、避難者向け口腔ケアニーズの集約</li>
+            <li><strong>薬剤師会：</strong> 慢性疾患（降圧剤等）の代替薬処方管理・服薬指導</li>
+        </ul>
+
+        <span class="badge" style="margin-top: 10px;">記録・情報管理</span>
+        <ul>
+            <li><strong>クロノロ：</strong> 本部ホワイトボードによる時系列情報共有</li>
+            <li><strong>AKKシステム：</strong> 受診者安否・避難所・救護所情報のデジタル集約</li>
+        </ul>
+    </div>
+
+    <!-- ホームページへの戻りリンク -->
+    <div class="card">
+        <h2>🔗 リンク</h2>
+        <a href="../index.html" class="btn-secondary">🏠 服部医院 ホームページ（トップ）へ戻る</a>
     </div>
 </div>
 
