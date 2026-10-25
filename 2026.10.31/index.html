@@ -101,6 +101,7 @@
             line-height: 1.5;
             color: #475569;
         }
+        /* さりげない服部医院ホームページへのリンク */
         .home-link {
             font-size: 0.72rem;
             line-height: 1.3;
@@ -109,6 +110,8 @@
             color: #94a3b8;
             text-decoration: none;
         }
+
+        /* 当日の流れ（タイムライン） */
         .flow-lead {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -230,6 +233,8 @@
             padding: 13px;
             font-size: 1rem;
         }
+
+        /* パスワード入力（振り返り用） */
         .lock-box {
             margin-top: 18px;
             padding: 14px;
@@ -274,6 +279,7 @@
             font-size: 0.82rem;
             color: #b45309;
         }
+        /* 募集リンク（ページ最下部・控えめ） */
         .recruit {
             margin: 4px 0 0;
             text-align: center;
@@ -373,14 +379,17 @@
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
             <p class="lock-text">各場面のくわしい内容は、パスワードを入力すると見られます。一度開くと、この端末では次回から入力なしで表示されます。</p>
             <form id="lock-form" class="lock-form">
-                <input id="lock-input" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
+                <!-- type="text" にしてiPhoneでも日本語キーボードがスムーズに出るように設定 -->
+                <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="一次トリアージ と入力" aria-label="パスワード">
                 <button type="submit">開く</button>
             </form>
             <div id="lock-msg" class="lock-msg" role="status"></div>
         </div>
     </div>
 
+    <!-- ▼ 医療救護班員の募集リンク（ここから）。削除する場合は、この行から「（ここまで）」の行までを消してください -->
     <p class="recruit"><a href="https://ishikai.nagoya/info/kyugobosyu.pdf" target="_blank" rel="noopener">参考：名古屋市医師会 医療救護班員の募集（PDF）</a></p>
+    <!-- ▲ 医療救護班員の募集リンク（ここまで） -->
 </div>
 
 <script>
@@ -423,10 +432,7 @@
     function unlock(pw) {
         var enc = new TextEncoder();
         
-        // ★ 入力された文字を綺麗にしつつ、「一次」「１次」「1次」をすべて「一次」に統一します
         var norm = pw.normalize("NFKC").trim().toLowerCase();
-        
-        // 全角数字の「１」や半角の「1」から始まる「次トリアージ」をすべて「一次トリアージ」に統一
         norm = norm.replace(/^[1１一]次/, "一次");
         
         return crypto.subtle.importKey("raw", enc.encode(norm), "PBKDF2", false, ["deriveKey"])
