@@ -109,6 +109,8 @@
             color: #94a3b8;
             text-decoration: none;
         }
+
+        /* 当日の流れ（タイムライン） */
         .flow-lead {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -177,22 +179,34 @@
             margin: 2px 0 4px;
             color: var(--text);
         }
-        .seg p {
-            font-size: 0.9rem;
-            margin: 0 0 6px;
-        }
-        .seg ul {
-            margin: 4px 0 6px;
-        }
-        .seg li {
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-        }
         .seg .btn-primary {
             margin-top: 8px;
             padding: 13px;
             font-size: 1rem;
         }
+
+        /* 詳細用 details / summary スタイル */
+        .locked-details {
+            display: none;
+            margin: 6px 0 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+        .locked-summary {
+            cursor: pointer;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .detail-body {
+            padding: 0 12px 10px;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        /* パスワード入力（振り返り用） */
         .lock-box {
             margin-top: 18px;
             padding: 14px;
@@ -236,17 +250,6 @@
             margin-top: 6px;
             font-size: 0.82rem;
             color: #b45309;
-        }
-        /* 各詳細ノート（初期状態では非表示） */
-        .detail-note {
-            display: none;
-            margin-top: 6px;
-            padding: 8px 10px;
-            background-color: #f1f5f9;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #475569;
         }
         .recruit {
             margin: 4px 0 0;
@@ -301,25 +304,45 @@
             <li class="seg pre">
                 <span class="seg-time">13:00〜</span><span class="seg-tag">集合前・医師会のみ</span>
                 <h3>AKKシステムの訓練</h3>
-                <div class="detail-note">災害医療情報システムを用いた被災状況・傷病者情報の集約訓練。本部との回線接続およびデータ送受信の確認を行います。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        災害医療情報システムを用いた被災状況・傷病者情報の集約訓練。本部との回線接続およびデータ送受信の確認を行います。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
                 <span class="seg-time">14:00</span>
                 <h3>開会</h3>
-                <div class="detail-note">全体説明および訓練上の諸注意。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        全体説明および訓練上の諸注意。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
                 <span class="seg-time">14:10</span>
                 <h3>資機材・設備の説明</h3>
-                <div class="detail-note">救護所設営に必要なテント、発電機、トリアージタッグ、通信機器などの確認と取扱い説明。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        救護所設営に必要なテント、発電機、トリアージタッグ、通信機器などの確認と取扱い説明。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
                 <span class="seg-time">14:40</span>
                 <h3>公共安全モバイルシステムの訓練</h3>
-                <div class="detail-note">携帯回線や衛星通信を用いたモバイル端末による情報伝達・共有訓練。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        携帯回線や衛星通信を用いたモバイル端末による情報伝達・共有訓練。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
@@ -328,7 +351,12 @@
                 <a href="csca-ttt.html" class="btn-primary">
                     🗺️ 救護所の動き（CSCA-TTT）を開く
                 </a>
-                <div class="detail-note">CSCA-TTTに基づいた救護所ゾーニングと設営。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        CSCA-TTTに基づいた救護所ゾーニングと設営。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
@@ -340,21 +368,31 @@
                 <a href="triage.html" class="btn-primary">
                     📱 一次トリアージ判定を開く
                 </a>
-                <div class="detail-note">模擬患者に対する医師会・歯科医師会・薬剤師会の連携診療。一次トリアージから各ゾーンへの振り分け。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        模擬患者に対する医師会・歯科医師会・薬剤師会の連携診療。一次トリアージから各ゾーンへの振り分け。
+                    </div>
+                </details>
             </li>
 
             <li class="seg">
                 <span class="seg-time">15:50</span>
                 <h3>講評・閉会</h3>
-                <div class="detail-note">各班からの反省点共有、統括講評、解散。</div>
+                <details class="locked-details">
+                    <summary class="locked-summary">くわしい内容を見る</summary>
+                    <div class="detail-body">
+                        各班からの反省点共有、統括講評、解散。
+                    </div>
+                </details>
             </li>
 
         </ol>
 
-        <!-- パスワード入力欄 -->
+        <!-- パスワード入力欄（振り返り用） -->
         <div id="lock-box" class="lock-box">
             <div class="lock-title">🔒 くわしい内容（振り返り用）</div>
-            <p class="lock-text">パスワード（「一次」など）を入力すると、くわしい内容が展開します。</p>
+            <p class="lock-text">パスワード（「一次」など）を入力すると、各項目のくわしい内容（details）が展開します。</p>
             <form id="lock-form" class="lock-form">
                 <input id="lock-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="パスワード" aria-label="パスワード">
                 <button type="submit">開く</button>
@@ -368,21 +406,23 @@
 
 <script>
 (function () {
-    var STORE_KEY = "portal_unlocked_20261031_v2";
+    var STORE_KEY = "portal_unlocked_20261031_v4";
     var box = document.getElementById("lock-box");
     var form = document.getElementById("lock-form");
     var input = document.getElementById("lock-input");
     var msg = document.getElementById("lock-msg");
 
     function revealDetails() {
-        var notes = document.querySelectorAll(".detail-note");
-        for (var i = 0; i < notes.length; i++) {
-            notes[i].style.display = "block";
+        var detailsList = document.querySelectorAll(".locked-details");
+        for (var i = 0; i < detailsList.length; i++) {
+            detailsList[i].style.display = "block";
+            // 最初から開き状態にしたい場合は以下を有効にしてください
+            // detailsList[i].open = true;
         }
         if (box) box.style.display = "none";
     }
 
-    // 起動時に前回の解除状態をチェック
+    // 起動時のストレージチェック
     try {
         if (localStorage.getItem(STORE_KEY) === "true") {
             revealDetails();
