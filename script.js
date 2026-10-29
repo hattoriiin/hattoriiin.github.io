@@ -1,560 +1,346 @@
-/*
- * ==================================================
- * 院内写真 横スクロール制御
- * ==================================================
- */
 
-const clinicView =
-    document.querySelector('.clinic-view');
+"use strict";
 
-const clinicImage =
-    document.querySelector('.clinic-image');
+/* ==================================================
+   1. 院内写真の横スクロール
+================================================== */
 
-let currentX = -30;
-let targetX = -30;
+(function () {
+    const clinicView = document.querySelector(".clinic-view");
+    const clinicImage = document.querySelector(".clinic-image");
 
-
-/**
- * 院内写真の横移動目標位置を計算する。
- */
-function updateTarget(){
-
-    if(!clinicView || !clinicImage){
+    if (!clinicView || !clinicImage) {
+        console.error("院内写真：.clinic-view または .clinic-image が見つかりません。");
         return;
     }
 
-    const rect =
-        clinicView.getBoundingClientRect();
+    let currentX = -30;
+    let targetX = -30;
+    let framePending = false;
 
-    const viewportHeight =
-        window.innerHeight;
+    function updateTarget() {
+        const rect = clinicView.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const start = viewportHeight * 1.15;
+        const end = -viewportHeight * 0.25;
 
-    const start =
-        viewportHeight * 1.15;
+        let progress = (start - rect.top) / (start - end);
+        progress = Math.max(0, Math.min(1, progress));
 
-    const end =
-        -viewportHeight * 0.25;
+        const smooth = progress * progress * (3 - 2 * progress);
+        targetX = -30 + smooth * 60;
 
-    let progress =
-        (start - rect.top) /
-        (start - end);
-
-    progress =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                progress
-            )
-        );
-
-    const smooth =
-        progress *
-        progress *
-        (3 - 2 * progress);
-
-    targetX =
-        -30 +
-        smooth * 60;
-}
-
-
-/**
- * 院内写真を目標位置へ滑らかに移動する。
- */
-function animateClinic(){
-
-    if(!clinicImage){
-        return;
-    }
-
-    currentX +=
-        (targetX - currentX) *
-        0.025;
-
-    clinicImage.style.transform =
-        `translate3d(
-            calc(-50% + ${currentX}%),
-            -50%,
-            0
-        ) scale(.85)`;
-
-    requestAnimationFrame(
-        animateClinic
-    );
-}
-
-
-updateTarget();
-
-animateClinic();
-
-
-window.addEventListener(
-    'scroll',
-    updateTarget,
-    {
-        passive:true
-    }
-);
-
-
-window.addEventListener(
-    'resize',
-    updateTarget
-);
-
-
-/*
- * ==================================================
- * 詳細クリック時の縦スクロール
- * ==================================================
- */
-
-function smoothScrollTo(
-    target,
-    duration = 1800
-){
-
-    if(!target){
-        console.warn(
-            'スクロール先の要素が見つかりません。'
-        );
-        return;
-    }
-
-    const startY =
-        window.scrollY;
-
-    const offset =
-        window.innerWidth <= 600
-            ? 24
-            : 32;
-
-    const targetRect =
-        target.getBoundingClientRect();
-
-    const targetY =
-        targetRect.top +
-        window.scrollY -
-        offset;
-
-    const distance =
-        targetY - startY;
-
-    if(Math.abs(distance) < 2){
-        return;
-    }
-
-    let startTime = null;
-
-    function easeInOutCubic(t){
-        if(t < 0.5){
-            return 4 * t * t * t;
-        }
-        return 1 -
-            Math.pow(
-                -2 * t + 2,
-                3
-            ) / 2;
-    }
-
-    function step(timestamp){
-        if(startTime === null){
-            startTime = timestamp;
-        }
-
-        const elapsed =
-            timestamp - startTime;
-
-        const progress =
-            Math.min(
-                elapsed / duration,
-                1
-            );
-
-        const eased =
-            easeInOutCubic(
-                progress
-            );
-
-        const currentY =
-            startY +
-            distance * eased;
-
-        window.scrollTo(
-            0,
-            currentY
-        );
-
-        if(progress < 1){
-            requestAnimationFrame(
-                step
-            );
-        }
-        else{
-            window.scrollTo(
-                0,
-                targetY
-            );
+        if (!framePending) {
+            framePending = true;
+            requestAnimationFrame(animate);
         }
     }
 
-    requestAnimationFrame(
-        step
-    );
-}
+    function animate() {
+        currentX += (targetX - currentX) * 0.08;
+
+        if (Math.abs(targetX - currentX) < 0.03) {
+            currentX = targetX;
+        }
+
+        clinicImage.style.transform =
+            `translate3d(calc(-50% + ${currentX}%), -50%, 0) scale(.85)`;
+
+        framePending = false;
+
+        if (Math.abs(targetX - currentX) >= 0.03) {
+            framePending = true;
+            requestAnimationFrame(animate);
+        }
+    }
+
+    window.addEventListener("scroll", updateTarget, { passive: true });
+    window.addEventListener("resize", updateTarget);
+    updateTarget();
+})();
 
 
-const newsDetailLink =
-    document.querySelector(
-        '.news-detail-note a[href="#news"]'
-    );
+/* ==================================================
+   2. お知らせの読み込み
+================================================== */
 
+(async function () {
+    const previewList = document.querySelector(".news-preview-list");
+    const newsList = document.querySelector(".news-list");
 
-if(newsDetailLink){
+    if (!previewList && !newsList) return;
 
-    newsDetailLink.addEventListener(
-        'click',
-        function(event){
-            event.preventDefault();
+    try {
+        const response = await fetch("/news.json", { cache: "no-cache" });
 
-            const target =
-                document.getElementById('news');
+        if (!response.ok) {
+            throw new Error(`news.json の取得に失敗しました（${response.status}）`);
+        }
 
-            if(!target){
-                console.warn(
-                    '#news が見つかりません。'
-                );
-                return;
+        const news = await response.json();
+
+        if (!Array.isArray(news)) {
+            throw new Error("news.json の形式が配列ではありません。");
+        }
+
+        function createNewsLink(item) {
+            const link = document.createElement("a");
+            const href = typeof item.link === "string" ? item.link.trim() : "";
+
+            /* javascript: などの危険なリンクを許可しない */
+            if (/^(https?:\/\/|\/|\.\/|\.\.\/|[a-zA-Z0-9_-])/i.test(href)) {
+                link.href = href;
+            } else {
+                link.href = "#";
             }
 
-            smoothScrollTo(
-                target,
-                1800
-            );
-        }
-    );
-}
-
-
-/*
- * ==================================================
- * お知らせ読み込み
- * ==================================================
- */
-
-fetch('news.json')
-
-    .then(response => {
-        if(!response.ok){
-            throw new Error(
-                `news.jsonの取得に失敗しました: ${response.status}`
-            );
-        }
-        return response.json();
-    })
-
-    .then(news => {
-
-        if(!Array.isArray(news)){
-            throw new Error(
-                'news.jsonの形式が正しくありません。'
-            );
+            link.textContent = typeof item.title === "string" ? item.title : "";
+            return link;
         }
 
-        function getSafeLink(value){
-            if(typeof value !== 'string'){
-                return '#';
-            }
-
-            const trimmed =
-                value.trim();
-
-            if(
-                /^(https?:\/\/|\/|\.\/|\.\.\/|[a-zA-Z0-9_-])/i
-                    .test(trimmed)
-            ){
-                return trimmed;
-            }
-
-            return '#';
+        function createDate(item) {
+            const date = document.createElement("span");
+            date.className = "news-preview-date";
+            date.textContent = typeof item.date === "string" ? item.date : "";
+            return date;
         }
 
-
-        /* ==========================================
-           上のお知らせ 最新3件
-        ========================================== */
-
-        const previewList =
-            document.querySelector(
-                '.news-preview-list'
-            );
-
-        if(previewList){
+        if (previewList) {
             previewList.replaceChildren();
 
-            news
-                .slice(0,3)
-                .forEach(item => {
-
-                    const previewItem =
-                        document.createElement('div');
-
-                    previewItem.className =
-                        'news-preview-item';
-
-                    const date =
-                        document.createElement('span');
-
-                    date.className =
-                        'news-preview-date';
-
-                    date.textContent =
-                        typeof item.date === 'string'
-                            ? item.date
-                            : '';
-
-                    const link =
-                        document.createElement('a');
-
-                    link.href =
-                        getSafeLink(item.link);
-
-                    link.textContent =
-                        typeof item.title === 'string'
-                            ? item.title
-                            : '';
-
-                    previewItem.appendChild(date);
-                    previewItem.appendChild(link);
-                    previewList.appendChild(
-                        previewItem
-                    );
-                });
+            news.slice(0, 3).forEach(item => {
+                const row = document.createElement("div");
+                row.className = "news-preview-item";
+                row.append(createDate(item), createNewsLink(item));
+                previewList.appendChild(row);
+            });
         }
 
-
-        /* ==========================================
-           下のお知らせ 最新3件
-        ========================================== */
-
-        const newsList =
-            document.querySelector(
-                '.news-list'
-            );
-
-        if(newsList){
+        if (newsList) {
             newsList.replaceChildren();
 
-            news
-                .slice(0,3)
-                .forEach(item => {
+            news.slice(0, 3).forEach(item => {
+                const row = document.createElement("div");
+                row.className = "news-item";
 
-                    const newsItem =
-                        document.createElement('div');
+                const date = document.createElement("span");
+                date.className = "news-date";
+                date.textContent = typeof item.date === "string" ? item.date : "";
 
-                    newsItem.className =
-                        'news-item';
+                const body = document.createElement("p");
+                body.className = "news-body";
+                body.innerHTML =
+                    typeof item.body === "string" && item.body.length
+                        ? item.body
+                        : "詳細は準備中です。";
 
-                    const date =
-                        document.createElement('span');
+                row.append(date, createNewsLink(item), body);
+                newsList.appendChild(row);
+            });
 
-                    date.className =
-                        'news-date';
+            const note = document.createElement("p");
+            note.className = "news-detail-note";
 
-                    date.textContent =
-                        typeof item.date === 'string'
-                            ? item.date
-                            : '';
+            const pastLink = document.createElement("a");
+            pastLink.href = "news.html";
+            pastLink.textContent = "※ 過去のお知らせはクリック";
 
-                    const link =
-                        document.createElement('a');
-
-                    link.href =
-                        getSafeLink(item.link);
-
-                    link.textContent =
-                        typeof item.title === 'string'
-                            ? item.title
-                            : '';
-
-                    const body =
-                        document.createElement('p');
-
-                    body.className =
-                        'news-body';
-
-                    body.textContent =
-                        typeof item.body === 'string' &&
-                        item.body.length > 0
-                            ? item.body
-                            : '詳細は準備中です。';
-
-                    newsItem.appendChild(date);
-                    newsItem.appendChild(link);
-                    newsItem.appendChild(body);
-
-                    newsList.appendChild(newsItem);
-                });
-
-
-            /* ======================================
-               過去のお知らせ
-            ====================================== */
-
-            const past =
-                document.createElement('p');
-
-            past.className =
-                'news-detail-note';
-
-            const pastLink =
-                document.createElement('a');
-
-            pastLink.href =
-                'news.html';
-
-            pastLink.textContent =
-                '※ 過去のお知らせはクリック';
-
-            past.appendChild(pastLink);
-            newsList.appendChild(past);
+            note.appendChild(pastLink);
+            newsList.appendChild(note);
         }
-    })
+    } catch (error) {
+        console.error("お知らせの読み込みに失敗しました。", error);
 
-    .catch(error => {
-        console.error(
-            'お知らせの読み込みに失敗しました。',
-            error
+        if (previewList) {
+            previewList.textContent = "お知らせを読み込めませんでした。";
+        }
+    }
+})();
+
+
+/* ==================================================
+   3. 「詳細はクリック」の緩やかなスクロール
+================================================== */
+
+(function () {
+    let animationId = null;
+
+    function smoothScrollTo(target, duration = 1800) {
+        if (!target) return;
+
+        if (animationId !== null) {
+            cancelAnimationFrame(animationId);
+        }
+
+        const startY = window.scrollY;
+        const targetY = startY + target.getBoundingClientRect().top - 20;
+        const distance = targetY - startY;
+        const startTime = performance.now();
+
+        function step(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const eased = progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+            window.scrollTo(0, startY + distance * eased);
+
+            if (progress < 1) {
+                animationId = requestAnimationFrame(step);
+            } else {
+                window.scrollTo(0, targetY);
+                animationId = null;
+            }
+        }
+
+        animationId = requestAnimationFrame(step);
+    }
+
+    /* 後から生成されるリンクにも対応 */
+    document.addEventListener("click", function (event) {
+        const targetLink = event.target.closest(
+            '.news-detail-note a[href="#news"]'
         );
+
+        if (!targetLink) return;
+
+        const newsSection = document.getElementById("news");
+        if (!newsSection) return;
+
+        event.preventDefault();
+        smoothScrollTo(newsSection, 1800);
+    });
+})();
+
+/* ==================================================
+   ⭐ ページ末尾の鳥
+   画面に入るたびにふわっと表示する
+================================================== */
+(() => {
+    "use strict";
+
+    const bird = document.querySelector(".footer-bird");
+    if (!bird) return;
+
+    // IntersectionObserverが使えない環境では静止表示
+    if (!("IntersectionObserver" in window)) {
+        bird.classList.add("is-visible");
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            const entry = entries[0];
+
+            if (entry.isIntersecting) {
+                // 画面に入ったら表示
+                bird.classList.add("is-visible");
+            } else {
+                // 画面から出たら透明に戻す
+                bird.classList.remove("is-visible");
+            }
+        },
+        { threshold: 0.2 }
+    );
+
+    observer.observe(bird);
+})();
+
+/* =========================================
+   横線スクロール表示モジュール
+========================================= */
+
+/**
+ * 横線が画面内に入ったら表示する。
+ *
+ * 引数: なし
+ * 戻り値: なし
+ * 例外: 対象要素がなくても正常終了
+ * 使用例: initScrollLines()
+ */
+function initScrollLines() {
+    const lines = document.querySelectorAll(".scroll-line");
+
+    // 対象がなければ何もしない
+    if (lines.length === 0) return;
+
+    // 非対応環境でも横線を表示する
+    if (!("IntersectionObserver" in window)) {
+        lines.forEach(line => line.classList.add("is-visible"));
+        return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+
+            // 一度表示した線は監視を終了して負荷を抑える
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.3
     });
 
-
-/*
- * ==================================================
- * 担当医表（doctors.html / doctors.json）の長押し表示・非表示制御
- * ==================================================
- */
-
-Promise.all([
-  fetch("doctors.html").then(res => res.text()),
-  fetch("doctors.json").then(res => res.json())
-])
-.then(([htmlText, doctors]) => {
-  const container = document.getElementById("schedule-container");
-  if (!container) return;
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlText, "text/html");
-  const overlayTable = doc.querySelector("table") || doc.querySelector("#doctors-overlay-table");
-
-  if (!overlayTable) {
-    console.error("doctors.html 内に <table> が見つかりません。");
-    return;
-  }
-
-  overlayTable.id = "doctors-overlay-table";
-  overlayTable.classList.add("schedule", "table-overlay");
-
-  const existingTable = document.getElementById("doctors-overlay-table");
-  if (existingTable) {
-    existingTable.remove();
-  }
-
-  container.appendChild(overlayTable);
-
-  function createDoctorName(name) {
-    if (!name || !String(name).trim()) return `<span class="doctor-empty">―</span>`;
-    let cleanName = String(name).replace(/先生$/, "").trim();
-    let className = "doctor-name";
-    if (cleanName.length >= 6) className += " very-long";
-    else if (cleanName.length >= 4) className += " long";
-
-    const chars = [...cleanName].map(char => `<span class="doctor-char">${char}</span>`).join("");
-    return `<span class="${className}">${chars}</span>`;
-  }
-
-  overlayTable.querySelectorAll("td[data-time]").forEach(cell => {
-    const day = cell.dataset.day;
-    const time = cell.dataset.time;
-    cell.innerHTML = createDoctorName(doctors?.[day]?.[time] || "");
-  });
-
-  overlayTable.querySelectorAll("td[data-visit]").forEach(cell => {
-    const day = cell.dataset.day;
-    cell.innerHTML = createDoctorName(doctors?.[day]?.["訪問"] || "");
-  });
-
-  setupToggleEvents();
-})
-.catch(err => console.error("担当医表データ読み込みエラー:", err));
-
-function setupToggleEvents() {
-  const btn = document.getElementById("toggle-doctors-btn");
-  const overlayTable = document.getElementById("doctors-overlay-table");
-
-  if (!btn || !overlayTable) return;
-
-  function showOverlay(e) {
-    if (e) e.preventDefault();
-    overlayTable.classList.add("is-active");
-    btn.classList.add("active");
-  }
-
-  function hideOverlay(e) {
-    overlayTable.classList.remove("is-active");
-    btn.classList.remove("active");
-  }
-
-  btn.addEventListener("mousedown", showOverlay);
-  btn.addEventListener("mouseup", hideOverlay);
-  btn.addEventListener("mouseleave", hideOverlay);
-
-  btn.addEventListener("touchstart", showOverlay, { passive: false });
-  btn.addEventListener("touchend", hideOverlay);
-  btn.addEventListener("touchcancel", hideOverlay);
+    lines.forEach(line => {
+        if (!line.classList.contains("is-visible")) {
+            observer.observe(line);
+        }
+    });
 }
 
-
-/*
- * ==================================================
- * 診療時間時計モーダルの開閉制御
- * ==================================================
- */
-const clockBtn = document.getElementById('clockBtn');
-const clockModal = document.getElementById('clockModal');
-
-if (clockBtn && clockModal) {
-    function showClock(e) {
-        if (e) e.preventDefault();
-        clockModal.classList.add('is-active');
-        clockBtn.classList.add('active');
-    }
-
-    function hideClock(e) {
-        if (e) e.preventDefault();
-        clockModal.classList.remove('is-active');
-        clockBtn.classList.remove('active');
-    }
-
-    // スマホのタッチ操作
-    clockBtn.addEventListener("touchstart", function(e) {
-        showClock(e);
-    }, { passive: false });
-
-    clockBtn.addEventListener("touchend", hideClock);
-    clockBtn.addEventListener("touchcancel", hideClock);
-
-    // PCのマウス操作
-    clockBtn.addEventListener("mousedown", showClock);
-    window.addEventListener("mouseup", hideClock);
-    clockBtn.addEventListener("mouseleave", hideClock);
-    
-    // モーダル背景クリックで閉じる
-    clockModal.addEventListener("click", function(e) {
-        if (e.target === clockModal) {
-            hideClock();
-        }
+// HTMLの読み込み状態に関係なく安全に初期化
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollLines, {
+        once: true
     });
+} else {
+    initScrollLines();
+}
+
+/**
+ * ごあいさつの下線を、スクロール開始後に一度だけ伸ばす。
+ *
+ * 引数: なし
+ * 戻り値: なし
+ * 例外: 見出しがない場合は何もしない
+ * 使用例: initHeadingLine()
+ */
+function initHeadingLine() {
+    const heading = document.querySelector('h2[data-en="GREETING"]');
+
+    // 見出しが存在しない場合は安全に終了
+    if (!heading) return;
+
+    const startScroll = 150;
+
+    /**
+     * スクロール位置を確認して下線を表示する。
+     *
+     * 引数: なし
+     * 戻り値: なし
+     * 例外: なし
+     * 使用例: checkScroll()
+     */
+    function checkScroll() {
+        if (window.scrollY < startScroll) return;
+
+        heading.classList.add("line-visible");
+
+        // 一度伸びたら監視を終了する
+        window.removeEventListener("scroll", checkScroll);
+    }
+
+    // スクロール時だけ判定するので初期表示では動かない
+    window.addEventListener("scroll", checkScroll, { passive: true });
+}
+
+// HTML読み込み後に実行する
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeadingLine, {
+        once: true
+    });
+} else {
+    initHeadingLine();
 }

@@ -1,1266 +1,681 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;font-family:sans-serif;line-height:1.8;color:#222;background:#fff}
+main{max-width:900px;margin:auto;padding:1.5rem;background:#fff}
 
-/* ==================================================
-   基本
-================================================== */
-
-*{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    margin:0;
-    font-family:sans-serif;
-    line-height:1.8;
-    color:#222;
-    background:#fff;
-}
-
-main{
-    max-width:900px;
-    margin:auto;
-    padding:1.5rem;
-    padding-bottom:130px; /* 固定電話ボタンとコンテンツの重なりを確実に防止する余白 */
-    background:#fff;
-}
-
-section{
-    margin-bottom:2rem;
-}
-
-h2{
-    border-bottom:2px solid #ddd;
-    padding-bottom:.5rem;
-    font-size:1.8rem;
-    font-weight:700;
-}
-
-
-/* ==================================================
-   ヘッダー
-================================================== */
-
+/* ヘッダー */
 header{
     background:
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(255,255,255,.08),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 15% 85%,
-            rgba(120,200,220,.08),
-            transparent 45%
-        ),
-        linear-gradient(
-            135deg,
-            #20384d 0%,
-            #31556e 35%,
-            #4d7d98 70%,
-            #78b8c4 100%
-        );
-
-    color:#fff;
-    padding:.8rem 1rem;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.20),
-        inset 0 -25px 40px rgba(0,0,0,.08);
+    radial-gradient(circle at 90% 15%,rgba(255,255,255,.08),transparent 30%),
+    radial-gradient(circle at 15% 85%,rgba(120,200,220,.08),transparent 45%),
+    linear-gradient(135deg,#20384d 0%,#31556e 35%,#4d7d98 70%,#78b8c4 100%);
+    color:#fff;padding:.8rem 1rem;text-align:center;position:relative;overflow:hidden;
+    box-shadow:inset 0 1px rgba(255,255,255,.20),inset 0 -25px 40px rgba(0,0,0,.08);
 }
-
 header::before{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at 85% 12%,
-            rgba(255,255,255,.18) 0%,
-            rgba(255,255,255,.08) 18%,
-            transparent 55%
-        );
-
-    pointer-events:none;
-    z-index:0;
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 85% 12%,rgba(255,255,255,.18) 0%,rgba(255,255,255,.08) 18%,transparent 55%);
+    pointer-events:none;z-index:0;
 }
-
-.clinic-title,
-.catchcopy{
-    position:relative;
-    z-index:3;
-}
-
-.clinic-title{
-    margin:0;
-    line-height:1;
-}
-
+.clinic-title,.catchcopy{position:relative;z-index:3}
+.clinic-title{margin:0;line-height:1}
 .clinic-name{
-    display:block;
-    margin-top:.45em;
-
-    font-family:
-        "M PLUS Rounded 1c",
-        "Noto Sans JP",
-        sans-serif;
-
-    font-size:1.5em;
-    font-weight:400;
-    letter-spacing:.35em;
-
-    text-shadow:
-        0 2px 6px rgba(0,0,0,.22);
+    display:block;margin-top:.45em;
+    font-family:"M PLUS Rounded 1c","Noto Sans JP",sans-serif;
+    font-size:1.5em;font-weight:400;letter-spacing:.35em;
+    text-shadow:0 2px 6px rgba(0,0,0,.22);
 }
-
-.catchcopy{
-    margin-top:10px;
-    margin-bottom:0;
-    font-size:.95em;
-
-    text-shadow:
-        0 1px 4px rgba(0,0,0,.18);
-}
-
-
-/* ==================================================
-   法人名
-================================================== */
-
+.catchcopy{margin-top:10px;margin-bottom:0;font-size:.95em;text-shadow:0 1px 4px rgba(0,0,0,.18)}
 .seishokai{
-    display:flex;
-    justify-content:center;
-    align-items:flex-end;
-    gap:.4em;
-
-    font-size:.55em;
-
-    font-family:
-        "Noto Sans JP",
-        sans-serif;
-
-    font-weight:400;
+    display:flex;justify-content:center;align-items:flex-end;gap:.4em;
+    font-size:.55em;font-family:"Noto Sans JP",sans-serif;font-weight:400;
 }
+.medical{white-space:nowrap}
+.logo-block{display:flex;flex-direction:column;align-items:center}
+.furigana{font-size:.48em;color:#d9d9d9;margin-bottom:.15em;letter-spacing:0}
+.kanji{display:grid;grid-template-columns:repeat(3,1fr);gap:.45em;text-align:center}
+.kanji span{display:block}
 
-.medical{
-    white-space:nowrap;
-}
+/* 本文 */
+section{margin-bottom:2rem}
+h2{border-bottom:2px solid #ddd;padding-bottom:.5rem}
 
-.logo-block{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-.furigana{
-    font-size:.48em;
-    color:#d9d9d9;
-    margin-bottom:.15em;
-    letter-spacing:0;
-}
-
-.kanji{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:.45em;
-    text-align:center;
-}
-
-.kanji span{
-    display:block;
-}
-
-
-/* ==================================================
-   お知らせカード
-================================================== */
-
-.news-card{
-    margin:1.5rem 0;
-    text-align:center;
-}
-
+/* お知らせカード */
+.news-card{margin:1.5rem 0;text-align:center}
 .news-card a{
-    display:inline-block;
-    padding:.8rem 2.5rem;
-
-    background:#31556e;
-    color:#fff;
-
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
+    display:inline-block;padding:.8rem 2.5rem;background:#31556e;color:#fff;
+    text-decoration:none;border-radius:8px;font-weight:bold;
 }
-
-
-/* ==================================================
-   お知らせ 最新3件プレビュー
-================================================== */
-
 .news-preview{
-    position:relative;
-    width:88%;
-    margin:1rem auto .5rem;
-    padding:1rem 1.2rem;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,245,.62),
-            rgba(255,252,220,.28)
-        );
-
-    border:1px solid rgba(210,200,120,.14);
-    border-radius:14px;
-
-    box-shadow:
-        0 6px 18px rgba(80,90,70,.06);
+    position:relative;width:88%;margin:1rem auto .5rem;padding:1rem 1.2rem;
+    box-sizing:border-box;
+    background:linear-gradient(135deg,rgba(255,255,245,.62),rgba(255,252,220,.28));
+    border:1px solid rgba(210,200,120,.14);border-radius:14px;
+    box-shadow:0 6px 18px rgba(80,90,70,.06);
 }
-
 .news-preview::before{
-    content:"";
-    position:absolute;
-    inset:-10px;
-
-    border:2px solid transparent;
-
-    border-image:
-        linear-gradient(
-            135deg,
-            #20384d 0%,
-            #31556e 35%,
-            #4d7d98 70%,
-            #78b8c4 100%
-        ) 1;
-
+    content:"";position:absolute;inset:-10px;border:2px solid transparent;
+    border-image:linear-gradient(135deg,#20384d 0%,#31556e 35%,#4d7d98 70%,#78b8c4 100%) 1;
     pointer-events:none;
 }
+.news-preview-item{padding:.55rem 0;border-bottom:1px solid rgba(49,85,110,.14)}
+.news-preview-item:last-child{border-bottom:none}
+.news-preview-date{display:block;margin:0 0 .1rem;color:#8a875f;font-size:.75rem;letter-spacing:.06em}
 
-.news-preview-item{
-    padding:.55rem 0;
-    border-bottom:1px solid rgba(49,85,110,.14);
-}
+.news-preview-item a{color:#31556e;text-decoration:none;font-size:.92rem}
+.news-preview-item a:hover{text-decoration:underline}
+.news-detail-note{margin:.8rem 0 0;text-align:center;font-size:.75rem}
+.news-detail-note a{color:#4d7d98;text-decoration:none;display:inline-block;padding:.15rem .4rem}
+.news-detail-note a:hover{text-decoration:underline}
 
-.news-preview-item:last-child{
-    border-bottom:none;
-}
-
-.news-preview-date{
-    display:inline-block;
-    margin-right:.8rem;
-
-    color:#8a875f;
-    font-size:.75rem;
-    letter-spacing:.06em;
-}
-
-.news-preview-item a{
-    color:#31556e;
-    text-decoration:none;
-    font-size:.92rem;
-}
-
-.news-preview-item a:hover{
-    text-decoration:underline;
-}
-
-
-/* ==================================================
-   詳細リンク
-================================================== */
-
-.news-detail-note{
-    margin:.8rem 0 0;
-    text-align:center;
-    font-size:.75rem;
-}
-
-.news-detail-note a{
-    color:#4d7d98;
-    text-decoration:none;
-    display:inline-block;
-    padding:.15rem .4rem;
-}
-
-.news-detail-note a:hover{
-    text-decoration:underline;
-}
-
-
-/* ==================================================
-   鳥
-================================================== */
-
+/* 鳥のアニメーション */
 .bird{
-    position:absolute;
-    top:10px;
-    right:-120px;
-    width:80px;
-    z-index:4;
-    pointer-events:none;
-    opacity:0;
+    position:absolute;top:10px;right:-120px;width:80px;z-index:4;
+    pointer-events:none;opacity:0;
 }
-
-.bird1{
-    animation:
-        flybird 25s linear infinite,
-        fadebird1 25s linear infinite;
-}
-
-.bird2{
-    animation:
-        flybird 25s linear infinite,
-        fadebird2 25s linear infinite;
-}
-
+.bird1{animation:flybird 25s linear infinite,fadebird1 25s linear infinite}
+.bird2{animation:flybird 25s linear infinite,fadebird2 25s linear infinite}
 @keyframes flybird{
-    from{
-        transform:translateX(0);
-    }
-
-    to{
-        transform:
-            translateX(
-                calc(-100vw - 220px)
-            );
-    }
+    from{transform:translateX(0)}
+    to{transform:translateX(calc(-100vw - 220px))}
 }
-
 @keyframes fadebird1{
-    0%{opacity:0;}
-    15%{opacity:.20;}
-    20%{opacity:.35;}
-    42%{opacity:.45;}
-    54%{opacity:0;}
-    100%{opacity:0;}
+    0%{opacity:0}
+    15%{opacity:.20}
+    20%{opacity:.35}
+    42%{opacity:.45}
+    54%{opacity:0}
+    100%{opacity:0}
 }
-
 @keyframes fadebird2{
-    0%{opacity:0;}
-    44%{opacity:0;}
-    54%{opacity:.35;}
-    60%{opacity:.35;}
-    66%{opacity:.15;}
-    70%{opacity:0;}
-    100%{opacity:0;}
+    0%{opacity:0}
+    44%{opacity:0}
+    54%{opacity:.35}
+    60%{opacity:.35}
+    66%{opacity:.15}
+    70%{opacity:0}
+    100%{opacity:0}
 }
-
-@media (max-width:600px){
-
+@media(max-width:600px){
     @keyframes fadebird1{
-        0%{opacity:0;}
-        18%{opacity:.20;}
-        25%{opacity:.35;}
-        48%{opacity:.45;}
-        55%{opacity:0;}
-        100%{opacity:0;}
+        0%{opacity:0}
+        18%{opacity:.20}
+        25%{opacity:.35}
+        48%{opacity:.45}
+        55%{opacity:0}
+        100%{opacity:0}
     }
-
     @keyframes fadebird2{
-        0%{opacity:0;}
-        50%{opacity:0;}
-        55%{opacity:.35;}
-        68%{opacity:.35;}
-        74%{opacity:.15;}
-        78%{opacity:0;}
-        100%{opacity:0;}
+        0%{opacity:0}
+        50%{opacity:0}
+        55%{opacity:.35}
+        68%{opacity:.35}
+        74%{opacity:.15}
+        78%{opacity:0}
+        100%{opacity:0}
     }
 }
 
+/* 診療時間表 */
+.schedule{
+    width:100%;table-layout:auto;border-collapse:separate;border-spacing:0;
+    margin-top:1.2rem;overflow:hidden;border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.schedule th,.schedule td{
+    border-bottom:1px solid #ddd;padding:.25rem .35rem;text-align:center;
+    font-size:1rem;line-height:1.15;
+}
+.schedule tr:first-child th{background:#31556e;color:#fff;font-weight:400}
+.schedule tr:not(:first-child) th{background:#f2f7f9;font-weight:400;white-space:nowrap}
+.schedule td{background:#fff}
+.schedule tr:last-child th,.schedule tr:last-child td{border-bottom:none}
+.schedule th:first-child{width:120px}
 
-/* ==================================================
-   診療時間表・担当医表（完全制御レイアウト）
-================================================== */
+.schedule th span{display:inline-block;margin-top:9px;padding-left:1.1em;font-size:.78rem;letter-spacing:0;white-space:nowrap;font-variant-numeric:tabular-nums}
 
-.schedule-overlay-container {
-    width: 100%;
-    margin-top: 1.2rem;
+.schedule tr:not(:first-child) th{
+    line-height:1.35;padding-top:.55rem;padding-bottom:.55rem;letter-spacing:.05em;
 }
 
-/* テーブル全体の設定：幅100%、列幅固定（fixed）、角丸＆シャドウ */
-table.schedule {
-    width: 100% !important;
-    table-layout: fixed !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 14px rgba(40,80,80,.08);
-    background: #fff;
-}
-
-/* 1列目（午前診療・訪問・午後診療のラベル列）：幅を広く取って読みやすく */
-table.schedule th:first-child,
-table.schedule td:first-child {
-    width: 34% !important;
-    text-align: left !important;
-    white-space: normal;
-    padding: 8px 6px !important;
-}
-
-/* 2列目以降（月〜土の曜日列）：幅をギュッと縮めて均等に配置 */
-table.schedule th:not(:first-child),
-table.schedule td:not(:first-child) {
-    width: 11% !important;
-    text-align: center !important;
-    padding: 8px 0 !important;
-}
-
-/* 曜日ヘッダー行（1行目）の配色：ご希望の落ち着いた紺色デザイン */
-table.schedule tr:first-child th {
-    background-color: #31556e !important;
-    color: #fff !important;
-    font-weight: 500;
-    text-align: center;
-}
-
-/* セル共通の基本規定・高さ固定 */
-.schedule th,
-.schedule td{
-    border-bottom:1px solid #ddd;
-    font-size:.85rem;
-    line-height:1.4;
-    vertical-align:middle;
-    box-sizing:border-box !important;
-}
-
-.schedule tr:first-child {
-    height: 42px !important;
-}
-
-.schedule tr:not(:first-child) {
-    height: 72px !important;
-}
-
-/* 表の切り替え制御（ベース表 ⇔ 担当医表） */
-.schedule-overlay-container table.table-schedule-base {
-    display: table !important;
-}
-
-.schedule-overlay-container table.table-overlay {
-    display: none !important;
-}
-
-.schedule-overlay-container.is-active table.table-schedule-base {
-    display: none !important;
-}
-
-.schedule-overlay-container.is-active table.table-overlay {
-    display: table !important;
-}
-
-.schedule-overlay-container.is-active table.table-overlay th,
-.schedule-overlay-container.is-active table.table-overlay td {
-    background-color: #fff !important;
-    color: inherit !important;
-}
-
-/* 曜日ヘッダー部分の背景色は上書きされないよう維持 */
-.schedule-overlay-container.is-active table.table-overlay tr:first-child th {
-    background-color: #31556e !important;
-    color: #fff !important;
-}
-
-
-/* ==================================================
-   外来マーク
-================================================== */
-
+/* 外来マーク */
 .out-circle{
-    display:inline-block;
-    position:relative;
-
-    width:18px;
-    height:18px;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            145deg,
-            #8fc7ff 0%,
-            #3d8bdc 45%,
-            #1769aa 100%
-        );
-
-    box-shadow:
-        inset 0 2px 3px rgba(255,255,255,.65),
-        0 1px 2px rgba(0,0,0,.18);
+    display:inline-block;position:relative;width:18px;height:18px;border-radius:50%;
+    background:linear-gradient(145deg,#8fc7ff 0%,#3d8bdc 45%,#1769aa 100%);
+    box-shadow:inset 0 2px 3px rgba(255,255,255,.65),0 1px 2px rgba(0,0,0,.18);
 }
 
-
-/* ==================================================
-   訪問診療マーク
-================================================== */
-
+/* 訪問診療マーク */
 .visit-circle{
-    position:relative;
-
-    width:18px;
-    height:18px;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            145deg,
-            #b7e88a 0%,
-            #70ad47 45%,
-            #4f8a2f 100%
-        );
-
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:
-        inset 0 2px 3px rgba(255,255,255,.65),
-        0 1px 2px rgba(0,0,0,.18);
+    position:relative;width:18px;height:18px;border-radius:50%;
+    background:linear-gradient(145deg,#b7e88a 0%,#70ad47 45%,#4f8a2f 100%);
+    display:inline-flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 2px 3px rgba(255,255,255,.65),0 1px 2px rgba(0,0,0,.18);
 }
+.visit-circle svg{width:12px;height:12px;display:block;flex:none}
 
-.visit-circle svg{
-    width:12px;
-    height:12px;
-}
-
-
-/* ==================================================
-   固定電話ボタン
-================================================== */
-
+/* 固定電話ボタン */
 .fixed-call{
-    position:fixed !important;
-
-    left:16px;
-    right:16px;
-    bottom:calc(16px + env(safe-area-inset-bottom, 0px)); /* ←このようにまとめる */
-
-    z-index:2147483647 !important;
-
-    display:block;
-
-    padding:14px;
-    text-align:center;
-
-    border-radius:14px;
-
-    background:rgba(49,85,110,.94);
-    color:#fff;
-
-    text-decoration:none;
-    font-size:1rem;
-    font-weight:500;
-
-    box-shadow:
-        0 6px 20px rgba(0,0,0,.18);
-
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
-
-    will-change:transform;
+    position:fixed!important;left:16px;right:16px;bottom:16px;
+    z-index:2147483647!important;display:block;padding:14px;text-align:center;
+    border-radius:14px;background:rgba(49,85,110,.94);color:#fff;
+    text-decoration:none;font-size:1rem;font-weight:500;
+    box-shadow:0 6px 20px rgba(0,0,0,.18);
+    transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform;
+    margin-bottom:env(safe-area-inset-bottom);
 }
+.online-note{margin-top:10px;text-align:left;font-size:.85rem}
+.online-note a{color:#4d7d98;text-decoration:none}
 
-
-
-/* ==================================================
-   医師紹介ボタン
-================================================== */
-
-.doctors-note {
-    margin-top: 18px;
-    text-align: center;
-}
-
-.doctors-btn {
-    display: inline-block;
-    padding: 10px 24px;
-    
-    background: #ffffff;
-    color: #31556e;
-    
-    font-size: .95rem;
-    font-weight: 500;
-    text-decoration: none;
-    letter-spacing: .05em;
-    
-    border: 1.5px solid #31556e;
-    border-radius: 25px;
-    
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    
-    transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
-    
-    -webkit-tap-highlight-color: transparent;
-}
-
-.doctors-btn:hover,
-.doctors-btn:active {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(49,85,110,.22);
-    background-color: #f7fafc;
-}
-
-.online-note{
-    margin-top:10px;
-    text-align:left;
-    font-size:.85rem;
-}
-
-.online-note a{
-    color:#4d7d98;
-    text-decoration:none;
-}
-
-.reception-note {
-    margin-bottom: 20px;
-}
-
-
-/* ==================================================
-   画像保護
-================================================== */
-
+/* 画像保護 */
 .protected-image{
-    float:left;
-    width:180px;
-    margin:0 20px 10px 0;
-
-    user-select:none;
-    -webkit-user-select:none;
-    -webkit-touch-callout:none;
+    float:left;width:180px;margin:0 20px 10px 0;
+    user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
 }
-
 .protected-image img{
-    display:block;
-    width:100%;
-    height:auto;
-
-    user-select:none;
-    -webkit-user-select:none;
-    -webkit-user-drag:none;
-    -webkit-touch-callout:none;
-
-    pointer-events:none;
+    display:block;width:100%;height:auto;
+    user-select:none;-webkit-user-select:none;-webkit-user-drag:none;
+    -webkit-touch-callout:none;pointer-events:none;
 }
-
-@media (max-width:600px){
-
-    .protected-image{
-        width:120px;
-        margin-right:15px;
-        margin-bottom:8px;
-    }
+@media(max-width:600px){
+    .protected-image{width:120px;margin-right:15px;margin-bottom:8px}
 }
 
 
-/* ==================================================
-   所在地・アクセス
-================================================== */
-
+/* 所在地・アクセス */
 .location-grid{
-    display:grid;
-    grid-template-columns:40% 60%;
-    gap:1.5rem;
-    align-items:start;
+    display:grid;grid-template-columns:40% 60%;gap:1.5rem;align-items:start;
 }
-
-.location-map iframe{
-    display:block;
-    width:100%;
-    height:420px;
-    border-radius:10px;
-}
-
-.map-link{
-    margin-top:.6rem;
-    text-align:center;
-    font-size:.8rem;
-}
-
-.map-link a{
-    color:#4d7d98;
-    text-decoration:none;
-}
-
+.location-map iframe{display:block;width:100%;height:100%;border-radius:10px}
+.access-map-frame{width:100%;aspect-ratio:1 / 1.618;overflow:hidden;border-radius:12px}
+.access-map-frame iframe{width:100%;height:100%;border:0;display:block}
+.map-link{margin-top:.6rem;text-align:center;font-size:.8rem}
+.map-link a{color:#4d7d98;text-decoration:none}
 .location-info h3{
-    margin-top:0;
-    margin-bottom:.5rem;
-    padding-bottom:.3rem;
-
-    border-bottom:1px solid #ddd;
-
-    color:#31556e;
-    font-size:1rem;
-    font-weight:500;
+    margin-top:0;margin-bottom:.5rem;padding-bottom:.3rem;
+    border-bottom:1px solid #ddd;color:#31556e;font-size:1rem;font-weight:500;
+}
+.location-info p{margin-top:.5rem;margin-bottom:1rem}
+.access-note{font-size:.85rem;color:#666}
+@media(max-width:600px){
+    .location-grid{grid-template-columns:55% 45%;gap:.7rem;margin-left:-1.5rem;margin-right:-.8rem}
+    .location-info{padding-right:.5rem}
+    .location-map iframe{height:100%}
+    .location-info h3{font-size:.85rem}
+    .location-info p{font-size:.92rem;line-height:1.55}
+    .map-link{font-size:.65rem}
 }
 
-.location-info p{
-    margin-top:.5rem;
-    margin-bottom:1rem;
-}
-
-.access-note{
-    font-size:.85rem;
-    color:#666;
-}
-
-@media (max-width:600px){
-
-    .location-grid{
-        grid-template-columns:55% 45%;
-        gap:.7rem;
-    }
-
-    .location-map iframe{
-        height:180px;
-    }
-
-    .location-info h3{
-        font-size:.85rem;
-    }
-
-    .location-info p{
-        font-size:.92rem;
-        line-height:1.55;
-    }
-
-    .map-link{
-        font-size:.65rem;
-    }
-}
-
-
-/* ==================================================
-   診療内容 フローティングカード
-================================================== */
-
+/* 診療内容カード */
 .service-card{
-    position:relative;
-
-    margin:1rem 0;
-    padding:1.1rem 1.1rem;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(245,250,250,.95),
-            rgba(235,247,244,.92)
-        );
-
-    border:
-        1px solid rgba(110,170,160,.18);
-
-    border-radius:14px;
-    overflow:hidden;
-
-    box-shadow:
-        0 4px 14px rgba(40,80,80,.08);
+    position:relative;margin:1rem 0;padding:1.1rem;
+    background:linear-gradient(135deg,rgba(245,250,250,.95),rgba(235,247,244,.92));
+    border:1px solid rgba(110,170,160,.18);border-radius:14px;overflow:hidden;
+    box-shadow:0 4px 14px rgba(40,80,80,.08);
 }
-
 .service-card::before{
-    content:"";
-    position:absolute;
-
-    left:0;
-    top:0;
-    bottom:0;
-
-    width:7px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(120,184,196,.12),
-            rgba(120,184,196,.45),
-            rgba(120,184,196,.12)
-        );
-
+    content:"";position:absolute;left:0;top:0;bottom:0;width:7px;
+    background:linear-gradient(to bottom,rgba(120,184,196,.12),rgba(120,184,196,.45),rgba(120,184,196,.12));
     border-radius:0 5px 5px 0;
 }
+.service-card h3{margin:0 0 .45rem;color:#31556e;font-size:1.25rem;font-weight:500}
+.service-card p{margin:0;font-size:.92rem;line-height:1.75}
 
-.service-card h3{
-    margin:0 0 .45rem;
-
-    color:#31556e;
-    font-size:1.25rem;
-    font-weight:500;
-}
-
-.service-card p{
-    margin:0;
-    font-size:.92rem;
-    line-height:1.75;
-}
-
-
-/* ==================================================
-   検査機器カード
-================================================== */
-
+/* 検査機器カード */
 .equipment-card{
-    position:relative;
-
-    margin:1rem 0;
-    padding:1.1rem 1.1rem;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(242,248,252,.96),
-            rgba(228,241,248,.94)
-        );
-
-    border:
-        1px solid rgba(90,145,175,.20);
-
-    border-radius:14px;
-    overflow:hidden;
-
-    box-shadow:
-        0 4px 14px rgba(45,85,110,.08);
+    position:relative;margin:1rem 0;padding:1.1rem;
+    background:linear-gradient(135deg,rgba(242,248,252,.96),rgba(228,241,248,.94));
+    border:1px solid rgba(90,145,175,.20);border-radius:14px;overflow:hidden;
+    box-shadow:0 4px 14px rgba(45,85,110,.08);
 }
-
 .equipment-card::before{
-    content:"";
-    position:absolute;
-
-    left:0;
-    top:0;
-    bottom:0;
-
-    width:7px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(90,160,190,.12),
-            rgba(90,160,190,.55),
-            rgba(90,160,190,.12)
-        );
-
+    content:"";position:absolute;left:0;top:0;bottom:0;width:7px;
+    background:linear-gradient(to bottom,rgba(90,160,190,.12),rgba(90,160,190,.55),rgba(90,160,190,.12));
     border-radius:0 5px 5px 0;
 }
-
 .equipment-card h3{
-    margin:0 0 .45rem;
-
-    color:#31556e;
-    font-size:1.25rem;
-    font-weight:500;
-    letter-spacing:.04em;
+    margin:0 0 .45rem;color:#31556e;font-size:1.25rem;font-weight:500;letter-spacing:.04em;
 }
+.equipment-card p{margin:0;font-size:.92rem;line-height:1.75}
 
-.equipment-card p{
-    margin:0;
-    font-size:.92rem;
-    line-height:1.75;
-}
-
-
-/* ==================================================
-   お知らせ
-================================================== */
-
-.news-section{
-    width:88%;
-    margin:3rem auto;
-}
-
+/* お知らせ */
+.news-section{width:88%;margin:3rem auto}
 .news-section h2{
-    width:72%;
-    margin:0 auto 1.8rem;
-    padding:.5rem 0;
-
-    text-align:center;
-
-    border-top:1px solid rgba(49,85,110,.45);
-    border-bottom:1px solid rgba(49,85,110,.45);
-
-    font-size:1.15rem;
-    font-weight:400;
-    letter-spacing:.16em;
+    width:72%;margin:0 auto 1.8rem;padding:.5rem 0;text-align:center;
+    border-top:1px solid rgba(49,85,110,.45);border-bottom:1px solid rgba(49,85,110,.45);
+    font-size:1.15rem;font-weight:400;letter-spacing:.16em;
+}
+.news-list{width:88%;margin:0 auto}
+.news-item{padding:1rem 0;border-bottom:1px solid rgba(49,85,110,.18)}
+.news-item:first-child{border-top:1px solid rgba(49,85,110,.18)}
+.news-date{display:block;margin-bottom:.25rem;color:#777;font-size:.78rem;letter-spacing:.08em}
+.news-item a{color:#31556e;text-decoration:none;font-size:.95rem}
+.news-item a:hover{text-decoration:underline}
+@media(max-width:600px){
+    .news-section{width:94%;margin:2.5rem auto}
+    .news-section h2{width:78%;font-size:1.05rem;letter-spacing:.13em}
+    .news-list{width:92%}
 }
 
-.news-list{
-    width:88%;
-    margin:0 auto;
-}
-
-.news-item{
-    padding:1rem 0;
-
-    border-bottom:
-        1px solid rgba(49,85,110,.18);
-}
-
-.news-item:first-child{
-    border-top:
-        1px solid rgba(49,85,110,.18);
-}
-
-.news-date{
-    display:block;
-    margin-bottom:.25rem;
-
-    color:#777;
-    font-size:.78rem;
-    letter-spacing:.08em;
-}
-
-.news-item a{
-    color:#31556e;
-    text-decoration:none;
-    font-size:.95rem;
-}
-
-.news-item a:hover{
-    text-decoration:underline;
-}
-
-
-/* ==================================================
-   院内写真
-================================================== */
-
+/* 院内写真 */
 .clinic-photo{
-    width:100%;
-    margin:1.5rem 0;
-
-    border-radius:14px;
-    overflow:hidden;
-    position:relative;
-
-    box-shadow:
-        0 3px 10px rgba(40,80,80,.05);
+    width:100%;margin:1.5rem 0;border-radius:14px;overflow:hidden;
+    position:relative;box-shadow:0 3px 10px rgba(40,80,80,.05);
 }
-
-.clinic-photo img{
-    display:block;
-    width:100%;
-    height:auto;
-    opacity:.72;
-}
-
-
-/* ==================================================
-   院内写真スクロール演出
-================================================== */
-
-.clinic-view{
-    position:relative;
-    width:100%;
-    height:38vh;
-    margin:0;
-    overflow:visible;
-}
-
+.clinic-photo img{display:block;width:100%;height:auto;opacity:.72}
+.clinic-view{position:relative;width:100%;height:38vh;margin:0;overflow:visible}
 .clinic-camera{
-    position:sticky;
-
-    top:31vh;
-
-    width:100%;
-    height:38vh;
-
-    overflow:hidden;
-
-    border-radius:14px;
-
-    box-shadow:
-        0 3px 12px rgba(40,80,80,.08);
-
-    background:#fff;
+    position:sticky;top:31vh;width:100%;height:38vh;overflow:hidden;
+    border-radius:14px;box-shadow:0 3px 12px rgba(40,80,80,.08);background:#fff;
 }
-
 .clinic-camera::after{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    pointer-events:none;
-    z-index:2;
-
-    background:
-        linear-gradient(
-            to right,
-            #fff 0%,
-            rgba(255,255,255,.80) 5%,
-            rgba(255,255,255,.35) 12%,
-            transparent 20%,
-            transparent 80%,
-            rgba(255,255,255,.35) 88%,
-            rgba(255,255,255,.80) 95%,
-            #fff 100%
-        );
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
+    background:linear-gradient(to right,#fff 0%,rgba(255,255,255,.80) 5%,rgba(255,255,255,.35) 12%,transparent 20%,transparent 80%,rgba(255,255,255,.35) 88%,rgba(255,255,255,.80) 95%,#fff 100%);
 }
-
 .clinic-image{
-    position:absolute;
+    position:absolute;top:50%;left:50%;width:100%;height:100%;object-fit:cover;
+    max-width:none;transform:translate3d(-50%,-50%,0) scale(.85);will-change:transform;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 5%,#000 95%,transparent 100%);
+}
+@media(max-width:900px) and (orientation:landscape){
+    .clinic-view{height:100vh}
+    .clinic-camera{height:100vh;top:0}
+    .clinic-image{width:auto;height:120%;min-width:100%;object-fit:cover}
+}
+@media(max-width:600px) and (orientation:portrait){
+    .clinic-image{width:auto;height:100%;min-width:140%;object-fit:cover}
+}
 
-    top:50%;
-    left:50%;
+/* 連絡先 */
+.contact-label{display:inline-block;width:3.5em}
 
-    width:100%;
-    height:100%;
 
-    object-fit:cover;
-    max-width:none;
+/* 地図の左端のすき間 */
+@media(min-width:385px) and (max-width:600px){
+    .location-grid{margin-left:-1.1rem}
+}
 
-    transform:
-        translate3d(-50%,-50%,0)
-        scale(.85);
+/* 所在地・アクセス:シャープな見た目(見た目だけ。地図の幅・黄金比は変えない) */
+h2{font-weight:500;letter-spacing:.14em;color:#20384d}
+h2[data-en]::before{
+    content:attr(data-en);display:block;margin-bottom:.15rem;
+    font-size:.62rem;font-weight:500;letter-spacing:.32em;color:#4d7d98;
+}
 
-    will-change:transform;
+.location-addr h3,.location-info h3,.location-walk h3,.location-car h3{
+    margin:0 0 .45rem;padding:0 0 0 .55rem;
+    border-bottom:0;border-left:2px solid #31556e;
+    font-size:.82rem;font-weight:500;letter-spacing:.14em;line-height:1.3;color:#20384d;
+}
+.location-addr p,.location-info p,.location-walk p,.location-car p{margin:.3rem 0 .75rem;color:#333;line-height:1.65}
+.location-addr{margin-bottom:1.3rem}
+.location-info strong,.location-walk strong{
+    display:inline-block;margin-bottom:.2rem;padding:0 .45rem;
+    border:1px solid #4d7d98;border-radius:2px;
+    font-size:.7rem;font-weight:500;letter-spacing:.1em;line-height:1.7;color:#31556e;
+}
+.location-info p{margin:.7rem 0 1.9rem;line-height:2}
+.location-walk .location-bus{margin:0 0 1.4rem;line-height:1.8;text-align:right}
+.location-car .access-note{font-size:.78rem;color:#6b7a85}
+.location-grid-sub{margin-top:1.2rem;grid-template-columns:60% 40%}
+.access-figure{margin:0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.access-figure img{display:block;width:100%;height:auto;border-radius:12px;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}
 
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            #000 5%,
-            #000 95%,
-            transparent 100%
-        );
+.location-car{margin-top:1.4rem}
+.nb{white-space:nowrap}
+@media(max-width:600px){
+    .location-grid-sub{grid-template-columns:45% 55%}
+    .location-addr h3,.location-info h3,.location-walk h3,.location-car h3{font-size:.78rem}
+    .location-addr p,.location-info p,.location-walk p,.location-car p{font-size:.88rem;line-height:1.6}
+    .location-info p{line-height:1.95}
+    .location-walk .location-bus{line-height:1.75}
+    .location-walk{padding-left:1.1rem}
+}
+@media(max-width:384px){
+    .location-walk{padding-left:1.5rem}
+}
 
-    mask-image:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            #000 5%,
-            #000 95%,
-            transparent 100%
-        );
+/* 徒歩の時間を目立たせる */
+.walk{white-space:nowrap;font-weight:600;color:#20384d}
+.walk b{font-size:1.25em;font-weight:700;color:#31556e;padding:0 .08em}
+
+/* 周辺図の右端のすき間(地図の左のすき間と同じ幅) */
+@media(min-width:385px) and (max-width:600px){
+    .location-sub .access-figure{position:relative;left:-.4rem}
+    .location-walk{padding-right:.4rem}
+}
+
+.card-btn{display:flex;align-items:center;gap:.8rem;margin-top:.8rem;text-decoration:none;color:#31556e}
+.card-ico{flex:none;width:2.6rem;height:3rem;fill:#f4f8fa;stroke:#4d7d98;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.card-btn-text b{display:block;font-size:.95rem;font-weight:500;line-height:1.4}
+.card-btn-text small{display:block;font-size:.76rem;color:#6b7a85}
+
+/* アクセス:薄いカード */
+.location-info p,.location-walk .location-bus,.location-car{
+    background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;
+    padding:.6rem .75rem;text-align:left;
+}
+.location-info p,.location-walk .location-bus{margin:.5rem 0 .7rem}
+.location-car p{margin:.3rem 0 .5rem}
+.location-car h3{margin-top:0}
+@media(max-width:600px){
+    .location-info p,.location-walk .location-bus{padding:.5rem .55rem}
+    .location-car{padding:.6rem .7rem}
+}
+
+/* 横向き携帯・パソコン:カードを縦一列(左:地図と周辺図 / 右:カード) */
+@media(min-width:601px){
+    .location-section{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:1.5rem;grid-template-rows:auto auto auto auto auto 1fr auto 1fr auto;align-items:start}
+    .location-section>h2,.location-addr,.location-car{grid-column:1 / -1}
+    .location-grid,.location-grid-sub,.location-info,.location-walk{display:contents}
+    .location-map{grid-column:1;grid-row:3 / span 4}
+    .location-info>*,.location-walk>*{grid-column:2}
+    .location-sub{grid-column:1;grid-row:7 / span 2}
+}
+
+/* 自転車・徒歩のカード / お車カードの右端を上のカードに揃える */
+.location-bike{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem;margin:.5rem 0 .7rem}
+.location-bike h3{margin-top:0}
+.location-bike p{margin:.3rem 0 0}
+@media(max-width:600px){
+    .location-bike{padding:.5rem .55rem}
+    .location-bike h3{font-size:.72rem;letter-spacing:.04em}
+    .location-car{margin-right:-1rem}
+}
+
+/* 見出しはカードの外に出す(公共交通機関・所在地と同じ並び) */
+.location-car{background:none;border:0;padding:0}
+.location-car h3{margin:0 0 .45rem}
+.location-card{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem}
+.location-card p{margin:.3rem 0 .5rem}
+.location-bike{background:none;border:0;padding:0;margin:.9rem 0 0}
+.location-bike h3{margin:0 0 .45rem;font-size:.78rem;letter-spacing:.14em}
+.location-bike p{background:#f4f8fa;border:1px solid rgba(77,125,152,.18);border-radius:10px;padding:.6rem .75rem;margin:.5rem 0 .7rem}
+@media(max-width:600px){
+    .location-bike p{padding:.5rem .55rem}
+    .location-card{padding:.6rem .7rem}
+}
+
+/* 縦持ち:三つのカードの間隔を揃え、周辺図の下端を自転車カードの下端に合わせる */
+@media(max-width:600px){
+    .location-info{display:flex;flex-direction:column;align-self:stretch;margin-bottom:-1.2rem}
+    .location-info p:first-of-type{margin-bottom:auto}
+    .location-info p:last-of-type{margin-bottom:auto}
+    .location-sub{align-self:end}
+    .location-bike p{margin-bottom:0}
+}
+
+/* 鳥(透過性65%=見える部分35%) */
+.bird-note,.bird-note-2{display:none;pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;opacity:.35}
+@media(max-width:410px){
+    .location-sub{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;margin-top:-1.8rem}
+    .bird-note{display:block;flex:1 1 0;min-height:0;width:100%;margin:0;padding:.4rem 10%
+;box-sizing:border-box;object-fit:contain;object-position:center}
+}
+@media(min-width:385px) and (max-width:410px){
+    .bird-note{position:relative;left:-.4rem}
+}
+
+/* 横向き・パソコン:地図 | カード縦一列 | 周辺図 の3列 */
+@media(min-width:601px){
+    .location-section{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:1.2rem;grid-template-rows:auto auto auto auto 1fr auto 1fr auto}
+    .location-map{grid-column:1;grid-row:3 / span 3}
+    .location-info>*,.location-walk>*{grid-column:2}
+    .location-info h3{grid-row:3}
+    .location-info p:first-of-type{grid-row:4}
+    .location-info p:last-of-type{grid-row:5}
+    .location-walk .location-bus{grid-row:6}
+    .location-bike{grid-row:7;align-self:stretch;display:flex;flex-direction:column}
+    .location-bike p{flex:1;margin-bottom:0}
+    .location-sub{display:contents}
+    .location-sub .access-figure{grid-column:3;grid-row:6 / span 2;align-self:end;left:0}
+    .location-car{grid-row:8}
+    .bird-note,.bird-note-2{display:block;justify-self:center;align-self:center;width:62%;height:auto}
+    .bird-note{grid-column:3;grid-row:3 / span 3}
+    .location-walk .bird-note-2{grid-column:1;grid-row:6 / span 2}
+}
+
+/* 縦持ち:市バス・自転車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-walk{padding-left:0}
+}
+
+/* 縦持ち:お車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-car{margin-left:-1.5rem}
+}
+@media(min-width:385px) and (max-width:600px){
+    .location-car{margin-left:-1.1rem}
+}
+
+/* 縦持ち:お車カードの左端を、地図の左端に揃える */
+@media(max-width:600px){
+    .location-car{margin-left:-1.5rem}
+}
+@media(min-width:385px) and (max-width:600px){
+    .location-car{margin-left:-1.1rem}
 }
 
 
 /* ==================================================
-   スマートフォン横向き
+   ⭐ ページ末尾の鳥
+   右下で小さく舞い上がり、静かに留まる
 ================================================== */
 
-@media (max-width:900px) and (orientation:landscape){
-
-    .clinic-view{
-        height:100vh;
-    }
-
-    .clinic-camera{
-        height:100vh;
-        top:0;
-    }
-
-    .clinic-image{
-        width:auto;
-        height:120%;
-        min-width:100%;
-        object-fit:cover;
-    }
-}
-
-
-/* ==================================================
-   スマートフォン縦向き
-================================================== */
-
-@media (max-width:600px) and (orientation:portrait){
-
-    .clinic-image{
-        width:auto;
-        height:100%;
-        min-width:140%;
-        object-fit:cover;
-    }
-}
-
-
-/* ==================================================
-   連絡先
-================================================== */
-
-.contact-label{
-    display:inline-block;
-    width:3.5em;
-}
-
-.contact-phone{
-    color:#555;
-    text-decoration:none;
-}
-
-
-/* ==================================================
-   フッター
-================================================== */
-
-footer{
-    text-align:center;
-}
-
-footer a{
-    color:#4d7d98;
-    text-decoration:none;
-}
-
-footer a:hover{
-    text-decoration:underline;
-}
-
-
-/* ==================================================
-   お知らせ本文
-================================================== */
-
-.news-body{
-    margin-top:.6rem;
-}
-
-
-/* ==================================================
-   担当医名（縦書きフレックス設定）
-================================================== */
-
-.doctor-name {
+.footer-bird {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
-    line-height: 1.1;
-    margin: 0 auto;
-}
-
-.doctor-char {
-    display: inline-block;
-}
-
-.doctor-name.long {
-    font-size: 0.85em;
-}
-
-.doctor-name.very-long {
-    font-size: 0.75em;
-}
-
-.doctor-empty {
-    display: block;
-    text-align: center;
-}
-
-
-
-/* ==================================================
-   時計を起動するボタンのスタイル
-================================================== */
-.clock-trigger-wrap {
-    text-align: center;
-    margin: 20px 0;
-}
-.clock-btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-.clock-btn.active {
-    background-color: #e2e6ea;
-    border-color: #adb5bd;
-}
-
-/* ==================================================
-   時計を表示するモーダル（背景オーバーレイ）
-================================================== */
-.clock-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2147483647;
-    opacity: 0;
-    visibility: hidden;
+    min-height: 115px;
+    padding: 12px 8% 12px 0;
+    overflow: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.clock-modal.is-active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-/* ==================================================
-   時計を収める四角い背景ボックス（綺麗に大きく拡大）
-================================================== */
-.clock-modal-content {
-    width: min(92vw, 420px);
-    height: 500px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
-    margin: auto; 
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-
-.clock-modal.is-active .clock-modal-content {
-    transform: scale(1);
-}
-
-/* ==================================================
-   iframeの配置
-================================================== */
-.clock-modal-content iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: transparent;
-    transform: translate(-50%, -50%);
-}
-
-/* ==================================================
-    map.accessのCSS
-================================================== */
-
-/* ==================================================
-   map.accessのCSS
-   地図表示枠：横幅に対して黄金比 1 : 1.618
-   ※ location-grid の 55:45 は変更しない
-================================================== */
-
-.access-map-frame {
-    width: 100%;
-    aspect-ratio: 1 / 1.618;
-    overflow: hidden;
-    border-radius: 12px;
-}
-
-.access-map-frame iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
+.footer-bird img {
     display: block;
+    width: 90px;
+    max-width: 25%;
+    height: auto;
+
+    /* 最初は右下に少しずらして透明にする */
+    opacity: 0;
+    transform: translate(22px, 24px) scale(0.92);
+
+    /* 表示時にゆっくり舞い上がる */
+    transition:
+        opacity 3.2s ease-out,
+        transform 3.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* JavaScriptが表示を指示したとき */
+.footer-bird.is-visible img {
+    opacity: 0.45;
+    transform: translate(0, 0) scale(1);
+}
+
+/* 動きを減らす設定では移動せず、ゆっくり現れる */
+@media (prefers-reduced-motion: reduce) {
+    .footer-bird img {
+        transform: none;
+        transition: opacity 3.2s ease-out;
+    }
+
+    .footer-bird.is-visible img {
+        transform: none;
+        opacity: 0.45;
+    }
+}
+
+/* =========================================
+   スクロール連動の横線モジュール
+   既存のCSSに影響しない専用クラス
+========================================= */
+
+.scroll-line {
+    width: 70%;
+    height: 1px;
+    margin: 36px auto;
+    background-color: #7897a8;
+
+/* 中央から左右へ伸ばすため、初期状態は縮小 */
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.9s ease-out;
+}
+
+.scroll-line.is-visible {
+    transform: scaleX(1);
+}
+
+/* 動きを減らすOS設定を尊重 */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-line {
+        transition: none;
+    }
+}
+
+/* =========================================
+   見出し下線アニメーション
+   最初は「ごあいさつ」だけに適用
+========================================= */
+
+h2[data-en="GREETING"] {
+    position: relative;
+    border-bottom: 2px solid transparent;
+}
+
+h2[data-en="GREETING"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: #7897a8;
+
+    /* 左端を固定して右へ伸ばす */
+    transform: scaleX(0);
+    transform-origin: left center;
+/* 線が伸びる動きをゆったり見せる */
+    transition: transform 1.8s ease-out;
+}
+
+h2[data-en="GREETING"].line-visible::after {
+    transform: scaleX(1);
+}
+
+/* 動きを減らす設定では最初から線を表示 */
+@media (prefers-reduced-motion: reduce) {
+    h2[data-en="GREETING"]::after {
+        transition: none;
+        transform: scaleX(1);
+    }
+}
+
+/* 電話ボタン:番号を併記 */
+.fixed-call .call-num{margin-left:1em;font-size:.95rem;letter-spacing:.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* タッグを大きく(縦横比は元のまま)、文字を読みやすく */
+.fixed-modal-card{width:320px;max-width:92vw}
+.tag-spec-container{width:172px;aspect-ratio:11/23.2}
+.tag-spec-body{padding:8px}
+.tag-spec-title{font-size:.72rem;padding-bottom:3px}
+.tag-spec-guide-space{margin:6px 0}
+.tag-spec-guide-text{font-size:.9rem;line-height:1.4}
+.tag-spec-guide-text .cut-highlight{display:block;margin-top:.35rem;font-size:.82rem;white-space:nowrap}
+.tag-spec-notes{font-size:.64rem;line-height:1.35}
+.tag-spec-strip{font-size:.78rem;padding:0 8px}
+.strip-badge-keep,.strip-badge-cut{font-size:.66rem;padding:1px 5px}
+.strip-cut{opacity:.6}
+/* =========================================
+   お知らせ枠：濃紺の光が一周する
+   1px・6秒・一度だけ
+========================================= */
+
+/* 回転角度をアニメーション可能にする */
+@property --news-light-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.news-preview {
+    position: relative;
+    isolation: isolate;
+}
+
+/* 既存の枠との二重表示を防ぐ */
+.news-preview::before {
+    border: 0;
+    border-image: none;
+    background: none;
+    pointer-events: none;
+}
+
+/* 細い枠と移動する濃紺の光 */
+.news-preview::after {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    box-sizing: border-box;
+    padding: 1px;
+    pointer-events: none;
+    z-index: 1;
+
+    background: conic-gradient(
+        from var(--news-light-angle),
+        #8299a6 0deg,
+        #8299a6 275deg,
+        #24465e 295deg,
+        #102b40 325deg,
+        #24465e 350deg,
+        #8299a6 360deg
+    );
+
+    /* 中央を透明にして枠だけ残す */
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+
+    animation: news-light-once 6s linear 1 both;
+}
+
+/* 濃い部分を一周させる */
+@keyframes news-light-once {
+    0% {
+        --news-light-angle: 0deg;
+        opacity: 1;
+    }
+
+    85% {
+        --news-light-angle: 360deg;
+        opacity: 1;
+    }
+
+    100% {
+        --news-light-angle: 360deg;
+        opacity: .65;
+    }
+}
+
+/* 動きを減らす設定では静止 */
+@media (prefers-reduced-motion: reduce) {
+    .news-preview::after {
+        animation: none;
+        background: #8299a6;
+        opacity: 1;
+    }
 }

@@ -1,1416 +1,335 @@
+
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>地図テスト</title>
-
-<link
-    rel="stylesheet"
-    href="style.css"
->
-
-<style>
-
-/* ==================================================
-   時計
-================================================== */
-
-.clock-trigger-wrap {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.clock-btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 15px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
-.clock-btn.active {
-    background-color: #e2e6ea;
-    border-color: #adb5bd;
-}
-
-
-.clock-modal {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-
-    background: rgba(30, 40, 45, 0.10);
-
-    display: none;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 2147483647;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease;
-}
-
-
-.clock-modal.is-active {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-
-.clock-modal-content {
-    width: 100vw;
-    height: 100vh;
-
-    max-width: none;
-    max-height: none;
-
-    background: rgba(235, 247, 250, 0.85);
-
-    border-radius: 0;
-    box-shadow: none;
-
-    position: relative;
-    overflow: hidden;
-
-    margin: 0;
-
-    transform: scale(1);
-}
-
-
-.clock-modal-content iframe {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 100vw;
-    height: 100vh;
-
-    border: none;
-    background: transparent;
-
-    transform: translate(-50%, -50%);
-}
-
-
-/* ==================================================
-   担当医表テスト
-================================================== */
-
-.schedule-test {
-    margin: 20px 0;
-}
-
-.schedule-overlay-container {
-    position: relative;
-}
-
-.doctors-note {
-    text-align: center;
-}
-
-</style>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>服部医院｜公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="components.css">
 </head>
-
-
 <body>
 
-
-<!-- ==================================================
-     固定電話
-================================================== -->
-
-<a
-    href="tel:052-881-0876"
-    class="fixed-call"
->
-    ☎ 電話する　052-881-0876
-</a>
+<!-- 固定電話 -->
+<a href="tel:052-881-0876" class="fixed-call"><span class="call-label">☎ 電話する</span><span class="call-num">052-881-0876</span></a>
 
 
-<!-- ==================================================
-     ヘッダー
-     本番 index.html と同じ内容
-================================================== -->
-
+<!-- ヘッダー -->
 <header>
-
-<img
-    src="images/colorfulbird.PNG"
-    class="bird bird1"
-    alt=""
->
-
-<img
-    src="images/colorfulbirdWhite.png.PNG"
-    class="bird bird2"
-    alt=""
->
-
+<img src="/images/colorfulbird.PNG" class="bird bird1" alt="">
+<img src="/images/colorfulbirdWhite.png.PNG" class="bird bird2" alt="">
 
 <h1 class="clinic-title">
-
-    <div class="seishokai">
-
-        <span class="medical">
-            医療法人
-        </span>
-
-        <span class="logo-block">
-
-            <span class="furigana">
-                じょうしょうかい
-            </span>
-
-            <span class="kanji">
-
-                <span>誠</span>
-                <span>彰</span>
-                <span>会</span>
-
-            </span>
-
-        </span>
-
-    </div>
-
-
-    <span class="clinic-name">
-        服部医院
+  <div class="seishokai">
+    <span class="medical">医療法人</span>
+    <span class="logo-block">
+      <span class="furigana">じょうしょうかい</span>
+      <span class="kanji"><span>誠</span><span>彰</span><span>会</span></span>
     </span>
-
+  </div>
+  <span class="clinic-name">服部医院</span>
 </h1>
-
-
-<p class="catchcopy">
-    地域に貢献する医療を大切にします
-</p>
-
+<p class="catchcopy">地域に貢献する医療を大切にします</p>
 </header>
-
 
 <main>
 
+<!-- お知らせカード -->
+<div class="news-card"><a href="/news.html">お知らせ</a></div>
+<div class="news-preview"><div class="news-preview-list"></div></div>
+<p class="news-detail-note"><a href="#news">※ 詳細はクリック</a></p>
 
-<!-- ==================================================
-     院内写真
-================================================== -->
+<!-- ごあいさつ -->
+<section>
+<h2 data-en="GREETING">ごあいさつ</h2>
+<div class="protected-image">
+<img src="/images/incyougazou.jpg" alt="服部医院 院長">
+</div>
+<p>
+　当院は、地域の皆様に寄り添う身近な医療機関として、日々の健康管理から慢性疾患の診療まで、外来診療はもとより一人ひとりの生活背景を大切にした医療を提供しています。
+<br><br>
+また、通院が難しくなった方には2016年から訪問診療も行っています。
+医師が定期的にご自宅や施設へお伺いし、患者さまやご家族に寄り添いながら、
+住み慣れた場所で安心して生活を続けられるよう支援しています。
+<br><br>
+これからも地域の皆様に信頼される「かかりつけ医」として、外来から在宅医療まで
+切れ目のない医療を提供し、地域医療に貢献してまいります。
+</p>
+</section>
+<!-- 既存セクションを変更せず、独立した区切り線を追加 -->
+<div class="scroll-line" aria-hidden="true"></div>
 
+<!-- 院内写真 -->
 <section class="clinic-view">
-
-    <div class="clinic-camera">
-
-        <img
-            src="images/gairai.uketuke.jpg"
-            alt="服部医院 院内"
-            class="clinic-image"
-        >
-
-    </div>
-
+<div class="clinic-camera">
+<img src="/images/gairai.uketuke.jpg" alt="服部医院 院内" class="clinic-image">
+</div>
 </section>
 
+<!-- 診療・業務内容 -->
+<section>
+<h2 data-en="SERVICES">診療・業務内容</h2>
 
-<!-- ==================================================
-     所在地・アクセス ①
-================================================== -->
+<div class="service-card">
+<h3>外来診療</h3>
+<p>
+⚫︎生活習慣病（高血圧・糖尿病・脂質異常症）などの慢性疾患の管理
+<br><br>
+⚫︎各種健診
+<br><br>
+　◇名古屋市委託検診　特定検診、肺がん検診、胃がん検診、大腸がん検診、前立腺がん検診
+<br><br>
+　◇会社検診
+<br><br>
+⚫︎発熱外来
+<br><br>
+感染症予防対策のため、空間的・時間的・動線的な隔離を行わさせていただいております。
+<br><br>
+⚫︎自費診療
+<br><br>
+　◇ 各種予防接種
+<br><br>
+基本的には予約をいただきます。
+<br><br>
+　◇肥満症に対する治療
+<br><br>
+　ウゴービ®（セマグルチド）による治療を行っています。
+治療の適応、費用、効果、副作用等については診察時にご説明します。
+<br><br>
+　◇ 各種点滴療養
+<br><br>
+メニューは準備中にてご相談ください
+</p>
+</div>
 
-<section class="location-section">
-
-    <h2>
-        所在地・アクセス
-    </h2>
-
-
-    <div class="location-grid">
-
-
-        <div class="location-map">
-
-            <div class="access-map-frame">
-
-                <iframe
-                    src="https://www.google.com/maps?q=医療法人+誠彰会+服部医院&z=14&output=embed"
-                    title="服部医院周辺アクセスマップ"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                ></iframe>
-
-            </div>
+<div class="service-card">
+<h3>訪問診療</h3>
+<p>
+在宅療養支援診療所として、訪問看護ステーション等の
+多職種と連携し、24時間の連絡・対応体制を整えています。
+<br>
+基本的には月曜日から木曜日の午前診と午後診の間での診療時間を設定します。
+</p>
+<a class="card-btn" href="/houmon.html"><svg class="card-ico" viewBox="0 0 48 56" aria-hidden="true"><path d="M24 5 L43 22 V50 H5 V22 Z"/><path d="M20 50 V39 Q20 35 24 35 Q28 35 28 39 V50"/></svg><span class="card-btn-text"><b>訪問診療</b><small>詳しくはこちら ›</small></span></a>
 
 
-            <p class="map-link">
-
-                <a
-                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Googleマップで見る
-                </a>
-
-            </p>
-
-        </div>
+</div>
 
 
-        <div class="location-info">
+<div class="service-card">
+<h3>往診</h3>
+<p>外来診療、訪問診療ともに往診対応いたします。</p>
+</div>
 
-            <h3>
-                所在地
-            </h3>
+<div class="service-card">
+<h3>オンライン診療</h3>
+<p>
+予約制となります。初診は基本的に来院での診療とさせていただきます。
+<br>
+ただし、安定している場合でも4か月に一度は来院での診察を受けていただきます。
+</p>
+<a class="card-btn" href="/online.html"><svg class="card-ico" viewBox="0 0 48 56" aria-hidden="true"><rect x="10" y="3" width="28" height="50" rx="7"/><path d="M20 9 H28"/><circle cx="24" cy="46.5" r="2.5"/></svg><span class="card-btn-text"><b>オンライン診療</b><small>詳しくはこちら ›</small></span></a>
 
-            <p>
-                〒467-0825
-                <br>
-                愛知県名古屋市瑞穂区
-                <br>
-                柳ヶ枝町1-34 1階
-            </p>
+</div>
 
-        </div>
 
-    </div>
-
+<p>
+§　園医
+<br><br>
+§　障害児施設委託医
+<br><br>
+§　産業医
+<br><br>
+等、各種お問い合わせは外来診療時間にお電話ください
+</p>
 </section>
 
+<!-- 検査機器 -->
+<section>
+<h2 data-en="EQUIPMENT">検査機器</h2>
+<p>当院では、診療内容に応じて以下の検査機器を備えています。</p>
 
-<!-- ==================================================
-     所在地・アクセス ②
-================================================== -->
+<div class="equipment-card">
+<h3>心電図検査</h3>
+<p>心臓の電気的な活動を記録し、不整脈などの心臓の状態を調べます。</p>
+</div>
 
-<section class="location-section">
+<div class="equipment-card">
+<h3>超音波診断装置</h3>
+<p>超音波を利用して、身体への負担が少ない検査を行います。</p>
+<p>
+・腹部超音波検査<br>
+・心臓超音波検査<br>
+・頸部超音波検査
+</p>
+</div>
 
-    <h2>
-        所在地・アクセス・2
-    </h2>
-
-
-    <div class="location-grid">
-
-
-        <div class="location-map">
-
-            <div class="access-map-frame">
-
-                <iframe
-                    src="map.access2.html"
-                    title="服部医院周辺アクセスマップ"
-                    loading="lazy"
-                ></iframe>
-
-            </div>
-
-
-            <p class="map-link">
-
-                <a
-                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Googleマップで見る
-                </a>
-
-            </p>
-
-        </div>
-
-
-        <div class="location-info">
-
-            <h3>
-                所在地
-            </h3>
-
-            <p>
-                〒467-0825
-                <br>
-                愛知県名古屋市瑞穂区
-                <br>
-                柳ヶ枝町1-34 1階
-            </p>
-
-        </div>
-
-    </div>
-
+<div class="equipment-card">
+<h3>X線撮影装置</h3>
+<p>胸部や腹部の撮影のほか、骨の状態や胃の検査にも対応しています。</p>
+<p>
+・胸部X線検査<br>
+・腹部X線検査<br>
+・骨塩定量検査<br>
+・胃X線検査（バリウム検査・胃透視）
+</p>
+</div>
 </section>
 
-
-<!-- ==================================================
-     所在地・アクセス ③
-================================================== -->
-
-<section class="location-section">
-
-    <h2>
-        所在地・アクセス・3
-    </h2>
-
-
-    <div class="location-grid">
-
-
-        <div class="location-map">
-
-            <div class="access-map-frame">
-
-                <iframe
-                    src="map.access3.html"
-                    title="服部医院周辺アクセスマップ"
-                ></iframe>
-
-            </div>
-
-
-            <p class="map-link">
-
-                <a
-                    href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Googleマップで見る
-                </a>
-
-            </p>
-
-        </div>
-
-
-        <div class="location-info">
-
-            <h3>
-                所在地
-            </h3>
-
-            <p>
-                〒467-0825
-                <br>
-                愛知県名古屋市瑞穂区
-                <br>
-                柳ヶ枝町1-34 1階
-            </p>
-
-        </div>
-
-    </div>
-
+<!-- お知らせ -->
+<section class="news-section" id="news">
+<h2 data-en="NEWS">お知らせ</h2>
+<div class="news-list"></div>
 </section>
 
-
-<!-- ==================================================
-     診療時間・担当医表
-================================================== -->
-
+<!-- 診療時間 -->
 <section id="schedule">
-
-<h2>
-    診療時間
-</h2>
-
-
-<div
-    class="schedule-overlay-container"
-    id="schedule-container"
->
-
-    <!-- ① ベースの診療時間表 -->
-
-    <table class="schedule table-schedule-base">
-
-        <tr>
-
-            <th></th>
-
-            <th>月</th>
-            <th>火</th>
-            <th>水</th>
-            <th>木</th>
-            <th>金</th>
-            <th>土</th>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-
-                🏥 午前診療
-
-                <br>
-
-                <span>
-                    09:00〜12:00
-                </span>
-
-            </th>
-
-
-            <td
-                data-day="月"
-                data-time="午前"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="火"
-                data-time="午前"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="水"
-                data-time="午前"
-            >
-                ―
-            </td>
-
-
-            <td
-                data-day="木"
-                data-time="午前"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="金"
-                data-time="午前"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="土"
-                data-time="午前"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-
-                🏠
-                <a href="houmon.html">
-                    訪問診療
-                </a>
-
-                <br>
-
-                <span>
-                    13:30〜16:30
-                </span>
-
-            </th>
-
-
-            <td
-                data-day="月"
-                data-visit="true"
-            >
-
-                <span class="visit-circle">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path
-                            d="M3 10.5L12 3L21 10.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                        <path
-                            d="M6 9.5V20H18V9.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                    </svg>
-
-                </span>
-
-            </td>
-
-
-            <td
-                data-day="火"
-                data-visit="true"
-            >
-
-                <span class="visit-circle">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path
-                            d="M3 10.5L12 3L21 10.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                        <path
-                            d="M6 9.5V20H18V9.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                    </svg>
-
-                </span>
-
-            </td>
-
-
-            <td
-                data-day="水"
-                data-visit="true"
-            >
-
-                <span class="visit-circle">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path
-                            d="M3 10.5L12 3L21 10.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                        <path
-                            d="M6 9.5V20H18V9.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                    </svg>
-
-                </span>
-
-            </td>
-
-
-            <td
-                data-day="木"
-                data-visit="true"
-            >
-
-                <span class="visit-circle">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path
-                            d="M3 10.5L12 3L21 10.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                        <path
-                            d="M6 9.5V20H18V9.5"
-                            stroke="white"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                    </svg>
-
-                </span>
-
-            </td>
-
-
-            <td
-                data-day="金"
-                data-visit="true"
-            >
-                ―
-            </td>
-
-
-            <td
-                data-day="土"
-                data-visit="true"
-            >
-                ―
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-
-                🏥 午後診療
-
-                <br>
-
-                <span>
-                    17:30〜19:30
-                </span>
-
-            </th>
-
-
-            <td
-                data-day="月"
-                data-time="午後"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="火"
-                data-time="午後"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="水"
-                data-time="午後"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="木"
-                data-time="午後"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="金"
-                data-time="午後"
-            >
-                <span class="out-circle"></span>
-            </td>
-
-
-            <td
-                data-day="土"
-                data-time="午後"
-            >
-                ―
-            </td>
-
-        </tr>
-
-    </table>
+<h2 data-en="HOURS">診療時間</h2>
+<div class="schedule-overlay-container" id="schedule-container">
+<table class="schedule table-schedule-base">
+<tr>
+<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+</tr>
+<tr>
+
+<th>🏥　午前診療<br><span>09:00〜12:00</span></th>
+
+<td data-day="月" data-time="午前"><span class="out-circle"></span></td>
+<td data-day="火" data-time="午前"><span class="out-circle"></span></td>
+<td data-day="水" data-time="午前">―</td>
+<td data-day="木" data-time="午前"><span class="out-circle"></span></td>
+<td data-day="金" data-time="午前"><span class="out-circle"></span></td>
+<td data-day="土" data-time="午前"><span class="out-circle"></span></td>
+</tr>
+<tr>
+
+<th>🏠　<a href="/houmon.html">訪問診療</a><br><span>13:30〜16:30</span></th>
+
+<td data-day="月" data-visit="true"><span class="visit-circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/><path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/></svg></span></td>
+<td data-day="火" data-visit="true"><span class="visit-circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/><path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/></svg></span></td>
+<td data-day="水" data-visit="true"><span class="visit-circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/><path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/></svg></span></td>
+<td data-day="木" data-visit="true"><span class="visit-circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3L21 10.5" stroke="white" stroke-width="2" fill="none"/><path d="M6 9.5V20H18V9.5" stroke="white" stroke-width="2" fill="none"/></svg></span></td>
+<td data-day="金" data-visit="true">―</td>
+<td data-day="土" data-visit="true">―</td>
+</tr>
+<tr>
+
+<th>🏥　午後診療<br><span>17:30〜19:30</span></th>
+
+<td data-day="月" data-time="午後"><span class="out-circle"></span></td>
+<td data-day="火" data-time="午後"><span class="out-circle"></span></td>
+<td data-day="水" data-time="午後"><span class="out-circle"></span></td>
+<td data-day="木" data-time="午後"><span class="out-circle"></span></td>
+<td data-day="金" data-time="午後"><span class="out-circle"></span></td>
+<td data-day="土" data-time="午後">―</td>
+</tr>
+</table>
+</div>
+
+<p class="doctors-note"><button aria-describedby="doctors-status" id="toggle-doctors-btn" type="button">担当医はこちら</button></p>
+<p aria-live="polite" class="schedule-status" id="doctors-status"></p>
+<p class="online-note"><a href="/online.html">※ オンライン診療</a>は予約制となります</p>
+<p class="reception-note">※ 外来診療の受付時間<br>診療開始15分前から診療時間終了30分前まで</p>
+<div class="clock-trigger-wrap"><button aria-controls="clockModal" aria-expanded="false" class="clock-btn" id="clockBtn" type="button">診療時間時計（長押し）</button></div>
+</section>
+
+<!-- 所在地・アクセス -->
+<section class="location-section">
+<h2 data-en="ACCESS">所在地・アクセス</h2>
+
+<div class="location-addr">
+<h3>所在地</h3>
+<p>〒467-0825<br>愛知県名古屋市瑞穂区柳ヶ枝町<span class="nb">1-34 1階</span></p>
+</div>
+
+<div class="location-grid">
+<div class="location-map">
+<div class="access-map-frame">
+<iframe
+    src="/map.access.html"
+    title="服部医院周辺アクセスマップ"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+></iframe>
+</div>
+<p class="map-link">
+<a href="https://maps.app.goo.gl/5tnKR7ZdNdbxBCZw6?g_st=ic" target="_blank" rel="noopener noreferrer">Googleマップで見る</a>
+</p>
+</div>
+
+<div class="location-info">
+<h3>公共交通機関</h3>
+<p><strong>名鉄</strong><br>名鉄名古屋本線<br>「堀田駅」より<br><span class="walk">徒歩<b>4</b>分</span></p>
+<p><strong>地下鉄</strong><br>名古屋市営地下鉄<br>名城線「堀田駅」<br>2番出入口より<br><span class="walk">徒歩<b>8</b>分</span></p>
+</div>
 
 </div>
 
+<div class="location-grid location-grid-sub">
+<div class="location-walk">
+<p class="location-bus"><strong>市バス</strong><br>「名鉄堀田」停留所<br>2番のりばより<br><span class="walk">徒歩<b>1</b>分</span><br>3番のりばより<br><span class="walk">徒歩<b>4</b>分</span></p>
+<div class="location-bike"><h3>自転車・徒歩など</h3><p>一般的な自転車なら余裕を持って、7台停められます。車椅子など、必要時には昇降機での院内へサポートします。</p></div>
+<img class="bird-note-2" src="/images/colorfulbird.PNG" alt="">
+</div>
+<div class="location-sub">
+<img class="bird-note" src="/images/colorfulbird.PNG" alt="">
+<figure class="access-figure"><img src="/images/around.clinic.new.jpg" alt="医院周辺図(駐車場・発熱外来・自転車置き場の位置)" loading="lazy" width="876" height="1413"></figure>
 
-<p class="doctors-note">
+</div>
+</div>
 
-    <button
-        type="button"
-        id="toggle-doctors-btn"
-    >
-        担当医はこちら
-    </button>
-
-</p>
-
-
-<p class="online-note">
-
-    <a href="online.html">
-        ※ オンライン診療
-    </a>
-    は予約制となります
-
-</p>
-
-
-<p class="reception-note">
-
-    ※ 外来診療の受付時間
-    <br>
-    診療開始15分前から診療時間終了30分前まで
-
-</p>
-
-
-<!-- 時計起動ボタン -->
-
-<div class="clock-trigger-wrap">
-
-    <button
-        type="button"
-        id="clockBtn"
-        class="clock-btn"
-    >
-        診療時間時計（長押し）
-    </button>
-
+<div class="location-car">
+<h3>お車でお越しの方</h3>
+<div class="location-card">
+<p>名古屋高速「堀田出口」より約1分</p>
+<p class="access-note">※堀田出口は右側車線から降ります。</p>
+<p>出口を降りて直進し、「三菱UFJ銀行」の交差点を左折してすぐです。</p>
+</div>
 </div>
 
 </section>
 
 
-<!-- ==================================================
-     時計モーダル
-================================================== -->
-
-<div
-    id="clockModal"
-    class="clock-modal"
->
-
-    <div class="clock-modal-content">
-
-        <iframe
-            src="https://hattoriiin.github.io/clock.claude.html"
-            title="診療時間時計"
-        ></iframe>
-
-    </div>
-
+<!-- 連絡先 -->
+<section>
+<h2 data-en="CONTACT">連絡先</h2>
+<p>
+<span class="contact-label">TEL：</span>
+<a href="tel:0528810876" style="color:#555;text-decoration:none;">052-881-0876</a>
+<br>
+<span class="contact-label">FAX：</span>
+<span>052</span>-<span>881</span>-<span>5833</span>
+</p>
+</section>
+<!-- ⭐ ページ末尾の鳥：既存の鳥とは独立 -->
+<div class="footer-bird" aria-hidden="true">
+    <img
+        src="/images/colorfulbird.PNG"
+        alt=""
+        loading="lazy"
+        width="90"
+    >
 </div>
-
-
-<!-- ==================================================
-     JavaScript
-================================================== -->
-
-<script>
-
-
-/* ==================================================
-   院内写真スクロール
-================================================== */
-
-const camera =
-    document.querySelector('.clinic-camera');
-
-const image =
-    document.querySelector('.clinic-image');
-
-
-if (camera && image) {
-
-    window.addEventListener(
-        'scroll',
-        function() {
-
-            const rect =
-                camera.getBoundingClientRect();
-
-            const viewHeight =
-                window.innerHeight;
-
-
-            if (
-                rect.top <= viewHeight &&
-                rect.bottom >= 0
-            ) {
-
-                const progress =
-                    (viewHeight - rect.top) /
-                    (viewHeight + rect.height);
-
-
-                const clamped =
-                    Math.max(
-                        0,
-                        Math.min(
-                            1,
-                            progress
-                        )
-                    );
-
-
-                const translateX =
-                    -50 +
-                    (clamped - 0.5) * 30;
-
-
-                const scale =
-                    0.85 +
-                    clamped * 0.15;
-
-
-                image.style.transform =
-                    `translate3d(${translateX}%, -50%, 0) scale(${scale})`;
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ==================================================
-   担当医表
-================================================== */
-
-Promise.all([
-
-    fetch("doctors.html")
-        .then(
-            res => res.text()
-        ),
-
-    fetch("doctors.json")
-        .then(
-            res => res.json()
-        )
-
-])
-
-
-.then(
-    ([htmlText, doctors]) => {
-
-        const container =
-            document.getElementById(
-                "schedule-container"
-            );
-
-
-        if (!container) return;
-
-
-        const parser =
-            new DOMParser();
-
-
-        const doc =
-            parser.parseFromString(
-                htmlText,
-                "text/html"
-            );
-
-
-        const overlayTable =
-            doc.querySelector(
-                "table"
-            );
-
-
-        if (!overlayTable) return;
-
-
-        overlayTable.id =
-            "doctors-overlay-table";
-
-
-        overlayTable.classList.add(
-            "schedule",
-            "table-overlay"
-        );
-
-
-        container.appendChild(
-            overlayTable
-        );
-
-
-        function createDoctorName(name) {
-
-            if (
-                !name ||
-                !String(name).trim()
-            ) {
-
-                return `
-                    <span class="doctor-empty">
-                        ―
-                    </span>
-                `;
-
-            }
-
-
-            let cleanName =
-                String(name)
-                    .replace(/先生$/, "")
-                    .trim();
-
-
-            let className =
-                "doctor-name";
-
-
-            if (
-                cleanName.length >= 6
-            ) {
-
-                className +=
-                    " very-long";
-
-            }
-
-            else if (
-                cleanName.length >= 4
-            ) {
-
-                className +=
-                    " long";
-
-            }
-
-
-            const chars =
-                [...cleanName]
-                    .map(
-                        char =>
-                            `<span class="doctor-char">${char}</span>`
-                    )
-                    .join("");
-
-
-            return `
-                <span class="${className}">
-                    ${chars}
-                </span>
-            `;
-
-        }
-
-
-        overlayTable
-            .querySelectorAll(
-                "td[data-time]"
-            )
-            .forEach(
-                cell => {
-
-                    const day =
-                        cell.dataset.day;
-
-                    const time =
-                        cell.dataset.time;
-
-
-                    cell.innerHTML =
-                        createDoctorName(
-                            doctors?.[day]?.[time] || ""
-                        );
-
-                }
-            );
-
-
-        overlayTable
-            .querySelectorAll(
-                "td[data-visit]"
-            )
-            .forEach(
-                cell => {
-
-                    const day =
-                        cell.dataset.day;
-
-
-                    cell.innerHTML =
-                        createDoctorName(
-                            doctors?.[day]?.["訪問"] || ""
-                        );
-
-                }
-            );
-
-
-        setupToggleEvents();
-
-    }
-)
-
-
-.catch(
-    err =>
-        console.error(
-            "担当医表データ読み込みエラー:",
-            err
-        )
-);
-
-
-/* ==================================================
-   担当医表切り替え
-================================================== */
-
-function setupToggleEvents() {
-
-    const btn =
-        document.getElementById(
-            "toggle-doctors-btn"
-        );
-
-
-    const container =
-        document.getElementById(
-            "schedule-container"
-        );
-
-
-    if (
-        !btn ||
-        !container
-    ) return;
-
-
-    function showOverlay(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        container.classList.add(
-            "is-active"
-        );
-
-
-        btn.classList.add(
-            "active"
-        );
-
-    }
-
-
-    function hideOverlay() {
-
-        container.classList.remove(
-            "is-active"
-        );
-
-
-        btn.classList.remove(
-            "active"
-        );
-
-    }
-
-
-    btn.addEventListener(
-        "mousedown",
-        showOverlay
-    );
-
-
-    btn.addEventListener(
-        "mouseup",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "mouseleave",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchstart",
-        showOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchend",
-        hideOverlay
-    );
-
-
-    btn.addEventListener(
-        "touchcancel",
-        hideOverlay
-    );
-
-}
-
-
-/* ==================================================
-   時計
-================================================== */
-
-const clockBtn =
-    document.getElementById(
-        'clockBtn'
-    );
-
-
-const clockModal =
-    document.getElementById(
-        'clockModal'
-    );
-
-
-const clockFrame =
-    clockModal
-        ? clockModal.querySelector(
-            'iframe'
-        )
-        : null;
-
-
-if (
-    clockBtn &&
-    clockModal
-) {
-
-
-    function adjustClock() {
-
-        if (!clockFrame) return;
-
-
-        try {
-
-            const doc =
-                clockFrame.contentDocument;
-
-
-            if (!doc) return;
-
-
-            /* 「外来診療・受付時間」と上下の線を非表示 */
-
-            const title =
-                doc.querySelector(
-                    '.clock-title'
-                );
-
-
-            if (title) {
-
-                title.style.display =
-                    'none';
-
-            }
-
-
-            /* 時計本体 */
-
-            const timeRing =
-                doc.querySelector(
-                    '.time-ring'
-                );
-
-
-            if (timeRing) {
-
-                timeRing.style.opacity =
-                    '0.85';
-
-            }
-
-
-            /* iframe内の背景を透明にする */
-
-            doc.documentElement.style.background =
-                'transparent';
-
-
-            doc.body.style.background =
-                'transparent';
-
-
-            doc.body.style.margin =
-                '0';
-
-        }
-
-        catch (error) {
-
-            console.log(
-                '時計表示の調整に失敗しました:',
-                error
-            );
-
-        }
-
-    }
-
-
-    /* 時計を表示 */
-
-    function showClock(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        clockModal.classList.add(
-            'is-active'
-        );
-
-
-        clockBtn.classList.add(
-            'active'
-        );
-
-
-        adjustClock();
-
-    }
-
-
-    /* 時計を閉じる */
-
-    function hideClock(e) {
-
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        clockModal.classList.remove(
-            'is-active'
-        );
-
-
-        clockBtn.classList.remove(
-            'active'
-        );
-
-    }
-
-
-    /* clock.claude.html の読み込みが終わったら調整 */
-
-    if (clockFrame) {
-
-        clockFrame.addEventListener(
-            'load',
-            adjustClock
-        );
-
-    }
-
-
-    /* iPhone：押している間だけ表示 */
-
-    clockBtn.addEventListener(
-        'touchstart',
-        function(e) {
-
-            showClock(e);
-
-        },
-        {
-            passive: false
-        }
-    );
-
-
-    clockBtn.addEventListener(
-        'touchend',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'touchcancel',
-        hideClock
-    );
-
-
-    /* PC：押している間だけ表示 */
-
-    clockBtn.addEventListener(
-        'mousedown',
-        showClock
-    );
-
-
-    window.addEventListener(
-        'mouseup',
-        hideClock
-    );
-
-
-    clockBtn.addEventListener(
-        'mouseleave',
-        hideClock
-    );
-
-
-    /* 時計の外側をタップしたら閉じる */
-
-    clockModal.addEventListener(
-        'click',
-        function(e) {
-
-            if (
-                e.target === clockModal
-            ) {
-
-                hideClock();
-
-            }
-
-        }
-    );
-
-}
-
-
-</script>
-
-
 </main>
 
+<!-- フッター -->
+<footer>
+© 医療法人 誠彰会 服部医院
+<br>
+<a href="/privacy.html">個人情報保護方針</a>
+</footer>
+
+<!-- 診療時間時計モーダル -->
+<div aria-hidden="true" aria-labelledby="clockBtn" aria-modal="true" class="clock-modal" id="clockModal" role="dialog">
+<div class="clock-modal-content">
+<iframe src="/clock.claude.html" title="診療時間時計"></iframe>
+<p class="clock-error" hidden id="clock-error" role="alert">時計を読み込めませんでした。通信状態を確認して、もう一度お試しください。</p>
+</div>
+</div>
+
+<script src="script.js"></script>
+<script src="components.js?v=20261012"></script>
 
 </body>
-
 </html>
