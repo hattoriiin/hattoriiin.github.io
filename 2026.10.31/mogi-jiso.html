@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模擬診察ポータル（自走型・試作）</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;margin:0;padding:16px 14px 60px;color:#1c2733;line-height:1.75;font-size:16.5px;background:#F7FAFC}
+h1{font-size:22px;margin:2px 0 2px}
+.sub{color:#667;font-size:13.5px;margin:0 0 12px}
+.card{background:#fff;border:1px solid #dde3e8;border-radius:10px;padding:12px 14px;margin:10px 0}
+.prin{background:#EFF6FF;border:1px solid #B9D4F0;border-radius:10px;padding:10px 14px;margin:10px 0}
+.prin p{margin:4px 0;font-size:15.5px}
+.casebtn{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:#fff;border:1.5px solid #2f6fb2;border-radius:10px;padding:14px 16px;margin:9px 0;font-size:18px;font-weight:700;color:#1c2733;cursor:pointer}
+.casebtn .as{font-size:14.5px;color:#556;font-weight:400;white-space:nowrap;margin-left:10px}
+.screen{display:none}
+.screen.on{display:block}
+.backbtn{background:none;border:none;color:#2f6fb2;font-size:16px;padding:6px 0;cursor:pointer}
+h2{font-size:21px;margin:6px 0 2px}
+.who-line{color:#556;font-size:14.5px;margin:0 0 8px}
+.rolejump{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.rolejump button{border:1.5px solid #98A6B3;background:#fff;border-radius:999px;padding:7px 13px;font-size:15px;cursor:pointer;color:#1c2733}
+.rolejump button.me{border-color:#2f6fb2;color:#2f6fb2;font-weight:700}
+.role{background:#fff;border:1px solid #dde3e8;border-radius:10px;padding:11px 14px;margin:11px 0}
+.role h3{margin:0 0 4px;font-size:17.5px}
+.trig{display:inline-block;background:#EFF6FF;border:1px solid #B9D4F0;border-radius:6px;padding:2px 9px;font-size:14.5px;margin:2px 0 6px}
+.trig b{color:#2f6fb2}
+.role ul{margin:5px 0;padding-left:21px}
+.role li{margin:4px 0}
+.say{font-weight:700}
+.evt{background:#FFF4E5;border:1px solid #EBCB9A}
+.evt h3{color:#9A6A1B}
+table.start{border-collapse:collapse;width:100%;font-size:15px;margin:6px 0}
+table.start td,table.start th{border:1px solid #cdd6de;padding:5px 8px;text-align:left}
+table.start th{background:#EFF6FF}
+.endbox{background:#EFF6FF;border:1px solid #B9D4F0;border-radius:10px;padding:11px 14px;margin:12px 0}
+.nextbtn{display:block;width:100%;text-align:center;background:#2f6fb2;color:#fff;border:none;border-radius:10px;padding:13px;margin:12px 0;font-size:17px;font-weight:700;cursor:pointer}
+.note{color:#667;font-size:13.5px}
+.tag{display:inline-block;font-size:12.5px;border:1px solid #98A6B3;border-radius:4px;padding:0 6px;color:#556;margin-left:6px;vertical-align:2px}
+</style>
+</head>
+<body>
+
+<!-- ============ ホーム ============ -->
+<div class="screen on" id="home">
+<h1>模擬診察ポータル（自走型・試作）</h1>
+<p class="sub">来年向けの試作です。症例の中身は2026年の訓練と同じ。進め方を「各自が自分の役割分だけを見て進める」形に組み直しました。</p>
+
+<div class="prin">
+<p><strong>進め方</strong></p>
+<p>1. 症例ボタンを開き、自分の役割のボタンを押すと、自分の分だけが表示されます。</p>
+<p>2. 行動のきっかけは「出来事」です。「カルテが届いたら」「患者さんが立てなくなったら」。</p>
+<p>3. 声に出すのは、判定・申し送り・提案だけ。</p>
+<p>4. 司会は症例の開始と終了だけを告げます。分からなくなったら、その場で司会に聞いてください。</p>
+</div>
+
+<button class="casebtn" onclick="go('case1')"><span>1️⃣ 呼吸苦</span><span class="as">50歳・女性</span></button>
+<button class="casebtn" onclick="go('case2')"><span>2️⃣ 転落外傷</span><span class="as">52歳・女性</span></button>
+<button class="casebtn" onclick="go('case3')"><span>3️⃣ 歯痛</span><span class="as">62歳・男性</span></button>
+<button class="casebtn" onclick="go('case4')"><span>4️⃣ ペットロス</span><span class="as">35歳・女性</span></button>
+<button class="casebtn" onclick="go('case5')"><span>5️⃣ 義歯喪失と捻挫</span><span class="as">82歳・女性</span></button>
+
+<div class="card">
+<p style="margin:2px 0"><strong>共通の型（全症例）</strong></p>
+<p style="margin:2px 0">受付 → トリアージ → 問診・診察 →（搬送枠／搬送口）→ 調剤。バトンは「患者さん＋カルテ」。カルテが届いたら自分の欄だけをやって、次へ渡します。書く人は全症例を通して診療介助、記入先はタグです。</p>
+<p class="note" style="margin:4px 0 0">クロノロジーの記録は、症例の開始・終了／タグの決定／搬送要請の節目だけです。</p>
+</div>
+</div>
+
+<!-- ============ 症例1 ============ -->
+<div class="screen" id="case1">
+<button class="backbtn" onclick="go('home')">← 症例一覧へ</button>
+<h2>1️⃣ 呼吸苦</h2>
+<p class="who-line">蔵前瑞穂さん（50歳・女性）／ 患者役：藤田るみさん</p>
+<div class="rolejump">
+<button onclick="pick(this,'c1-all')">全員の流れ</button>
+<button onclick="pick(this,'c1-tri')">トリアージ</button>
+<button onclick="pick(this,'c1-mon')">問診・診療介助</button>
+<button onclick="pick(this,'c1-doc')">診察</button>
+<button onclick="pick(this,'c1-pha')">調剤</button>
+<button onclick="pick(this,'c1-pat')">患者役</button>
+</div>
+
+<div class="role evt" data-r="c1-pat c1-all">
+<h3>患者役<span class="tag">出来事</span></h3>
+<ul>
+<li>椅子に座ったまま、ゼーゼー言いながら来所する。歩けない。</li>
+<li>呼吸を数えられる場面だけ、速く浅い呼吸をする（それ以外は演技を抑える）。</li>
+<li>締めのセリフ：「分かった、私は任せる。だから絶対、助けてよね。」</li>
+</ul>
+</div>
+
+<div class="role" data-r="c1-tri c1-all">
+<h3>トリアージ</h3>
+<span class="trig">合図：<b>患者さんが歩けない</b></span>
+<ul>
+<li>呼吸を数える → <strong>32回</strong>。</li>
+<li>下の基準表で「呼吸30回以上→赤」。赤タグを付ける。</li>
+<li><span class="say">声に出す</span>「呼吸32回です。赤とします。搬送枠へお願いします。」</li>
+<li>搬送要請を本部（クロノロジー）へ声で伝える。患者さんは搬送枠で座って待つ。</li>
+</ul>
+<table class="start">
+<tr><th colspan="2">START基準（トリアージ担当用）</th></tr>
+<tr><td>歩いて来られる</td><td>緑</td></tr>
+<tr><td>歩けない → 呼吸なし（気道確保しても）</td><td>黒</td></tr>
+<tr><td>呼吸30回以上、または脈が触れない</td><td>赤</td></tr>
+<tr><td>指示に従えない</td><td>赤</td></tr>
+<tr><td>上記以外で歩けない</td><td>黄</td></tr>
+</table>
+</div>
+
+<div class="role" data-r="c1-mon c1-all">
+<h3>問診・診療介助</h3>
+<span class="trig">合図：<b>患者さんが搬送枠に着いたら</b>（搬送枠へ出向く）</span>
+<ul>
+<li>聞くこと：喘息の既往／吸入器を家に置いてきた／避難所で一夜過ごし、周りの人の手伝いをしていた。</li>
+<li>聞いた内容をタグの特記事項欄に書く。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c1-doc c1-all">
+<h3>診察（医師）</h3>
+<span class="trig">合図：<b>問診が終わったら</b>（搬送枠へ出向く）</span>
+<ul>
+<li>「ゆっくり息をしてみてください」→ 患者「ゆっくりなんて、無理です」。</li>
+<li>聴診の所作をする。</li>
+<li><span class="say">声に出す</span>：搬送を優先する判断と、その理由。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c1-pha c1-all">
+<h3>調剤（薬剤師）</h3>
+<span class="trig">合図：<b>内服情報を受けたら</b></span>
+<ul>
+<li><span class="say">声に出す</span>「薬の面では、搬送の支障はありません。」</li>
+</ul>
+</div>
+
+<div class="endbox">締め：診療介助が申し送りを読み上げる。「ここまで。終了です。お疲れ様でした。次の症例に移ります。」</div>
+<button class="nextbtn" onclick="go('case2')">次の症例へ（2️⃣ 転落外傷）</button>
+</div>
+
+<!-- ============ 症例2 ============ -->
+<div class="screen" id="case2">
+<button class="backbtn" onclick="go('home')">← 症例一覧へ</button>
+<h2>2️⃣ 転落外傷</h2>
+<p class="who-line">脇田恵さん（52歳・女性）／ 患者役：橋本莉穂さん</p>
+<div class="rolejump">
+<button onclick="pick(this,'c2-all')">全員の流れ</button>
+<button onclick="pick(this,'c2-tri')">トリアージ</button>
+<button onclick="pick(this,'c2-mon')">問診・診療介助</button>
+<button onclick="pick(this,'c2-pha')">調剤</button>
+<button onclick="pick(this,'c2-pat')">患者役</button>
+</div>
+
+<div class="role evt" data-r="c2-pat c2-all">
+<h3>患者役<span class="tag">出来事</span></h3>
+<ul>
+<li>階段から落ちた。足を引きずりながら歩いて来所する。</li>
+<li>問診の途中で、急に立てなくなる。ここが転換点（司会の合図はなし、演技で起こす）。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c2-tri c2-all">
+<h3>トリアージ／再トリアージ</h3>
+<span class="trig">合図：<b>患者さんが来たら</b></span>
+<ul>
+<li>歩いて来たので緑。タグを付ける。</li>
+</ul>
+<span class="trig">合図：<b>患者さんが立てなくなったら</b>（再トリアージ）</span>
+<ul>
+<li>脈118・血圧92/60・呼吸34（数値はカードで示される）。</li>
+<li>基準表「呼吸30回以上→赤」。赤に変更し、切り取る分を切り替える。</li>
+<li><span class="say">声に出す</span>：赤への変更と搬送要請。本部（クロノロジー）へ伝える。</li>
+<li>搬送口へ付き添って移動する。</li>
+</ul>
+<table class="start">
+<tr><th colspan="2">START基準（トリアージ担当用）</th></tr>
+<tr><td>歩いて来られる</td><td>緑</td></tr>
+<tr><td>歩けない → 呼吸なし（気道確保しても）</td><td>黒</td></tr>
+<tr><td>呼吸30回以上、または脈が触れない</td><td>赤</td></tr>
+<tr><td>指示に従えない</td><td>赤</td></tr>
+<tr><td>上記以外で歩けない</td><td>黄</td></tr>
+</table>
+</div>
+
+<div class="role" data-r="c2-mon c2-all">
+<h3>問診・診療介助</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>聞くこと：脳梗塞の既往／アスピリンを飲んでいる。</li>
+<li>聞いた内容をタグの特記事項欄に書く。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c2-pha c2-all">
+<h3>調剤（薬剤師）</h3>
+<span class="trig">合図：<b>内服情報を受けたら</b></span>
+<ul>
+<li><span class="say">声に出す</span>：解熱鎮痛はアセトアミノフェンにする提案。</li>
+</ul>
+</div>
+
+<div class="endbox">締め：診療介助が申し送りを読み上げる。「ここまで。終了です。お疲れ様でした。次の症例に移ります。」</div>
+<button class="nextbtn" onclick="go('case3')">次の症例へ（3️⃣ 歯痛）</button>
+</div>
+
+<!-- ============ 症例3 ============ -->
+<div class="screen" id="case3">
+<button class="backbtn" onclick="go('home')">← 症例一覧へ</button>
+<h2>3️⃣ 歯痛</h2>
+<p class="who-line">鳥羽晋三さん（62歳・男性）／ 患者役：湯澤恵子さん</p>
+<div class="rolejump">
+<button onclick="pick(this,'c3-all')">全員の流れ</button>
+<button onclick="pick(this,'c3-tri')">トリアージ</button>
+<button onclick="pick(this,'c3-den')">歯科</button>
+<button onclick="pick(this,'c3-mon')">問診・診療介助</button>
+<button onclick="pick(this,'c3-doc')">診察</button>
+<button onclick="pick(this,'c3-pha')">調剤</button>
+<button onclick="pick(this,'c3-pat')">患者役</button>
+</div>
+
+<div class="role evt" data-r="c3-pat c3-all">
+<h3>患者役<span class="tag">出来事</span></h3>
+<ul>
+<li>歯・顎の痛みを訴えて、歩いて来所する。</li>
+<li>「狭心症気味」と言われたことは、自分からは重く受け止めていない様子で話す。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c3-tri c3-all">
+<h3>トリアージ</h3>
+<span class="trig">合図：<b>患者さんが来たら</b></span>
+<ul>
+<li>歩いて来たので緑。タグを付ける。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c3-den c3-all">
+<h3>歯科（歯科医師）</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>口の中を確認する。</li>
+<li><span class="say">声に出す</span>「歯科的な原因はありません。」→ 医師へ回す。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c3-mon c3-all">
+<h3>問診・診療介助</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>聞くこと：歩くと痛む／痛みは30分以上続く／休んでも引かない／「狭心症気味」と言われた既往／ニトロを家に置いてきた／アスピリンで喘息が出る。</li>
+<li>聞き終わったら、タグの特記事項欄に「要注意（胸部症状の疑い）」と書く。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c3-doc c3-all">
+<h3>診察（医師）</h3>
+<span class="trig">合図：<b>問診が終わったら</b></span>
+<ul>
+<li>脈96・血圧168/98（数値はカードで示される）。</li>
+<li>心筋梗塞の疑いとして、安静と搬送を決める。タグは緑のままでも、医師の判断で搬送する症例。</li>
+<li><span class="say">声に出す</span>：搬送の判断と理由。本部（クロノロジー）へ搬送要請を伝える。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c3-pha c3-all">
+<h3>調剤（薬剤師）</h3>
+<span class="trig">合図：<b>内服情報を受けたら</b></span>
+<ul>
+<li><span class="say">声に出す</span>：アスピリンは喘息のため使えないこと。理由の記入は診療介助がタグに行う。</li>
+</ul>
+</div>
+
+<div class="endbox">締め：診療介助が申し送りを読み上げる。「ここまで。終了です。お疲れ様でした。次の症例に移ります。」</div>
+<button class="nextbtn" onclick="go('case4')">次の症例へ（4️⃣ ペットロス）</button>
+</div>
+
+<!-- ============ 症例4 ============ -->
+<div class="screen" id="case4">
+<button class="backbtn" onclick="go('home')">← 症例一覧へ</button>
+<h2>4️⃣ ペットロス</h2>
+<p class="who-line">犬飼美咲さん（35歳・女性）／ 患者役：二宮麻衣さん</p>
+<div class="rolejump">
+<button onclick="pick(this,'c4-all')">全員の流れ</button>
+<button onclick="pick(this,'c4-tri')">トリアージ</button>
+<button onclick="pick(this,'c4-mon')">問診・診療介助</button>
+<button onclick="pick(this,'c4-doc')">診察</button>
+<button onclick="pick(this,'c4-den')">歯科</button>
+<button onclick="pick(this,'c4-pat')">患者役</button>
+</div>
+
+<div class="role evt" data-r="c4-pat c4-all">
+<h3>患者役<span class="tag">出来事</span></h3>
+<ul>
+<li>今朝、飼い犬が死んでいるのを見つけた。ふらつきながら歩いて来所する。</li>
+<li>話すうちに呼吸が速くなる（過換気の演技）。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c4-tri c4-all">
+<h3>トリアージ</h3>
+<span class="trig">合図：<b>患者さんが来たら</b></span>
+<ul>
+<li>歩いて来たので緑。タグを付ける。</li>
+<li>様子を見て、タグの特記事項欄に「心のケアが必要」と書く。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c4-mon c4-all">
+<h3>問診・診療介助</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>聞くこと：犬がしばらく具合が悪く、看病していた／2晩ほとんど寝ていない。</li>
+<li>急がせず、話を遮らない。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c4-doc c4-all">
+<h3>診察（医師）</h3>
+<span class="trig">合図：<b>問診が終わったら</b></span>
+<ul>
+<li>脈100・呼吸24・血圧130/80（数値はカードで示される）。過換気への対応として、落ち着くまでそばで声をかける。</li>
+<li><span class="say">声に出す</span>：保健師・心のケアへの引き継ぎ。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c4-den c4-all">
+<h3>歯科（歯科医師）</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>顎の痛みを確認し、水を勧める。</li>
+</ul>
+</div>
+
+<div class="endbox">締め：診療介助が申し送りを読み上げる。「ここまで。終了です。お疲れ様でした。次の症例に移ります。」</div>
+<button class="nextbtn" onclick="go('case5')">次の症例へ（5️⃣ 義歯喪失と捻挫）</button>
+</div>
+
+<!-- ============ 症例5 ============ -->
+<div class="screen" id="case5">
+<button class="backbtn" onclick="go('home')">← 症例一覧へ</button>
+<h2>5️⃣ 義歯喪失と捻挫</h2>
+<p class="who-line">瀬戸花子さん（82歳・女性）</p>
+<div class="rolejump">
+<button onclick="pick(this,'c5-all')">全員の流れ</button>
+<button onclick="pick(this,'c5-tri')">トリアージ</button>
+<button onclick="pick(this,'c5-mon')">問診・診療介助</button>
+<button onclick="pick(this,'c5-doc')">診察・対応</button>
+<button onclick="pick(this,'c5-pat')">患者役</button>
+</div>
+
+<div class="role evt" data-r="c5-pat c5-all">
+<h3>患者役<span class="tag">出来事</span></h3>
+<ul>
+<li>足首をかばいながら歩いて来所する。</li>
+<li>問診の途中で冷や汗が出て、立てなくなる。</li>
+<li>ゼリーを取ったあとは、回復した様子を見せる。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c5-tri c5-all">
+<h3>トリアージ／再トリアージ</h3>
+<span class="trig">合図：<b>患者さんが来たら</b>（一次）</span>
+<ul>
+<li>歩いて来たので緑（一次は歩行のみで判定）。タグを付ける。</li>
+</ul>
+<span class="trig">合図：<b>血糖から回復したら</b>（再トリアージ）</span>
+<ul>
+<li>STARTの全ステップを確認：呼吸16回／脈あり／握手への反応は少し遅れる。</li>
+<li>基準表で黄と決める。<span class="say">声に出す</span>：黄への変更。</li>
+<li>タグは緑の分だけ切り取る。</li>
+</ul>
+<table class="start">
+<tr><th colspan="2">START基準（トリアージ担当用）</th></tr>
+<tr><td>歩いて来られる</td><td>緑</td></tr>
+<tr><td>歩けない → 呼吸なし（気道確保しても）</td><td>黒</td></tr>
+<tr><td>呼吸30回以上、または脈が触れない</td><td>赤</td></tr>
+<tr><td>指示に従えない</td><td>赤</td></tr>
+<tr><td>上記以外で歩けない</td><td>黄</td></tr>
+</table>
+</div>
+
+<div class="role" data-r="c5-mon c5-all">
+<h3>問診・診療介助</h3>
+<span class="trig">合図：<b>カルテが届いたら</b></span>
+<ul>
+<li>聞くこと：総義歯をなくした（食事は半分以下しか取れない）／高血圧と糖尿病／薬はあと1日分しかない／お薬手帳を持っていない。</li>
+<li>聞いた内容をタグの特記事項欄に書く。</li>
+</ul>
+</div>
+
+<div class="role" data-r="c5-doc c5-all">
+<h3>診察・対応（医師）</h3>
+<span class="trig">合図：<b>患者さんが立てなくなったら</b></span>
+<ul>
+<li>血糖を測る → <strong>62</strong>。低血糖としてゼリーを取ってもらう。</li>
+<li>回復を確認する → <strong>102</strong>。再トリアージへつなぐ。</li>
+</ul>
+</div>
+
+<div class="endbox">締め：診療介助が申し送りを読み上げる。「ここまで。終了です。お疲れ様でした。」</div>
+<button class="nextbtn" onclick="go('home')">症例一覧へ戻る</button>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function pick(btn,key){
+  var scr=btn.closest('.screen');
+  scr.querySelectorAll('.rolejump button').forEach(b=>b.classList.remove('me'));
+  btn.classList.add('me');
+  scr.querySelectorAll('.role').forEach(r=>{
+    var rs=(r.getAttribute('data-r')||'').split(' ');
+    r.style.display = rs.indexOf(key)>=0 ? '' : 'none';
+  });
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
