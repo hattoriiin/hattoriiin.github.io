@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>症例② 転落外傷 ― タグが途中で変わる試作</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;margin:0;padding:16px 14px 56px;color:#1c2733;line-height:1.8;font-size:17px;background:#F7FAFC;transition:background .35s}
+body[data-stage="reception"]{background:#DCEBF9}
+body[data-stage="triage"]{background:#FADDDD;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 14px,transparent 14px 28px)}
+body[data-stage="interview"]{background:#FCEFC4}
+body[data-stage="dentist"]{background:#E9E2D0}
+body[data-stage="pharmacy"]{background:#CDEAE2}
+body[data-stage="doctor"]{background:#E3D9F7}
+body[data-stage="handover"]{background:#FBE3C2}
+.wrap{max-width:560px;margin:0 auto}
+h1{font-size:22px;margin:2px 0}
+.sub{color:#556;font-size:15px;margin:0 0 10px}
+.prog{font-size:13.5px;color:#556;margin:10px 0 4px}
+.bar{height:8px;background:rgba(255,255,255,.75);border:1px solid #c8d2dc;border-radius:99px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;background:#2f6fb2;transition:width .3s}
+.stage{display:none;font-size:34px;font-weight:800;letter-spacing:.03em;background:#fff;border:2.5px solid #1c2733;border-radius:12px;padding:8px 16px;margin:0 0 12px;text-align:center}
+.stage.on{display:block}
+.scr{display:none;background:#fff;border:1px solid #dde3e8;border-radius:12px;padding:18px 16px}
+.scr.on{display:block}
+.scene{font-size:18px;margin:2px 0 8px}
+.look{background:#EFF6FF;border:1px solid #B9D4F0;border-radius:8px;padding:9px 12px;margin:10px 0;font-size:16px}
+.look b{color:#2f6fb2}
+.do{background:#FFF8E6;border:2px solid #E3C878;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:19px;font-weight:700;line-height:1.7}
+.do .lbl{display:block;font-size:13.5px;color:#9A6A1B;font-weight:700;margin-bottom:2px}
+.pat{background:#E4F2E4;border:1.5px solid #7FB069;border-radius:10px;padding:10px 13px;margin:10px 0;font-size:16.5px}
+.pat .lbl{display:block;font-size:13.5px;color:#3E6B34;font-weight:700;margin-bottom:2px}
+.chrono{background:#2B3A4A;color:#fff;border-radius:8px;padding:9px 12px;margin:10px 0;font-size:15.5px}
+.chrono b{color:#FFD97A}
+button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;border-radius:10px;padding:15px;margin:12px 0 2px;font-size:18px;font-weight:700;cursor:pointer}
+.big{font-size:21px;font-weight:700}
+.kv{background:#F1F5F9;border-radius:8px;padding:9px 12px;margin:10px 0}
+.say{font-weight:700}
+.end{text-align:center;padding:10px 0}
+/* 右端の縦帯（タグ） */
+#tagtab{display:none;position:fixed;right:0;top:38%;z-index:40;background:#B03A2E;color:#fff;border:none;border-radius:10px 0 0 10px;padding:16px 7px;font-size:16px;font-weight:800;writing-mode:vertical-rl;letter-spacing:.15em;cursor:pointer;box-shadow:-2px 2px 8px rgba(0,0,0,.25)}
+#tagtab.on{display:block}
+/* スライドパネル */
+#tagpanel{position:fixed;top:0;right:0;height:100%;width:87.5%;max-width:480px;background:#fff;z-index:50;box-shadow:-6px 0 24px rgba(0,0,0,.3);transform:translateX(105%);transition:transform .38s ease;padding:18px 16px 40px;overflow-y:auto}
+#tagpanel.on{transform:translateX(0)}
+#tagpanel h2{font-size:21px;margin:0 0 6px}
+.sit{background:#FDECEC;border:1.5px solid #B03A2E;border-radius:8px;padding:9px 12px;font-size:16.5px;margin:8px 0 14px}
+.tq{font-weight:700;font-size:18px;margin:14px 0 6px}
+button.topt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #2f6fb2;border-radius:10px;padding:13px 14px;margin:8px 0;font-size:17px;cursor:pointer;color:#1c2733}
+button.tclose{display:block;width:100%;background:#556;border:none;color:#fff;border-radius:10px;padding:13px;margin:18px 0 0;font-size:16.5px;font-weight:700;cursor:pointer}
+.tdone{background:#E4F2E4;border:1.5px solid #7FB069;border-radius:8px;padding:12px 14px;font-size:17px;font-weight:700;margin:12px 0}
+/* 間違いアラート */
+#alertbox{display:none;position:fixed;inset:0;z-index:60;background:rgba(255,255,255,.25);align-items:center;justify-content:center;cursor:pointer}
+#alertbox.on{display:flex}
+#alertbox .big-ng{font-size:92px;font-weight:900;color:rgba(211,47,47,.42);text-align:center;line-height:1.25;letter-spacing:.02em}
+</style>
+</head>
+<body data-stage="plain">
+<div class="wrap">
+<h1>2️⃣ 症例②　転落外傷（試作）</h1>
+<p class="sub">脇田恵さん（52歳・女性）／ 患者役：橋本莉穂さん</p>
+<div class="prog" id="prog"></div>
+<div class="bar"><i id="barfill" style="width:0%"></i></div>
+<div class="stage" id="stage"></div>
+
+<div class="scr on" data-t="表紙" data-stage="plain" data-label="">
+<p class="scene">階段から転落した患者さんが、歩いて救護所に到着します。途中で状態が悪化し、タグの色が変わる症例です。</p>
+<div class="chrono"><b>✍ クロノロジー</b>：症例の開始時刻を、ホワイトシートに書く。</div>
+<button class="nx" onclick="go(1)">はじめる</button>
+</div>
+
+<div class="scr" data-t="受付" data-stage="reception" data-label="受付">
+<p class="scene">患者さんが歩いて到着しました。</p>
+<div class="pat"><span class="lbl">患者役 ― ここで言う</span>「顔が痛い、口の中が切れた、前歯がぐらぐらする」</div>
+<div class="pat"><span class="lbl">患者役 ― 名前・年齢・住所を聞かれたら</span>「脇田恵です。52歳。住所は東京都で、瑞穂区の娘の家に滞在中です」</div>
+<div class="do"><span class="lbl">やること</span>氏名・年齢・住所を聞いてカルテを渡し、トリアージへ案内する。</div>
+<button class="nx" onclick="go(2)">次へ</button>
+</div>
+
+<div class="scr" data-t="トリアージ" data-stage="triage" data-label="トリアージ" data-tag="tag1">
+<p class="scene">患者さんは歩いて来られました。</p>
+<div class="look"><b>目に見える様子：</b>自分の足で歩いて入ってきた。顔と右の脇腹を打っている。</div>
+<div class="do"><span class="lbl">やること</span>緑タグを付ける。右端の赤い帯「トリアージタグ」から、タグの作業を確認する。</div>
+<div class="chrono"><b>✍ クロノロジー</b>：タグの決定「緑」を、ホワイトシートに書く。</div>
+<button class="nx" onclick="go(3)">次へ</button>
+</div>
+
+<div class="scr" data-t="問診" data-stage="interview" data-label="問診・診療介助">
+<p class="scene">問診で、打った場所と薬を確認します。</p>
+<div class="pat"><span class="lbl">患者役 ― 聞かれたら答える</span>転落で顔と右の脇腹を打ったこと／脳梗塞の予防でアスピリンを飲んでいること</div>
+<div class="do"><span class="lbl">やること</span>打った場所（右の脇腹）と、アスピリンを飲んでいることを聞き、タグの特記事項欄に書く。</div>
+<button class="nx" onclick="go(4)">次へ</button>
+</div>
+
+<div class="scr" data-t="歯科" data-stage="dentist" data-label="歯科">
+<p class="scene">口の中の訴えがあるため、歯科が確認します。</p>
+<div class="do"><span class="lbl">やること</span>前歯のぐらつきと、口の中の傷を確認する。処置は口頭と指さしでよい。</div>
+<button class="nx" onclick="go(5)">次へ</button>
+</div>
+
+<div class="scr" data-t="調剤：確認" data-stage="pharmacy" data-label="調剤">
+<p class="scene">薬剤師が、問診で得た薬の情報を確認します。</p>
+<div class="do"><span class="lbl">やること</span>アスピリンを飲んでいることを確認し、「出血が止まりにくい」ことを医師へ声で伝える。</div>
+<button class="nx" onclick="go(6)">次へ</button>
+</div>
+
+<div class="scr" data-t="状態の悪化" data-stage="interview" data-label="問診・診療介助">
+<div class="pat"><span class="lbl">患者役 ― ここで言う</span>「お腹がだんだん痛い、座っていられない」</div>
+<div class="look"><b>目に見える様子：</b>顔色が悪く、冷たい汗が出ている。お腹を押さえて、座っていられない。</div>
+<div class="do"><span class="lbl">やること</span>医師を呼ぶ。バイタルを測る。</div>
+<div class="chrono"><b>✍ クロノロジー</b>：「状態変化」を、ホワイトシートに書く。</div>
+<button class="nx" onclick="go(7)">次へ</button>
+</div>
+
+<div class="scr" data-t="診察" data-stage="doctor" data-label="診察">
+<div class="kv"><span class="big">脈118・血圧92/60・呼吸34回</span><br>右のお腹の上の方を押すと痛がる。お腹の中の出血（肝臓のけがの疑い）が考えられる。</div>
+<div class="do"><span class="lbl">やること</span>状態が変化したため、もう一度評価し直す。タグを赤に変える判断を、声に出して伝える。</div>
+<button class="nx" onclick="go(8)">次へ</button>
+</div>
+
+<div class="scr" data-t="再評価：タグ変更" data-stage="triage" data-label="再評価（トリアージ）" data-tag="tag2">
+<p class="scene">タグを変更します。これは二次トリアージではなく、状態変化への再評価です。</p>
+<div class="do"><span class="lbl">やること</span>タグを赤に変える。右端の赤い帯「トリアージタグ」から、変更の作業を確認する。</div>
+<div class="do"><span class="lbl">やること</span>本部へ声で伝える：「搬送をお願いします」。搬送口へ付き添って移動する。</div>
+<div class="chrono"><b>✍ クロノロジー</b>：「状態変化により赤へ変更」と「搬送要請」を、ホワイトシートに書く。</div>
+<button class="nx" onclick="go(9)">次へ</button>
+</div>
+
+<div class="scr" data-t="調剤：提案" data-stage="pharmacy" data-label="調剤">
+<p class="scene">痛み止めの相談です。</p>
+<div class="do"><span class="lbl">やること</span>声に出す：鎮痛にはNSAIDsを避け、アセトアミノフェンを提案する。</div>
+<button class="nx" onclick="go(10)">次へ</button>
+</div>
+
+<div class="scr" data-t="申し送り" data-stage="handover" data-label="申し送り">
+<p class="scene">最後に、申し送りを声に出して読み上げます。</p>
+<div class="kv"><span class="say">「52歳女性、階段転落で顔面と右季肋部を打撲、腹腔内出血の疑いで緑から赤に変更しました。アスピリン内服中です。」</span></div>
+<button class="nx" onclick="go(11)">終了へ</button>
+</div>
+
+<div class="scr end" data-t="終了" data-stage="plain" data-label="">
+<p class="big">ここまで。終了です。<br>お疲れ様でした。</p>
+<div class="chrono"><b>✍ クロノロジー</b>：終了時刻を、ホワイトシートに書く。</div>
+<button class="nx" onclick="go(0)">最初からもう一度</button>
+</div>
+
+</div>
+
+<button id="tagtab" onclick="openTag()">トリアージタグ</button>
+
+<div id="tagpanel">
+<h2>トリアージタグ</h2>
+<div class="sit" id="tagsit"></div>
+<div id="tagsteps"></div>
+<button class="tclose" onclick="closeTag()">閉じる（元の画面に戻る）</button>
+</div>
+
+<div id="alertbox" onclick="hideAlert()"><div class="big-ng">✕<br>違います</div></div>
+
+<script>
+var scrs=document.querySelectorAll('.scr');
+var prog=document.getElementById('prog');
+var barfill=document.getElementById('barfill');
+var stageEl=document.getElementById('stage');
+var tagtab=document.getElementById('tagtab');
+var curTag=null;
+function go(i){
+  closeTag();
+  scrs.forEach(function(s){s.classList.remove('on')});
+  var s=scrs[i]; s.classList.add('on');
+  document.body.setAttribute('data-stage', s.getAttribute('data-stage')||'plain');
+  var lb=s.getAttribute('data-label')||'';
+  if(lb){ stageEl.textContent=lb; stageEl.classList.add('on'); } else { stageEl.classList.remove('on'); }
+  curTag=s.getAttribute('data-tag');
+  if(curTag){ tagtab.classList.add('on'); } else { tagtab.classList.remove('on'); }
+  prog.textContent=(i+1)+' / '+scrs.length+'　―　'+s.getAttribute('data-t');
+  barfill.style.width=Math.round((i+1)/scrs.length*100)+'%';
+  window.scrollTo(0,0);
+}
+var TAGS={
+ tag1:{sit:"状況：歩いて来所できた。顔と右の脇腹を打っている。",
+   steps:[
+     {q:"付けるタグの色は？",opts:[["緑",1],["黄",0],["赤",0]]},
+     {q:"切り取る部分は？",opts:[["切り取らない",1],["黄を切り取る",0],["赤を切り取る",0]]}
+   ],
+   done:"緑タグが付きました。切り取りはしていません。実際のタグでも、同じように付けてください。"},
+ tag2:{sit:"状況：座っていられない。呼吸34回、血圧が下がっている。お腹の中の出血の疑い。",
+   steps:[
+     {q:"タグを何色に変えますか？",opts:[["赤",1],["黄",0],["緑のまま",0]]},
+     {q:"切り取る部分は？",opts:[["黄と緑を切り取る",1],["切り取らない",0],["赤を切り取る",0]]}
+   ],
+   done:"赤タグに変わりました。黄と緑は切り取り済みです。実際のタグでも、同じように変えてください。"}
+};
+var tagStep=0;
+function openTag(){
+  if(!curTag) return;
+  tagStep=0;
+  document.getElementById('tagsit').textContent=TAGS[curTag].sit;
+  renderTagStep();
+  document.getElementById('tagpanel').classList.add('on');
+}
+function closeTag(){ document.getElementById('tagpanel').classList.remove('on'); hideAlert(); }
+function renderTagStep(){
+  var cfg=TAGS[curTag], box=document.getElementById('tagsteps');
+  if(tagStep>=cfg.steps.length){
+    box.innerHTML='<div class="tdone">'+cfg.done+'</div>';
+    return;
+  }
+  var st=cfg.steps[tagStep];
+  var h='<div class="tq">'+(tagStep+1)+'．'+st.q+'</div>';
+  st.opts.forEach(function(o){
+    h+='<button class="topt" onclick="tapOpt('+(o[1]?1:0)+')">'+o[0]+'</button>';
+  });
+  box.innerHTML=h;
+}
+function tapOpt(ok){
+  if(ok){ tagStep++; renderTagStep(); }
+  else{ document.getElementById('alertbox').classList.add('on'); }
+}
+function hideAlert(){ document.getElementById('alertbox').classList.remove('on'); }
+go(0);
+</script>
+</body>
+</html>
