@@ -33,12 +33,14 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 .big{font-size:21px;font-weight:700}
 .kv{background:#F1F5F9;border-radius:8px;padding:9px 12px;margin:10px 0}
 .say{font-weight:700}
+.chrono{background:#2B3A4A;color:#fff;border-radius:8px;padding:9px 12px;margin:10px 0;font-size:15.5px}
+.chrono b{color:#FFD97A}
 .end{text-align:center;padding:10px 0}
 </style>
 </head>
 <body data-stage="plain">
 <div class="wrap">
-<h1>1️⃣ 症例①　呼吸苦（試作・改2）</h1>
+<h1>1️⃣ 症例①　呼吸苦（試作・改3）</h1>
 <p class="sub">蔵前瑞穂さん（50歳・女性）</p>
 <div class="prog" id="prog"></div>
 <div class="bar"><i id="barfill" style="width:0%"></i></div>
@@ -46,6 +48,7 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 
 <div class="scr on" data-t="表紙" data-stage="plain" data-label="">
 <p class="scene">喘息の発作で息が苦しい患者さんが、救護所に到着します。</p>
+<div class="chrono"><b>✍ クロノロジー</b>：症例の開始時刻を、ホワイトシートに書く。</div>
 <button class="nx" onclick="go(1)">はじめる</button>
 </div>
 
@@ -73,12 +76,14 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 <div class="scr" data-t="トリアージ：判定" data-stage="triage" data-label="トリアージ">
 <div class="kv"><span class="big">呼吸数 32回／分</span><br>目安：ふだんは12〜20回ほどで、30回以上は「速すぎる」状態です。START法では、呼吸が速すぎる時点で赤と決まります。</div>
 <div class="do"><span class="lbl">やること</span>赤タグを付ける。声に出す：「呼吸32回です。赤とします」</div>
+<div class="chrono"><b>✍ クロノロジー</b>：タグの決定「赤（呼吸32）」を、ホワイトシートに書く。</div>
 <button class="nx" onclick="go(5)">次へ</button>
 </div>
 
 <div class="scr" data-t="搬送要請" data-stage="triage" data-label="トリアージ">
 <p class="scene">赤と決めたら、搬送の要請までが一続きです。</p>
 <div class="do"><span class="lbl">やること</span>本部へ声で伝える：「搬送をお願いします」。患者さんは搬送枠へ案内する。</div>
+<div class="chrono"><b>✍ クロノロジー</b>：「搬送要請」を、ホワイトシートに書く。</div>
 <button class="nx" onclick="go(6)">次へ</button>
 </div>
 
@@ -127,6 +132,7 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 
 <div class="scr end" data-t="終了" data-stage="plain" data-label="">
 <p class="big">ここまで。終了です。<br>お疲れ様でした。</p>
+<div class="chrono"><b>✍ クロノロジー</b>：終了時刻を、ホワイトシートに書く。</div>
 <button class="nx" onclick="go(0)">最初からもう一度</button>
 </div>
 
