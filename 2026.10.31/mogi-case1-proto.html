@@ -6,17 +6,25 @@
 <title>症例① 呼吸苦 ― やることだけを示す試作</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:-apple-system,'Hiragino Sans',sans-serif;margin:0;padding:16px 14px 56px;color:#1c2733;line-height:1.8;font-size:17px;background:#F7FAFC}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;margin:0;padding:16px 14px 56px;color:#1c2733;line-height:1.8;font-size:17px;background:#F7FAFC;transition:background .35s}
+body[data-stage="reception"]{background:#DCEBF9}
+body[data-stage="triage"]{background:#FADDDD;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 14px,transparent 14px 28px)}
+body[data-stage="frame"]{background:#E2EDD2}
+body[data-stage="interview"]{background:#FCEFC4}
+body[data-stage="doctor"]{background:#E3D9F7}
+body[data-stage="pharmacy"]{background:#CDEAE2}
+body[data-stage="handover"]{background:#FBE3C2}
 .wrap{max-width:560px;margin:0 auto}
 h1{font-size:22px;margin:2px 0}
-.sub{color:#667;font-size:14px;margin:0 0 10px}
-.prog{font-size:13.5px;color:#667;margin:10px 0 4px}
-.bar{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-bottom:14px}
+.sub{color:#556;font-size:15px;margin:0 0 10px}
+.prog{font-size:13.5px;color:#556;margin:10px 0 4px}
+.bar{height:8px;background:rgba(255,255,255,.75);border:1px solid #c8d2dc;border-radius:99px;overflow:hidden;margin-bottom:12px}
 .bar i{display:block;height:100%;background:#2f6fb2;transition:width .3s}
+.stage{display:none;font-size:34px;font-weight:800;letter-spacing:.03em;background:#fff;border:2.5px solid #1c2733;border-radius:12px;padding:8px 16px;margin:0 0 12px;text-align:center}
+.stage.on{display:block}
 .scr{display:none;background:#fff;border:1px solid #dde3e8;border-radius:12px;padding:18px 16px}
 .scr.on{display:block}
-.role{font-size:13.5px;color:#2f6fb2;font-weight:700;letter-spacing:.04em}
-.scene{font-size:18px;margin:4px 0 8px}
+.scene{font-size:18px;margin:2px 0 8px}
 .look{background:#EFF6FF;border:1px solid #B9D4F0;border-radius:8px;padding:9px 12px;margin:10px 0;font-size:16px}
 .look b{color:#2f6fb2}
 .do{background:#FFF8E6;border:2px solid #E3C878;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:19px;font-weight:700;line-height:1.7}
@@ -28,73 +36,65 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 .end{text-align:center;padding:10px 0}
 </style>
 </head>
-<body>
+<body data-stage="plain">
 <div class="wrap">
-<h1>1️⃣ 症例①　呼吸苦（試作・改）</h1>
-<p class="sub">蔵前瑞穂さん（50歳・女性）。このページに、選ぶところはありません。画面に出た「やること」を、そのままやってください。</p>
+<h1>1️⃣ 症例①　呼吸苦（試作・改2）</h1>
+<p class="sub">蔵前瑞穂さん（50歳・女性）</p>
 <div class="prog" id="prog"></div>
 <div class="bar"><i id="barfill" style="width:0%"></i></div>
+<div class="stage" id="stage"></div>
 
-<div class="scr on" data-t="表紙">
+<div class="scr on" data-t="表紙" data-stage="plain" data-label="">
 <p class="scene">喘息の発作で息が苦しい患者さんが、救護所に到着します。</p>
-<p>画面は1枚ずつ進みます。各画面には、目に見える様子と、次にやることが1つだけ書いてあります。</p>
 <button class="nx" onclick="go(1)">はじめる</button>
 </div>
 
-<div class="scr" data-t="受付">
-<div class="role">受付</div>
+<div class="scr" data-t="受付" data-stage="reception" data-label="受付">
 <p class="scene">付き添いに支えられて、患者さんが到着しました。椅子に座り、「息が苦しい。歩けない」と言っています。</p>
 <div class="look"><b>目に見える様子：</b>肩で息をしていて、顔色が悪い。苦しくても「ごめんね、私、重いでしょう」と周りを気づかっている。</div>
 <div class="do"><span class="lbl">やること</span>名前と年齢を聞いてカルテを渡し、トリアージへ案内する。</div>
 <button class="nx" onclick="go(2)">次へ</button>
 </div>
 
-<div class="scr" data-t="トリアージ：歩行">
-<div class="role">トリアージ</div>
+<div class="scr" data-t="トリアージ：歩行" data-stage="triage" data-label="トリアージ">
 <p class="scene">患者さんは椅子に座ったままです。</p>
 <div class="look"><b>目に見える様子：</b>一人では椅子から立ち上がれない。付き添いの手がないと動けない。本人の力で歩けないので「歩行不可」です。</div>
 <div class="do"><span class="lbl">やること</span>歩行不可として、次の確認（呼吸）へ進む。</div>
 <button class="nx" onclick="go(3)">次へ</button>
 </div>
 
-<div class="scr" data-t="トリアージ：呼吸">
-<div class="role">トリアージ</div>
+<div class="scr" data-t="トリアージ：呼吸" data-stage="triage" data-label="トリアージ">
 <p class="scene">呼吸の確認です。呼吸はあります。</p>
 <div class="look"><b>目に見える様子：</b>呼吸が速くて浅い。肩が大きく上下して、話す言葉も途切れ途切れになっている。</div>
 <div class="do"><span class="lbl">やること</span>呼吸を数える。</div>
 <button class="nx" onclick="go(4)">数えたら次へ</button>
 </div>
 
-<div class="scr" data-t="トリアージ：判定">
-<div class="role">トリアージ</div>
+<div class="scr" data-t="トリアージ：判定" data-stage="triage" data-label="トリアージ">
 <div class="kv"><span class="big">呼吸数 32回／分</span><br>目安：ふだんは12〜20回ほどで、30回以上は「速すぎる」状態です。START法では、呼吸が速すぎる時点で赤と決まります。</div>
 <div class="do"><span class="lbl">やること</span>赤タグを付ける。声に出す：「呼吸32回です。赤とします」</div>
 <button class="nx" onclick="go(5)">次へ</button>
 </div>
 
-<div class="scr" data-t="搬送要請">
-<div class="role">トリアージ</div>
+<div class="scr" data-t="搬送要請" data-stage="triage" data-label="トリアージ">
 <p class="scene">赤と決めたら、搬送の要請までが一続きです。</p>
 <div class="do"><span class="lbl">やること</span>本部へ声で伝える：「搬送をお願いします」。患者さんは搬送枠へ案内する。</div>
 <button class="nx" onclick="go(6)">次へ</button>
 </div>
 
-<div class="scr" data-t="搬送枠">
-<div class="role">全員</div>
+<div class="scr" data-t="搬送枠" data-stage="frame" data-label="搬送枠">
 <p class="scene">患者さんは椅子に座ったまま、搬送枠で待ちます。患者さんが動くのではなく、スタッフが患者さんのもとへ来て、問診・診察・調剤の確認を行います。</p>
 <div class="look"><b>目に見える様子：</b>苦しい中でも気丈に、周りの人を励ましている。</div>
 <button class="nx" onclick="go(7)">次へ</button>
 </div>
 
-<div class="scr" data-t="問診">
-<div class="role">問診・診療介助</div>
+<div class="scr" data-t="問診" data-stage="interview" data-label="問診・診療介助">
 <p class="scene">搬送枠で話を聞きます。搬送を待つ間なので、聞くことは搬送と治療に直結することだけに絞ります。</p>
 <div class="do"><span class="lbl">やること</span>まず、喘息の吸入器を持っているかどうかを聞く。</div>
 <button class="nx" onclick="go(8)">次へ</button>
 </div>
 
-<div class="scr" data-t="問診の結果">
-<div class="role">問診・診療介助</div>
+<div class="scr" data-t="問診の結果" data-stage="interview" data-label="問診・診療介助">
 <p class="scene">聞けたことは3つです。</p>
 <div class="kv">
 ・吸入器は家に置いてきた（手元にない）<br>
@@ -105,32 +105,28 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 <button class="nx" onclick="go(9)">次へ</button>
 </div>
 
-<div class="scr" data-t="診察">
-<div class="role">診察（医師）</div>
+<div class="scr" data-t="診察" data-stage="doctor" data-label="診察">
 <p class="scene">搬送枠で診察します。「ゆっくり息をしてみてください」と声をかけると、患者さんは言いました。</p>
 <div class="look"><b>患者さんの言葉：</b>「ゆっくりなんて、無理です」</div>
 <div class="do"><span class="lbl">やること</span>救護所では発作を止められないため、搬送優先と判断し、声に出して伝える。</div>
 <button class="nx" onclick="go(10)">次へ</button>
 </div>
 
-<div class="scr" data-t="調剤">
-<div class="role">調剤（薬剤師）</div>
+<div class="scr" data-t="調剤" data-stage="pharmacy" data-label="調剤">
 <p class="scene">問診で得た薬の情報をもとに判断します。</p>
 <div class="do"><span class="lbl">やること</span>声に出す：「薬の面では、搬送の支障はありません」</div>
 <button class="nx" onclick="go(11)">次へ</button>
 </div>
 
-<div class="scr" data-t="申し送り">
-<div class="role">診療介助</div>
+<div class="scr" data-t="申し送り" data-stage="handover" data-label="申し送り">
 <p class="scene">最後に、申し送りを声に出して読み上げます。</p>
 <div class="kv"><span class="say">「50歳女性。喘息の重症発作で、呼吸数32、赤タグです。吸入器はなく、搬送を要請済みです。」</span></div>
 <div class="look"><b>患者さんの締めの言葉：</b>「分かった、私は任せる。だから絶対、助けてよね。」</div>
 <button class="nx" onclick="go(12)">終了へ</button>
 </div>
 
-<div class="scr end" data-t="終了">
+<div class="scr end" data-t="終了" data-stage="plain" data-label="">
 <p class="big">ここまで。終了です。<br>お疲れ様でした。</p>
-<p>症例①を通して進めました。画面の指示はすべて「やること」の形で、選ぶ場面はありません。</p>
 <button class="nx" onclick="go(0)">最初からもう一度</button>
 </div>
 
@@ -139,10 +135,14 @@ button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;bor
 var scrs=document.querySelectorAll('.scr');
 var prog=document.getElementById('prog');
 var barfill=document.getElementById('barfill');
+var stageEl=document.getElementById('stage');
 function go(i){
   scrs.forEach(function(s){s.classList.remove('on')});
-  scrs[i].classList.add('on');
-  prog.textContent=(i+1)+' / '+scrs.length+'　―　'+scrs[i].getAttribute('data-t');
+  var s=scrs[i]; s.classList.add('on');
+  document.body.setAttribute('data-stage', s.getAttribute('data-stage')||'plain');
+  var lb=s.getAttribute('data-label')||'';
+  if(lb){ stageEl.textContent=lb; stageEl.classList.add('on'); } else { stageEl.classList.remove('on'); }
+  prog.textContent=(i+1)+' / '+scrs.length+'　―　'+s.getAttribute('data-t');
   barfill.style.width=Math.round((i+1)/scrs.length*100)+'%';
   window.scrollTo(0,0);
 }
