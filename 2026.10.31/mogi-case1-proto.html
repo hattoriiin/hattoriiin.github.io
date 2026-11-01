@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>症例① 呼吸苦 ― 1画面1判断の試作</title>
+<title>症例① 呼吸苦 ― やることだけを示す試作</title>
 <style>
 *{box-sizing:border-box}
 body{font-family:-apple-system,'Hiragino Sans',sans-serif;margin:0;padding:16px 14px 56px;color:#1c2733;line-height:1.8;font-size:17px;background:#F7FAFC}
@@ -15,155 +15,138 @@ h1{font-size:22px;margin:2px 0}
 .bar i{display:block;height:100%;background:#2f6fb2;transition:width .3s}
 .scr{display:none;background:#fff;border:1px solid #dde3e8;border-radius:12px;padding:18px 16px}
 .scr.on{display:block}
-.scene{font-size:18px;margin:2px 0 8px}
+.role{font-size:13.5px;color:#2f6fb2;font-weight:700;letter-spacing:.04em}
+.scene{font-size:18px;margin:4px 0 8px}
 .look{background:#EFF6FF;border:1px solid #B9D4F0;border-radius:8px;padding:9px 12px;margin:10px 0;font-size:16px}
 .look b{color:#2f6fb2}
-.q{font-weight:700;margin:14px 0 8px}
-button.ch{display:block;width:100%;text-align:left;background:#fff;border:2px solid #2f6fb2;color:#1c2733;border-radius:10px;padding:14px 15px;margin:9px 0;font-size:17px;cursor:pointer}
-button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;border-radius:10px;padding:14px;margin:12px 0 2px;font-size:17px;font-weight:700;cursor:pointer}
-.note{display:none;background:#FFF4E5;border:1px solid #EBCB9A;border-radius:8px;padding:9px 12px;margin:0 0 12px;font-size:15.5px}
-.note.on{display:block}
-.say{font-weight:700}
+.do{background:#FFF8E6;border:2px solid #E3C878;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:19px;font-weight:700;line-height:1.7}
+.do .lbl{display:block;font-size:13.5px;color:#9A6A1B;font-weight:700;margin-bottom:2px}
+button.nx{display:block;width:100%;background:#2f6fb2;color:#fff;border:none;border-radius:10px;padding:15px;margin:12px 0 2px;font-size:18px;font-weight:700;cursor:pointer}
 .big{font-size:21px;font-weight:700}
 .kv{background:#F1F5F9;border-radius:8px;padding:9px 12px;margin:10px 0}
+.say{font-weight:700}
 .end{text-align:center;padding:10px 0}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>1️⃣ 症例①　呼吸苦（試作）</h1>
-<p class="sub">蔵前瑞穂さん（50歳・女性）。1画面に判断は1つだけ。どのボタンを押しても止まらず、最後まで進めます。</p>
+<h1>1️⃣ 症例①　呼吸苦（試作・改）</h1>
+<p class="sub">蔵前瑞穂さん（50歳・女性）。このページに、選ぶところはありません。画面に出た「やること」を、そのままやってください。</p>
 <div class="prog" id="prog"></div>
 <div class="bar"><i id="barfill" style="width:0%"></i></div>
-<div class="note" id="notebox"></div>
 
-<!-- 1 表紙 -->
 <div class="scr on" data-t="表紙">
 <p class="scene">喘息の発作で息が苦しい患者さんが、救護所に到着します。</p>
-<p>この試作は、症例の流れを上から順に進める形です。場面ごとに、目に見える様子と、判断の目安を言葉で示します。</p>
+<p>画面は1枚ずつ進みます。各画面には、目に見える様子と、次にやることが1つだけ書いてあります。</p>
 <button class="nx" onclick="go(1)">はじめる</button>
 </div>
 
-<!-- 2 受付 -->
 <div class="scr" data-t="受付">
+<div class="role">受付</div>
 <p class="scene">付き添いに支えられて、患者さんが到着しました。椅子に座り、「息が苦しい。歩けない」と言っています。</p>
 <div class="look"><b>目に見える様子：</b>肩で息をしていて、顔色が悪い。苦しくても「ごめんね、私、重いでしょう」と周りを気づかっている。</div>
-<p class="q">受付として、まず何をしますか。</p>
-<button class="ch" onclick="go(2,'')">名前と年齢を聞いてカルテを渡し、トリアージへ案内する</button>
-<button class="ch" onclick="go(2,'ここで問診を始めると、トリアージが遅れます。受付は手短に聞いて、すぐトリアージへ渡すのが役割です。そのまま進みます。')">ここで詳しく問診を始める</button>
+<div class="do"><span class="lbl">やること</span>名前と年齢を聞いてカルテを渡し、トリアージへ案内する。</div>
+<button class="nx" onclick="go(2)">次へ</button>
 </div>
 
-<!-- 3 歩行の判断 -->
 <div class="scr" data-t="トリアージ：歩行">
-<p class="scene">トリアージです。患者さんは椅子に座ったままです。</p>
-<div class="look"><b>目に見える様子：</b>一人では椅子から立ち上がれない。付き添いの手がないと動けない。</div>
-<p class="q">歩行の判断は、どちらですか。</p>
-<button class="ch" onclick="go(3,'')">歩行不可。次の確認（呼吸）へ進む</button>
-<button class="ch" onclick="go(3,'付き添いがあれば歩ける、ではありません。本人の力で歩けないので「歩行不可」です。そのまま進みます。')">付き添いがあれば歩けるので、歩行可とする</button>
+<div class="role">トリアージ</div>
+<p class="scene">患者さんは椅子に座ったままです。</p>
+<div class="look"><b>目に見える様子：</b>一人では椅子から立ち上がれない。付き添いの手がないと動けない。本人の力で歩けないので「歩行不可」です。</div>
+<div class="do"><span class="lbl">やること</span>歩行不可として、次の確認（呼吸）へ進む。</div>
+<button class="nx" onclick="go(3)">次へ</button>
 </div>
 
-<!-- 4 呼吸の様子 -->
 <div class="scr" data-t="トリアージ：呼吸">
-<p class="scene">呼吸の確認です。</p>
-<div class="look"><b>目に見える様子：</b>呼吸はある。ただし速くて浅く、肩が大きく上下している。話す言葉も途切れ途切れ。</div>
-<p class="q">呼吸の様子は、どちらに近いですか。</p>
-<button class="ch" onclick="go(4,'')">速くて浅い。数えて確認する</button>
-<button class="ch" onclick="go(4,'見た目では分かりにくいときこそ、数えるのが確実です。肩の上下が速いのは、速い呼吸のサインです。そのまま進みます。')">普通の速さに見えるので、数えずに進む</button>
+<div class="role">トリアージ</div>
+<p class="scene">呼吸の確認です。呼吸はあります。</p>
+<div class="look"><b>目に見える様子：</b>呼吸が速くて浅い。肩が大きく上下して、話す言葉も途切れ途切れになっている。</div>
+<div class="do"><span class="lbl">やること</span>呼吸を数える。</div>
+<button class="nx" onclick="go(4)">数えたら次へ</button>
 </div>
 
-<!-- 5 呼吸数とタグ -->
 <div class="scr" data-t="トリアージ：判定">
-<div class="kv"><span class="big">呼吸数 32回／分</span><br>目安：ふだんは12〜20回ほど。30回以上は「速すぎる」状態です。言葉で言えば、肩で息をして、文の途中で息継ぎしないと話せない速さです。</div>
-<p class="q">START法では、呼吸が速すぎる時点でタグの色が決まります。何色ですか。</p>
-<button class="ch" onclick="go(5,'')">赤タグ</button>
-<button class="ch" onclick="go(5,'正解は赤タグです。呼吸30回以上は、その場で赤と決まります。迷わず赤で進みましょう。そのまま進みます。')">黄タグ</button>
-<button class="ch" onclick="go(5,'正解は赤タグです。歩けないことではなく、呼吸の速さが決め手です。そのまま進みます。')">緑タグ</button>
+<div class="role">トリアージ</div>
+<div class="kv"><span class="big">呼吸数 32回／分</span><br>目安：ふだんは12〜20回ほどで、30回以上は「速すぎる」状態です。START法では、呼吸が速すぎる時点で赤と決まります。</div>
+<div class="do"><span class="lbl">やること</span>赤タグを付ける。声に出す：「呼吸32回です。赤とします」</div>
+<button class="nx" onclick="go(5)">次へ</button>
 </div>
 
-<!-- 6 声に出す・搬送要請 -->
 <div class="scr" data-t="搬送要請">
-<p class="scene">赤タグを付けました。患者さんは搬送枠で待つ形になります。</p>
-<p class="q">トリアージから、次に声に出すことは何ですか。</p>
-<button class="ch" onclick="go(6,'')">「呼吸32回です。赤とします。搬送をお願いします」と本部へ伝える</button>
-<button class="ch" onclick="go(6,'赤と決めたら、その場で搬送要請までが一続きです。要請が遅れると、搬送の到着も遅れます。そのまま進みます。')">まず様子を見て、要請は後にする</button>
+<div class="role">トリアージ</div>
+<p class="scene">赤と決めたら、搬送の要請までが一続きです。</p>
+<div class="do"><span class="lbl">やること</span>本部へ声で伝える：「搬送をお願いします」。患者さんは搬送枠へ案内する。</div>
+<button class="nx" onclick="go(6)">次へ</button>
 </div>
 
-<!-- 7 搬送枠（情報） -->
 <div class="scr" data-t="搬送枠">
+<div class="role">全員</div>
 <p class="scene">患者さんは椅子に座ったまま、搬送枠で待ちます。患者さんが動くのではなく、スタッフが患者さんのもとへ来て、問診・診察・調剤の確認を行います。</p>
 <div class="look"><b>目に見える様子：</b>苦しい中でも気丈に、周りの人を励ましている。</div>
-<button class="nx" onclick="go(7)">問診へ進む</button>
+<button class="nx" onclick="go(7)">次へ</button>
 </div>
 
-<!-- 8 問診の判断 -->
 <div class="scr" data-t="問診">
-<p class="scene">問診・診療介助が、搬送枠で話を聞きます。搬送を待つ間なので、聞くことは絞ります。</p>
-<p class="q">まず聞くことは、どちらですか。</p>
-<button class="ch" onclick="go(8,'')">喘息の吸入器を持っているかどうか</button>
-<button class="ch" onclick="go(8,'搬送待ちの問診は、治療と搬送に直結することから聞きます。決め手は吸入器の有無です。そのまま進みます。')">昨夜からの食事の内容</button>
+<div class="role">問診・診療介助</div>
+<p class="scene">搬送枠で話を聞きます。搬送を待つ間なので、聞くことは搬送と治療に直結することだけに絞ります。</p>
+<div class="do"><span class="lbl">やること</span>まず、喘息の吸入器を持っているかどうかを聞く。</div>
+<button class="nx" onclick="go(8)">次へ</button>
 </div>
 
-<!-- 9 問診の結果（情報） -->
 <div class="scr" data-t="問診の結果">
+<div class="role">問診・診療介助</div>
 <p class="scene">聞けたことは3つです。</p>
 <div class="kv">
 ・吸入器は家に置いてきた（手元にない）<br>
 ・避難所で一夜過ごし、冷気とほこりの中で悪化した。夜の間は周りの人の手伝いをしていた<br>
 ・飲んでいる薬とアレルギーは、なし
 </div>
-<p>診療介助が、タグの特記事項欄に書きます。</p>
-<button class="nx" onclick="go(9)">診察へ進む</button>
+<div class="do"><span class="lbl">やること</span>この3つを、タグの特記事項欄に書く。</div>
+<button class="nx" onclick="go(9)">次へ</button>
 </div>
 
-<!-- 10 診察の判断 -->
 <div class="scr" data-t="診察">
-<p class="scene">医師が搬送枠で診察します。「ゆっくり息をしてみてください」と声をかけると、患者さんは言いました。</p>
+<div class="role">診察（医師）</div>
+<p class="scene">搬送枠で診察します。「ゆっくり息をしてみてください」と声をかけると、患者さんは言いました。</p>
 <div class="look"><b>患者さんの言葉：</b>「ゆっくりなんて、無理です」</div>
-<p class="q">医師の判断は、どちらですか。</p>
-<button class="ch" onclick="go(10,'')">救護所では発作を止められない。搬送を優先する</button>
-<button class="ch" onclick="go(10,'ゆっくり息もできない状態は、救護所で様子を見る段階ではありません。搬送優先が判断です。そのまま進みます。')">救護所でしばらく様子を見る</button>
+<div class="do"><span class="lbl">やること</span>救護所では発作を止められないため、搬送優先と判断し、声に出して伝える。</div>
+<button class="nx" onclick="go(10)">次へ</button>
 </div>
 
-<!-- 11 調剤の判断 -->
 <div class="scr" data-t="調剤">
-<p class="scene">薬剤師が、問診で得た薬の情報をもとに判断します。</p>
-<p class="q">調剤から声に出す申し送りは、どちらですか。</p>
-<button class="ch" onclick="go(11,'')">「薬の面では、搬送の支障はありません」</button>
-<button class="ch" onclick="go(11,'吸入器がないこと自体が、搬送できない理由にはなりません。薬の面では支障なし、が申し送りです。そのまま進みます。')">「吸入器がないので、搬送はできません」</button>
+<div class="role">調剤（薬剤師）</div>
+<p class="scene">問診で得た薬の情報をもとに判断します。</p>
+<div class="do"><span class="lbl">やること</span>声に出す：「薬の面では、搬送の支障はありません」</div>
+<button class="nx" onclick="go(11)">次へ</button>
 </div>
 
-<!-- 12 申し送り・終了 -->
 <div class="scr" data-t="申し送り">
+<div class="role">診療介助</div>
 <p class="scene">最後に、申し送りを声に出して読み上げます。</p>
 <div class="kv"><span class="say">「50歳女性。喘息の重症発作で、呼吸数32、赤タグです。吸入器はなく、搬送を要請済みです。」</span></div>
 <div class="look"><b>患者さんの締めの言葉：</b>「分かった、私は任せる。だから絶対、助けてよね。」</div>
 <button class="nx" onclick="go(12)">終了へ</button>
 </div>
 
-<!-- 13 終了 -->
 <div class="scr end" data-t="終了">
 <p class="big">ここまで。終了です。<br>お疲れ様でした。</p>
-<p>症例①を通して進めました。どの画面でも、選んだ内容にかかわらず止まらずに進む作りになっています。</p>
+<p>症例①を通して進めました。画面の指示はすべて「やること」の形で、選ぶ場面はありません。</p>
 <button class="nx" onclick="go(0)">最初からもう一度</button>
 </div>
 
 </div>
 <script>
 var scrs=document.querySelectorAll('.scr');
-var notebox=document.getElementById('notebox');
 var prog=document.getElementById('prog');
 var barfill=document.getElementById('barfill');
-function show(i,note){
+function go(i){
   scrs.forEach(function(s){s.classList.remove('on')});
   scrs[i].classList.add('on');
   prog.textContent=(i+1)+' / '+scrs.length+'　―　'+scrs[i].getAttribute('data-t');
   barfill.style.width=Math.round((i+1)/scrs.length*100)+'%';
-  if(note){ notebox.textContent=note; notebox.classList.add('on'); }
-  else{ notebox.classList.remove('on'); notebox.textContent=''; }
   window.scrollTo(0,0);
 }
-function go(i,note){ show(i,note||''); }
-show(0,'');
+go(0);
 </script>
 </body>
 </html>
