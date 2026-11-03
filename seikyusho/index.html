@@ -68,6 +68,8 @@
   <img id="sheetImg" alt="請求書の画像" style="display:none;width:100%;border:1px solid #ccc;">
   <p class="note" id="imgNote" style="display:none;">上の画像はPDFと同じ内容です。PDFが開けないときは、この画像を長押しして保存しても使えます。</p>
   <button class="printbtn" style="background:#666" onclick="window.print()">印刷する（A5横）</button>
+  <button class="printbtn" id="clearBtn" type="button" style="background:#999">入力をクリア（新しい請求書）</button>
+  <p class="note">入力内容は自動で保存されます。画面が真っ暗になって再読み込みされても、開き直せば続きから入力できます。</p>
   <p class="note screen">印刷のときは、用紙を「A5・横」にしてください。下のプレビューが、そのまま印刷される面です。<br>PDFにしたいときは、印刷画面でプレビューを2本指で広げて（ピンチアウト）、共有ボタンから「ファイルに保存」を選んでください。シートだけがA5横のPDFになります。</p>
 </div>
 
@@ -112,8 +114,32 @@ function addOtherRow(nameVal, amtVal) {
   wrap.querySelectorAll('input').forEach(i => i.addEventListener('input', update));
   $('others').appendChild(wrap);
 }
-$('addOther').onclick = () => { addOtherRow(); };
+$('addOther').onclick = () => { addOtherRow(); update(); };
 
+function collectState() {
+  return { name: $('inName').value, d1: $('inDate1').value, d2: $('inDate2').value,
+    ms: $('inMs').value, me: $('inMe').value, mb: $('inMb').value, mv: $('inMv').value,
+    a1: $('inA1').value, a2: $('inA2').value,
+    others: Array.from(document.querySelectorAll('.other-row')).map(r => [r.querySelector('.oName').value, r.querySelector('.oAmt').value]) };
+}
+function saveState() {
+  try { localStorage.setItem('seikyusho-v1', JSON.stringify(collectState())); } catch (e) {}
+}
+function restoreState() {
+  try {
+    const raw = localStorage.getItem('seikyusho-v1'); if (!raw) return false;
+    const st = JSON.parse(raw);
+    $('inName').value = st.name || '';
+    if (st.d1) $('inDate1').value = st.d1;
+    if (st.d2) $('inDate2').value = st.d2;
+    [['inMs','ms'],['inMe','me'],['inMb','mb'],['inMv','mv']].forEach(pair => { if (st[pair[1]]) $(pair[0]).value = st[pair[1]]; });
+    $('inA1').value = st.a1 || ''; $('inA2').value = st.a2 || '';
+    $('others').innerHTML = '';
+    const rows = (st.others && st.others.length) ? st.others : [['', '']];
+    rows.forEach(o => addOtherRow(o[0] || '', o[1] || ''));
+    return true;
+  } catch (e) { return false; }
+}
 function reiwaParts(dateStr) {
   if (!dateStr) return null;
   const d = new Date(dateStr + 'T00:00:00');
@@ -146,6 +172,7 @@ function update() {
   setFld('a1', fmt(a1), $('inA1').value !== ''); setFld('a2', fmt(a2), $('inA2').value !== '');
   setFld('a3', fmt(sum), true); setFld('a4', fmt(tot), tot > 0 || $('inA1').value !== '' || $('inA2').value !== '');
   setFld('tot', fmt(tot), tot > 0);
+  saveState();
 }
 document.querySelectorAll('input,select').forEach(el => el.addEventListener('input', update));
 
@@ -236,17 +263,24 @@ $('pdfBtn').onclick = () => {
   } catch (e) { status.textContent = 'エラー: ' + e.message; }
 };
 
-// 初期値: 発行日=今日、期限=30日後、月=先月
+// 初期値: 保存があれば復元、なければ 発行日=今日、期限=30日後、月=先月
 (function init() {
-  const now = new Date();
-  const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  $('inDate1').value = iso(now);
-  const due = new Date(now); due.setDate(due.getDate() + 30); $('inDate2').value = iso(due);
-  const last = new Date(now.getFullYear(), now.getMonth() - 1, 1).getMonth() + 1;
-  ['inMs','inMe','inMb','inMv'].forEach(id => $(id).value = last);
-  addOtherRow();
+  if (!restoreState()) {
+    const now = new Date();
+    const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    $('inDate1').value = iso(now);
+    const due = new Date(now); due.setDate(due.getDate() + 30); $('inDate2').value = iso(due);
+    const last = new Date(now.getFullYear(), now.getMonth() - 1, 1).getMonth() + 1;
+    ['inMs','inMe','inMb','inMv'].forEach(id => $(id).value = last);
+    addOtherRow();
+  }
   update();
 })();
+$('clearBtn').onclick = () => {
+  if (!confirm('入力をすべて消して、新しい請求書にしますか？')) return;
+  try { localStorage.removeItem('seikyusho-v1'); } catch (e) {}
+  location.reload();
+};
 </script>
 </body>
 </html>
