@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>初めての方へ｜服部医院</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background-color: #ffffff;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 24px 0 24px;
+    }
+
+    .nav-back a {
+      color: #4d7d98;
+      text-decoration: none;
+      font-size: 14px;
+      margin-right: 15px;
+    }
+
+    h1 {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      color: #20384d;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      margin: 14px 0 18px 0;
+      padding-bottom: 10px;
+      position: relative;
+    }
+
+    h1::before {
+      content: "HOME VISIT";
+      display: block;
+      margin-bottom: .2rem;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .32em;
+      color: #4d7d98;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(to right, #31556e, #78b8c4);
+      opacity: .55;
+    }
+
+    .lead {
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .lead .catch {
+      display: block;
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      font-size: 19px;
+      font-weight: 500;
+      color: #20384d;
+      letter-spacing: .03em;
+      margin-bottom: 8px;
+    }
+
+    /* === 動画（画面の下に固定） === */
+    body {
+      padding-bottom: 224px;
+    }
+
+    .movie-fixed {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 200px;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .movie-fixed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding-bottom: 264px;
+      }
+
+      .movie-fixed {
+        height: 240px;
+      }
+    }
+
+    /* === アコーディオン（トップページのカードと同系） === */
+    .acc {
+      position: relative;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(40, 80, 80, .08);
+    }
+
+    .acc.aqua {
+      background: linear-gradient(135deg, rgba(245, 250, 250, .95), rgba(235, 247, 244, .92));
+      border: 1px solid rgba(110, 170, 160, .18);
+    }
+
+    .acc.blue {
+      background: linear-gradient(135deg, rgba(242, 248, 252, .96), rgba(228, 241, 248, .94));
+      border: 1px solid rgba(90, 145, 175, .20);
+    }
+
+    .acc::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 7px;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .acc.aqua::before {
+      background: linear-gradient(to bottom, rgba(120, 184, 196, .12), rgba(120, 184, 196, .45), rgba(120, 184, 196, .12));
+    }
+
+    .acc.blue::before {
+      background: linear-gradient(to bottom, rgba(90, 160, 190, .12), rgba(90, 160, 190, .55), rgba(90, 160, 190, .12));
+    }
+
+    .acc summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 56px 20px 26px;
+      position: relative;
+    }
+
+    .acc summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .acc summary h2 {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      color: #31556e;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      margin: 0 0 4px 0;
+    }
+
+    .acc summary .short {
+      font-size: 14.5px;
+      color: #444;
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    .acc summary::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      top: 22px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .75);
+      box-shadow: 0 1px 4px rgba(40, 80, 80, .12);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2331556e' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px 16px;
+      transition: transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .acc[open ] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .acc .acc-body {
+      padding: 0 26px 20px 26px;
+      font-size: 15px;
+    }
+
+    .acc .acc-body ul {
+      margin: 6px 0;
+      padding-left: 20px;
+    }
+
+    .acc .acc-body li {
+      margin-bottom: 6px;
+    }
+
+    .fee-link-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #31556e;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 11px 26px;
+      border-radius: 999px;
+      font-size: 15px;
+      box-shadow: 0 3px 10px rgba(49, 85, 110, .22);
+    }
+
+    .tel-box {
+      background: #f4f8fa;
+      border: 1px solid rgba(77, 125, 152, .18);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .tel-box .tel-num {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      font-size: 25px;
+      font-weight: 500;
+      color: #20384d;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+
+    .tel-box p {
+      margin: 4px 0 0 0;
+      font-size: 13.5px;
+      color: #555;
+    }
+
+    .back-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 6px 0 44px 0;
+    }
+
+    .back-area a.sub {
+      font-size: 13px;
+      font-weight: 400;
+      color: #7d99a8;
+    }
+
+    .back-area a {
+      color: #31556e;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  
+    /* === 初めての方へ：静的カード === */
+    body { padding-bottom: 0; }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    h1::before { content: "FIRST VISIT"; }
+    .panel { position: relative; border-radius: 16px; margin-bottom: 18px; overflow: hidden; box-shadow: 0 4px 14px rgba(40, 80, 80, .08); padding: 22px 24px 20px 28px; }
+    .panel.aqua { background: linear-gradient(135deg, rgba(245, 250, 250, .95), rgba(235, 247, 244, .92)); border: 1px solid rgba(110, 170, 160, .18); }
+    .panel.blue { background: linear-gradient(135deg, rgba(242, 248, 252, .96), rgba(228, 241, 248, .94)); border: 1px solid rgba(90, 145, 175, .20); }
+    .panel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; border-radius: 0 5px 5px 0; }
+    .panel.aqua::before { background: linear-gradient(to bottom, rgba(120, 184, 196, .12), rgba(120, 184, 196, .45), rgba(120, 184, 196, .12)); }
+    .panel.blue::before { background: linear-gradient(to bottom, rgba(90, 160, 190, .12), rgba(90, 160, 190, .55), rgba(90, 160, 190, .12)); }
+    .panel h2 { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; color: #31556e; font-size: 19px; font-weight: 500; letter-spacing: .04em; margin: 0 0 10px 0; }
+    .panel p, .panel li { font-size: 15.5px; line-height: 1.85; }
+    .steps { list-style: none; margin: 0; padding: 0; }
+    .steps li { margin-bottom: 10px; }
+    .steps li:last-child { margin-bottom: 0; }
+    .bring { list-style: none; margin: 0; padding: 0; }
+    .bring li { display: flex; align-items: baseline; margin-bottom: 8px; }
+    .bring li:last-child { margin-bottom: 0; }
+    .bring .item { min-width: 6.4em; }
+    .bring .note { color: #5b7a8c; font-size: 14px; }
+    .notes p { margin: 0 0 14px 0; }
+    .notes p:last-child { margin-bottom: 0; }
+    .notes b { color: #31556e; }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>初めての方へ</h1>
+    <p class="lead">当院を初めて受診される方へ、受付からお会計までの流れと、お持ちいただきたいものをご案内します。</p>
+  </div>
+
+  <div class="container">
+
+    <section class="panel aqua">
+      <h2>受付の流れ</h2>
+      <ul class="steps">
+        <li><b>1. 受付</b>：保険証（またはマイナンバーカード）をご提示ください。</li>
+        <li><b>2. 診察</b>：順番になりましたら、お名前でお呼びします。お薬が出る場合は、処方箋を診察室にてお渡しします。</li>
+        <li><b>3. お会計</b>：診察・諸検査・点滴などが終わりましたら、受付でお会計をお願いします。</li>
+      </ul>
+    </section>
+
+    <section class="panel blue">
+      <h2>お持ちいただきたいもの</h2>
+      <ul class="bring">
+        <li>健康保険証、またはマイナンバーカード</li>
+        <li><span class="item">お薬手帳</span><span class="note">（お持ちの方）</span></li>
+        <li><span class="item">紹介状</span><span class="note">（お持ちの方）</span></li>
+        <li><span class="item">各種の医療証</span><span class="note">（お持ちの方）</span></li>
+      </ul>
+    </section>
+
+    <section class="panel aqua">
+      <h2>予約について</h2>
+      <p>初診の予約は不要です。受付時間内に、直接お越しください。混み合う時間帯は、お待ちいただくことがあります。</p>
+      <p>受付時間：診療開始の15分前から、診療時間終了の30分前まで</p>
+    </section>
+
+    <section class="panel blue notes">
+      <p><b>※ 発熱があるとき</b><br>発熱など感染症が疑われる症状があるときは、来院前にお電話でご相談ください。</p>
+      <p><b>※ 予防接種のための受診</b><br>接種をご希望の薬剤によっては、院内に在庫を持たない製剤もありますので、事前にご相談ください。</p>
+      <p><b>※ 各種健診・検診目的の場合</b><br>予約制とさせていただいております。ご相談ください。</p>
+    </section>
+
+    <div class="tel-box">
+      <a class="tel-num" href="tel:0528810876">☎ 052-881-0876</a>
+      <p>ご不明な点は、診療時間内に服部医院までお電話ください。</p>
+    </div>
+
+  </div>
+
+  <div class="back-area">
+    <a href="index.html">← 服部医院トップへ戻る</a>
+    <a class="sub" href="index.html#schedule">← 診療時間へ戻る</a>
+  </div>
+
+</body>
+</html>
