@@ -1,120 +1,357 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>オンライン診療｜服部医院</title>
-    <title>オンライン診療のご案内</title>
-    <style>
-        /* 全体のスタイル調整 */
-        body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>オンライン診療｜服部医院</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
-        /* オンライン診療バナーのカード容器 */
-        .online-med-card {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #222;
+      background-color: #ffffff;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
 
-        /* 見出し */
-        .online-med-card h2 {
-            font-size: 1.25rem;
-            color: #0076a8;
-            margin-top: 0;
-            margin-bottom: 12px;
-        }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 24px 0 24px;
+    }
 
-        /* 説明文 */
-        .online-med-card p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #555;
-        }
+    .nav-back a {
+      color: #4d7d98;
+      text-decoration: none;
+      font-size: 14px;
+      margin-right: 15px;
+    }
 
-        /* メインボタン（melmoへのリンク） */
-        .btn-online-reserve {
-            display: block;
-            background-color: #1bb0a3; /* 清潔感のあるエメラルドグリーン */
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 16px 20px;
-            border-radius: 8px;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        }
+    h1 {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      color: #20384d;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      margin: 14px 0 18px 0;
+      padding-bottom: 10px;
+      position: relative;
+    }
 
-        .btn-online-reserve:hover {
-            background-color: #158c82;
-            transform: translateY(-1px);
-        }
+    h1::before {
+      content: "HOME VISIT";
+      display: block;
+      margin-bottom: .2rem;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .32em;
+      color: #4d7d98;
+    }
 
-        /* 注意書き・事前準備のテキスト */
-        .note-text {
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 16px;
-            margin-bottom: 0;
-            line-height: 1.4;
-        }
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(to right, #31556e, #78b8c4);
+      opacity: .55;
+    }
 
-        /* アプリ手順ガイドへのサブリンク（必要に応じて） */
-        .sub-link {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.85rem;
-            color: #0076a8;
-            text-decoration: underline;
-        }
-        
-        .sub-link:hover {
-            color: #004b6e;
-        }
-    </style>
+    .lead {
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .lead .catch {
+      display: block;
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      font-size: 19px;
+      font-weight: 500;
+      color: #20384d;
+      letter-spacing: .03em;
+      margin-bottom: 8px;
+    }
+
+    /* === 動画（画面の下に固定） === */
+    body {
+      padding-bottom: 224px;
+    }
+
+    .movie-fixed {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 200px;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .movie-fixed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 20%);
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding-bottom: 264px;
+      }
+
+      .movie-fixed {
+        height: 240px;
+      }
+    }
+
+    /* === アコーディオン（トップページのカードと同系） === */
+    .acc {
+      position: relative;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(40, 80, 80, .08);
+    }
+
+    .acc.aqua {
+      background: linear-gradient(135deg, rgba(245, 250, 250, .95), rgba(235, 247, 244, .92));
+      border: 1px solid rgba(110, 170, 160, .18);
+    }
+
+    .acc.blue {
+      background: linear-gradient(135deg, rgba(242, 248, 252, .96), rgba(228, 241, 248, .94));
+      border: 1px solid rgba(90, 145, 175, .20);
+    }
+
+    .acc::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 7px;
+      border-radius: 0 5px 5px 0;
+    }
+
+    .acc.aqua::before {
+      background: linear-gradient(to bottom, rgba(120, 184, 196, .12), rgba(120, 184, 196, .45), rgba(120, 184, 196, .12));
+    }
+
+    .acc.blue::before {
+      background: linear-gradient(to bottom, rgba(90, 160, 190, .12), rgba(90, 160, 190, .55), rgba(90, 160, 190, .12));
+    }
+
+    .acc summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 56px 20px 26px;
+      position: relative;
+    }
+
+    .acc summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .acc summary h2 {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      color: #31556e;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      margin: 0 0 4px 0;
+    }
+
+    .acc summary .short {
+      font-size: 14.5px;
+      color: #444;
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    .acc summary::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      top: 22px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .75);
+      box-shadow: 0 1px 4px rgba(40, 80, 80, .12);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2331556e' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px 16px;
+      transition: transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .acc[open ] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .acc .acc-body {
+      padding: 0 26px 20px 26px;
+      font-size: 15px;
+    }
+
+    .acc .acc-body ul {
+      margin: 6px 0;
+      padding-left: 20px;
+    }
+
+    .acc .acc-body li {
+      margin-bottom: 6px;
+    }
+
+    .fee-link-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #31556e;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 11px 26px;
+      border-radius: 999px;
+      font-size: 15px;
+      box-shadow: 0 3px 10px rgba(49, 85, 110, .22);
+    }
+
+    .tel-box {
+      background: #f4f8fa;
+      border: 1px solid rgba(77, 125, 152, .18);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .tel-box .tel-num {
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      font-size: 25px;
+      font-weight: 500;
+      color: #20384d;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+
+    .tel-box p {
+      margin: 4px 0 0 0;
+      font-size: 13.5px;
+      color: #555;
+    }
+
+    .back-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 6px 0 44px 0;
+    }
+
+    .back-area a.sub {
+      font-size: 13px;
+      font-weight: 400;
+      color: #7d99a8;
+    }
+
+    .back-area a {
+      color: #31556e;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  
+    /* === 初めての方へ：静的カード === */
+    body { padding-bottom: 0; }
+    @media (min-width: 768px) { body { padding-bottom: 0; } }
+    h1::before { content: "FIRST VISIT"; }
+    .panel { position: relative; border-radius: 16px; margin-bottom: 18px; overflow: hidden; box-shadow: 0 4px 14px rgba(40, 80, 80, .08); padding: 22px 24px 20px 28px; }
+    .panel.aqua { background: linear-gradient(135deg, rgba(245, 250, 250, .95), rgba(235, 247, 244, .92)); border: 1px solid rgba(110, 170, 160, .18); }
+    .panel.blue { background: linear-gradient(135deg, rgba(242, 248, 252, .96), rgba(228, 241, 248, .94)); border: 1px solid rgba(90, 145, 175, .20); }
+    .panel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; border-radius: 0 5px 5px 0; }
+    .panel.aqua::before { background: linear-gradient(to bottom, rgba(120, 184, 196, .12), rgba(120, 184, 196, .45), rgba(120, 184, 196, .12)); }
+    .panel.blue::before { background: linear-gradient(to bottom, rgba(90, 160, 190, .12), rgba(90, 160, 190, .55), rgba(90, 160, 190, .12)); }
+    .panel h2 { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; color: #31556e; font-size: 19px; font-weight: 500; letter-spacing: .04em; margin: 0 0 10px 0; }
+    .panel p, .panel li { font-size: 15.5px; line-height: 1.85; }
+    .steps { list-style: none; margin: 0; padding: 0; }
+    .steps li { margin-bottom: 10px; }
+    .steps li:last-child { margin-bottom: 0; }
+    .bring { list-style: none; margin: 0; padding: 0; }
+    .bring li { display: flex; align-items: baseline; margin-bottom: 8px; }
+    .bring li:last-child { margin-bottom: 0; }
+    .bring .item { min-width: 6.4em; }
+    .bring .note { color: #5b7a8c; font-size: 14px; }
+    .notes p { margin: 0 0 14px 0; }
+    .notes p:last-child { margin-bottom: 0; }
+    .notes b { color: #31556e; }
+
+    /* === 固定ラベル（英語のみ・上に残る） === */
+    body { padding-top: 34px; }
+    .fixed-label { position: fixed; top: 0; left: 0; right: 0; z-index: 60; background-color: #ffffff; }
+    .fixed-label::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 24px; background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)); pointer-events: none; }
+    h1::before { content: none; }
+    .fl-inner { max-width: 900px; margin: 0 auto; padding: 8px 24px 6px 24px; font-size: .68rem; font-weight: 500; letter-spacing: .32em; color: #4d7d98; }
+
+    /* === 上の間隔を詰める === */
+    body { padding-top: 30px; }
+    .top-wrap { padding-top: 2px; }
+    h1 { margin-top: 2px; }
+
+    /* === オンライン診療用 === */
+    .btn-reserve { display: block; text-align: center; background: #31556e; color: #ffffff; font-size: 17px; font-weight: 700; text-decoration: none; padding: 16px 20px; border-radius: 14px; box-shadow: 0 4px 14px rgba(32, 56, 77, .20); margin: 16px 0 6px 0; }
+    .note-text { font-size: 13.5px; color: #5b7a8c; line-height: 1.7; margin: 10px 0 0 0; }
+    .panel p { margin: 0 0 10px 0; }
+    .panel p:last-child { margin-bottom: 0; }
+    .cond { margin: 4px 0 6px 0; padding-left: 1.25em; }
+    .cond li { margin: 0 0 6px 0; }
+    .cond li:last-child { margin-bottom: 0; }
+    .panel h3 { font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif; font-size: 16.5px; font-weight: 700; color: #2b4a63; margin: 20px 0 8px 0; }
+</style>
 </head>
 <body>
-<h1>オンライン診療</h1>
 
-<p>オンライン診療についての詳細をご案内します。</p>
-    <!-- オンライン診療案内エリア -->
-    <div class="online-med-card">
-        <h2>自宅からスマホで受診できます</h2>
-        <p>通院の手間なく、いつものお薬をご自宅まで。当院ではオンライン診療アプリ「melmo」を導入しています。</p>
-        
-        <!-- メインのクリックボタン -->
-<a href="https://melmo-app.com/clinic/664ff9d2b042141536deadfc" class="btn-online-reserve" target="_blank" rel="noopener noreferrer">
-    オンライン診療を予約する（melmo）
-</a>
+  <div class="fixed-label"><div class="fl-inner">ONLINE</div></div>
 
-        <!-- 注意事項 -->
-        <p class="note-text">
-            ※ご受診には専用アプリ「melmo」のダウンロードが必要です。<br>
-            ※初診・再診の適用条件については医師の指示に従ってください。
-        </p>
-    </div>
+  <div class="container top-wrap">
+    <h1>オンライン診療</h1>
+    <p class="lead">オンライン診療についての詳細をご案内します。</p>
+  </div>
+
+  <div class="container">
+
+    <section class="panel aqua">
+      <h2>自宅からスマホで受診できます</h2>
+      <p>通院の手間なく、いつものお薬をご自宅まで。当院ではオンライン診療アプリ「melmo」を導入しています。</p>
+      <ul class="cond">
+        <li>オンライン診療は予約制です。</li>
+        <li>初診の方は、基本的に直接ご来院いただく必要があります。</li>
+        <li>状態が安定している方も、原則として4か月に一度は、来院の上で診察を受けてください。</li>
+      </ul>
+      <a class="btn-reserve" href="https://melmo-app.com/clinic/664ff9d2b042141536deadfc" target="_blank" rel="noopener noreferrer">オンライン診療を予約する（melmo）</a>
+      <p class="note-text">※ご受診には専用アプリ「melmo」のダウンロードが必要です。<br>※初診・再診の適用条件については医師の指示に従ってください。</p>
+      <h3>お薬について</h3>
+      <p>診察の結果、お薬が必要な場合は処方箋を発行します。お薬は、ご本人が選んだ薬局でお受け取りください。お受け取りの方法は薬局によって異なりますので、ご利用の薬局へご確認ください。</p>
+      <h3>お支払いについて</h3>
+      <p>お支払いは、アプリにご登録のクレジットカードでの決済となります。</p>
+      <p>オンライン診療では、通信やシステムの利用にかかる費用として、通信費（1回あたり880円）を、診察のお支払いとは別にいただきます。あらかじめご了承のうえ、ご予約ください。</p>
+      <p class="note-text">※アプリのご利用には、クレジットカードの登録が必要です。生活保護など医療費の助成を受けている方など、登録が難しい場合は、事前に当院へご相談ください。</p>
+    </section>
+
+  </div>
+
+  <div class="back-area">
+    <a href="index.html">← 服部医院トップへ戻る</a>
+    <a class="sub" href="index.html#schedule">← 診療時間へ戻る</a>
+  </div>
 
 </body>
-</html>
-
-
-<p>
-<a href="index.html">← 服部医院トップへ戻る</a><br><br><br>
-<a href="index.html#schedule">← 診療時間へ戻る</a>
-</p>
-
-</body>
-
 </html>
