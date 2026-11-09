@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /staff/
+Disallow: /seikyusho/
+Disallow: /2026.10.31/
+
+Sitemap: https://hattoriiin.github.io/sitemap.xml
