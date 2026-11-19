@@ -205,6 +205,14 @@ table.shukkin td.sat { color: #20548c; }
   </div>
   <p class="note" style="margin-top:14px;"><a href="/index.html">← 服部医院トップへ戻る</a></p>
 </div>
+<div class="card" id="identity-panel" style="display:none;">
+  <p class="f-group" style="margin-top:0;">この端末に記憶されている名前</p>
+  <p style="font-size:16px; margin:10px 0 4px 0;">氏名：<span id="id-name-view"></span></p>
+  <p style="font-size:16px; margin:4px 0 10px 0;">職種：<span id="id-job-view"></span></p>
+  <div id="id-reset-row"><button class="btn sub" type="button" onclick="resetIdentity()">名前と職種をリセットする</button></div>
+  <p class="note" id="id-reset-done" style="display:none;">リセットしました。次回から書類は空欄で始まります。</p>
+  <p class="note">リセットしても、この端末で自動で開く仕組みはそのまま残ります。</p>
+</div>
 <div id="unlocked"></div>
 <script>
 var WD = ['日','月','火','水','木','金','土'];
@@ -223,6 +231,7 @@ function fitSheets(){
 window.addEventListener('resize', fitSheets);
 function showView(id){
   currentView = id;
+  var ip = document.getElementById('identity-panel'); if (ip) ip.style.display = 'none';
   document.getElementById('menuCard').style.display = 'none';
   document.querySelectorAll('.view').forEach(function(v){ v.style.display = 'none'; });
   document.getElementById(id).style.display = 'block';
@@ -231,6 +240,7 @@ function showView(id){
 function backMenu(){
   document.querySelectorAll('.view').forEach(function(v){ v.style.display = 'none'; });
   document.getElementById('menuCard').style.display = 'block';
+  var ip = document.getElementById('identity-panel'); if (ip) ip.style.display = 'block';
   window.scrollTo(0,0);
 }
 function fmtDate(val){
@@ -402,7 +412,7 @@ function initApp(){
     function fromB64(s) { var b = atob(s), a = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a; }
     function toB64(buf) { var a = new Uint8Array(buf), s = ""; for (var i = 0; i < a.length; i++) s += String.fromCharCode(a[i]); return btoa(s); }
     function decryptWith(key) { return crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(P.iv) }, key, fromB64(P.ct)).then(function (pt) { return new TextDecoder().decode(pt); }); }
-    function show(html) { container.innerHTML = html; box.style.display = "none"; document.getElementById("gate-head").style.display = "none"; initApp(); applyName(); }
+    function show(html) { container.innerHTML = html; box.style.display = "none"; document.getElementById("gate-head").style.display = "none"; initApp(); applyName(); refreshIdentityPanel(); var ip = document.getElementById("identity-panel"); if (ip) ip.style.display = "block"; }
     function remember(key) { return crypto.subtle.exportKey("raw", key).then(function (raw) { try { localStorage.setItem(STORE, toB64(raw)); } catch (e) {} }).catch(function () {}); }
     var NAME_STORE = "hattori-staff-name";
     var PARTS_STORE = "hattori-staff-name-parts";
@@ -437,6 +447,30 @@ function initApp(){
         try { if (typeof syncZ === "function") syncZ(); } catch (e) {}
         try { if (typeof syncK === "function") syncK(); } catch (e) {}
     }
+    function refreshIdentityPanel() {
+        var nameEl = document.getElementById("id-name-view");
+        var jobEl = document.getElementById("id-job-view");
+        var row = document.getElementById("id-reset-row");
+        if (!nameEl || !jobEl) return;
+        var n = null, job = null;
+        try { n = localStorage.getItem(NAME_STORE); } catch (e) {}
+        try { job = localStorage.getItem(JOB_STORE); } catch (e) {}
+        nameEl.textContent = n || "記憶されていません";
+        jobEl.textContent = job || "記憶されていません";
+        if (row) row.style.display = (n || job) ? "" : "none";
+    }
+    window.resetIdentity = function () {
+        if (!window.confirm("この端末に記憶されている名前と職種を消します。よろしいですか？")) return;
+        try { localStorage.removeItem(NAME_STORE); localStorage.removeItem(PARTS_STORE); localStorage.removeItem(JOB_STORE); } catch (e) {}
+        ["lock-sei", "lock-mei", "lock-job"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
+        ["sk-name", "z-name", "k-name", "z-shoku", "k-shoku"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
+        try { if (typeof buildShukkin === "function") buildShukkin(); } catch (e) {}
+        try { if (typeof syncZ === "function") syncZ(); } catch (e) {}
+        try { if (typeof syncK === "function") syncK(); } catch (e) {}
+        refreshIdentityPanel();
+        var done = document.getElementById("id-reset-done");
+        if (done) done.style.display = "";
+    };
     function saveIdentity() {
         var seiEl = document.getElementById("lock-sei");
         var meiEl = document.getElementById("lock-mei");
