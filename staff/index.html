@@ -207,20 +207,18 @@ table.shukkin td.sat { color: #20548c; }
 </div>
 <div class="card" id="identity-panel" style="display:none;">
   <p class="f-group" style="margin-top:0;">この端末に記憶されている名前</p>
-  <p style="font-size:16px; margin:10px 0 4px 0;">氏名：<span id="id-name-view"></span></p>
-  <p style="font-size:16px; margin:4px 0 10px 0;">職種：<span id="id-job-view"></span></p>
-  <div id="id-reset-row"><button class="btn sub" type="button" onclick="resetIdentity()">名前と職種をリセットする</button></div>
-  <p class="note" id="id-reset-done" style="display:none;">リセットしました。次回から書類は空欄で始まります。</p>
-  <div style="margin-top:14px; border-top:1px solid #d7e3e8; padding-top:6px;">
-    <p class="f-group">名前・職種の登録／変更</p>
-    <div style="display:flex; gap:10px; margin-top:8px;">
-      <div style="flex:1;"><label for="id-sei">苗字</label><input id="id-sei" type="text" autocomplete="off" style="width:100%;"></div>
-      <div style="flex:1;"><label for="id-mei">名前</label><input id="id-mei" type="text" autocomplete="off" style="width:100%;"></div>
-    </div>
-    <div style="margin-top:8px;"><label for="id-job">職種</label><input id="id-job" type="text" autocomplete="off" style="max-width:280px;"></div>
-    <div style="margin-top:10px;"><button class="btn" type="button" onclick="registerIdentity()">この内容で記憶する</button></div>
-    <p class="note" id="id-save-done" style="display:none;">記憶しました。この内容が書類に自動で入ります。</p>
+  <p class="note" style="margin-top:8px;">下の欄に入っているのが、今記憶されている内容です。直したら「記憶する」を押してください。</p>
+  <div style="display:flex; gap:10px; margin-top:8px;">
+    <div style="flex:1;"><label for="id-sei">苗字</label><input id="id-sei" type="text" autocomplete="off" style="width:100%;"></div>
+    <div style="flex:1;"><label for="id-mei">名前</label><input id="id-mei" type="text" autocomplete="off" style="width:100%;"></div>
   </div>
+  <div style="margin-top:8px;"><label for="id-job">職種</label><input id="id-job" type="text" autocomplete="off" style="max-width:280px;"></div>
+  <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+    <button class="btn" type="button" onclick="registerIdentity()">この内容で記憶する</button>
+    <span id="id-reset-row"><button class="btn sub" type="button" onclick="resetIdentity()">リセットする</button></span>
+  </div>
+  <p class="note" id="id-save-done" style="display:none;">記憶しました。この内容が書類に自動で入ります。</p>
+  <p class="note" id="id-reset-done" style="display:none;">リセットしました。次回から書類は空欄で始まります。</p>
   <p class="note">リセットしても、この端末で自動で開く仕組みはそのまま残ります。</p>
 </div>
 <div id="unlocked"></div>
@@ -458,15 +456,10 @@ function initApp(){
         try { if (typeof syncK === "function") syncK(); } catch (e) {}
     }
     function refreshIdentityPanel() {
-        var nameEl = document.getElementById("id-name-view");
-        var jobEl = document.getElementById("id-job-view");
         var row = document.getElementById("id-reset-row");
-        if (!nameEl || !jobEl) return;
         var n = null, job = null;
         try { n = localStorage.getItem(NAME_STORE); } catch (e) {}
         try { job = localStorage.getItem(JOB_STORE); } catch (e) {}
-        nameEl.textContent = n || "記憶されていません";
-        jobEl.textContent = job || "記憶されていません";
         if (row) row.style.display = (n || job) ? "" : "none";
         var parts = null;
         try { parts = JSON.parse(localStorage.getItem(PARTS_STORE) || "null"); } catch (e) {}
