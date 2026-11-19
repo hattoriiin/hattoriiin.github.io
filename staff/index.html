@@ -211,6 +211,16 @@ table.shukkin td.sat { color: #20548c; }
   <p style="font-size:16px; margin:4px 0 10px 0;">職種：<span id="id-job-view"></span></p>
   <div id="id-reset-row"><button class="btn sub" type="button" onclick="resetIdentity()">名前と職種をリセットする</button></div>
   <p class="note" id="id-reset-done" style="display:none;">リセットしました。次回から書類は空欄で始まります。</p>
+  <div style="margin-top:14px; border-top:1px solid #d7e3e8; padding-top:6px;">
+    <p class="f-group">名前・職種の登録／変更</p>
+    <div style="display:flex; gap:10px; margin-top:8px;">
+      <div style="flex:1;"><label for="id-sei">苗字</label><input id="id-sei" type="text" autocomplete="off" style="width:100%;"></div>
+      <div style="flex:1;"><label for="id-mei">名前</label><input id="id-mei" type="text" autocomplete="off" style="width:100%;"></div>
+    </div>
+    <div style="margin-top:8px;"><label for="id-job">職種</label><input id="id-job" type="text" autocomplete="off" style="max-width:280px;"></div>
+    <div style="margin-top:10px;"><button class="btn" type="button" onclick="registerIdentity()">この内容で記憶する</button></div>
+    <p class="note" id="id-save-done" style="display:none;">記憶しました。この内容が書類に自動で入ります。</p>
+  </div>
   <p class="note">リセットしても、この端末で自動で開く仕組みはそのまま残ります。</p>
 </div>
 <div id="unlocked"></div>
@@ -458,7 +468,44 @@ function initApp(){
         nameEl.textContent = n || "記憶されていません";
         jobEl.textContent = job || "記憶されていません";
         if (row) row.style.display = (n || job) ? "" : "none";
+        var parts = null;
+        try { parts = JSON.parse(localStorage.getItem(PARTS_STORE) || "null"); } catch (e) {}
+        var seiEl = document.getElementById("id-sei");
+        var meiEl = document.getElementById("id-mei");
+        var jobIn = document.getElementById("id-job");
+        if (seiEl) seiEl.value = (parts && parts.sei) ? parts.sei : ((!parts && n) ? n : "");
+        if (meiEl) meiEl.value = (parts && parts.mei) ? parts.mei : "";
+        if (jobIn) jobIn.value = job || "";
     }
+    window.registerIdentity = function () {
+        var seiEl = document.getElementById("id-sei");
+        var meiEl = document.getElementById("id-mei");
+        var jobEl = document.getElementById("id-job");
+        var sei = seiEl ? seiEl.value.trim() : "";
+        var mei = meiEl ? meiEl.value.trim() : "";
+        var job = jobEl ? jobEl.value.trim() : "";
+        var joined = [sei, mei].filter(function (x) { return x; }).join("\u3000");
+        if (joined) {
+            try { localStorage.setItem(NAME_STORE, joined); localStorage.setItem(PARTS_STORE, JSON.stringify({ sei: sei, mei: mei })); } catch (e) {}
+        } else {
+            try { localStorage.removeItem(NAME_STORE); localStorage.removeItem(PARTS_STORE); } catch (e) {}
+        }
+        if (job) { try { localStorage.setItem(JOB_STORE, job); } catch (e) {} }
+        else { try { localStorage.removeItem(JOB_STORE); } catch (e) {} }
+        ["sk-name", "z-name", "k-name"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = joined; });
+        ["z-shoku", "k-shoku"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = job; });
+        var gSei = document.getElementById("lock-sei"); if (gSei) gSei.value = sei;
+        var gMei = document.getElementById("lock-mei"); if (gMei) gMei.value = mei;
+        var gJob = document.getElementById("lock-job"); if (gJob) gJob.value = job;
+        try { if (typeof buildShukkin === "function") buildShukkin(); } catch (e) {}
+        try { if (typeof syncZ === "function") syncZ(); } catch (e) {}
+        try { if (typeof syncK === "function") syncK(); } catch (e) {}
+        refreshIdentityPanel();
+        var done = document.getElementById("id-save-done");
+        if (done) done.style.display = "";
+        var rd = document.getElementById("id-reset-done");
+        if (rd) rd.style.display = "none";
+    };
     window.resetIdentity = function () {
         if (!window.confirm("この端末に記憶されている名前と職種を消します。よろしいですか？")) return;
         try { localStorage.removeItem(NAME_STORE); localStorage.removeItem(PARTS_STORE); localStorage.removeItem(JOB_STORE); } catch (e) {}
@@ -470,6 +517,8 @@ function initApp(){
         refreshIdentityPanel();
         var done = document.getElementById("id-reset-done");
         if (done) done.style.display = "";
+        var sd = document.getElementById("id-save-done");
+        if (sd) sd.style.display = "none";
     };
     function saveIdentity() {
         var seiEl = document.getElementById("lock-sei");
