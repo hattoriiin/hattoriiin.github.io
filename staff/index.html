@@ -448,7 +448,7 @@ function initApp(){
             });
         }
         if (job) {
-            ["z-shoku", "k-shoku"].forEach(function (id) {
+            ["z-shoku", "k-shoku", "sk-dept"].forEach(function (id) {
                 var el = document.getElementById(id);
                 if (el && !el.value) el.value = job;
             });
@@ -493,7 +493,7 @@ function initApp(){
         if (job) { try { localStorage.setItem(JOB_STORE, job); } catch (e) {} }
         else { try { localStorage.removeItem(JOB_STORE); } catch (e) {} }
         ["sk-name", "z-name", "k-name"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = joined; });
-        ["z-shoku", "k-shoku"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = job; });
+        ["z-shoku", "k-shoku", "sk-dept"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = job; });
         var gSei = document.getElementById("lock-sei"); if (gSei) gSei.value = sei;
         var gMei = document.getElementById("lock-mei"); if (gMei) gMei.value = mei;
         var gJob = document.getElementById("lock-job"); if (gJob) gJob.value = job;
@@ -510,7 +510,7 @@ function initApp(){
         if (!window.confirm("この端末に記憶されている名前と職種を消します。よろしいですか？")) return;
         try { localStorage.removeItem(NAME_STORE); localStorage.removeItem(PARTS_STORE); localStorage.removeItem(JOB_STORE); } catch (e) {}
         ["lock-sei", "lock-mei", "lock-job"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
-        ["sk-name", "z-name", "k-name", "z-shoku", "k-shoku"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
+        ["sk-name", "z-name", "k-name", "z-shoku", "k-shoku", "sk-dept"].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ""; });
         try { if (typeof buildShukkin === "function") buildShukkin(); } catch (e) {}
         try { if (typeof syncZ === "function") syncZ(); } catch (e) {}
         try { if (typeof syncK === "function") syncK(); } catch (e) {}
